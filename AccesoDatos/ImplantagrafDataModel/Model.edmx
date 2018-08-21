@@ -1,0 +1,739 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ImplantagrafModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Carrito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarritoFecha" Type="datetime" Nullable="false" />
+          <Property Name="CantidadItems" Type="int" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RazonSocial" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CUIL" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LocalidadId" Type="int" Nullable="false" />
+          <Property Name="FechaAlta" Type="datetime" Nullable="false" />
+          <Property Name="Activo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetalleOperacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OperacionId" Type="int" Nullable="false" />
+          <Property Name="ProductoId" Type="int" Nullable="false" />
+          <Property Name="Monto" Type="float" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="Monto" Type="float" Nullable="false" />
+          <Property Name="FormaPagoId" Type="int" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="30" />
+          <Property Name="RazonSocial" Type="nvarchar" MaxLength="30" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" />
+          <Property Name="NroTarjeta" Type="int" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormaPago">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemsCarrito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarritoId" Type="int" Nullable="false" />
+          <Property Name="ProductoId" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Localidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marca">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Operacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClienteId" Type="int" Nullable="false" />
+          <Property Name="FechaOperacion" Type="datetime" Nullable="false" />
+          <Property Name="TipoOperacionId" Type="int" Nullable="false" />
+          <Property Name="MontoTotal" Type="float" Nullable="false" />
+          <Property Name="Estado" Type="int" />
+          <Property Name="FacturaId" Type="int" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="MarcaId" Type="int" Nullable="false" />
+          <Property Name="CategoriaId" Type="int" Nullable="false" />
+          <Property Name="Img" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+          <Property Name="CantidadVendida" Type="int" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Bitacora">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="1000" />
+          <Property Name="FechaHora" Type="datetime" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_DVV">
+          <Key>
+            <PropertyRef Name="Tabla" />
+          </Key>
+          <Property Name="Tabla" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Valor" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Excepcion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Idioma">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Perfil">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Permiso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Traductor">
+          <Key>
+            <PropertyRef Name="ElementoId" />
+          </Key>
+          <Property Name="ElementoId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TraduccionESP" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="TraduccionENG" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="TraduccionPOR" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Usr" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Psw" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CUIL" Type="varchar" MaxLength="50" />
+          <Property Name="Activo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Intentos" Type="bigint" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="50" />
+          <Property Name="Direccion" Type="varchar" MaxLength="500" />
+          <Property Name="LocalidadId" Type="varchar" MaxLength="500" />
+          <Property Name="FechaNacimiento" Type="datetime" Nullable="false" />
+          <Property Name="FechaAlta" Type="datetime" Nullable="false" />
+          <Property Name="PerfilId" Type="int" Nullable="false" />
+          <Property Name="IdiomaId" Type="int" Nullable="false" />
+          <Property Name="DVH" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductoId" Type="int" Nullable="false" />
+          <Property Name="FechaCalendario" Type="datetime" Nullable="false" />
+          <Property Name="Stock" Type="int" Nullable="false" />
+          <Property Name="TipoOperacionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoOperacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="ImplantagrafModelStoreContainer">
+          <EntitySet Name="Carrito" EntityType="Self.Carrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleOperacion" EntityType="Self.DetalleOperacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormaPago" EntityType="Self.FormaPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemsCarrito" EntityType="Self.ItemsCarrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marca" EntityType="Self.Marca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Operacion" EntityType="Self.Operacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Bitacora" EntityType="Self.SEG_Bitacora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_DVV" EntityType="Self.SEG_DVV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Excepcion" EntityType="Self.SEG_Excepcion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Idioma" EntityType="Self.SEG_Idioma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Perfil" EntityType="Self.SEG_Perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Permiso" EntityType="Self.SEG_Permiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Traductor" EntityType="Self.SEG_Traductor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEG_Usuario" EntityType="Self.SEG_Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoOperacion" EntityType="Self.TipoOperacion" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ImplantagrafModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Carrito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarritoFecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CantidadItems" Type="Int32" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RazonSocial" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CUIL" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LocalidadId" Type="Int32" Nullable="false" />
+          <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Activo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetalleOperacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OperacionId" Type="Int32" Nullable="false" />
+          <Property Name="ProductoId" Type="Int32" Nullable="false" />
+          <Property Name="Monto" Type="Double" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="Monto" Type="Double" Nullable="false" />
+          <Property Name="FormaPagoId" Type="Int32" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="RazonSocial" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="NroTarjeta" Type="Int32" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormaPago">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemsCarrito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarritoId" Type="Int32" Nullable="false" />
+          <Property Name="ProductoId" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Localidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marca">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Operacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <Property Name="FechaOperacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TipoOperacionId" Type="Int32" Nullable="false" />
+          <Property Name="MontoTotal" Type="Double" Nullable="false" />
+          <Property Name="Estado" Type="Int32" />
+          <Property Name="FacturaId" Type="Int32" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MarcaId" Type="Int32" Nullable="false" />
+          <Property Name="CategoriaId" Type="Int32" Nullable="false" />
+          <Property Name="Img" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <Property Name="CantidadVendida" Type="Int32" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Bitacora">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_DVV">
+          <Key>
+            <PropertyRef Name="Tabla" />
+          </Key>
+          <Property Name="Tabla" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Valor" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Excepcion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Idioma">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Perfil">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Permiso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Traductor">
+          <Key>
+            <PropertyRef Name="ElementoId" />
+          </Key>
+          <Property Name="ElementoId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TraduccionESP" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TraduccionENG" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TraduccionPOR" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEG_Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Psw" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Intentos" Type="Int64" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LocalidadId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PerfilId" Type="Int32" Nullable="false" />
+          <Property Name="IdiomaId" Type="Int32" Nullable="false" />
+          <Property Name="DVH" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductoId" Type="Int32" Nullable="false" />
+          <Property Name="FechaCalendario" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Stock1" Type="Int32" Nullable="false" />
+          <Property Name="TipoOperacionId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoOperacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="ImplantagrafModelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Carrito" EntityType="Self.Carrito" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="DetalleOperacion" EntityType="Self.DetalleOperacion" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" />
+          <EntitySet Name="FormaPago" EntityType="Self.FormaPago" />
+          <EntitySet Name="ItemsCarrito" EntityType="Self.ItemsCarrito" />
+          <EntitySet Name="Localidad" EntityType="Self.Localidad" />
+          <EntitySet Name="Marca" EntityType="Self.Marca" />
+          <EntitySet Name="Operacion" EntityType="Self.Operacion" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="SEG_Bitacora" EntityType="Self.SEG_Bitacora" />
+          <EntitySet Name="SEG_DVV" EntityType="Self.SEG_DVV" />
+          <EntitySet Name="SEG_Excepcion" EntityType="Self.SEG_Excepcion" />
+          <EntitySet Name="SEG_Idioma" EntityType="Self.SEG_Idioma" />
+          <EntitySet Name="SEG_Perfil" EntityType="Self.SEG_Perfil" />
+          <EntitySet Name="SEG_Permiso" EntityType="Self.SEG_Permiso" />
+          <EntitySet Name="SEG_Traductor" EntityType="Self.SEG_Traductor" />
+          <EntitySet Name="SEG_Usuario" EntityType="Self.SEG_Usuario" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" />
+          <EntitySet Name="TipoOperacion" EntityType="Self.TipoOperacion" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ImplantagrafModelStoreContainer" CdmEntityContainer="ImplantagrafModelEntities">
+          <EntitySetMapping Name="Carrito">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Carrito">
+              <MappingFragment StoreEntitySet="Carrito">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarritoFecha" ColumnName="CarritoFecha" />
+                <ScalarProperty Name="CantidadItems" ColumnName="CantidadItems" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="CUIL" ColumnName="CUIL" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="LocalidadId" ColumnName="LocalidadId" />
+                <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleOperacion">
+            <EntityTypeMapping TypeName="ImplantagrafModel.DetalleOperacion">
+              <MappingFragment StoreEntitySet="DetalleOperacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OperacionId" ColumnName="OperacionId" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Factura">
+              <MappingFragment StoreEntitySet="Factura">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="FormaPagoId" ColumnName="FormaPagoId" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NroTarjeta" ColumnName="NroTarjeta" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormaPago">
+            <EntityTypeMapping TypeName="ImplantagrafModel.FormaPago">
+              <MappingFragment StoreEntitySet="FormaPago">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemsCarrito">
+            <EntityTypeMapping TypeName="ImplantagrafModel.ItemsCarrito">
+              <MappingFragment StoreEntitySet="ItemsCarrito">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarritoId" ColumnName="CarritoId" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localidad">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Localidad">
+              <MappingFragment StoreEntitySet="Localidad">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marca">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Marca">
+              <MappingFragment StoreEntitySet="Marca">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Operacion">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Operacion">
+              <MappingFragment StoreEntitySet="Operacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="FechaOperacion" ColumnName="FechaOperacion" />
+                <ScalarProperty Name="TipoOperacionId" ColumnName="TipoOperacionId" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
+                <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="CantidadVendida" ColumnName="CantidadVendida" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Bitacora">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Bitacora">
+              <MappingFragment StoreEntitySet="SEG_Bitacora">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_DVV">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_DVV">
+              <MappingFragment StoreEntitySet="SEG_DVV">
+                <ScalarProperty Name="Tabla" ColumnName="Tabla" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Excepcion">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Excepcion">
+              <MappingFragment StoreEntitySet="SEG_Excepcion">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Idioma">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Idioma">
+              <MappingFragment StoreEntitySet="SEG_Idioma">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Perfil">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Perfil">
+              <MappingFragment StoreEntitySet="SEG_Perfil">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Permiso">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Permiso">
+              <MappingFragment StoreEntitySet="SEG_Permiso">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Traductor">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Traductor">
+              <MappingFragment StoreEntitySet="SEG_Traductor">
+                <ScalarProperty Name="ElementoId" ColumnName="ElementoId" />
+                <ScalarProperty Name="TraduccionESP" ColumnName="TraduccionESP" />
+                <ScalarProperty Name="TraduccionENG" ColumnName="TraduccionENG" />
+                <ScalarProperty Name="TraduccionPOR" ColumnName="TraduccionPOR" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEG_Usuario">
+            <EntityTypeMapping TypeName="ImplantagrafModel.SEG_Usuario">
+              <MappingFragment StoreEntitySet="SEG_Usuario">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Usr" ColumnName="Usr" />
+                <ScalarProperty Name="Psw" ColumnName="Psw" />
+                <ScalarProperty Name="CUIL" ColumnName="CUIL" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Intentos" ColumnName="Intentos" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="LocalidadId" ColumnName="LocalidadId" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
+                <ScalarProperty Name="IdiomaId" ColumnName="IdiomaId" />
+                <ScalarProperty Name="DVH" ColumnName="DVH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock">
+            <EntityTypeMapping TypeName="ImplantagrafModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="FechaCalendario" ColumnName="FechaCalendario" />
+                <ScalarProperty Name="Stock1" ColumnName="Stock" />
+                <ScalarProperty Name="TipoOperacionId" ColumnName="TipoOperacionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoOperacion">
+            <EntityTypeMapping TypeName="ImplantagrafModel.TipoOperacion">
+              <MappingFragment StoreEntitySet="TipoOperacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
