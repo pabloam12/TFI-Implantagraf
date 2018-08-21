@@ -10,22 +10,25 @@ namespace Presentacion.Controllers
 {
     public class LocalidadController : Controller
     {
+          
         // GET: Localidad
         public ActionResult Index()
         {
-            return View();
+            var ln = new NegocioLocalidad();
+
+            return View(ln.Listar());
         }
 
        
 
         // GET: Localidad/Create
-        public ActionResult Create()
+        public ActionResult Crear()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Localidad localidad)
+        public ActionResult Crear(Localidad localidad)
         {
             try
             {
@@ -41,14 +44,14 @@ namespace Presentacion.Controllers
         }
 
 
-        // GET: Localidad/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Localidad/Edit
+        public ActionResult Editar(int id)
         {
             return View();
         }
 
         // GET: Localidad/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Borrar(int id)
         {
             return View();
         }

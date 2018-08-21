@@ -90,6 +90,7 @@
     <Compile Include="Idioma.cs" />
     <Compile Include="ItemsCarrito.cs" />
     <Compile Include="Localidad.cs" />
+    <Compile Include="Marca.cs" />
     <Compile Include="Operacion.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Producto.cs" />

@@ -238,6 +238,9 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Localidad\Index.cshtml" />
+    <Content Include="Views\Localidad\Crear.cshtml" />
+    <Content Include="Views\Localidad\Editar.cshtml" />
+    <Content Include="Views\Localidad\Borrar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

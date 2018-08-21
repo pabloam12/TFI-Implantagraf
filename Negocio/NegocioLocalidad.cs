@@ -9,12 +9,46 @@ namespace Negocio
 {
     public class NegocioLocalidad
     {
-        public void Agregar(Localidad localidad)
+        public Localidad Agregar(Localidad localidad)
         {
             var ad = new LocalidadDAC();
 
-            ad.Agregar(localidad);
+            return (ad.Agregar(localidad));
 
-              }
+        }
+
+        public void ActualizarPorId(Localidad localidad)
+        {
+            var ad = new LocalidadDAC();
+
+            ad.ActualizarPorId(localidad);
+
+        }
+
+        public void BorrarPorId(int id)
+        {
+            var ad = new LocalidadDAC();
+
+            ad.BorrarPorId(id);
+
+        }
+
+        public void ListarPorId(int id)
+        {
+            var ad = new LocalidadDAC();
+
+            ad.ListarPorId(id);
+
+        }
+
+        public List<Localidad> Listar()
+        {
+            var ad = new LocalidadDAC();
+
+            return (ad.Listar());
+
+        }
+
+
     }
 }
