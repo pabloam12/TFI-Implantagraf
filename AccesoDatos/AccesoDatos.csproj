@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="DataAccessComponent.cs" />
     <Compile Include="LocalidadDAC.cs" />
+    <Compile Include="CategoriaDAC.cs" />
     <Compile Include="MarcaDAC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -80,14 +80,10 @@ namespace AccesoDatos
             return localidad;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>		
         public List<Localidad> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Localidad ";
+            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Localidad ORDER BY [Descripcion]";
 
             var result = new List<Localidad>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);

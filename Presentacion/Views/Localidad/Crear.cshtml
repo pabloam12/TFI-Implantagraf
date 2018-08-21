@@ -2,8 +2,7 @@
 
 @{
     ViewBag.Title = "Crear";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+ }
 
 <h2>Crear</h2>
 
@@ -13,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Localidad</h4>
+        <h3>Localidad</h3>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

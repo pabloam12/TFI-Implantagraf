@@ -8,32 +8,32 @@ using Negocio;
 
 namespace Presentacion.Controllers
 {
-    public class LocalidadController : Controller
+    public class MarcaController : Controller
     {
           
-        // GET: Localidad
+        // GET: Marca
         public ActionResult Index()
         {
-            var ln = new NegocioLocalidad();
+            var ln = new NegocioMarca();
 
             return View(ln.Listar());
         }
 
        
 
-        // GET: Localidad/Crear
+        // GET: Marca/Crear
         public ActionResult Crear()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Crear(Localidad localidad)
+        public ActionResult Crear(Marca marca)
         {
             try
             {
-                var ln = new NegocioLocalidad();
-                ln.Agregar(localidad);
+                var ln = new NegocioMarca();
+                ln.Agregar(marca);
                 
                 return RedirectToAction("Index");
             }
@@ -44,13 +44,13 @@ namespace Presentacion.Controllers
         }
 
 
-        // GET: Localidad/Editar
-        public ActionResult Editar(Localidad localidad)
+        // GET: Marca/Editar
+        public ActionResult Editar(Marca marca)
         {
             try
             {
-                var ln = new NegocioLocalidad();
-                ln.ActualizarPorId(localidad);
+                var ln = new NegocioMarca();
+                ln.ActualizarPorId(marca);
 
                 return RedirectToAction("Index");
             }
@@ -60,12 +60,12 @@ namespace Presentacion.Controllers
             }
         }
 
-        // GET: Localidad/Borrar
+        // GET: Marca/Borrar
         public ActionResult Borrar(int id)
         {
             try
             {
-                var ln = new NegocioLocalidad();
+                var ln = new NegocioMarca();
                 ln.BorrarPorId(id);
 
                 return RedirectToAction("Index");

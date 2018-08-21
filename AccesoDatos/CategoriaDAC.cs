@@ -8,38 +8,38 @@ using System.Web;
 
 namespace AccesoDatos
 {
-    public class MarcaDAC : DataAccessComponent
+    public class CategoriaDAC : DataAccessComponent
 
     {
-        public Marca Agregar(Marca marca)
+        public Categoria Agregar(Categoria categoria)
         {
-            const string sqlStatement = "INSERT INTO dbo.Marca ([Descripcion]) " +
+            const string sqlStatement = "INSERT INTO dbo.Categoria ([Descripcion]) " +
                 "VALUES(@Descripcion); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, marca.Descripcion);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, categoria.Descripcion);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
 
-                marca.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+                categoria.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
             }
 
-            return marca;
+            return categoria;
         }
 
-        public void ActualizarPorId(Marca marca)
+        public void ActualizarPorId(Categoria categoria)
         {
-            const string sqlStatement = "UPDATE dbo.Marca " +
+            const string sqlStatement = "UPDATE dbo.Categoria " +
                 "SET [Descripcion]=@Descripcion " +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, marca.Descripcion);
-                db.AddInParameter(cmd, "@Id", DbType.Int32, marca.Id);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, categoria.Descripcion);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, categoria.Id);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -47,7 +47,7 @@ namespace AccesoDatos
 
         public void BorrarPorId(int id)
         {
-            const string sqlStatement = "DELETE FROM dbo.Marca WHERE [ID]=@Id ";
+            const string sqlStatement = "DELETE FROM dbo.Categoria WHERE [ID]=@Id ";
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -58,12 +58,12 @@ namespace AccesoDatos
             }
         }
 
-        public Marca ListarPorId(int id)
+        public Categoria ListarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
-                "FROM dbo.Marca WHERE [ID]=@Id ";
+                "FROM dbo.Categoria WHERE [ID]=@Id ";
 
-            Marca marca = null;
+            Categoria categoria = null;
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -71,19 +71,19 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) marca = CargarMarca(dr); // Mapper
+                    if (dr.Read()) categoria = CargarCategoria(dr); // Mapper
                 }
             }
 
-            return marca;
+            return categoria;
         }
 	
-        public List<Marca> Listar()
+        public List<Categoria> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Marca ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Categoria ORDER BY [Descripcion]";
 
-            var result = new List<Marca>();
+            var result = new List<Categoria>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
@@ -91,8 +91,8 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var marca = CargarMarca(dr); // Mapper
-                        result.Add(marca);
+                        var categoria = CargarCategoria(dr); // Mapper
+                        result.Add(categoria);
                     }
                 }
             }
@@ -100,15 +100,15 @@ namespace AccesoDatos
             return result;
         }
 
-        private static Marca CargarMarca(IDataReader dr)
+        private static Categoria CargarCategoria(IDataReader dr)
         {
-            var marca = new Marca
+            var categoria = new Categoria
             {
                 Id = GetDataValue<int>(dr, "ID"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion"),
 
             };
-            return marca;
+            return categoria;
         }
     }
 }
