@@ -108,7 +108,7 @@ namespace AccesoDatos
             var localidad = new Localidad
             {
                 Id = GetDataValue<int>(dr, "ID"),
-                Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                Descripcion = GetDataValue<string>(dr, "Descripcion")
 
             };
             return localidad;

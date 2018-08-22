@@ -66,6 +66,7 @@ namespace AccesoDatos
             Marca marca = null;
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);

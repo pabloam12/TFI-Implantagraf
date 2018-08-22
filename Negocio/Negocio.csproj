@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NegocioCategoria.cs" />
+    <Compile Include="NegocioCuenta.cs" />
     <Compile Include="NegocioLocalidad.cs" />
     <Compile Include="NegocioMarca.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
