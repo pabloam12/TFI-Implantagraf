@@ -110,6 +110,8 @@
   <ItemGroup>
     <Compile Include="CuentaDAC.cs" />
     <Compile Include="DataAccessComponent.cs" />
+    <Compile Include="IdiomaDAC.cs" />
+    <Compile Include="PerfilUsrDAC.cs" />
     <Compile Include="LocalidadDAC.cs" />
     <Compile Include="CategoriaDAC.cs" />
     <Compile Include="MarcaDAC.cs" />

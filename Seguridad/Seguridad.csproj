@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{76C9B3F9-2E1F-425C-9814-4029133E9C57}</ProjectGuid>
+    <ProjectGuid>{F3C361F0-A3A3-47BD-B95A-2EADB31A8700}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Negocio</RootNamespace>
-    <AssemblyName>Negocio</AssemblyName>
+    <RootNamespace>Seguridad</RootNamespace>
+    <AssemblyName>Seguridad</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -78,26 +78,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NegocioCategoria.cs" />
-    <Compile Include="NegocioCuenta.cs" />
-    <Compile Include="NegocioIdioma.cs" />
-    <Compile Include="NegocioPerfilUsr.cs" />
-    <Compile Include="NegocioLocalidad.cs" />
-    <Compile Include="NegocioMarca.cs" />
+    <Compile Include="IntegridadDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AccesoDatos\AccesoDatos.csproj">
-      <Project>{a734a5f3-0fb1-4aa8-bfdc-803077bfab25}</Project>
-      <Name>AccesoDatos</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Entidades\Entidades.csproj">
-      <Project>{5D5B0CC2-11D0-4717-A052-F8A67B101ACC}</Project>
+      <Project>{5d5b0cc2-11d0-4717-a052-f8a67b101acc}</Project>
       <Name>Entidades</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Servicios\Servicios.csproj">
-      <Project>{8b7d65fa-59e3-4c01-820d-9783c817533a}</Project>
-      <Name>Servicios</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -113,9 +100,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49480</DevelopmentServerPort>
+          <DevelopmentServerPort>50337</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49480/</IISUrl>
+          <IISUrl>http://localhost:50337/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

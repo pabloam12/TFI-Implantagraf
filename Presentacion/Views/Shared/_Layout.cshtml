@@ -27,11 +27,20 @@
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                     
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Objetos de Negocio <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Objetos de Negocio<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Categorias", "Index", "Categoria")</li>
                             <li>@Html.ActionLink("Localidades", "Index", "Localidad")</li>
                             <li>@Html.ActionLink("Marcas", "Index", "Marca")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Idiomas de Usuario", "Index", "Idioma")</li>
+                            <li>@Html.ActionLink("Perfiles de Usuario", "Index", "PerfilUsr")</li>
+                           
                         </ul>
                     </li>
                     

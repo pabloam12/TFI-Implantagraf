@@ -9,38 +9,38 @@ using System.Web;
 
 namespace AccesoDatos
 {
-    public class LocalidadDAC : DataAccessComponent
+    public class IdiomaDAC : DataAccessComponent
 
     {
-        public Localidad Agregar(Localidad localidad)
+        public Idioma Agregar(Idioma idioma)
         {
-            const string sqlStatement = "INSERT INTO dbo.Localidad ([Descripcion]) " +
+            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion]) " +
                 "VALUES(@Descripcion); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, localidad.Descripcion);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, idioma.Descripcion);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
-                localidad.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+                idioma.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
             }
 
-            return localidad;
+            return idioma;
 
         }
 
-        public void ActualizarPorId(Localidad localidad)
+        public void ActualizarPorId(Idioma idioma)
         {
-            const string sqlStatement = "UPDATE dbo.Localidad " +
+            const string sqlStatement = "UPDATE dbo.SEG_Idioma " +
                 "SET [Descripcion]=@Descripcion " +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, localidad.Descripcion);
-                db.AddInParameter(cmd, "@Id", DbType.Int32, localidad.Id);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, idioma.Descripcion);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, idioma.Id);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -48,7 +48,7 @@ namespace AccesoDatos
 
         public void BorrarPorId(int id)
         {
-            const string sqlStatement = "DELETE FROM dbo.Localidad WHERE [ID]=@Id ";
+            const string sqlStatement = "DELETE FROM dbo.SEG_Idioma WHERE [ID]=@Id ";
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -59,12 +59,12 @@ namespace AccesoDatos
             }
         }
 
-        public Localidad ListarPorId(int id)
+        public Idioma ListarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
-                "FROM dbo.Localidad WHERE [ID]=@Id ";
+                "FROM dbo.SEG_Idioma WHERE [ID]=@Id ";
 
-            Localidad localidad = null;
+            Idioma idioma = null;
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -72,19 +72,19 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) localidad = CargarLocalidad(dr); // Mapper
+                    if (dr.Read()) idioma = CargarIdioma(dr); // Mapper
                 }
             }
 
-            return localidad;
+            return idioma;
         }
 
-        public List<Localidad> Listar()
+        public List<Idioma> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Localidad ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.SEG_Idioma ORDER BY [Descripcion]";
 
-            var result = new List<Localidad>();
+            var result = new List<Idioma>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
@@ -92,7 +92,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var category = CargarLocalidad(dr); // Mapper
+                        var category = CargarIdioma(dr); // Mapper
                         result.Add(category);
                     }
                 }
@@ -102,15 +102,15 @@ namespace AccesoDatos
         }
 
 
-        private static Localidad CargarLocalidad(IDataReader dr)
+        private static Idioma CargarIdioma(IDataReader dr)
         {
-            var localidad = new Localidad
+            var idioma = new Idioma
             {
                 Id = GetDataValue<int>(dr, "ID"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion")
 
             };
-            return localidad;
+            return idioma;
         }
     }
 }

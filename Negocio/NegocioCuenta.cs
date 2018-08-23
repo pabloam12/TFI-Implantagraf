@@ -9,9 +9,12 @@ namespace Negocio
 {
     public class NegocioCuenta
     {
-        public void Registrar(Usuario usr)
+        public Usuario Registrar(Usuario usr)
         {
-
+            var ad = new CuentaDAC();
+            //var seg = new 
+            //var DVH = 
+            return (ad.Registrar(usr, 1321231321));
 
         }
 

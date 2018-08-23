@@ -9,38 +9,38 @@ using System.Web;
 
 namespace AccesoDatos
 {
-    public class LocalidadDAC : DataAccessComponent
+    public class PerfilUsrDAC : DataAccessComponent
 
     {
-        public Localidad Agregar(Localidad localidad)
+        public PerfilUsr Agregar(PerfilUsr perfilUsr)
         {
-            const string sqlStatement = "INSERT INTO dbo.Localidad ([Descripcion]) " +
+            const string sqlStatement = "INSERT INTO dbo.SEG_PerfilUsr ([Descripcion]) " +
                 "VALUES(@Descripcion); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, localidad.Descripcion);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
-                localidad.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+                perfilUsr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
             }
 
-            return localidad;
+            return perfilUsr;
 
         }
 
-        public void ActualizarPorId(Localidad localidad)
+        public void ActualizarPorId(PerfilUsr perfilUsr)
         {
-            const string sqlStatement = "UPDATE dbo.Localidad " +
+            const string sqlStatement = "UPDATE dbo.SEG_PerfilUsr " +
                 "SET [Descripcion]=@Descripcion " +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, localidad.Descripcion);
-                db.AddInParameter(cmd, "@Id", DbType.Int32, localidad.Id);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, perfilUsr.Id);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -48,7 +48,7 @@ namespace AccesoDatos
 
         public void BorrarPorId(int id)
         {
-            const string sqlStatement = "DELETE FROM dbo.Localidad WHERE [ID]=@Id ";
+            const string sqlStatement = "DELETE FROM dbo.SEG_PerfilUsr WHERE [ID]=@Id ";
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -59,12 +59,12 @@ namespace AccesoDatos
             }
         }
 
-        public Localidad ListarPorId(int id)
+        public PerfilUsr ListarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
-                "FROM dbo.Localidad WHERE [ID]=@Id ";
+                "FROM dbo.SEG_PerfilUsr WHERE [ID]=@Id ";
 
-            Localidad localidad = null;
+            PerfilUsr perfilUsr = null;
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -72,19 +72,19 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) localidad = CargarLocalidad(dr); // Mapper
+                    if (dr.Read()) perfilUsr = CargarPerfilUsr(dr); // Mapper
                 }
             }
 
-            return localidad;
+            return perfilUsr;
         }
 
-        public List<Localidad> Listar()
+        public List<PerfilUsr> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Localidad ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.SEG_PerfilUsr ORDER BY [Descripcion]";
 
-            var result = new List<Localidad>();
+            var result = new List<PerfilUsr>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
@@ -92,7 +92,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var category = CargarLocalidad(dr); // Mapper
+                        var category = CargarPerfilUsr(dr); // Mapper
                         result.Add(category);
                     }
                 }
@@ -102,15 +102,15 @@ namespace AccesoDatos
         }
 
 
-        private static Localidad CargarLocalidad(IDataReader dr)
+        private static PerfilUsr CargarPerfilUsr(IDataReader dr)
         {
-            var localidad = new Localidad
+            var perfilUsr = new PerfilUsr
             {
                 Id = GetDataValue<int>(dr, "ID"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion")
 
             };
-            return localidad;
+            return perfilUsr;
         }
     }
 }

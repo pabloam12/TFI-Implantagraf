@@ -5,10 +5,9 @@ using System.Web;
 
 namespace Entidades
 {
-    public class Perfil
+    public class PerfilUsr
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Descripcion { get; set; }
-        public long DVH { get; set; }
     }
 }
