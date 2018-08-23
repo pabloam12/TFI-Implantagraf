@@ -171,6 +171,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\IdiomaController.cs" />
+    <Compile Include="Controllers\CuentaUsuarioController.cs" />
     <Compile Include="Controllers\PerfilUsrController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -269,6 +270,7 @@
     <Content Include="Views\PerfilUsr\Crear.cshtml" />
     <Content Include="Views\PerfilUsr\Editar.cshtml" />
     <Content Include="Views\PerfilUsr\Index.cshtml" />
+    <Content Include="Views\Cuenta\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

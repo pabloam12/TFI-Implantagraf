@@ -82,7 +82,7 @@ namespace AccesoDatos
         public List<Localidad> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Localidad ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Localidad ORDER BY [Descripcion]";
 
             var result = new List<Localidad>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -92,8 +92,8 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var category = CargarLocalidad(dr); // Mapper
-                        result.Add(category);
+                        var localidad = CargarLocalidad(dr); // Mapper
+                        result.Add(localidad);
                     }
                 }
             }
@@ -106,7 +106,7 @@ namespace AccesoDatos
         {
             var localidad = new Localidad
             {
-                Id = GetDataValue<int>(dr, "ID"),
+                Id = GetDataValue<int>(dr, "Id"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion")
 
             };

@@ -10,7 +10,7 @@ namespace Presentacion.Controllers
 {
     public class IdiomaController : Controller
     {
-          
+
         // GET: Idioma
         public ActionResult Index()
         {
@@ -19,7 +19,7 @@ namespace Presentacion.Controllers
             return View(ln.Listar());
         }
 
-       
+
 
         // GET: Idioma/Crear
         public ActionResult Crear()
@@ -34,7 +34,7 @@ namespace Presentacion.Controllers
             {
                 var ln = new NegocioIdioma();
                 ln.Agregar(idioma);
-                
+
                 return RedirectToAction("Index");
             }
             catch
@@ -76,6 +76,5 @@ namespace Presentacion.Controllers
             }
         }
 
-       
     }
 }

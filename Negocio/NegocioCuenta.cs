@@ -25,5 +25,13 @@ namespace Negocio
             return (ad.Autenticar(usr));
 
         }
+
+        public List<Informacion> informacionCuenta(int id)
+        {
+            var ad = new CuentaDAC();
+
+            return ad.informacionCuenta(id);
+
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace AccesoDatos
                 "VALUES(@RazonSocial, @Nombre, @Apellido, @Usr, @Psw, @CUIL, " +
                 "@Estado, @Intentos, @Email, @Telefono, " +
                 "@Direccion, @LocalidadId, @FechaNacimiento, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
-                
+
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -52,7 +52,7 @@ namespace AccesoDatos
         }
         public Usuario Autenticar(Usuario usr)
         {
-            const string sqlStatement = "SELECT [ID], [Nombre], [Apellido], [CUIL], [Email], [Telefono], " +
+            const string sqlStatement = "SELECT [Id], [Nombre], [Apellido], [CUIL], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
                 "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
 
@@ -82,7 +82,7 @@ namespace AccesoDatos
 
             var usuario = new Usuario
             {
-                Id = GetDataValue<int>(dr, "ID"),
+                Id = GetDataValue<int>(dr, "Id"),
                 Nombre = GetDataValue<string>(dr, "Nombre"),
                 Apellido = GetDataValue<string>(dr, "Apellido"),
                 CUIL = GetDataValue<string>(dr, "CUIL"),
@@ -97,6 +97,43 @@ namespace AccesoDatos
             };
 
             return usuario;
+        }
+
+        public List<Informacion> informacionCuenta(int id)
+        {
+            const string sqlStatement = "SELECT [RazonSocial], [Telefono], " +
+                "[Direccion]  " +
+                "FROM dbo.SEG_Usuario WHERE [Id]=@Id";
+
+            var result = new List<Informacion>();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var category = CargarLista(dr); // Mapper
+                        result.Add(category);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        private static Informacion CargarLista(IDataReader dr)
+        {
+            var informacion = new Informacion
+            {
+                RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
+                Direccion = GetDataValue<string>(dr, "Direccion"),
+                Telefono = GetDataValue<string>(dr, "Telefono")
+
+            };
+            return informacion;
         }
 
     }
