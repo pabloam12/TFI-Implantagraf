@@ -1,5 +1,6 @@
 ﻿using AccesoDatos;
 using Entidades;
+using Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,16 @@ namespace Negocio
 {
     public class NegocioCuenta
     {
-        public Usuario Registrar(Usuario usr)
+        public Usuario RegistrarCliente(Usuario usr)
         {
             var ad = new CuentaDAC();
-            //var seg = new 
-            //var DVH = 
-            return (ad.Registrar(usr, 1321231321));
+            var aud = new Auditoria();
+
+            usr = ad.RegistrarCliente(usr, 1321231321);
+
+            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "EXITO", 1212121212);
+
+            return (usr);
 
         }
 

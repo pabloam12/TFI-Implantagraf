@@ -78,10 +78,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auditoria.cs" />
     <Compile Include="IntegridadDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AccesoDatos\AccesoDatos.csproj">
+      <Project>{A734A5F3-0FB1-4AA8-BFDC-803077BFAB25}</Project>
+      <Name>AccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entidades\Entidades.csproj">
       <Project>{5d5b0cc2-11d0-4717-a052-f8a67b101acc}</Project>
       <Name>Entidades</Name>

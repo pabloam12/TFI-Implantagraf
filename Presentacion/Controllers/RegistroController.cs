@@ -26,11 +26,23 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
-            var usrSesion = ln.Registrar(usuario);
+            var usrSesion = ln.RegistrarCliente(usuario);
 
-            //ViewBag.Message = usrSesion.RazonSocial  + " se ha registrado correctamente.";
+            if (usrSesion != null)
+            {
 
-            return RedirectToLocal(null);
+                Session["UsuarioNombre"] = usrSesion.Nombre.ToString();
+
+                //ViewBag.Message = usr.Nombre + " " + usr.Apellido + " se ha registrado correctamente.";
+
+                return RedirectToLocal(null); // LoggedIn
+            }
+            else
+            {
+                Session["UsuarioNombre"] = null;
+                return RedirectToLocal(null);
+
+            }
 
         }
 

@@ -10,7 +10,7 @@ namespace AccesoDatos
 {
     public class CuentaDAC : DataAccessComponent
     {
-        public Usuario Registrar(Usuario usr, Int64 DVH)
+        public Usuario RegistrarCliente(Usuario usr, Int64 DVH)
         {
             const string sqlStatement = "INSERT INTO dbo.SEG_Usuario ([RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], " +
                 "[Estado], [Intentos], [Email], [Telefono], " +
@@ -21,6 +21,10 @@ namespace AccesoDatos
                 "@Direccion, @LocalidadId, @FechaNacimiento, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            var perfilUsrDAC = new PerfilUsrDAC();
+            var idiomaDAC = new IdiomaDAC();
+            var localidadDAC = new LocalidadDAC();
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
@@ -44,10 +48,17 @@ namespace AccesoDatos
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+
+                usr.Nombre = usr.RazonSocial;
+                usr.Apellido = usr.RazonSocial;
+                usr.Usr = usr.Email;
+
+                usr.Perfil = perfilUsrDAC.ListarPorId(4); // Mapper
+                usr.Idioma = idiomaDAC.ListarPorId(usr.Idioma.Id); // Mapper
+                usr.Localidad = localidadDAC.ListarPorId(usr.Localidad.Id); // Mapper
             }
 
             return usr;
-
 
         }
         public Usuario Autenticar(Usuario usr)

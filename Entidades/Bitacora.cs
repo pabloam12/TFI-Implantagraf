@@ -7,10 +7,16 @@ namespace Entidades
 {
     public class Bitacora
     {
-        public long ID { get; set; }
-        public string Usuario { get; set; }
-        public string Descripcion { get; set; }
+        public long Id { get; set; }
+
         public System.DateTime FechaHora { get; set; }
+
+        public string Usuario { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public string Criticidad { get; set; }
+
         public long DVH { get; set; }
     }
 }
