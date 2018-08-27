@@ -10,6 +10,152 @@ namespace AccesoDatos
 {
     public class CuentaDAC : DataAccessComponent
     {
+
+        public bool ValidarUsuario (String nombreUsuario)
+        {
+            const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+           
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                if (Convert.ToInt32(db.ExecuteScalar(cmd)) != 0)
+                    { return false; }
+
+                // Si no existe el usuario devuelve true asi entra en el if.
+                return true;
+            }
+
+        }
+
+        public bool ValidarBloqueoCuenta(String nombreUsuario)
+        {
+            const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Estado]='B'";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                if (Convert.ToInt32(db.ExecuteScalar(cmd)) == 0)
+                { return false; }
+
+                // Si la cuenta esta bloqueada devuelve true asi entra en el if.
+                return true;
+            }
+
+        }
+
+        public bool ValidarUsuarioPsw(String nombreUsuario, String PswUsuario)
+        {
+            const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+                db.AddInParameter(cmd, "@Psw", DbType.String, PswUsuario);
+
+                // No hay coincidencias.
+                if (Convert.ToInt32(db.ExecuteScalar(cmd)) == 0)
+                { return true; }
+
+                // Si la contraseña esta bien devuelve true asi no entra en el if.
+                return false;
+            }
+
+        }
+
+        public void ReiniciarIntentosFallidos(string nombreUsuario)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Intentos] = 0 WHERE [Usr] = @Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+        public int SumarIntentoFallido(String nombreUsuario)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Intentos] += 1 WHERE [Usr] = @Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+                
+                db.ExecuteNonQuery(cmd);
+            }
+
+            return CantidadIntentos(nombreUsuario);
+        }
+
+        public int CantidadIntentos(string nombreUsuario)
+        {
+            const string sqlStatement = "SELECT [Intentos] from dbo.SEG_Usuario WHERE [Usr] = @Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                return Convert.ToInt32(db.ExecuteScalar(cmd));
+            };
+        }
+
+        public void BloquearCuentaUsuario(String nombreUsuario)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Estado] = 'B' WHERE [Usr] = @Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+        public Usuario Autenticar(Usuario usr)
+        {
+            const string sqlStatement = "SELECT [Id], [Nombre], [Apellido], [CUIL], [Email], [Telefono], " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
+                "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
+
+            Usuario usuario = null;
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usr);
+                db.AddInParameter(cmd, "@Psw", DbType.String, usr.Psw);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read()) usuario = MapearUsuario(dr); // Mapper
+                }
+            }
+
+            return usuario;
+        }
         public Usuario RegistrarCliente(Usuario usr, Int64 DVH)
         {
             const string sqlStatement = "INSERT INTO dbo.SEG_Usuario ([RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], " +
@@ -61,30 +207,7 @@ namespace AccesoDatos
             return usr;
 
         }
-        public Usuario Autenticar(Usuario usr)
-        {
-            const string sqlStatement = "SELECT [Id], [Nombre], [Apellido], [CUIL], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
-                "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
-
-            Usuario usuario = null;
-
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
-
-            using (var cmd = db.GetSqlStringCommand(sqlStatement))
-            {
-                db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usr);
-                db.AddInParameter(cmd, "@Psw", DbType.String, usr.Psw);
-
-                using (var dr = db.ExecuteReader(cmd))
-                {
-                    if (dr.Read()) usuario = MapearUsuario(dr); // Mapper
-                }
-            }
-
-            return usuario;
-        }
-
+        
         private Usuario MapearUsuario(IDataReader dr)
         {
             var localidadDAC = new LocalidadDAC();
@@ -110,6 +233,10 @@ namespace AccesoDatos
             return usuario;
         }
 
+
+
+
+        //TODO
         public List<Informacion> informacionCuenta(int id)
         {
             const string sqlStatement = "SELECT [RazonSocial], [Telefono], " +
@@ -135,6 +262,7 @@ namespace AccesoDatos
 
         }
 
+        //TODO
         private static Informacion CargarLista(IDataReader dr)
         {
             var informacion = new Informacion

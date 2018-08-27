@@ -31,7 +31,14 @@
             </div>
         </div>
 
-        
+        @if(Session["ErrorLogin"] != null)
+        {
+            <div class="alert-danger">
+
+                @Html.ActionLink("Error: " + Session["ErrorLogin"] + "!", "Index", "Cuenta")
+
+            </div>
+        }
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

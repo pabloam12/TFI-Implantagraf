@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Auditoria.cs" />
     <Compile Include="IntegridadDatos.cs" />
+    <Compile Include="Privacidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

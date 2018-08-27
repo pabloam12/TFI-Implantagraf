@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Entidades;
 using Negocio;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -26,27 +27,79 @@ namespace Presentacion.Controllers
         public ActionResult Login(Usuario usuario)
         {
             var ln = new NegocioCuenta();
+            var seg = new Privacidad();
+            var usrSesion = usuario;
+            
+            Session["ErrorLogin"] = null;
+            Session["IdUsuario"] = null;
+            Session["NombreUsuario"] = null;
+            Session["PerfilUsuario"] = null;
+            Session["EmailUsuario"] = null;
 
-            var usrSesion = ln.Autenticar(usuario);
-
-            if (usrSesion.Nombre != null && usrSesion.Perfil.Descripcion != null)
+            // Usuario incorrecto, solo devuelvo el error al Login.
+            if (ln.ValidarUsuario(usuario.Usr))
             {
-                Session["IdUsuario"] = usrSesion.Id.ToString();
-                Session["NombreUsuario"] = usrSesion.Nombre.ToString();
-                Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion.ToString();
+                Session["ErrorLogin"] = "Usuario o contraseña inválidos";
+                return RedirectToAction("Index");
+            }
 
-                return RedirectToAction("Index", "Home");
-            }
-            else
+            // Valido que la cuenta no este bloqueada.
+            if (ln.ValidarBloqueoCuenta(usuario.Usr))
+
+            { return RedirectToAction("CuentaBloqueada"); }
+
+
+            //Encripto la contraseña.
+            usuario.Psw = seg.EncriptarPsw(usuario.Psw);
+
+            // Valido que la contraseña sea correcta, en caso negativo incremento intentos fallidos.
+            if (ln.ValidarUsuarioPsw(usuario.Usr, usuario.Psw))
             {
-                Session["IdUsuario"] = null;
-                Session["NombreUsuario"] = null;
-                Session["PerfilUsuario"] = null;
-                return RedirectToAction("Login");
+                Session["ErrorLogin"] = "Usuario o contraseña inválidos";
+
+                //Sumo intento fallido.
+                if (ln.SumarIntentoFallido(usuario.Usr) == 3)
+                {
+                    ln.BloquearCuentaUsuario(usuario.Usr); //Bloqueo cuenta de Usuario.
+
+                    return RedirectToAction("CuentaBloqueada");
+                }
+
+                return RedirectToAction("Index");
             }
+
+            usrSesion = ln.Autenticar(usuario);
+
+            //Error en la base de datos.
+            if (usrSesion.Nombre == null || usrSesion.Perfil.Descripcion == null)
+
+            { return RedirectToAction("ErrorGraveBase"); }
+
+
+            //Usuario Logueado correctamente, se mapean las variables de Sesión.
+
+            ln.ReiniciarIntentosFallidos(usuario.Usr);
+
+            Session["IdUsuario"] = usrSesion.Id.ToString();
+            Session["NombreUsuario"] = usrSesion.Nombre.ToString();
+            Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion.ToString();
+            Session["EmailUsuario"] = usrSesion.Email;
+
+            return RedirectToAction("Index", "Home");
+
+        }
+        public ActionResult CuentaBloqueada(Usuario usuario)
+        {
+            //TODO.
+            Session["ErrorLogin"] = "Cuenta bloqueada.";
+            return RedirectToAction("Index");
         }
     }
 }
+
+
+
+
 
 
 

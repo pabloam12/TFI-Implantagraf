@@ -12,9 +12,11 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
+            Session["ErrorLogin"] = null;
             Session["IdUsuario"] = null;
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
+            Session["EmailUsuario"] = null;
 
             return RedirectToAction("Index", "Home");
         }

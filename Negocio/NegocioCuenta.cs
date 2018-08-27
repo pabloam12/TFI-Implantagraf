@@ -28,18 +28,65 @@ namespace Negocio
         {
             var ad = new CuentaDAC();
 
-            var usrSession = ad.Autenticar(usr);
-
-            return (usrSession);
-
+            return ad.Autenticar(usr);
+            
         }
 
+        //TODO.
         public List<Informacion> informacionCuenta(int id)
         {
             var ad = new CuentaDAC();
 
             return ad.informacionCuenta(id);
 
+        }
+
+
+        public bool ValidarUsuario (string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            return ad.ValidarUsuario(nombreUsuario);
+
+        }
+
+        public bool ValidarBloqueoCuenta(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            return ad.ValidarBloqueoCuenta(nombreUsuario);
+
+        }
+
+        public bool ValidarUsuarioPsw(string nombreUsuario, string pswUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            return ad.ValidarUsuarioPsw(nombreUsuario, pswUsuario);
+
+        }
+
+        public void BloquearCuentaUsuario(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            ad.BloquearCuentaUsuario(nombreUsuario);
+
+        }
+
+        public int SumarIntentoFallido(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            return ad.SumarIntentoFallido(nombreUsuario);
+
+        }
+
+        public void ReiniciarIntentosFallidos(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            ad.ReiniciarIntentosFallidos(nombreUsuario);
         }
     }
 }
