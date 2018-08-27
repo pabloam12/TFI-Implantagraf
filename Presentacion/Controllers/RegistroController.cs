@@ -28,20 +28,21 @@ namespace Presentacion.Controllers
 
             var usrSesion = ln.RegistrarCliente(usuario);
 
-            if (usrSesion != null)
+            if (usrSesion.Nombre != null && usrSesion.Perfil.Descripcion != null)
             {
+                Session["IdUsuario"] = usrSesion.Id.ToString();
+                Session["NombreUsuario"] = usrSesion.Nombre.ToString();
+                Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion.ToString();
 
-                Session["UsuarioNombre"] = usrSesion.Nombre.ToString();
-
-                //ViewBag.Message = usr.Nombre + " " + usr.Apellido + " se ha registrado correctamente.";
-
-                return RedirectToLocal(null); // LoggedIn
+                return View(); // LoggedIn
             }
             else
             {
-                Session["UsuarioNombre"] = null;
-                return RedirectToLocal(null);
+                Session["IdUsuario"] = null;
+                Session["NombreUsuario"] = null;
+                Session["PerfilUsuario"] = null;
 
+                return RedirectToAction("RedirectToLocal");
             }
 
         }

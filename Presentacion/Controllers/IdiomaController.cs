@@ -14,9 +14,14 @@ namespace Presentacion.Controllers
         // GET: Idioma
         public ActionResult Index()
         {
-            var ln = new NegocioIdioma();
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
+                var ln = new NegocioIdioma();
 
-            return View(ln.Listar());
+                return View(ln.Listar());
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -24,56 +29,75 @@ namespace Presentacion.Controllers
         // GET: Idioma/Crear
         public ActionResult Crear()
         {
-            return View();
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public ActionResult Crear(Idioma idioma)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioIdioma();
-                ln.Agregar(idioma);
+                try
+                {
+                    var ln = new NegocioIdioma();
+                    ln.Agregar(idioma);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
 
 
         // GET: Idioma/Editar
         public ActionResult Editar(Idioma idioma)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioIdioma();
-                ln.ActualizarPorId(idioma);
+                try
+                {
+                    var ln = new NegocioIdioma();
+                    ln.ActualizarPorId(idioma);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Idioma/Borrar
         public ActionResult Borrar(int id)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioIdioma();
-                ln.BorrarPorId(id);
+                try
+                {
+                    var ln = new NegocioIdioma();
+                    ln.BorrarPorId(id);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index","Home");
         }
 
     }

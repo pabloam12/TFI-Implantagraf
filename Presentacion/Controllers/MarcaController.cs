@@ -14,9 +14,14 @@ namespace Presentacion.Controllers
         // GET: Marca
         public ActionResult Index()
         {
-            var ln = new NegocioMarca();
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            {
+                var ln = new NegocioMarca();
 
-            return View(ln.Listar());
+                return View(ln.Listar());
+            }
+
+            return RedirectToAction("Index","Home");
         }
 
        
@@ -24,58 +29,76 @@ namespace Presentacion.Controllers
         // GET: Marca/Crear
         public ActionResult Crear()
         {
-            return View();
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index","Home");
         }
 
         [HttpPost]
         public ActionResult Crear(Marca marca)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
-                var ln = new NegocioMarca();
-                ln.Agregar(marca);
-                
-                return RedirectToAction("Index");
+                try
+                {
+                    var ln = new NegocioMarca();
+                    ln.Agregar(marca);
+
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
 
 
         // GET: Marca/Editar
         public ActionResult Editar(Marca marca)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
-                var ln = new NegocioMarca();
-                ln.ActualizarPorId(marca);
+                try
+                {
+                    var ln = new NegocioMarca();
+                    ln.ActualizarPorId(marca);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index","Home");
         }
 
         // GET: Marca/Borrar
         public ActionResult Borrar(int id)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
-                var ln = new NegocioMarca();
-                ln.BorrarPorId(id);
+                try
+                {
+                    var ln = new NegocioMarca();
+                    ln.BorrarPorId(id);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
-
        
     }
 }

@@ -34,7 +34,7 @@ namespace AccesoDatos
         {
             const string sqlStatement = "UPDATE dbo.Categoria " +
                 "SET [Descripcion]=@Descripcion " +
-                "WHERE [ID]=@Id ";
+                "WHERE [Id]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -62,14 +62,14 @@ namespace AccesoDatos
         public Categoria ListarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
-                "FROM dbo.Categoria WHERE [ID]=@Id ";
+                "FROM dbo.Categoria WHERE [Id]=@Id ";
 
             Categoria categoria = null;
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, categoria.Id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     if (dr.Read()) categoria = CargarCategoria(dr); // Mapper
@@ -82,7 +82,7 @@ namespace AccesoDatos
         public List<Categoria> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Categoria ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Categoria ORDER BY [Descripcion]";
 
             var result = new List<Categoria>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -105,7 +105,7 @@ namespace AccesoDatos
         {
             var categoria = new Categoria
             {
-                Id = GetDataValue<int>(dr, "ID"),
+                Id = GetDataValue<int>(dr, "Id"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion"),
 
             };

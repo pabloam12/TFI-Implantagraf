@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 
 namespace Negocio
 {
@@ -27,7 +28,9 @@ namespace Negocio
         {
             var ad = new CuentaDAC();
 
-            return (ad.Autenticar(usr));
+            var usrSession = ad.Autenticar(usr);
+
+            return (usrSession);
 
         }
 

@@ -14,9 +14,14 @@ namespace Presentacion.Controllers
         // GET: PerfilUsr
         public ActionResult Index()
         {
-            var ln = new NegocioPerfilUsr();
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
+                var ln = new NegocioPerfilUsr();
 
-            return View(ln.Listar());
+                return View(ln.Listar());
+            }
+
+            return RedirectToAction("Home","Index");
         }
 
        
@@ -24,58 +29,76 @@ namespace Presentacion.Controllers
         // GET: PerfilUsr/Crear
         public ActionResult Crear()
         {
-            return View();
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index","Home");
         }
 
         [HttpPost]
         public ActionResult Crear(PerfilUsr perfilUsr)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioPerfilUsr();
-                ln.Agregar(perfilUsr);
-                
-                return RedirectToAction("Index");
+                try
+                {
+                    var ln = new NegocioPerfilUsr();
+                    ln.Agregar(perfilUsr);
+
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
 
 
         // GET: PerfilUsr/Editar
         public ActionResult Editar(PerfilUsr perfilUsr)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioPerfilUsr();
-                ln.ActualizarPorId(perfilUsr);
+                try
+                {
+                    var ln = new NegocioPerfilUsr();
+                    ln.ActualizarPorId(perfilUsr);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
 
         // GET: PerfilUsr/Borrar
         public ActionResult Borrar(int id)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioPerfilUsr();
-                ln.BorrarPorId(id);
+                try
+                {
+                    var ln = new NegocioPerfilUsr();
+                    ln.BorrarPorId(id);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
-
-       
     }
 }

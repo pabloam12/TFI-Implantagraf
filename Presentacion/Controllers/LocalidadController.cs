@@ -14,9 +14,13 @@ namespace Presentacion.Controllers
         // GET: Localidad
         public ActionResult Index()
         {
-            var ln = new NegocioLocalidad();
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            {
+                var ln = new NegocioLocalidad();
 
-            return View(ln.Listar());
+                return View(ln.Listar());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
        
@@ -24,56 +28,76 @@ namespace Presentacion.Controllers
         // GET: Localidad/Crear
         public ActionResult Crear()
         {
-            return View();
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public ActionResult Crear(Localidad localidad)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
-                var ln = new NegocioLocalidad();
-                ln.Agregar(localidad);
-                
-                return RedirectToAction("Index");
+                try
+                {
+                    var ln = new NegocioLocalidad();
+                    ln.Agregar(localidad);
+
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
         }
 
 
         // GET: Localidad/Editar
         public ActionResult Editar(Localidad localidad)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
-                var ln = new NegocioLocalidad();
-                ln.ActualizarPorId(localidad);
+                try
+                {
+                    var ln = new NegocioLocalidad();
+                    ln.ActualizarPorId(localidad);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index","Home");
+
         }
 
         // GET: Localidad/Borrar
         public ActionResult Borrar(int id)
         {
-            try
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
-                var ln = new NegocioLocalidad();
-                ln.BorrarPorId(id);
+                try
+                {
+                    var ln = new NegocioLocalidad();
+                    ln.BorrarPorId(id);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index", "Home");
         }
 
        

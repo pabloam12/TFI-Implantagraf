@@ -16,9 +16,14 @@ namespace Presentacion.Controllers
         // GET: /Cuenta/Index
         public ActionResult Index()
         {
-            var ln = new NegocioCuenta();
+            if ((String)Session["PerfilUsuario"] != null)
+            {
+                var ln = new NegocioCuenta();
 
-            return View(ln.informacionCuenta(16));
+                return View(ln.informacionCuenta(16));
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
     } 
