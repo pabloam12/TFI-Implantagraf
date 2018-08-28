@@ -32,12 +32,11 @@ namespace Negocio
             
         }
 
-        //TODO.
-        public List<Informacion> informacionCuenta(int id)
+        public Usuario informacionCuenta(string idUsuario)
         {
             var ad = new CuentaDAC();
 
-            return ad.informacionCuenta(id);
+            return ad.informacionCuenta(idUsuario);
 
         }
 
@@ -56,6 +55,13 @@ namespace Negocio
 
             return ad.ValidarBloqueoCuenta(nombreUsuario);
 
+        }
+
+        public void ActualizarDatosCuenta(Usuario usuarioModif)
+        {
+            var ad = new CuentaDAC();
+
+            ad.ActualizarDatosCuenta(usuarioModif);
         }
 
         public bool ValidarUsuarioPsw(string nombreUsuario, string pswUsuario)

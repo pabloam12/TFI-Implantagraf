@@ -11,19 +11,19 @@ namespace AccesoDatos
     public class CuentaDAC : DataAccessComponent
     {
 
-        public bool ValidarUsuario (String nombreUsuario)
+        public bool ValidarUsuario(String nombreUsuario)
         {
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
-           
+
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
 
                 if (Convert.ToInt32(db.ExecuteScalar(cmd)) != 0)
-                    { return false; }
+                { return false; }
 
                 // Si no existe el usuario devuelve true asi entra en el if.
                 return true;
@@ -37,7 +37,7 @@ namespace AccesoDatos
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
-            
+
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
@@ -50,6 +50,31 @@ namespace AccesoDatos
                 return true;
             }
 
+        }
+
+        public void ActualizarDatosCuenta(Usuario usuarioModif)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET [Nombre]=@Nombre, [Apellido]=@Apellido, [Usr]=@Usr, [CUIL]=@CUIL, [Email]=@Email, [Direccion]=@Direccion, " +
+                "[LocalidadId]=@Localidad, [Telefono]=@Telefono, [IdiomaId]=@IdiomaId " +
+                "WHERE [Id]=@Id";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, usuarioModif.Id);
+                db.AddInParameter(cmd, "@Nombre", DbType.String, usuarioModif.Nombre);
+                db.AddInParameter(cmd, "@Apellido", DbType.String, usuarioModif.Apellido);
+                db.AddInParameter(cmd, "@Usr", DbType.String, usuarioModif.Email);
+                db.AddInParameter(cmd, "@CUIL", DbType.String, usuarioModif.CUIL);
+                db.AddInParameter(cmd, "@Email", DbType.String, usuarioModif.Email);
+                db.AddInParameter(cmd, "@Direccion", DbType.String, usuarioModif.Direccion);
+                db.AddInParameter(cmd, "@Localidad", DbType.String, usuarioModif.Localidad.Id);
+                db.AddInParameter(cmd, "@Telefono", DbType.String, usuarioModif.Telefono);
+                db.AddInParameter(cmd, "@IdiomaId", DbType.String, usuarioModif.Idioma.Id);
+
+                db.ExecuteNonQuery(cmd);
+            }
         }
 
         public bool ValidarUsuarioPsw(String nombreUsuario, String PswUsuario)
@@ -98,7 +123,7 @@ namespace AccesoDatos
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
-                
+
                 db.ExecuteNonQuery(cmd);
             }
 
@@ -135,7 +160,7 @@ namespace AccesoDatos
 
         public Usuario Autenticar(Usuario usr)
         {
-            const string sqlStatement = "SELECT [Id], [Nombre], [Apellido], [CUIL], [Email], [Telefono], " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
                 "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
 
@@ -153,6 +178,9 @@ namespace AccesoDatos
                     if (dr.Read()) usuario = MapearUsuario(dr); // Mapper
                 }
             }
+
+            //Reinicia los intentos fallidos.
+            ReiniciarIntentosFallidos(usuario.Usr);
 
             return usuario;
         }
@@ -207,7 +235,7 @@ namespace AccesoDatos
             return usr;
 
         }
-        
+
         private Usuario MapearUsuario(IDataReader dr)
         {
             var localidadDAC = new LocalidadDAC();
@@ -217,8 +245,12 @@ namespace AccesoDatos
             var usuario = new Usuario
             {
                 Id = GetDataValue<int>(dr, "Id"),
+                RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
                 Nombre = GetDataValue<string>(dr, "Nombre"),
                 Apellido = GetDataValue<string>(dr, "Apellido"),
+                Usr = GetDataValue<string>(dr, "Usr"),
+                Psw = "************",
+                PswConfirmacion = "************",
                 CUIL = GetDataValue<string>(dr, "CUIL"),
                 Email = GetDataValue<string>(dr, "Email"),
                 Telefono = GetDataValue<string>(dr, "Telefono"),
@@ -233,47 +265,29 @@ namespace AccesoDatos
             return usuario;
         }
 
-
-
-
-        //TODO
-        public List<Informacion> informacionCuenta(int id)
+        public Usuario informacionCuenta(string idUsuario)
         {
-            const string sqlStatement = "SELECT [RazonSocial], [Telefono], " +
-                "[Direccion]  " +
-                "FROM dbo.SEG_Usuario WHERE [Id]=@Id";
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
+                "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
 
-            var result = new List<Informacion>();
+            var infoUsuario = new Usuario();
+
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                db.AddInParameter(cmd, "@idUsuario", DbType.String, idUsuario);
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     while (dr.Read())
                     {
-                        var category = CargarLista(dr); // Mapper
-                        result.Add(category);
+                        infoUsuario = MapearUsuario(dr); // Mapper
+
                     }
                 }
             }
 
-            return result;
-
+            return infoUsuario;
         }
-
-        //TODO
-        private static Informacion CargarLista(IDataReader dr)
-        {
-            var informacion = new Informacion
-            {
-                RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
-                Direccion = GetDataValue<string>(dr, "Direccion"),
-                Telefono = GetDataValue<string>(dr, "Telefono")
-
-            };
-            return informacion;
-        }
-
     }
 }

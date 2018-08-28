@@ -9,7 +9,7 @@ namespace Entidades
     {
         public int Id { get; set; }
         public string RazonSocial { get; set; }
-        public int CUIL { get; set; }
+        public string CUIL { get; set; }
         public string Email { get; set; }
         public string Direccion { get; set; }
         public Localidad Localidad { get; set; }

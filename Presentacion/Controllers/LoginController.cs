@@ -35,6 +35,7 @@ namespace Presentacion.Controllers
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
+            Session["UsrLogin"] = null;
 
             // Usuario incorrecto, solo devuelvo el error al Login.
             if (ln.ValidarUsuario(usuario.Usr))
@@ -72,17 +73,16 @@ namespace Presentacion.Controllers
 
             //Error en la base de datos.
             if (usrSesion.Nombre == null || usrSesion.Perfil.Descripcion == null)
-
+                //TODO.
             { return RedirectToAction("ErrorGraveBase"); }
 
 
             //Usuario Logueado correctamente, se mapean las variables de Sesión.
 
-            ln.ReiniciarIntentosFallidos(usuario.Usr);
-
             Session["IdUsuario"] = usrSesion.Id.ToString();
-            Session["NombreUsuario"] = usrSesion.Nombre.ToString();
-            Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion.ToString();
+            Session["UsrLogin"] = usrSesion.Usr;
+            Session["NombreUsuario"] = usrSesion.Nombre;
+            Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion;
             Session["EmailUsuario"] = usrSesion.Email;
 
             return RedirectToAction("Index", "Home");
