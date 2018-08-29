@@ -18,13 +18,34 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nombre de aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Implantagraf", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+
+                    @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
+                    {
+                        <li>@Html.ActionLink("Quienes Somos", "Informacion", "Home")</li>
+                        <li>@Html.ActionLink("Contacto", "Contacto", "Home")</li>
+                    }
+
+                    @if ((String)Session["PerfilUsuario"] == "WebMaster")
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seguridad<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Consultar Bitacora", "Index", "Bitacora")</li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Idiomas de Usuario", "Index", "Idioma")</li>
+                                <li>@Html.ActionLink("Perfiles de Usuario", "Index", "PerfilUsr")</li>
+                            </ul>
+                        </li>
+                    }
 
                     @if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
                     {
@@ -37,33 +58,23 @@
                             </ul>
                         </li>
                     }
-                    @if ((String)Session["PerfilUsuario"] == "WebMaster")
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Idiomas de Usuario", "Index", "Idioma")</li>
-                                <li>@Html.ActionLink("Perfiles de Usuario", "Index", "PerfilUsr")</li>
-
-                            </ul>
-                        </li>
-                    }
-                    </ul>
-                    @Html.Partial("_LoginPartial")
-                </div>
+                    
+                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Pablo Mahiques</p>
-            </footer>
-        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; Implantagraf - Pablo Mahiques - @DateTime.Now.Year</p>
+        </footer>
+    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 
-    </body>
+</body>
 </html>

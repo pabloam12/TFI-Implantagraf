@@ -72,7 +72,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, categoria.Id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) categoria = CargarCategoria(dr); // Mapper
+                    if (dr.Read()) categoria = MapearCategoria(dr); // Mapper
                 }
             }
 
@@ -92,7 +92,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var categoria = CargarCategoria(dr); // Mapper
+                        var categoria = MapearCategoria(dr); // Mapper
                         result.Add(categoria);
                     }
                 }
@@ -101,7 +101,7 @@ namespace AccesoDatos
             return result;
         }
 
-        private static Categoria CargarCategoria(IDataReader dr)
+        private static Categoria MapearCategoria(IDataReader dr)
         {
             var categoria = new Categoria
             {

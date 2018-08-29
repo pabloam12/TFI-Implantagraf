@@ -15,10 +15,13 @@ namespace Negocio
         {
             var ad = new CuentaDAC();
             var aud = new Auditoria();
+            var seg = new Privacidad();
+
+            usr.Psw = seg.EncriptarPsw(usr.Psw);
 
             usr = ad.RegistrarCliente(usr, 1321231321);
 
-            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "EXITO", 1212121212);
+            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "INFO", 1212121212);
 
             return (usr);
 

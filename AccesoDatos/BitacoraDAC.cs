@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Data;
+﻿using Entidades;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +10,30 @@ namespace AccesoDatos
 {
     public class BitacoraDAC : DataAccessComponent
     {
+
+        public List<Bitacora> ConsultarBitacora()
+        {
+
+            const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [DVH] FROM dbo.SEG_Bitacora ORDER BY [FechaHora] DESC";
+
+            var result = new List<Bitacora>();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var bitacora = MapearBitacora(dr); // Mapper
+                        result.Add(bitacora);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
         public bool grabarBitacora(DateTime fechaHora, String usuario, String descripcion, String criticidad, long DVH)
         {
             const string sqlStatement = "INSERT INTO dbo.SEG_Bitacora ([FechaHora], [Usuario], [Descripcion], [Criticidad], [DVH]) " +
@@ -31,6 +56,21 @@ namespace AccesoDatos
             }
 
       }
+
+        private static Bitacora MapearBitacora(IDataReader dr)
+        {
+            var bitacora = new Bitacora
+            {
+                Id = GetDataValue<Int64>(dr, "Id"),
+                FechaHora = GetDataValue<DateTime>(dr, "FechaHora"),
+                Usuario = GetDataValue<string>(dr, "Usuario"),
+                Accion = GetDataValue<string>(dr, "Accion"),
+                Criticidad = GetDataValue<string>(dr, "Criticidad"),
+                DVH = GetDataValue<Int64>(dr, "DVH"),
+
+            };
+            return bitacora;
+        }
 
 
     }

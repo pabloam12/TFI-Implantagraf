@@ -9,7 +9,7 @@ namespace Entidades
     public class Usuario
     {
         [Key]
-        [Display(Name ="Id de Usuario")]
+        [Display(Name ="Código")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El {0} es Obligatorio")]

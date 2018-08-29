@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Entidades.Bitacora>
+
+@{
+    ViewBag.Title = "Bitácora del Sistema";
+
+}
+
+@Html.Partial("_Espacio1")
+
+<h2>Bitácora del Sistema</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaHora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Accion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Criticidad)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Accion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Criticidad)
+            </td>
+
+
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_Espacio2")

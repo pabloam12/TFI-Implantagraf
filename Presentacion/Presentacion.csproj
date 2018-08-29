@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BitacoraController.cs" />
     <Compile Include="Controllers\IdiomaController.cs" />
     <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
@@ -194,12 +195,19 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-space.css" />
+    <Content Include="Content\bootstrap-space.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Fondo_AdmWeb.png" />
+    <Content Include="Imagenes\Fondo_Cliente.png" />
+    <Content Include="Imagenes\Fondo_Home.png" />
+    <Content Include="Imagenes\Fondo_Webmaster.png" />
+    <Content Include="Imagenes\Implantagraf - Logo y Marca.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -275,6 +283,7 @@
     <Content Include="Views\Rescate\Index.cshtml" />
     <Content Include="Views\Cuenta\DetalleCuenta.cshtml" />
     <Content Include="Views\Cuenta\ActualizarDatosCuenta.cshtml" />
+    <Content Include="Views\Bitacora\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
