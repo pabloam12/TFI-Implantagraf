@@ -18,7 +18,33 @@ namespace Presentacion.Controllers
             {
                 var ln = new NegocioBitacora();
 
+                               
                 return View(ln.ConsultarBitacora());
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult Index(string fecha, string fechaFin, string usr, string accion, string criticidad)
+        {
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+
+            {
+                var ln = new NegocioBitacora();
+
+                if (fecha == "" && usr=="" && accion=="" && criticidad=="")
+                {
+                    return View(ln.ConsultarBitacora());
+
+                }
+
+                // Si la fecha de fin es posterior a la de inicio no la tiene en cuenta.
+                //if (DateTime.Compare(Convert.ToDateTime(fecha).Date , Convert.ToDateTime(fechaFin).Date) >= 0)
+
+                //{ fechaFin = ""; }
+
+                return View(ln.ConsultarBitacora(fecha, fechaFin, usr, accion, criticidad));
             }
 
             return RedirectToAction("Index", "Home");

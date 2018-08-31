@@ -10,16 +10,91 @@ namespace AccesoDatos
 {
     public class BitacoraDAC : DataAccessComponent
     {
-
         public List<Bitacora> ConsultarBitacora()
         {
 
             const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [DVH] FROM dbo.SEG_Bitacora ORDER BY [FechaHora] DESC";
 
+
+
             var result = new List<Bitacora>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var bitacora = MapearBitacora(dr); // Mapper
+                        result.Add(bitacora);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<Bitacora> ConsultarBitacora(string fecha, string fechaFin, string usr, string accion, string criticidad)
+        {
+
+            var sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [DVH] FROM dbo.SEG_Bitacora ";
+
+            var whereStatement = "";
+
+            if (fecha != "")
+            {
+                whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fecha)  ";
+
+                if (fechaFin != "")
+                {
+                    whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fechaFin)  ";
+
+                }
+            }
+
+            if (usr != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Usuario] like @usr "; }
+
+                else { whereStatement = whereStatement + "AND [Usuario] like @usr "; }
+
+            }
+
+            if (accion != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Accion] = @accion "; }
+
+                else { whereStatement = whereStatement + "AND [Accion] = @accion "; }
+
+            }
+
+            if (criticidad != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Criticidad] = @criticidad "; }
+
+                else { whereStatement = whereStatement + "AND [Criticidad] = @criticidad "; }
+
+            }
+
+            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaHora] DESC;";
+
+            
+            var result = new List<Bitacora>();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@fecha", DbType.String, fecha);
+                db.AddInParameter(cmd, "@fechaFin", DbType.String, fechaFin);
+                db.AddInParameter(cmd, "@usr", DbType.String, usr);
+                db.AddInParameter(cmd, "@accion", DbType.String, accion);
+                db.AddInParameter(cmd, "@criticidad", DbType.String, criticidad);
+
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     while (dr.Read())
@@ -52,10 +127,10 @@ namespace AccesoDatos
 
                 // Ejecuto la consulta y devuelve si inserto o no.
                 return (Convert.ToBoolean(db.ExecuteScalar(cmd)));
-                
+
             }
 
-      }
+        }
 
         private static Bitacora MapearBitacora(IDataReader dr)
         {
@@ -74,5 +149,5 @@ namespace AccesoDatos
 
 
     }
-    
+
 }
