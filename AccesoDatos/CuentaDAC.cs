@@ -192,7 +192,7 @@ namespace AccesoDatos
 
                 "VALUES(@RazonSocial, @Nombre, @Apellido, @Usr, @Psw, @CUIL, " +
                 "@Estado, @Intentos, @Email, @Telefono, " +
-                "@Direccion, @LocalidadId, @FechaNacimiento, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
+                "@Direccion, @LocalidadId, @FechaAlta, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -214,7 +214,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Telefono", DbType.String, usr.Telefono);
                 db.AddInParameter(cmd, "@Direccion", DbType.String, usr.Direccion);
                 db.AddInParameter(cmd, "@LocalidadId", DbType.Int32, usr.Localidad.Id);
-                db.AddInParameter(cmd, "@FechaNacimiento", DbType.Date, usr.FechaNacimiento);
+                //db.AddInParameter(cmd, "@FechaNacimiento", DbType.Date, usr.FechaNacimiento);
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
                 db.AddInParameter(cmd, "@PerfilId", DbType.Int32, 4);
                 db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, usr.Idioma.Id);

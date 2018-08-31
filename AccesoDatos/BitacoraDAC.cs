@@ -56,9 +56,9 @@ namespace AccesoDatos
             {
                 if (whereStatement == "")
 
-                { whereStatement = "Where [Usuario] like @usr "; }
+                { whereStatement = "Where [Usuario] like '%" + usr + "%' "; }
 
-                else { whereStatement = whereStatement + "AND [Usuario] like @usr "; }
+                else { whereStatement = whereStatement + "AND [Usuario] like '%" + usr + "%' "; }
 
             }
 
@@ -66,9 +66,9 @@ namespace AccesoDatos
             {
                 if (whereStatement == "")
 
-                { whereStatement = "Where [Accion] = @accion "; }
+                { whereStatement = "Where [Accion] like '%" + accion + "%' "; }
 
-                else { whereStatement = whereStatement + "AND [Accion] = @accion "; }
+                else { whereStatement = whereStatement + "AND [Accion] like '%" + accion + "%' "; }
 
             }
 
@@ -76,9 +76,9 @@ namespace AccesoDatos
             {
                 if (whereStatement == "")
 
-                { whereStatement = "Where [Criticidad] = @criticidad "; }
+                { whereStatement = "Where [Criticidad] like '%" + criticidad + "%' "; }
 
-                else { whereStatement = whereStatement + "AND [Criticidad] = @criticidad "; }
+                else { whereStatement = whereStatement + "AND [Criticidad] like '%" + criticidad + "%' "; }
 
             }
 
@@ -91,10 +91,7 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@fecha", DbType.String, fecha);
                 db.AddInParameter(cmd, "@fechaFin", DbType.String, fechaFin);
-                db.AddInParameter(cmd, "@usr", DbType.String, usr);
-                db.AddInParameter(cmd, "@accion", DbType.String, accion);
-                db.AddInParameter(cmd, "@criticidad", DbType.String, criticidad);
-
+               
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     while (dr.Read())

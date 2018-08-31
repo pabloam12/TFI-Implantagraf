@@ -14,11 +14,13 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
+            Session["ErrorLogin"] = null;
             return RedirectToAction("Login");
         }
 
         public ActionResult Login()
         {
+            
             return View();
         }
 
@@ -41,7 +43,7 @@ namespace Presentacion.Controllers
             if (ln.ValidarUsuario(usuario.Usr))
             {
                 Session["ErrorLogin"] = "Usuario o contraseña inválidos";
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
 
             // Valido que la cuenta no este bloqueada.
@@ -66,7 +68,7 @@ namespace Presentacion.Controllers
                     return RedirectToAction("CuentaBloqueada");
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
 
             usrSesion = ln.Autenticar(usuario);
@@ -92,7 +94,7 @@ namespace Presentacion.Controllers
         {
             //TODO.
             Session["ErrorLogin"] = "Cuenta bloqueada.";
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
     }
 }

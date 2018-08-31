@@ -12,59 +12,62 @@
 
     <div class="form-horizontal">
         <hr />
-        <div class="col-md-8">
-
-            <h4>YA TENGO UNA CUENTA</h4>
+        <div class="col-md-9">
+            <h4>TENGO UNA CUENTA</h4>
             <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-6">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Usr, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Usr, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Usr, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Usr, htmlAttributes: new { @class = "control-label col-md-2" })
+                    
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Usr, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Usr, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Psw, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Psw, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Psw, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    <div class="align-self-center col-md-10">
+                        <input type="submit" value="Iniciar Sesión" class="btn btn-success" />
+                        @Html.ActionLink("¿Olvidó cuál es su Contraseña?", "OlvidoPsw", "Cuenta")
+                    </div>
+                </div>*@
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Psw, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Psw, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Psw, "", new { @class = "text-danger" })
-                </div>
+            <div class="col-md-4">
 
                 @if (Session["ErrorLogin"] != null)
                 {
-                    <div class="alert-danger">
-
-                        @Html.ActionLink("Error: " + Session["ErrorLogin"] + "!", "Index", "Cuenta")
-
-                    </div>
+                    <div class="alert alert-danger" role="alert">@Session["ErrorLogin"]!</div>
                 }
             </div>
-
         </div>
 
-        <div class="col-md-4">
+
+
+        <div class="col-md-3">
             <h4>SOY USUARIO NUEVO</h4>
             <hr />
-
-            @*Bienvenido a Implantagraf.*@ 
-            @*@Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
-
-           
-                
-                
-            <p><a href="~/Registro/Registrar" class="btn btn-info" role="button">Registrarme</a></p>
-        
+            
+            <p><a href="~/Registro/Registrarse" class="btn btn-lg btn-success" role="button">Registrarse</a></p>
 
         </div>
 
 
         <div class="form-group">
-            <div class="col-md-offset-3 col-md-10">
-                <input type="submit" value="Iniciar Sesión" class="btn btn-default" />
-                @Html.ActionLink("¿Olvidó su Contraseña?", "ForgotPassword")
+            <div class="col-md-10 col-md-offset-1">
+                <input type="submit" value="Iniciar Sesión" class="btn btn-success btn-sm" />
+                @Html.ActionLink("¿Olvidó su Contraseña?", "OlvidoPsw", "Cuenta")
             </div>
         </div>
 

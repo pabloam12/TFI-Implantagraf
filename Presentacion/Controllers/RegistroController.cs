@@ -13,16 +13,16 @@ namespace Presentacion.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            return RedirectToAction("Registrar");
+            return RedirectToAction("Registrarse");
         }
 
-        public ActionResult Registrar()
+        public ActionResult Registrarse()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Registrar(Usuario usuario)
+        public ActionResult Registrarse(Usuario usuario)
         {
             var ln = new NegocioCuenta();
 
