@@ -33,11 +33,11 @@ namespace Negocio
 
         }
 
-        public void ListarPorId(int id)
+        public Localidad ListarPorId(int id)
         {
             var ad = new LocalidadDAC();
 
-            ad.ListarPorId(id);
+            return ad.ListarPorId(id);
 
         }
 

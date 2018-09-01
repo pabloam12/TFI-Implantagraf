@@ -20,6 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Descripcion)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Abreviacion)
+        </th>
         <th></th>
     </tr>
 
@@ -27,6 +30,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Abreviacion)
         </td>
         <td>
             @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |

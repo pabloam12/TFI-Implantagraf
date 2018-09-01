@@ -14,13 +14,14 @@ namespace AccesoDatos
     {
         public Idioma Agregar(Idioma idioma)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion]) " +
-                "VALUES(@Descripcion); SELECT SCOPE_IDENTITY();";
+            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion], {Abreviacion]) " +
+                "VALUES(@Descripcion, @Abreviacion); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, idioma.Descripcion);
+                db.AddInParameter(cmd, "@Abreviacion", DbType.String, idioma.Abreviacion);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 idioma.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
@@ -33,13 +34,14 @@ namespace AccesoDatos
         public void ActualizarPorId(Idioma idioma)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Idioma " +
-                "SET [Descripcion]=@Descripcion " +
+                "SET [Descripcion]=@Descripcion, [Abreviacion]=@Abreviacion " +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, idioma.Descripcion);
+                db.AddInParameter(cmd, "@Abreviacion", DbType.String, idioma.Abreviacion);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, idioma.Id);
 
                 db.ExecuteNonQuery(cmd);
@@ -61,7 +63,7 @@ namespace AccesoDatos
 
         public Idioma ListarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Descripcion] " +
+            const string sqlStatement = "SELECT [Id], [Descripcion], [Abreviacion] " +
                 "FROM dbo.SEG_Idioma WHERE [ID]=@Id ";
 
             Idioma idioma = null;
@@ -82,7 +84,7 @@ namespace AccesoDatos
         public List<Idioma> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.SEG_Idioma ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion] FROM dbo.SEG_Idioma ORDER BY [Descripcion]";
 
             var result = new List<Idioma>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -92,8 +94,8 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var category = CargarIdioma(dr); // Mapper
-                        result.Add(category);
+                        var idioma = CargarIdioma(dr); // Mapper
+                        result.Add(idioma);
                     }
                 }
             }
@@ -107,7 +109,8 @@ namespace AccesoDatos
             var idioma = new Idioma
             {
                 Id = GetDataValue<int>(dr, "ID"),
-                Descripcion = GetDataValue<string>(dr, "Descripcion")
+                Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                Abreviacion = GetDataValue<string>(dr, "Abreviacion")
 
             };
             return idioma;

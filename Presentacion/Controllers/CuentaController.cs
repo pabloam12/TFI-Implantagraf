@@ -30,7 +30,7 @@ namespace Presentacion.Controllers
 
                 var idUsuario = (String)Session["IdUsuario"];
 
-                return View(ln.informacionCuenta(idUsuario));
+                return View(ln.InformacionCuenta(idUsuario));
             }
 
             return RedirectToAction("Index", "Home");

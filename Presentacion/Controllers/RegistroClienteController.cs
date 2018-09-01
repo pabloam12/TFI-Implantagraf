@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Presentacion.Controllers
 {
-    public class RegistroController : Controller
+    public class RegistroClienteController : Controller
     {
         // GET: Login
         public ActionResult Index()
@@ -28,11 +28,11 @@ namespace Presentacion.Controllers
 
             var usrSesion = ln.RegistrarCliente(usuario);
 
-            if (usrSesion.Nombre != null && usrSesion.Perfil.Descripcion != null)
+            if (usrSesion.Nombre != null && usrSesion.PerfilUsr.Descripcion != null)
             {
                 Session["IdUsuario"] = usrSesion.Id.ToString();
                 Session["NombreUsuario"] = usrSesion.Nombre.ToString();
-                Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion.ToString();
+                Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion.ToString();
 
                 return View(); // LoggedIn
             }

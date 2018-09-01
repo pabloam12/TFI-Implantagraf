@@ -74,7 +74,7 @@ namespace Presentacion.Controllers
             usrSesion = ln.Autenticar(usuario);
 
             //Error en la base de datos.
-            if (usrSesion.Nombre == null || usrSesion.Perfil.Descripcion == null)
+            if (usrSesion.Nombre == null || usrSesion.PerfilUsr.Descripcion == null)
                 //TODO.
             { return RedirectToAction("ErrorGraveBase"); }
 
@@ -84,7 +84,7 @@ namespace Presentacion.Controllers
             Session["IdUsuario"] = usrSesion.Id.ToString();
             Session["UsrLogin"] = usrSesion.Usr;
             Session["NombreUsuario"] = usrSesion.Nombre;
-            Session["PerfilUsuario"] = usrSesion.Perfil.Descripcion;
+            Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
             Session["EmailUsuario"] = usrSesion.Email;
 
             return RedirectToAction("Index", "Home");

@@ -11,6 +11,16 @@ namespace Negocio
 {
     public class NegocioCuenta
     {
+
+        public List<Usuario> ListarUsuariosPorPerfil(int perfil)
+        {
+
+            var ad = new CuentaDAC();
+
+            return ad.ListarUsuariosPorPerfil(perfil);
+
+
+        }
         public Usuario RegistrarCliente(Usuario usr)
         {
             var ad = new CuentaDAC();
@@ -27,24 +37,40 @@ namespace Negocio
 
         }
 
+        public void RegistrarUsuario(Usuario usr, int perfil, int idioma, int localidad)
+        {
+            var ad = new CuentaDAC();
+            var aud = new Auditoria();
+            var seg = new Privacidad();
+
+            var DVH = 121312321;
+
+            usr.Psw = seg.EncriptarPsw(usr.Psw);
+
+            ad.RegistrarUsuario(usr, perfil, idioma, localidad, DVH);
+
+            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA USUARIO", "INFO", DVH);
+
+        }
+
         public Usuario Autenticar(Usuario usr)
         {
             var ad = new CuentaDAC();
 
             return ad.Autenticar(usr);
-            
+
         }
 
-        public Usuario informacionCuenta(string idUsuario)
+        public Usuario InformacionCuenta(string idUsuario)
         {
             var ad = new CuentaDAC();
 
-            return ad.informacionCuenta(idUsuario);
+            return ad.InformacionCuenta(idUsuario);
 
         }
 
 
-        public bool ValidarUsuario (string nombreUsuario)
+        public bool ValidarUsuario(string nombreUsuario)
         {
             var ad = new CuentaDAC();
 

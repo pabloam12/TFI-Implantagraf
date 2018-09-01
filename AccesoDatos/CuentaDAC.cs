@@ -11,6 +11,33 @@ namespace AccesoDatos
     public class CuentaDAC : DataAccessComponent
     {
 
+        public List<Usuario> ListarUsuariosPorPerfil(int perfil)
+        {
+
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
+               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
+               "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId AND [Estado] <> 'E' ;";
+
+            var result = new List<Usuario>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@PerfilId", DbType.Int32, perfil);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var usuario = MapearUsuario(dr); // Mapper
+                        result.Add(usuario);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public bool ValidarUsuario(String nombreUsuario)
         {
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr";
@@ -71,7 +98,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Direccion", DbType.String, usuarioModif.Direccion);
                 db.AddInParameter(cmd, "@Localidad", DbType.String, usuarioModif.Localidad.Id);
                 db.AddInParameter(cmd, "@Telefono", DbType.String, usuarioModif.Telefono);
-                db.AddInParameter(cmd, "@IdiomaId", DbType.String, usuarioModif.Idioma.Id);
+                db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, usuarioModif.Idioma.Id);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -117,7 +144,7 @@ namespace AccesoDatos
         public int SumarIntentoFallido(String nombreUsuario)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
-                "SET[Intentos] += 1 WHERE [Usr] = @Usr";
+                "SET[Intentos] += 1 WHERE [Usr] = @Usr AND [PerfilId] <> 1";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -216,7 +243,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@LocalidadId", DbType.Int32, usr.Localidad.Id);
                 //db.AddInParameter(cmd, "@FechaNacimiento", DbType.Date, usr.FechaNacimiento);
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
-                db.AddInParameter(cmd, "@PerfilId", DbType.Int32, 4);
+                db.AddInParameter(cmd, "@PerfilId", DbType.Int32, 3);
                 db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, usr.Idioma.Id);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
@@ -227,12 +254,56 @@ namespace AccesoDatos
                 usr.Apellido = usr.RazonSocial;
                 usr.Usr = usr.Email;
 
-                usr.Perfil = perfilUsrDAC.ListarPorId(4); // Mapper
+                usr.PerfilUsr = perfilUsrDAC.ListarPorId(4); // Mapper
                 usr.Idioma = idiomaDAC.ListarPorId(usr.Idioma.Id); // Mapper
                 usr.Localidad = localidadDAC.ListarPorId(usr.Localidad.Id); // Mapper
             }
 
             return usr;
+
+        }
+
+        public void RegistrarUsuario(Usuario usr, int perfil, int idioma, int localidad, Int64 DVH)
+        {
+            const string sqlStatement = "INSERT INTO dbo.SEG_Usuario ([RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], " +
+                "[Estado], [Intentos], [Email], [Telefono], " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]) " +
+
+                "VALUES(@RazonSocial, @Nombre, @Apellido, @Usr, @Psw, @CUIL, " +
+                "@Estado, @Intentos, @Email, @Telefono, " +
+                "@Direccion, @LocalidadId, @FechaNacimiento, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            var perfilUsrDAC = new PerfilUsrDAC();
+            var idiomaDAC = new IdiomaDAC();
+            var localidadDAC = new LocalidadDAC();
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@RazonSocial", DbType.String, usr.Nombre+usr.Apellido);
+                db.AddInParameter(cmd, "@Nombre", DbType.String, usr.Nombre);
+                db.AddInParameter(cmd, "@Apellido", DbType.String, usr.Apellido);
+                db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usr);
+                db.AddInParameter(cmd, "@Psw", DbType.String, usr.Psw);
+                db.AddInParameter(cmd, "@CUIL", DbType.String, usr.CUIL);
+                db.AddInParameter(cmd, "@Estado", DbType.String, 'S');
+                db.AddInParameter(cmd, "@Intentos", DbType.Int32, 0);
+                db.AddInParameter(cmd, "@Email", DbType.String, usr.Email);
+                db.AddInParameter(cmd, "@Telefono", DbType.String, usr.Telefono);
+                db.AddInParameter(cmd, "@Direccion", DbType.String, usr.Direccion);
+                db.AddInParameter(cmd, "@LocalidadId", DbType.Int32, localidad);
+                db.AddInParameter(cmd, "@FechaNacimiento", DbType.Date, usr.FechaNacimiento);
+                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
+                db.AddInParameter(cmd, "@PerfilId", DbType.Int32, perfil);
+                db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, idioma);
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+
+                // Ejecuto la consulta y guardo el id que devuelve.
+                usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+
+            }
+
 
         }
 
@@ -258,14 +329,14 @@ namespace AccesoDatos
                 Localidad = localidadDAC.ListarPorId(GetDataValue<int>(dr, "LocalidadId")), //Mapper
                 FechaNacimiento = GetDataValue<DateTime>(dr, "FechaNacimiento"),
                 FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta"),
-                Perfil = perfilUsrDAC.ListarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
+                PerfilUsr = perfilUsrDAC.ListarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
                 Idioma = idiomaDAC.ListarPorId(GetDataValue<int>(dr, "IdiomaId")) //Mapper
             };
 
             return usuario;
         }
 
-        public Usuario informacionCuenta(string idUsuario)
+        public Usuario InformacionCuenta(string idUsuario)
         {
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +

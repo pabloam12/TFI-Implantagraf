@@ -178,7 +178,8 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
-    <Compile Include="Controllers\RegistroController.cs" />
+    <Compile Include="Controllers\RegistroUsuarioWebMasterController.cs" />
+    <Compile Include="Controllers\RegistroClienteController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\LocalidadController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -273,7 +274,7 @@
     <Content Include="Views\Categoria\Editar.cshtml" />
     <Content Include="Views\Categoria\Index.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Registro\Registrarse.cshtml" />
+    <Content Include="Views\RegistroCliente\Registrarse.cshtml" />
     <Content Include="Views\Idioma\Borrar.cshtml" />
     <Content Include="Views\Idioma\Crear.cshtml" />
     <Content Include="Views\Idioma\Editar.cshtml" />
@@ -282,11 +283,13 @@
     <Content Include="Views\PerfilUsr\Crear.cshtml" />
     <Content Include="Views\PerfilUsr\Editar.cshtml" />
     <Content Include="Views\PerfilUsr\Index.cshtml" />
-    <Content Include="Views\Rescate\Index.cshtml" />
+    <Content Include="Views\RegistroUsuarioWebMaster\Index.cshtml" />
     <Content Include="Views\Cuenta\DetalleCuenta.cshtml" />
     <Content Include="Views\Cuenta\ActualizarDatosCuenta.cshtml" />
     <Content Include="Views\Bitacora\Index.cshtml" />
     <Content Include="Views\Cuenta\OlvidoPsw.cshtml" />
+    <Content Include="Views\RegistroUsuarioWebMaster\RegistrarUsuarioWebMaster.cshtml" />
+    <Content Include="Views\Rescate\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

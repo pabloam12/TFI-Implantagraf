@@ -33,11 +33,11 @@ namespace Negocio
 
         }
 
-        public void ListarPorId(int id)
+        public Idioma ListarPorId(int id)
         {
             var ad = new IdiomaDAC();
 
-            ad.ListarPorId(id);
+            return(ad.ListarPorId(id));
 
         }
 

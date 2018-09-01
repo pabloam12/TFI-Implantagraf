@@ -106,9 +106,9 @@ namespace AccesoDatos
         }
 
 
-        public bool grabarBitacora(DateTime fechaHora, String usuario, String descripcion, String criticidad, long DVH)
+        public bool grabarBitacora(DateTime fechaHora, String usuario, String accion, String criticidad, long DVH)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_Bitacora ([FechaHora], [Usuario], [Descripcion], [Criticidad], [DVH]) " +
+            const string sqlStatement = "INSERT INTO dbo.SEG_Bitacora ([FechaHora], [Usuario], [Accion], [Criticidad], [DVH]) " +
 
                 "VALUES(@FechaHora, @Usuario, @Descripcion, @Criticidad, @DVH ); SELECT SCOPE_IDENTITY(); ";
 
@@ -118,7 +118,7 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@FechaHora", DbType.DateTime, fechaHora);
                 db.AddInParameter(cmd, "@Usuario", DbType.String, usuario);
-                db.AddInParameter(cmd, "@Descripcion", DbType.String, descripcion);
+                db.AddInParameter(cmd, "@Descripcion", DbType.String, accion);
                 db.AddInParameter(cmd, "@Criticidad", DbType.String, criticidad);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 

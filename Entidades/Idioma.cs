@@ -9,5 +9,7 @@ namespace Entidades
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
+
+        public string Abreviacion { get; set; }
     }
 }

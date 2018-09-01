@@ -55,7 +55,7 @@ namespace Entidades
         [DataType(DataType.Date)]
         public System.DateTime FechaAlta { get; set; }
 
-        public PerfilUsr Perfil { get; set; }
+        public PerfilUsr PerfilUsr { get; set; }
         public Idioma Idioma { get; set; }
     }
 }
