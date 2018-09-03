@@ -26,9 +26,18 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
+            Session["ErrorRegistro"] = null;
+
+            // Usuario existente, solo devuelvo el error.
+            if (ln.ValidarUsuario(usuario.Email) == false)
+            {
+                Session["ErrorRegistro"] = "Usuario ya existente.";
+                return RedirectToAction("Registrarse");
+            }
+
             var usrSesion = ln.RegistrarCliente(usuario);
 
-            if (usrSesion.Nombre != null && usrSesion.PerfilUsr.Descripcion != null)
+            if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {
                 Session["IdUsuario"] = usrSesion.Id.ToString();
                 Session["NombreUsuario"] = usrSesion.Nombre.ToString();

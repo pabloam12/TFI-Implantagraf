@@ -56,7 +56,7 @@ namespace Presentacion.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult OlvidoPsw()
+        public ActionResult RecuperarPsw()
         {
             return View();
         }

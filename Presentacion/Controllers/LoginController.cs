@@ -14,6 +14,7 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
+            Session["Excepcion"] = "Error de Prueba";
             Session["ErrorLogin"] = null;
             return RedirectToAction("Login");
         }

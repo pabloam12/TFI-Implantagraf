@@ -25,13 +25,18 @@ namespace Negocio
         {
             var ad = new CuentaDAC();
             var aud = new Auditoria();
-            var seg = new Privacidad();
+            var priv = new Privacidad();
+            var inte = new IntegridadDatos();
 
-            usr.Psw = seg.EncriptarPsw(usr.Psw);
+            usr.Psw = priv.EncriptarPsw(usr.Psw);
 
-            usr = ad.RegistrarCliente(usr, 1321231321);
+            var ClienteDVH = inte.CalcularDVH(usr.RazonSocial+usr.Psw+usr.CUIL+usr.CUIL); 
 
-            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "INFO", 1212121212);
+            usr = ad.RegistrarCliente(usr, ClienteDVH);
+
+            var BitacoraDVH = inte.CalcularDVH(usr.Usr + "ALTA CLIENTE" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "INFO", BitacoraDVH);
 
             return (usr);
 
@@ -39,17 +44,20 @@ namespace Negocio
 
         public void RegistrarUsuario(Usuario usr, int perfil, int idioma, int localidad)
         {
-            var ad = new CuentaDAC();
-            var aud = new Auditoria();
-            var seg = new Privacidad();
+                            var ad = new CuentaDAC();
+                var aud = new Auditoria();
+                var seg = new Privacidad();
 
-            var DVH = 121312321;
+                var priv = new Privacidad();
+                var inte = new IntegridadDatos();
+                usr.Psw = priv.EncriptarPsw(usr.Psw);
 
-            usr.Psw = seg.EncriptarPsw(usr.Psw);
+                var UsuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.Psw + usr.CUIL + usr.CUIL);
+                ad.RegistrarUsuario(usr, perfil, idioma, localidad, UsuarioDVH);
+                var BitacoraDVH = inte.CalcularDVH(usr.Usr + "ALTA CLIENTE" + "INFO");
 
-            ad.RegistrarUsuario(usr, perfil, idioma, localidad, DVH);
-
-            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA USUARIO", "INFO", DVH);
+                aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "INFO", BitacoraDVH);
+                       
 
         }
 
@@ -91,6 +99,7 @@ namespace Negocio
             var ad = new CuentaDAC();
 
             ad.ActualizarDatosCuenta(usuarioModif);
+            
         }
 
         public bool ValidarUsuarioPsw(string nombreUsuario, string pswUsuario)

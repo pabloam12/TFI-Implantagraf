@@ -171,6 +171,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BitacoraController.cs" />
+    <Compile Include="Controllers\ExcepcionesController.cs" />
     <Compile Include="Controllers\IdiomaController.cs" />
     <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
@@ -211,6 +212,7 @@
     <Content Include="Imagenes\Implantagraf - Logo y Marca.png" />
     <Content Include="Imagenes\Implantagraf - SoloLogo.png" />
     <Content Include="Imagenes\robot_trabajando.jpg" />
+    <Content Include="Imagenes\sad_robot.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -287,9 +289,10 @@
     <Content Include="Views\Cuenta\DetalleCuenta.cshtml" />
     <Content Include="Views\Cuenta\ActualizarDatosCuenta.cshtml" />
     <Content Include="Views\Bitacora\Index.cshtml" />
-    <Content Include="Views\Cuenta\OlvidoPsw.cshtml" />
+    <Content Include="Views\Cuenta\RecuperarPsw.cshtml" />
     <Content Include="Views\RegistroUsuarioWebMaster\RegistrarUsuarioWebMaster.cshtml" />
     <Content Include="Views\Rescate\Index.cshtml" />
+    <Content Include="Views\Excepciones\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -315,6 +318,9 @@
       <Project>{F3C361F0-A3A3-47BD-B95A-2EADB31A8700}</Project>
       <Name>Seguridad</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

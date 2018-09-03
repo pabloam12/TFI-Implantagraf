@@ -33,7 +33,8 @@
 
                     @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
                     {
-                        <li>@Html.ActionLink("Quienes Somos", "Informacion", "Home")</li>
+                        @*<li>@Html.ActionLink("Quienes Somos", "Informacion", "Home")</li>*@
+                        <li>@Html.ActionLink("Quienes Somos", "Index", "Excepciones")</li>
                         <li>@Html.ActionLink("Contacto", "Contacto", "Home")</li>
                     }
 

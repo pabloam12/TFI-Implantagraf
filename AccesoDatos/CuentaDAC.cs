@@ -244,7 +244,7 @@ namespace AccesoDatos
                 //db.AddInParameter(cmd, "@FechaNacimiento", DbType.Date, usr.FechaNacimiento);
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
                 db.AddInParameter(cmd, "@PerfilId", DbType.Int32, 3);
-                db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, usr.Idioma.Id);
+                db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, 1);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
@@ -254,8 +254,8 @@ namespace AccesoDatos
                 usr.Apellido = usr.RazonSocial;
                 usr.Usr = usr.Email;
 
-                usr.PerfilUsr = perfilUsrDAC.ListarPorId(4); // Mapper
-                usr.Idioma = idiomaDAC.ListarPorId(usr.Idioma.Id); // Mapper
+                usr.PerfilUsr = perfilUsrDAC.ListarPorId(3); // Mapper
+                usr.Idioma = idiomaDAC.ListarPorId(1); // Mapper
                 usr.Localidad = localidadDAC.ListarPorId(usr.Localidad.Id); // Mapper
             }
 

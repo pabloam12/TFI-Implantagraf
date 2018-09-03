@@ -1,13 +1,23 @@
 ﻿@model Entidades.Usuario
 
+@{
+    ViewBag.Title = "Actualizar Datos de Cuenta";
+
+}
+
+@Html.Partial("_Espacio1")
+
+<h2>ACTUALIZAR DATOS DE CUENTA</h2>
+<hr />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Usuario</h4>
-        <hr />
+        @*<h4>Usuario</h4>*@
+       
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
@@ -85,7 +95,8 @@
     </div>
 }
 
-<div>
+@Html.Partial("_Espacio2")
+@*<div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@
 

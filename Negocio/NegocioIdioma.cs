@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AccesoDatos;
+using Seguridad;
 
 namespace Negocio
 {
@@ -13,7 +14,16 @@ namespace Negocio
         {
             var ad = new IdiomaDAC();
 
-            return (ad.Agregar(idioma));
+            var nuevoIdioma = ad.Agregar(idioma);
+
+            var inte = new IntegridadDatos();
+            var aud = new Auditoria();
+
+            var DVHBitacora = inte.CalcularDVH(idioma.Descripcion + "ALTA IDIOMA" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, idioma.Descripcion, "ALTA IDIOMA", "INFO", DVHBitacora);
+
+            return (nuevoIdioma);
 
         }
 
@@ -23,6 +33,16 @@ namespace Negocio
 
             ad.ActualizarPorId(idioma);
 
+            if (idioma.Descripcion != null)
+            {
+                var inte = new IntegridadDatos();
+                var aud = new Auditoria();
+
+                var DVHBitacora = inte.CalcularDVH(idioma.Descripcion + "MODIFICACION CATEGORIA" + "INFO");
+
+                aud.grabarBitacora(DateTime.Now, idioma.Id + "-" + idioma.Descripcion, "MODIFICACION CATEGORIA", "INFO", DVHBitacora);
+            }
+
         }
 
         public void BorrarPorId(int id)
@@ -31,13 +51,21 @@ namespace Negocio
 
             ad.BorrarPorId(id);
 
+            var inte = new IntegridadDatos();
+
+            var aud = new Auditoria();
+
+            var DVHBitacora = inte.CalcularDVH(id.ToString() + "ELIMINO IDIOMA" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, id.ToString(), "ELIMINO IDIOMA", "INFO", DVHBitacora);
+
         }
 
         public Idioma ListarPorId(int id)
         {
             var ad = new IdiomaDAC();
 
-            return(ad.ListarPorId(id));
+            return (ad.ListarPorId(id));
 
         }
 

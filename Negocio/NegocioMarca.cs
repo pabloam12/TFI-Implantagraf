@@ -1,5 +1,6 @@
 ﻿using AccesoDatos;
 using Entidades;
+using Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,16 @@ namespace Negocio
         {
             var ad = new MarcaDAC();
 
-            return (ad.Agregar(marca));
+            var nuevaMarca = ad.Agregar(marca);
+
+            var inte = new IntegridadDatos();
+            var aud = new Auditoria();
+
+            var DVHBitacora = inte.CalcularDVH(marca.Descripcion + "ALTA MARCA" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, marca.Descripcion, "ALTA MARCA", "INFO", DVHBitacora);
+
+            return (nuevaMarca);
 
         }
 

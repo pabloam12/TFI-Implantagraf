@@ -1,108 +1,119 @@
 ﻿@model Entidades.Usuario
 
-    <div>
-        <h4>Usuario</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.RazonSocial)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.RazonSocial)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Nombre)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Apellido)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.CUIL)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.CUIL)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Usr) | @Html.ActionLink("Actualizar Datos de Cuenta", "ActualizarDatosCuenta", new { id = Model.Email })
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Usr)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Psw)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Psw)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PswConfirmacion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PswConfirmacion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Telefono)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Direccion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaNacimiento)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.FechaNacimiento)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaAlta)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.FechaAlta)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Actualizar Datos de Cuenta", "ActualizarDatosCuenta", new { id = Model.Id }) | 
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+@{
+    ViewBag.Title = "Actualizar Datos de Cuenta";
+
+}
+
+@Html.Partial("_Espacio1")
+
+<h2>DATOS DE LA CUENTA</h2>
+<br />
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RazonSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RazonSocial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CUIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CUIL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Psw)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Psw)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PswConfirmacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PswConfirmacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaNacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaNacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaAlta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaAlta)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Actualizar Datos de Cuenta", "ActualizarDatosCuenta", new { id = Model.Id }) |
+</p>
+
+@Html.Partial("_Espacio2")

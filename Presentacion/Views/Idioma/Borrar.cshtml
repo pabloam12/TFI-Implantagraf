@@ -1,16 +1,17 @@
 ﻿@model Entidades.Idioma
 
 @{
-    ViewBag.Title = "Borrar";
+    ViewBag.Title = "Borrar un Indioma";
 
 }
 
 @Html.Partial("_Espacio1")
-<h2>Borrar Idioma</h2>
 
+<h2>BORRAR UN IDIOMA</h2>
+<br />
+<hr />
 <div>
-    <h3>Idioma</h3>
-    <hr />
+ 
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Descripcion)
@@ -34,7 +35,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Borrar" class="btn btn-default" /> |
-            @Html.ActionLink("Volver", "Index")
+            @*@Html.ActionLink("Volver", "Index")*@
         </div>
     }
 </div>
