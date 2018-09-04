@@ -45,7 +45,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioMarca();
-                    ln.Agregar(marca);
+                    ln.Agregar(marca, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -67,7 +67,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioMarca();
-                    ln.ActualizarPorId(marca);
+                    ln.ActualizarPorId(marca, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -87,7 +87,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioMarca();
-                    ln.BorrarPorId(id);
+                    ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }

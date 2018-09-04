@@ -31,6 +31,7 @@ namespace Presentacion.Controllers
             {
                 return View();
             }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -40,7 +41,7 @@ namespace Presentacion.Controllers
             if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
                 var ln = new NegocioCategoria();
-                ln.Agregar(categoria);
+                ln.Agregar(categoria, (String)Session["UsrLogin"]);
 
                 return RedirectToAction("Index");
             }
@@ -57,7 +58,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioCategoria();
-                    ln.ActualizarPorId(categoria);
+                    ln.ActualizarPorId(categoria,(String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -73,7 +74,7 @@ namespace Presentacion.Controllers
             if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
             {
                 var ln = new NegocioCategoria();
-                ln.BorrarPorId(id);
+                ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);
 
                 return RedirectToAction("Index");
             }

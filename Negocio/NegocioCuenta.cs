@@ -30,34 +30,36 @@ namespace Negocio
 
             usr.Psw = priv.EncriptarPsw(usr.Psw);
 
-            var ClienteDVH = inte.CalcularDVH(usr.RazonSocial+usr.Psw+usr.CUIL+usr.CUIL); 
+            var ClienteDVH = inte.CalcularDVH(usr.RazonSocial + usr.Psw + usr.CUIL + usr.CUIL);
 
             usr = ad.RegistrarCliente(usr, ClienteDVH);
 
-            var BitacoraDVH = inte.CalcularDVH(usr.Usr + "ALTA CLIENTE" + "INFO");
+            var BitacoraDVH = inte.CalcularDVH(usr.Usr + "ALTA USUARIO" + "INFO");
 
-            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "INFO", BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA USUARIO", "INFO", "Se registró al usuario: " + usr.Id + " - '" + usr.Usr + "' con el perfil de 'Cliente'", BitacoraDVH);
 
             return (usr);
 
         }
 
-        public void RegistrarUsuario(Usuario usr, int perfil, int idioma, int localidad)
+        public void RegistrarUsuario(Usuario usr, int perfil, int idioma, int localidad, String usuarioSistema)
         {
-                            var ad = new CuentaDAC();
-                var aud = new Auditoria();
-                var seg = new Privacidad();
+            var ad = new CuentaDAC();
+            var aud = new Auditoria();
+            var seg = new Privacidad();
 
-                var priv = new Privacidad();
-                var inte = new IntegridadDatos();
-                usr.Psw = priv.EncriptarPsw(usr.Psw);
+            var priv = new Privacidad();
+            var inte = new IntegridadDatos();
 
-                var UsuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.Psw + usr.CUIL + usr.CUIL);
-                ad.RegistrarUsuario(usr, perfil, idioma, localidad, UsuarioDVH);
-                var BitacoraDVH = inte.CalcularDVH(usr.Usr + "ALTA CLIENTE" + "INFO");
+            usr.Psw = priv.EncriptarPsw(usr.Psw);
 
-                aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA CLIENTE", "INFO", BitacoraDVH);
-                       
+            var UsuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.Psw + usr.CUIL + usr.CUIL);
+
+            ad.RegistrarUsuario(usr, perfil, idioma, localidad, UsuarioDVH);
+
+            var BitacoraDVH = inte.CalcularDVH(usuarioSistema + usr.Usr + "ALTA USUARIO" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, usuarioSistema, "ALTA USUARIO", "INFO", "Se registró al usuario: " + usr.Id + " - '" + usr.Usr + "' con el perfil de '" + perfil + "'", BitacoraDVH);
 
         }
 
@@ -99,7 +101,7 @@ namespace Negocio
             var ad = new CuentaDAC();
 
             ad.ActualizarDatosCuenta(usuarioModif);
-            
+
         }
 
         public bool ValidarUsuarioPsw(string nombreUsuario, string pswUsuario)

@@ -18,6 +18,11 @@ namespace Presentacion.Controllers
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
 
+            Session["UsrLogin"] = null;
+
+            Session["ErrorLogin"] = null;
+            Session["Excepcion"] = null;
+
             return RedirectToAction("Index", "Home");
         }
 

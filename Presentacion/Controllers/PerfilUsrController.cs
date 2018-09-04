@@ -45,7 +45,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioPerfilUsr();
-                    ln.Agregar(perfilUsr);
+                    ln.Agregar(perfilUsr, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -67,7 +67,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioPerfilUsr();
-                    ln.ActualizarPorId(perfilUsr);
+                    ln.ActualizarPorId(perfilUsr, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -88,7 +88,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioPerfilUsr();
-                    ln.BorrarPorId(id);
+                    ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }

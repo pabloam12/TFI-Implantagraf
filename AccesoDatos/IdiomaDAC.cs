@@ -14,7 +14,7 @@ namespace AccesoDatos
     {
         public Idioma Agregar(Idioma idioma)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion], {Abreviacion]) " +
+            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion], [Abreviacion]) " +
                 "VALUES(@Descripcion, @Abreviacion); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -61,7 +61,7 @@ namespace AccesoDatos
             }
         }
 
-        public Idioma ListarPorId(int id)
+        public Idioma BuscarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion], [Abreviacion] " +
                 "FROM dbo.SEG_Idioma WHERE [ID]=@Id ";

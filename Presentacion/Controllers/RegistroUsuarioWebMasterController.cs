@@ -51,7 +51,7 @@ namespace Presentacion.Controllers
                 usuario.FechaNacimiento = DateTime.Now;
 
 
-                ln.RegistrarUsuario(usuario, perfil, idioma, localidad);
+                ln.RegistrarUsuario(usuario, perfil, idioma, localidad, (String)Session["UsrLogin"]);
 
 
                 return RedirectToAction("Index");

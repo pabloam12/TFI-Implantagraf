@@ -43,7 +43,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioLocalidad();
-                    ln.Agregar(localidad);
+                    ln.Agregar(localidad, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -65,7 +65,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioLocalidad();
-                    ln.ActualizarPorId(localidad);
+                    ln.ActualizarPorId(localidad, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -87,7 +87,10 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioLocalidad();
-                    ln.BorrarPorId(id);
+
+                    var localidad = ln.BuscarPorId(id);
+
+                    ln.BorrarPorId(localidad, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }

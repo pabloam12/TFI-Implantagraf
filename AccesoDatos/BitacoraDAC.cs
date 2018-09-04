@@ -13,7 +13,7 @@ namespace AccesoDatos
         public List<Bitacora> ConsultarBitacora()
         {
 
-            const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [DVH] FROM dbo.SEG_Bitacora ORDER BY [FechaHora] DESC";
+            const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] FROM dbo.SEG_Bitacora ORDER BY [FechaHora] DESC";
 
 
 
@@ -37,7 +37,7 @@ namespace AccesoDatos
         public List<Bitacora> ConsultarBitacora(string fecha, string fechaFin, string usr, string accion, string criticidad)
         {
 
-            var sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [DVH] FROM dbo.SEG_Bitacora ";
+            var sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] FROM dbo.SEG_Bitacora ";
 
             var whereStatement = "";
 
@@ -106,11 +106,11 @@ namespace AccesoDatos
         }
 
 
-        public bool grabarBitacora(DateTime fechaHora, String usuario, String accion, String criticidad, long DVH)
+        public bool grabarBitacora(DateTime fechaHora, String usuario, String accion, String criticidad, String detalle, long DVH)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_Bitacora ([FechaHora], [Usuario], [Accion], [Criticidad], [DVH]) " +
+            const string sqlStatement = "INSERT INTO dbo.SEG_Bitacora ([FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH]) " +
 
-                "VALUES(@FechaHora, @Usuario, @Descripcion, @Criticidad, @DVH ); SELECT SCOPE_IDENTITY(); ";
+                "VALUES(@FechaHora, @Usuario, @Descripcion, @Criticidad, @Detalle, @DVH ); SELECT SCOPE_IDENTITY(); ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -120,6 +120,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Usuario", DbType.String, usuario);
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, accion);
                 db.AddInParameter(cmd, "@Criticidad", DbType.String, criticidad);
+                db.AddInParameter(cmd, "@Detalle", DbType.String, detalle);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 // Ejecuto la consulta y devuelve si inserto o no.
@@ -138,6 +139,7 @@ namespace AccesoDatos
                 Usuario = GetDataValue<string>(dr, "Usuario"),
                 Accion = GetDataValue<string>(dr, "Accion"),
                 Criticidad = GetDataValue<string>(dr, "Criticidad"),
+                Detalle = GetDataValue<string>(dr, "Detalle"),
                 DVH = GetDataValue<Int64>(dr, "DVH"),
 
             };

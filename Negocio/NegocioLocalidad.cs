@@ -10,26 +10,28 @@ namespace Negocio
 {
     public class NegocioLocalidad
     {
-        public Localidad Agregar(Localidad localidad)
+        public Localidad Agregar(Localidad localidad, string usuario)
         {
             var ad = new LocalidadDAC();
 
-            var nuevaLocalidad = ad.Agregar(localidad);
+            localidad = ad.Agregar(localidad);
 
             var inte = new IntegridadDatos();
             var aud = new Auditoria();
 
-            var DVHBitacora = inte.CalcularDVH(localidad.Descripcion + "ALTA LOCALIDAD" + "INFO");
+            var BitacoraDVH = inte.CalcularDVH(usuario + "ALTA LOCALIDAD" + "INFO");
 
-            aud.grabarBitacora(DateTime.Now, localidad.Descripcion, "ALTA LOCALIDAD", "INFO", DVHBitacora);
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA LOCALIDAD", "INFO", "Se creó la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'", BitacoraDVH);
 
-            return (nuevaLocalidad);
+            return (localidad);
 
         }
 
-        public void ActualizarPorId(Localidad localidad)
+        public void ActualizarPorId(Localidad localidad, string usuario)
         {
             var ad = new LocalidadDAC();
+
+            var descripcionAnterior = BuscarPorId(localidad.Id).Descripcion;
 
             ad.ActualizarPorId(localidad);
 
@@ -38,34 +40,34 @@ namespace Negocio
                 var inte = new IntegridadDatos();
                 var aud = new Auditoria();
 
-                var DVHBitacora = inte.CalcularDVH(localidad.Descripcion + "MODIFICACION LOCALIDAD" + "INFO");
+                var BitacoraDVH = inte.CalcularDVH(usuario + "ACTUALIZAR LOCALIDAD" + "INFO");
 
-                aud.grabarBitacora(DateTime.Now, localidad.Id + "-" + localidad.Descripcion, "MODIFICACION LOCALIDAD", "INFO", DVHBitacora);
+                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR LOCALIDAD", "INFO", "Se actualizó la localidad: " + localidad.Id + " - '" + descripcionAnterior + "' a '" + localidad.Descripcion + "'", BitacoraDVH);
             }
 
         }
 
-        public void BorrarPorId(int id)
+        public void BorrarPorId(Localidad localidad, string usuario)
         {
             var ad = new LocalidadDAC();
 
-            ad.BorrarPorId(id);
+            ad.BorrarPorId(localidad.Id);
 
             var inte = new IntegridadDatos();
 
             var aud = new Auditoria();
 
-            var DVHBitacora = inte.CalcularDVH(id.ToString() + "ELIMINO LOCALIDAD" + "INFO");
+            var BitacoraDVH = inte.CalcularDVH(usuario + "BORRAR LOCALIDAD" + "INFO");
 
-            aud.grabarBitacora(DateTime.Now, id.ToString(), "ELIMINO LOCALIDAD", "INFO", DVHBitacora);
+            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR LOCALIDAD", "INFO", "Se borró la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'", BitacoraDVH);
 
         }
 
-        public Localidad ListarPorId(int id)
+        public Localidad BuscarPorId(int id)
         {
             var ad = new LocalidadDAC();
 
-            return ad.ListarPorId(id);
+            return ad.BuscarPorId(id);
 
         }
 

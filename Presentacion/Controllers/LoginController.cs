@@ -14,14 +14,14 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
-            Session["Excepcion"] = "Error de Prueba";
+
             Session["ErrorLogin"] = null;
             return RedirectToAction("Login");
         }
 
         public ActionResult Login()
         {
-            
+
             return View();
         }
 
@@ -32,13 +32,16 @@ namespace Presentacion.Controllers
             var ln = new NegocioCuenta();
             var seg = new Privacidad();
             var usrSesion = usuario;
-            
-            Session["ErrorLogin"] = null;
+
             Session["IdUsuario"] = null;
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
+
             Session["UsrLogin"] = null;
+
+            Session["ErrorLogin"] = null;
+            Session["Excepcion"] = null;
 
             // Usuario incorrecto, solo devuelvo el error al Login.
             if (ln.ValidarUsuario(usuario.Usr))
@@ -76,24 +79,28 @@ namespace Presentacion.Controllers
 
             //Error en la base de datos.
             if (usrSesion.Nombre == null || usrSesion.PerfilUsr.Descripcion == null)
-                //TODO.
-            { return RedirectToAction("ErrorGraveBase"); }
+
+            {
+                //TODO
+                Session["Excepcion"] = "[Error Nº 47] - Error de Base de Datos";
+                return RedirectToAction("Index", "Excepciones");
+            }
 
 
             //Usuario Logueado correctamente, se mapean las variables de Sesión.
 
             Session["IdUsuario"] = usrSesion.Id.ToString();
-            Session["UsrLogin"] = usrSesion.Usr;
             Session["NombreUsuario"] = usrSesion.Nombre;
             Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
             Session["EmailUsuario"] = usrSesion.Email;
+
+            Session["UsrLogin"] = usrSesion.Usr;
 
             return RedirectToAction("Index", "Home");
 
         }
         public ActionResult CuentaBloqueada(Usuario usuario)
         {
-            //TODO.
             Session["ErrorLogin"] = "Cuenta bloqueada.";
             return RedirectToAction("Login");
         }

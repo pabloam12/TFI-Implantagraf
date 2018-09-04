@@ -59,7 +59,7 @@ namespace AccesoDatos
             }
         }
 
-        public PerfilUsr ListarPorId(int id)
+        public PerfilUsr BuscarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
                 "FROM dbo.SEG_PerfilUsr WHERE [ID]=@Id ";

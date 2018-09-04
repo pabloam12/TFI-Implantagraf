@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class NegocioCategoria
     {
-        public Categoria Agregar(Categoria categoria)
+        public Categoria Agregar(Categoria categoria, string usuario)
         {
             var ad = new CategoriaDAC();
 
@@ -19,17 +19,19 @@ namespace Negocio
             var inte = new IntegridadDatos();
             var aud = new Auditoria();
 
-            var DVHBitacora = inte.CalcularDVH(categoria.Descripcion + "ALTA CATEGORIA" + "INFO");
+            var BitacoraDVH = inte.CalcularDVH(usuario + "ALTA CATEGORIA" + "INFO");
 
-            aud.grabarBitacora(DateTime.Now, categoria.Descripcion, "ALTA CATEGORIA", "INFO", DVHBitacora);
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA CATEGORIA", "INFO", "Se creó la categoría : '" + categoria.Descripcion + "'", BitacoraDVH);
 
             return (nuevaCategoria);
 
         }
 
-        public void ActualizarPorId(Categoria categoria)
+        public void ActualizarPorId(Categoria categoria, string usuario)
         {
             var ad = new CategoriaDAC();
+
+            var descripcionAnterior = BuscarPorId(categoria.Id).Descripcion;
 
             ad.ActualizarPorId(categoria);
 
@@ -38,34 +40,34 @@ namespace Negocio
                 var inte = new IntegridadDatos();
                 var aud = new Auditoria();
 
-                var DVHBitacora = inte.CalcularDVH(categoria.Descripcion + "MODIFICACION CATEGORIA" + "INFO");
+                var BitacoraDVH = inte.CalcularDVH(usuario + "MODIFICAR CATEGORIA" + "INFO");
 
-                aud.grabarBitacora(DateTime.Now, categoria.Id + "-" + categoria.Descripcion, "MODIFICACION CATEGORIA", "INFO", DVHBitacora);
+                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR CATEGORIA", "INFO", "Se actualizó la categoría: " + categoria.Id + " - '" + descripcionAnterior + "' a '" + categoria.Descripcion + "'", BitacoraDVH);
             }
         }
 
 
-        public void BorrarPorId(int id)
+        public void BorrarPorId(Categoria categoria, string usuario)
         {
             var ad = new CategoriaDAC();
 
-            ad.BorrarPorId(id);
+            ad.BorrarPorId(categoria.Id);
 
             var inte = new IntegridadDatos();
 
             var aud = new Auditoria();
 
-            var DVHBitacora = inte.CalcularDVH(id.ToString() + "ELIMINO CATEGORIA" + "INFO");
+            var BitacoraDVH = inte.CalcularDVH(usuario + "ELIMINAR CATEGORIA" + "INFO");
 
-            aud.grabarBitacora(DateTime.Now, id.ToString(), "ELIMINO CATEGORIA", "INFO", DVHBitacora);
+            aud.grabarBitacora(DateTime.Now, usuario, "ELIMINAR CATEGORIA", "INFO", "Se eliminó la categoría: " + categoria.Id.ToString() + " -" + categoria.Descripcion, BitacoraDVH);
 
         }
 
-        public void ListarPorId(int id)
+        public Categoria BuscarPorId(int id)
         {
             var ad = new CategoriaDAC();
 
-            ad.ListarPorId(id);
+            return ad.BuscarPorId(id);
 
         }
 

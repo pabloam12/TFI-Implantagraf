@@ -59,7 +59,7 @@ namespace AccesoDatos
             }
         }
 
-        public Localidad ListarPorId(int id)
+        public Localidad BuscarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
                 "FROM dbo.Localidad WHERE [ID]=@Id ";

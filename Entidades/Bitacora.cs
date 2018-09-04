@@ -23,6 +23,9 @@ namespace Entidades
         [Display(Name = "Criticidad")]
         public string Criticidad { get; set; }
 
+        [Display(Name = "Detalle")]
+        public string Detalle { get; set; }
+
         public long DVH { get; set; }
     }
 }

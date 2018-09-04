@@ -42,17 +42,10 @@ namespace Presentacion.Controllers
         {
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                try
-                {
-                    var ln = new NegocioIdioma();
-                    ln.Agregar(idioma);
+                var ln = new NegocioIdioma();
+                ln.Agregar(idioma, (String)Session["UsrLogin"]);
 
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("Index");
             }
 
             return RedirectToAction("Index","Home");
@@ -67,7 +60,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioIdioma();
-                    ln.ActualizarPorId(idioma);
+                    ln.ActualizarPorId(idioma, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }
@@ -88,7 +81,7 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioIdioma();
-                    ln.BorrarPorId(id);
+                    ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
                 }

@@ -10,26 +10,28 @@ namespace Negocio
 {
     public class NegocioIdioma
     {
-        public Idioma Agregar(Idioma idioma)
+        public Idioma Agregar(Idioma idioma, string usuario)
         {
             var ad = new IdiomaDAC();
 
-            var nuevoIdioma = ad.Agregar(idioma);
+            idioma = ad.Agregar(idioma);
 
             var inte = new IntegridadDatos();
             var aud = new Auditoria();
 
             var DVHBitacora = inte.CalcularDVH(idioma.Descripcion + "ALTA IDIOMA" + "INFO");
 
-            aud.grabarBitacora(DateTime.Now, idioma.Descripcion, "ALTA IDIOMA", "INFO", DVHBitacora);
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA IDIOMA", "INFO", "Se creó el idioma: " + idioma.Id + " - " + idioma.Descripcion, DVHBitacora);
 
-            return (nuevoIdioma);
+            return (idioma);
 
         }
 
-        public void ActualizarPorId(Idioma idioma)
+        public void ActualizarPorId(Idioma idioma, string usuario)
         {
             var ad = new IdiomaDAC();
+
+            var descripcionAnterior = BuscarPorId(idioma.Id).Descripcion;
 
             ad.ActualizarPorId(idioma);
 
@@ -38,34 +40,35 @@ namespace Negocio
                 var inte = new IntegridadDatos();
                 var aud = new Auditoria();
 
-                var DVHBitacora = inte.CalcularDVH(idioma.Descripcion + "MODIFICACION CATEGORIA" + "INFO");
+                var BitacoraDVH = inte.CalcularDVH(idioma.Descripcion + "MODIFICAR IDIOMA" + "INFO");
 
-                aud.grabarBitacora(DateTime.Now, idioma.Id + "-" + idioma.Descripcion, "MODIFICACION CATEGORIA", "INFO", DVHBitacora);
+                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR IDIOMA", "INFO", "Se actualizó el idioma: " + idioma.Id + " - '" + descripcionAnterior + "' a '" + idioma.Descripcion + "'", BitacoraDVH);
             }
 
         }
 
-        public void BorrarPorId(int id)
+        public void BorrarPorId(Idioma idioma, string usuario)
         {
             var ad = new IdiomaDAC();
-
-            ad.BorrarPorId(id);
-
+            
+                        
             var inte = new IntegridadDatos();
 
             var aud = new Auditoria();
 
-            var DVHBitacora = inte.CalcularDVH(id.ToString() + "ELIMINO IDIOMA" + "INFO");
+            ad.BorrarPorId(idioma.Id);
 
-            aud.grabarBitacora(DateTime.Now, id.ToString(), "ELIMINO IDIOMA", "INFO", DVHBitacora);
+            var BitacoraDVH = inte.CalcularDVH(idioma.Id.ToString() + "BORRAR IDIOMA" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR IDIOMA", "INFO", "Se borró el idioma: " + idioma.Id + " - " + idioma.Descripcion, BitacoraDVH);
 
         }
 
-        public Idioma ListarPorId(int id)
+        public Idioma BuscarPorId(int id)
         {
             var ad = new IdiomaDAC();
 
-            return (ad.ListarPorId(id));
+            return (ad.BuscarPorId(id));
 
         }
 

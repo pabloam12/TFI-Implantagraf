@@ -59,7 +59,7 @@ namespace AccesoDatos
             }
         }
 
-        public Categoria ListarPorId(int id)
+        public Categoria BuscarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
                 "FROM dbo.Categoria WHERE [Id]=@Id ";
@@ -69,7 +69,7 @@ namespace AccesoDatos
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Id", DbType.Int32, categoria.Id);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     if (dr.Read()) categoria = MapearCategoria(dr); // Mapper

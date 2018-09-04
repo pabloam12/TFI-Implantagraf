@@ -254,9 +254,9 @@ namespace AccesoDatos
                 usr.Apellido = usr.RazonSocial;
                 usr.Usr = usr.Email;
 
-                usr.PerfilUsr = perfilUsrDAC.ListarPorId(3); // Mapper
-                usr.Idioma = idiomaDAC.ListarPorId(1); // Mapper
-                usr.Localidad = localidadDAC.ListarPorId(usr.Localidad.Id); // Mapper
+                usr.PerfilUsr = perfilUsrDAC.BuscarPorId(3); // Mapper
+                usr.Idioma = idiomaDAC.BuscarPorId(1); // Mapper
+                usr.Localidad = localidadDAC.BuscarPorId(usr.Localidad.Id); // Mapper
             }
 
             return usr;
@@ -326,11 +326,11 @@ namespace AccesoDatos
                 Email = GetDataValue<string>(dr, "Email"),
                 Telefono = GetDataValue<string>(dr, "Telefono"),
                 Direccion = GetDataValue<string>(dr, "Direccion"),
-                Localidad = localidadDAC.ListarPorId(GetDataValue<int>(dr, "LocalidadId")), //Mapper
+                Localidad = localidadDAC.BuscarPorId(GetDataValue<int>(dr, "LocalidadId")), //Mapper
                 FechaNacimiento = GetDataValue<DateTime>(dr, "FechaNacimiento"),
                 FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta"),
-                PerfilUsr = perfilUsrDAC.ListarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
-                Idioma = idiomaDAC.ListarPorId(GetDataValue<int>(dr, "IdiomaId")) //Mapper
+                PerfilUsr = perfilUsrDAC.BuscarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
+                Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")) //Mapper
             };
 
             return usuario;

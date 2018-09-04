@@ -58,7 +58,7 @@ namespace AccesoDatos
             }
         }
 
-        public Marca ListarPorId(int id)
+        public Marca BuscarPorId(int id)
         {
             const string sqlStatement = "SELECT [Id], [Descripcion] " +
                 "FROM dbo.Marca WHERE [ID]=@Id ";

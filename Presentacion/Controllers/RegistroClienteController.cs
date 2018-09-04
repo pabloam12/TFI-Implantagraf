@@ -27,7 +27,7 @@ namespace Presentacion.Controllers
             var ln = new NegocioCuenta();
 
             Session["ErrorRegistro"] = null;
-
+            Session["Excepcion"] = null;
             // Usuario existente, solo devuelvo el error.
             if (ln.ValidarUsuario(usuario.Email) == false)
             {
@@ -43,15 +43,13 @@ namespace Presentacion.Controllers
                 Session["NombreUsuario"] = usrSesion.Nombre.ToString();
                 Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion.ToString();
 
-                return View(); // LoggedIn
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                Session["IdUsuario"] = null;
-                Session["NombreUsuario"] = null;
-                Session["PerfilUsuario"] = null;
-
-                return RedirectToAction("RedirectToLocal");
+                //TODO.
+                Session["Excepcion"] = "[Error Nº 47] - Error de Base de Datos";
+                return RedirectToAction("Index", "Excepciones");
             }
 
         }
