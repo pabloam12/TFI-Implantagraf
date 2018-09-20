@@ -14,13 +14,16 @@ namespace AccesoDatos
     {
         public PerfilUsr Agregar(PerfilUsr perfilUsr)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_PerfilUsr ([Descripcion]) " +
-                "VALUES(@Descripcion); SELECT SCOPE_IDENTITY();";
+            const string sqlStatement = "INSERT INTO dbo.SEG_PerfilUsr ([Descripcion],[FechaAlta],[FechaBaja],[FechaModi]) " +
+                "VALUES(@Descripcion,@FechaAlta,@FechaBaja,@FechaModi); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
+                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
+                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 perfilUsr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
@@ -33,7 +36,7 @@ namespace AccesoDatos
         public void ActualizarPorId(PerfilUsr perfilUsr)
         {
             const string sqlStatement = "UPDATE dbo.SEG_PerfilUsr " +
-                "SET [Descripcion]=@Descripcion " +
+                "SET [Descripcion]=@Descripcion, [FechaModi]=@FechaModi" +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -41,6 +44,7 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, perfilUsr.Id);
+                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, DateTime.Now);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -48,12 +52,16 @@ namespace AccesoDatos
 
         public void BorrarPorId(int id)
         {
-            const string sqlStatement = "DELETE FROM dbo.SEG_PerfilUsr WHERE [ID]=@Id ";
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            const string sqlStatement = "UPDATE dbo.SEG_PerfilUsr " +
+                "SET [Descripcion]=@Descripcion, [FechaBaja]=@FechaBaja" +
+                "WHERE [ID]=@Id ";
 
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
+                
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, DateTime.Now);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -82,7 +90,7 @@ namespace AccesoDatos
         public List<PerfilUsr> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.SEG_PerfilUsr ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.SEG_PerfilUsr WHERE FechaBaja = 2000/01/01 OR FechaBaja is null ORDER BY [Descripcion]";
 
             var result = new List<PerfilUsr>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -92,8 +100,8 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var category = CargarPerfilUsr(dr); // Mapper
-                        result.Add(category);
+                        var perfilUsr = CargarPerfilUsr(dr); // Mapper
+                        result.Add(perfilUsr);
                     }
                 }
             }

@@ -26,6 +26,14 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
+            var lnloc = new NegocioLocalidad();
+
+            var listaLocalidades = lnloc.Listar();
+
+            var list = new SelectList(listaLocalidades, "Id", "Descripcion");
+
+            ViewBag.Opciones = list;
+
             Session["ErrorRegistro"] = null;
             Session["Excepcion"] = null;
             // Usuario existente, solo devuelvo el error.

@@ -14,14 +14,17 @@ namespace AccesoDatos
     {
         public Idioma Agregar(Idioma idioma)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion], [Abreviacion]) " +
-                "VALUES(@Descripcion, @Abreviacion); SELECT SCOPE_IDENTITY();";
+            const string sqlStatement = "INSERT INTO dbo.SEG_Idioma ([Descripcion], [Abreviacion], [FechaAlta], [FechaBaja], [FechaModi]) " +
+                "VALUES(@Descripcion, @Abreviacion,@FechaAlta,@FechaBaja,@FechaModi); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, idioma.Descripcion);
                 db.AddInParameter(cmd, "@Abreviacion", DbType.String, idioma.Abreviacion);
+                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
+                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 idioma.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
@@ -34,7 +37,7 @@ namespace AccesoDatos
         public void ActualizarPorId(Idioma idioma)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Idioma " +
-                "SET [Descripcion]=@Descripcion, [Abreviacion]=@Abreviacion " +
+                "SET [Descripcion]=@Descripcion, [Abreviacion]=@Abreviacion, [FechaModi]=@FechaModi " +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -43,6 +46,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, idioma.Descripcion);
                 db.AddInParameter(cmd, "@Abreviacion", DbType.String, idioma.Abreviacion);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, idioma.Id);
+                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, DateTime.Now);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -50,12 +54,15 @@ namespace AccesoDatos
 
         public void BorrarPorId(int id)
         {
-            const string sqlStatement = "DELETE FROM dbo.SEG_Idioma WHERE [ID]=@Id ";
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            const string sqlStatement = "UPDATE dbo.SEG_Idioma " +
+                "SET [FechaBaja]=@FechaBaja " +
+                "WHERE [ID]=@Id ";
 
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, DateTime.Now);
 
                 db.ExecuteNonQuery(cmd);
             }
@@ -84,7 +91,7 @@ namespace AccesoDatos
         public List<Idioma> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion] FROM dbo.SEG_Idioma ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion] FROM dbo.SEG_Idioma WHERE FechaBaja = 2000/01/01 OR FechaBaja is null ORDER BY [Descripcion]";
 
             var result = new List<Idioma>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
