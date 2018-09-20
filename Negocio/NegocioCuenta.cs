@@ -66,8 +66,17 @@ namespace Negocio
         public Usuario Autenticar(Usuario usr)
         {
             var ad = new CuentaDAC();
+            
+            var aud = new Auditoria();
+            var inte = new IntegridadDatos();
 
-            return ad.Autenticar(usr);
+            var usrLogin = ad.Autenticar(usr);
+
+            var BitacoraDVH = inte.CalcularDVH(usrLogin.Usr + "LOGIN DE USUARIO" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, usrLogin.Usr, "INICIO DE SESIÓN", "INFO", "El Usuario ha inciado sesión en el sistema.", BitacoraDVH);
+
+            return usrLogin;
 
         }
 
@@ -96,6 +105,14 @@ namespace Negocio
 
         }
 
+        public bool ValidarSesionActiva(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            return ad.ValidarSesionActiva(nombreUsuario);
+
+        }
+
         public void ActualizarDatosCuenta(Usuario usuarioModif)
         {
             var ad = new CuentaDAC();
@@ -116,7 +133,35 @@ namespace Negocio
         {
             var ad = new CuentaDAC();
 
+            // Bloquea la cuenta de Usuario
             ad.BloquearCuentaUsuario(nombreUsuario);
+
+            var seg = new Privacidad();
+
+            var aud = new Auditoria();
+            var inte = new IntegridadDatos();
+
+            var BitacoraDVH = inte.CalcularDVH(nombreUsuario + "BLOQUEO DE CUENTA" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, nombreUsuario, "BLOQUEO DE CUENTA", "INFO", "Se ha bloqueado la cuenta por ingresos erroneos.", BitacoraDVH);
+
+        }
+
+        public void ActivarSesionCuentaUsuario(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            // Inicio Sesion de cuenta de Usuario
+            ad.ActivarSesionCuentaUsuario(nombreUsuario);
+
+        }
+
+        public void ActivarCuentaUsuario(string nombreUsuario)
+        {
+            var ad = new CuentaDAC();
+
+            // Inicio Sesion de cuenta de Usuario
+            ad.ActivarCuentaUsuario(nombreUsuario);
 
         }
 

@@ -79,6 +79,27 @@ namespace AccesoDatos
 
         }
 
+        public bool ValidarSesionActiva(String nombreUsuario)
+        {
+            const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Estado]='A'";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                if (Convert.ToInt32(db.ExecuteScalar(cmd)) == 0)
+                { return false; }
+
+                // Si la cuenta esta bloqueada devuelve true asi entra en el if.
+                return true;
+            }
+
+        }
+
         public void ActualizarDatosCuenta(Usuario usuarioModif)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
@@ -174,6 +195,36 @@ namespace AccesoDatos
         {
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Estado] = 'B' WHERE [Usr] = @Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+        public void ActivarSesionCuentaUsuario(String nombreUsuario)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Estado] = 'A' WHERE [Usr] = @Usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Usr", DbType.String, nombreUsuario);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+        public void ActivarCuentaUsuario(String nombreUsuario)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Estado] = 'S' WHERE [Usr] = @Usr";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))

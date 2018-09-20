@@ -33,6 +33,13 @@ namespace Presentacion.Controllers
             var seg = new Privacidad();
             var usrSesion = usuario;
 
+            // Usuario con Sesión activa.
+            if (ln.ValidarSesionActiva(usuario.Usr))
+            {
+                Session["ErrorLogin"] = "Usted ya tiene una Sesión Activa";
+                return RedirectToAction("Login");
+            }
+
             Session["IdUsuario"] = null;
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
@@ -54,7 +61,6 @@ namespace Presentacion.Controllers
             if (ln.ValidarBloqueoCuenta(usuario.Usr))
 
             { return RedirectToAction("CuentaBloqueada"); }
-
 
             //Encripto la contraseña.
             usuario.Psw = seg.EncriptarPsw(usuario.Psw);
@@ -96,9 +102,14 @@ namespace Presentacion.Controllers
 
             Session["UsrLogin"] = usrSesion.Usr;
 
+            //Activo la Sesión.
+            ln.ActivarSesionCuentaUsuario(usrSesion.Usr);
+
+            
             return RedirectToAction("Index", "Home");
 
         }
+
         public ActionResult CuentaBloqueada(Usuario usuario)
         {
             Session["ErrorLogin"] = "Cuenta bloqueada.";

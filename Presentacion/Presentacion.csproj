@@ -209,10 +209,12 @@
     <Content Include="Imagenes\Fondo_Cliente.png" />
     <Content Include="Imagenes\Fondo_Home.png" />
     <Content Include="Imagenes\Fondo_Webmaster.png" />
+    <Content Include="Imagenes\Home.jpg" />
     <Content Include="Imagenes\Implantagraf - Logo y Marca.png" />
     <Content Include="Imagenes\Implantagraf - SoloLogo.png" />
     <Content Include="Imagenes\robot_trabajando.jpg" />
     <Content Include="Imagenes\sad_robot.png" />
+    <Content Include="Imagenes\Warehouse-Cleaning-Services.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
