@@ -27,7 +27,7 @@ namespace Presentacion.Controllers
         // GET: Categoria/Crear
         public ActionResult Crear()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 return View();
             }
@@ -38,7 +38,7 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Crear(Categoria categoria)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 var ln = new NegocioCategoria();
                 ln.Agregar(categoria, (String)Session["UsrLogin"]);
@@ -53,7 +53,7 @@ namespace Presentacion.Controllers
         // GET: Categoria/Editar
         public ActionResult Editar(Categoria categoria)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 try
                 {
@@ -71,7 +71,7 @@ namespace Presentacion.Controllers
         // GET: Categoria/Borrar
         public ActionResult Borrar(int id)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 var ln = new NegocioCategoria();
                 ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);

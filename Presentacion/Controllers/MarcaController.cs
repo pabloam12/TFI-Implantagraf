@@ -14,7 +14,7 @@ namespace Presentacion.Controllers
         // GET: Marca
         public ActionResult Index()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 var ln = new NegocioMarca();
 
@@ -29,7 +29,7 @@ namespace Presentacion.Controllers
         // GET: Marca/Crear
         public ActionResult Crear()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 return View();
             }
@@ -40,7 +40,7 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Crear(Marca marca)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 try
                 {
@@ -62,7 +62,7 @@ namespace Presentacion.Controllers
         // GET: Marca/Editar
         public ActionResult Editar(Marca marca)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 try
                 {
@@ -82,7 +82,7 @@ namespace Presentacion.Controllers
         // GET: Marca/Borrar
         public ActionResult Borrar(int id)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
             {
                 try
                 {

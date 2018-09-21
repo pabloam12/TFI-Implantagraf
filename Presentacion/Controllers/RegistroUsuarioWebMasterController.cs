@@ -65,7 +65,7 @@ namespace Presentacion.Controllers
 
         //public ActionResult Borrar(int id)
         //{
-        //    if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "AdministradorWeb")
+        //    if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
         //    {
         //        var ln = new NegocioCuenta();
         //        ln.BorrarPorId(id);

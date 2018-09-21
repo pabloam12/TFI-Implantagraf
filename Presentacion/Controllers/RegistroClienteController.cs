@@ -48,8 +48,11 @@ namespace Presentacion.Controllers
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {
                 Session["IdUsuario"] = usrSesion.Id.ToString();
-                Session["NombreUsuario"] = usrSesion.Nombre.ToString();
-                Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion.ToString();
+                Session["NombreUsuario"] = usrSesion.Nombre;
+                Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
+                Session["EmailUsuario"] = usrSesion.Email;
+
+                Session["UsrLogin"] = usrSesion.Usr;
 
                 return RedirectToAction("Index", "Home");
             }
