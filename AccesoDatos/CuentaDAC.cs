@@ -103,19 +103,14 @@ namespace AccesoDatos
         public void ActualizarDatosCuenta(Usuario usuarioModif)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
-                "SET [Nombre]=@Nombre, [Apellido]=@Apellido, [Usr]=@Usr, [CUIL]=@CUIL, [Email]=@Email, [Direccion]=@Direccion, " +
-                "[LocalidadId]=@Localidad, [Telefono]=@Telefono, [IdiomaId]=@IdiomaId " +
+                "SET [Direccion]=@Direccion, [LocalidadId]=@Localidad, [Telefono]=@Telefono, [IdiomaId]=@IdiomaId " +
                 "WHERE [Id]=@Id";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Id", DbType.Int32, usuarioModif.Id);
-                db.AddInParameter(cmd, "@Nombre", DbType.String, usuarioModif.Nombre);
-                db.AddInParameter(cmd, "@Apellido", DbType.String, usuarioModif.Apellido);
-                db.AddInParameter(cmd, "@Usr", DbType.String, usuarioModif.Email);
-                db.AddInParameter(cmd, "@CUIL", DbType.String, usuarioModif.CUIL);
-                db.AddInParameter(cmd, "@Email", DbType.String, usuarioModif.Email);
+                
                 db.AddInParameter(cmd, "@Direccion", DbType.String, usuarioModif.Direccion);
                 db.AddInParameter(cmd, "@Localidad", DbType.String, usuarioModif.Localidad.Id);
                 db.AddInParameter(cmd, "@Telefono", DbType.String, usuarioModif.Telefono);
@@ -379,7 +374,6 @@ namespace AccesoDatos
                 Direccion = GetDataValue<string>(dr, "Direccion"),
                 Localidad = localidadDAC.BuscarPorId(GetDataValue<int>(dr, "LocalidadId")), //Mapper
                 FechaNacimiento = GetDataValue<DateTime>(dr, "FechaNacimiento"),
-                FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta"),
                 PerfilUsr = perfilUsrDAC.BuscarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
                 Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")) //Mapper
             };
@@ -399,6 +393,7 @@ namespace AccesoDatos
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@idUsuario", DbType.String, idUsuario);
+
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     while (dr.Read())

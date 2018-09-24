@@ -14,6 +14,9 @@
 
     <hr />
     <dl class="dl-horizontal">
+        
+        @if ((String)Session["PerfilUsuario"] == "Cliente")
+        {
         <dt>
             @Html.DisplayNameFor(model => model.RazonSocial)
         </dt>
@@ -22,6 +25,17 @@
             @Html.DisplayFor(model => model.RazonSocial)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.CUIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CUIL)
+        </dd>
+        }
+
+@if ((String)Session["PerfilUsuario"] != "Cliente")
+{
         <dt>
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
@@ -39,13 +53,14 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CUIL)
+            @Html.DisplayNameFor(model => model.FechaNacimiento)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CUIL)
+            @Html.DisplayFor(model => model.FechaNacimiento)
         </dd>
-
+}
+       
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -53,31 +68,7 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Psw)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Psw)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PswConfirmacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PswConfirmacion)
-        </dd>
-
+                
         <dt>
             @Html.DisplayNameFor(model => model.Telefono)
         </dt>
@@ -93,23 +84,7 @@
         <dd>
             @Html.DisplayFor(model => model.Direccion)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaNacimiento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaAlta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaAlta)
-        </dd>
-
+                
     </dl>
 </div>
 <p>

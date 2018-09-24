@@ -43,6 +43,23 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioCuenta();
+
+                    var usrAnterior = ln.InformacionCuenta(usuarioModif.Id.ToString());
+
+                    if (usuarioModif.Direccion == null)
+                    { usuarioModif.Direccion = usrAnterior.Direccion; }
+
+
+                    if (usuarioModif.Telefono == null)
+                    { usuarioModif.Telefono = usrAnterior.Telefono; }
+
+
+                    if (usuarioModif.Localidad.Id == 0)
+                    { usuarioModif.Localidad.Id = usrAnterior.Localidad.Id; }
+
+                    if (usuarioModif.Idioma.Id == 0)
+                    { usuarioModif.Idioma.Id = usrAnterior.Idioma.Id; }
+
                     ln.ActualizarDatosCuenta(usuarioModif);
 
                     return RedirectToAction("Index");

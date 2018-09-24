@@ -80,7 +80,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) perfilUsr = CargarPerfilUsr(dr); // Mapper
+                    if (dr.Read()) perfilUsr = MapearPerfilUsr(dr); // Mapper
                 }
             }
 
@@ -100,7 +100,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var perfilUsr = CargarPerfilUsr(dr); // Mapper
+                        var perfilUsr = MapearPerfilUsr(dr); // Mapper
                         result.Add(perfilUsr);
                     }
                 }
@@ -110,7 +110,7 @@ namespace AccesoDatos
         }
 
 
-        private static PerfilUsr CargarPerfilUsr(IDataReader dr)
+        private static PerfilUsr MapearPerfilUsr(IDataReader dr)
         {
             var perfilUsr = new PerfilUsr
             {

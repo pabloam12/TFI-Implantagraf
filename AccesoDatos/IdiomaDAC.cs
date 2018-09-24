@@ -81,7 +81,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) idioma = CargarIdioma(dr); // Mapper
+                    if (dr.Read()) idioma = MapearIdioma(dr); // Mapper
                 }
             }
 
@@ -101,7 +101,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var idioma = CargarIdioma(dr); // Mapper
+                        var idioma = MapearIdioma(dr); // Mapper
                         result.Add(idioma);
                     }
                 }
@@ -111,7 +111,7 @@ namespace AccesoDatos
         }
 
 
-        private static Idioma CargarIdioma(IDataReader dr)
+        private static Idioma MapearIdioma(IDataReader dr)
         {
             var idioma = new Idioma
             {

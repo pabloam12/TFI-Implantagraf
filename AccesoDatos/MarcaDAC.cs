@@ -82,7 +82,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) marca = CargarMarca(dr); // Mapper
+                    if (dr.Read()) marca = MapearMarca(dr); // Mapper
                 }
             }
 
@@ -102,7 +102,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var marca = CargarMarca(dr); // Mapper
+                        var marca = MapearMarca(dr); // Mapper
                         result.Add(marca);
                     }
                 }
@@ -111,7 +111,7 @@ namespace AccesoDatos
             return result;
         }
 
-        private static Marca CargarMarca(IDataReader dr)
+        private static Marca MapearMarca(IDataReader dr)
         {
             var marca = new Marca
             {

@@ -80,7 +80,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
                 using (var dr = db.ExecuteReader(cmd))
                 {
-                    if (dr.Read()) localidad = CargarLocalidad(dr); // Mapper
+                    if (dr.Read()) localidad = MapearLocalidad(dr); // Mapper
                 }
             }
 
@@ -100,7 +100,7 @@ namespace AccesoDatos
                 {
                     while (dr.Read())
                     {
-                        var localidad = CargarLocalidad(dr); // Mapper
+                        var localidad = MapearLocalidad(dr); // Mapper
                         result.Add(localidad);
                     }
                 }
@@ -110,7 +110,7 @@ namespace AccesoDatos
         }
 
 
-        private static Localidad CargarLocalidad(IDataReader dr)
+        private static Localidad MapearLocalidad(IDataReader dr)
         {
             var localidad = new Localidad
             {
