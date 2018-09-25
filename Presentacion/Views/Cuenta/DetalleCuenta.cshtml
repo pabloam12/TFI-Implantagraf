@@ -14,53 +14,61 @@
 
     <hr />
     <dl class="dl-horizontal">
-        
+
+        DATOS PERSONALES
+
         @if ((String)Session["PerfilUsuario"] == "Cliente")
         {
-        <dt>
-            @Html.DisplayNameFor(model => model.RazonSocial)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.RazonSocial)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.RazonSocial)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.RazonSocial)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CUIL)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CUIL)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CUIL)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CUIL)
+            </dd>
         }
 
-@if ((String)Session["PerfilUsuario"] != "Cliente")
-{
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
+        @if ((String)Session["PerfilUsuario"] != "Cliente")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Apellido)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Apellido)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaNacimiento)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FechaNacimiento)
-        </dd>
-}
-       
+            <dd>
+                @Html.DisplayFor(model => model.FechaNacimiento)
+            </dd>
+           
+        }
+
+        <br />
+        DATOS DE CONTACTO
+        <hr />
+        <br />
+
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -68,7 +76,7 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-                
+
         <dt>
             @Html.DisplayNameFor(model => model.Telefono)
         </dt>
@@ -84,11 +92,31 @@
         <dd>
             @Html.DisplayFor(model => model.Direccion)
         </dd>
-                
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Localidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Localidad.Descripcion)
+        </dd>
+
+        <br />
+        IDIOMA
+        <hr />
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.Idioma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idioma.Descripcion)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Actualizar Datos de Cuenta", "ActualizarDatosCuenta", new { id = Model.Id }) |
+    @Html.ActionLink("Actualizar Datos de Cuenta", "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
 </p>
 
 @Html.Partial("_Espacio2")

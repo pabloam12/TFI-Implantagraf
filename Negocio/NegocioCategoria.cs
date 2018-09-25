@@ -71,7 +71,7 @@ namespace Negocio
 
         }
 
-        public List<Categoria> Listar()
+        public IEnumerable<Categoria> Listar()
         {
             var ad = new CategoriaDAC();
 

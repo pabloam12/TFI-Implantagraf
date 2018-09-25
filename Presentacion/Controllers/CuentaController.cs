@@ -66,6 +66,12 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
+                    var lnIdio = new NegocioIdioma();
+                    var lnLoc = new NegocioLocalidad();
+
+                    ViewBag.Localidades = lnLoc.Listar();
+                    ViewBag.Idiomas = lnIdio.Listar();
+
                     return View();
                 }
             }

@@ -71,7 +71,7 @@ namespace Negocio
 
         }
 
-        public List<Localidad> Listar()
+        public IEnumerable<Localidad> Listar()
         {
             var ad = new LocalidadDAC();
 

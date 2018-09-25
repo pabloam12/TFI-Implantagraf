@@ -11,7 +11,7 @@ namespace Negocio
     public class NegocioPerfilUsr
     {
 
-        public List<PerfilUsr> Listar()
+        public IEnumerable<PerfilUsr> Listar()
         {
             var ad = new PerfilUsrDAC();
 

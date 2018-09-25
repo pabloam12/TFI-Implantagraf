@@ -111,6 +111,7 @@
     <Compile Include="BitacoraDAC.cs" />
     <Compile Include="CuentaDAC.cs" />
     <Compile Include="DataAccessComponent.cs" />
+    <Compile Include="ClienteDAC.cs" />
     <Compile Include="IdiomaDAC.cs" />
     <Compile Include="PerfilUsrDAC.cs" />
     <Compile Include="LocalidadDAC.cs" />

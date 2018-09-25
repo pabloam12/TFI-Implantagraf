@@ -72,7 +72,7 @@ namespace Negocio
 
         }
 
-        public List<Idioma> Listar()
+        public IEnumerable<Idioma> Listar()
         {
             var ad = new IdiomaDAC();
 

@@ -18,6 +18,10 @@ namespace Presentacion.Controllers
 
         public ActionResult Registrarse()
         {
+            var lnloc = new NegocioLocalidad();
+
+            ViewBag.Localidades = lnloc.Listar();
+
             return View();
         }
 
@@ -26,13 +30,11 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
-            var lnloc = new NegocioLocalidad();
+            
 
-            var listaLocalidades = lnloc.Listar();
+            //var list = new SelectList(listaLocalidades, "Id", "Descripcion");
 
-            var list = new SelectList(listaLocalidades, "Id", "Descripcion");
-
-            ViewBag.Opciones = list;
+            //ViewBag.Opciones = list;
 
             Session["ErrorRegistro"] = null;
             Session["Excepcion"] = null;
@@ -47,6 +49,9 @@ namespace Presentacion.Controllers
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {
+                //if ((String)Session["PerfilUsuario"] == "Administrativo")
+                //{ return RedirectToAction("Index", "Cliente"); }
+
                 Session["IdUsuario"] = usrSesion.Id.ToString();
                 Session["NombreUsuario"] = usrSesion.Nombre;
                 Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;

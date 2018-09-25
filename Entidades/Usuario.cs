@@ -9,17 +9,17 @@ namespace Entidades
     public class Usuario
     {
         [Key]
-        [Display(Name ="Código")]
+        [Display(Name = "Código")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El {0} es Obligatorio")]
         public string RazonSocial { get; set; }
 
-        
+
         [RegularExpression(@"[a-zA-ZñÑ\s]{2,50}", ErrorMessage = "El {0} debe ser válido")]
         public string Nombre { get; set; }
 
-        
+
         [RegularExpression(@"[a-zA-ZñÑ\s]{2,50}", ErrorMessage = "El {0} debe ser válido")]
         public string Apellido { get; set; }
 
@@ -33,7 +33,7 @@ namespace Entidades
 
         [Required(ErrorMessage = "El {0} es Obligatorio")]
         public string Usr { get; set; }
-        
+
         [Required(ErrorMessage = "La {0} es Obligatoria")]
         [DataType(DataType.Password)]
         public string Psw { get; set; }
@@ -45,15 +45,17 @@ namespace Entidades
 
         public string Telefono { get; set; }
 
-        
+
         public string Direccion { get; set; }
 
         public Localidad Localidad { get; set; }
 
         [DataType(DataType.Date)]
         public System.DateTime FechaNacimiento { get; set; }
-                
+
         public PerfilUsr PerfilUsr { get; set; }
         public Idioma Idioma { get; set; }
+
+        public DateTime FechaAlta { get; set; }
     }
 }

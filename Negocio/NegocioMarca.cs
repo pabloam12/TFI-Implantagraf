@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class NegocioMarca
     {
-        public List<Marca> Listar()
+        public IEnumerable<Marca> Listar()
         {
             var ad = new MarcaDAC();
 
