@@ -12,10 +12,10 @@ namespace AccesoDatos
     public class PerfilUsrDAC : DataAccessComponent
 
     {
-        public PerfilUsr Agregar(PerfilUsr perfilUsr)
+        public PerfilUsr Agregar(PerfilUsr perfilUsr, long DVH)
         {
-            const string sqlStatement = "INSERT INTO dbo.SEG_PerfilUsr ([Descripcion],[FechaAlta],[FechaBaja],[FechaModi]) " +
-                "VALUES(@Descripcion,@FechaAlta,@FechaBaja,@FechaModi); SELECT SCOPE_IDENTITY();";
+            const string sqlStatement = "INSERT INTO dbo.SEG_PerfilUsr ([Descripcion],[FechaAlta],[FechaBaja],[FechaModi], [DVH]) " +
+                "VALUES(@Descripcion,@FechaAlta,@FechaBaja,@FechaModi,@DVH); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -24,6 +24,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
                 db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
                 db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 perfilUsr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
@@ -33,10 +34,10 @@ namespace AccesoDatos
 
         }
 
-        public void ActualizarPorId(PerfilUsr perfilUsr)
+        public void ActualizarPorId(PerfilUsr perfilUsr, long DVH)
         {
             const string sqlStatement = "UPDATE dbo.SEG_PerfilUsr " +
-                "SET [Descripcion]=@Descripcion, [FechaModi]=@FechaModi" +
+                "SET [Descripcion]=@Descripcion, [FechaModi]=@FechaModi, [DVH]=@DVH" +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -45,6 +46,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, perfilUsr.Id);
                 db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, DateTime.Now);
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 db.ExecuteNonQuery(cmd);
             }

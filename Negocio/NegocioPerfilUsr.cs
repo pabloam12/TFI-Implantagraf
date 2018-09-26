@@ -22,13 +22,16 @@ namespace Negocio
         public PerfilUsr Agregar(PerfilUsr perfilUsr, string usuario)
         {
             var ad = new PerfilUsrDAC();
+            var integ = new IntegridadDatos();
 
-            perfilUsr = ad.Agregar(perfilUsr);
-
-            var inte = new IntegridadDatos();
             var aud = new Auditoria();
+            var DVH = integ.CalcularDVH(perfilUsr.Id.ToString() + perfilUsr.Descripcion);
 
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ALTA PERFIL DE USUARIO" + "INFO");
+            perfilUsr = ad.Agregar(perfilUsr, DVH);
+
+            integ.RecalcularDVV("SEG_PerfilUsr");
+
+            var BitacoraDVH = integ.CalcularDVH(usuario + "ALTA PERFIL DE USUARIO" + "INFO");
 
             aud.grabarBitacora(DateTime.Now, usuario, "ALTA PERFIL DE USUARIO", "INFO", "Se creó el perfil de usuario: " + perfilUsr.Id + " - '" + perfilUsr.Descripcion + "'", BitacoraDVH);
 
@@ -39,15 +42,18 @@ namespace Negocio
         public void ActualizarPorId(PerfilUsr perfilUsr, string usuario)
         {
             var ad = new PerfilUsrDAC();
+            var integ = new IntegridadDatos();
+            var aud = new Auditoria();
 
             var descripcionAnterior = BuscarPorId(perfilUsr.Id).Descripcion;
 
-            ad.ActualizarPorId(perfilUsr);
+            var DVH = integ.CalcularDVH(perfilUsr.Id.ToString() + perfilUsr.Descripcion);
 
-            var inte = new IntegridadDatos();
-            var aud = new Auditoria();
+            ad.ActualizarPorId(perfilUsr, DVH);
 
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ACTUALIZAR PERFIL DE USUARIO" + "INFO");
+            integ.RecalcularDVV("SEG_PerfilUsr");
+
+            var BitacoraDVH = integ.CalcularDVH(usuario + "ACTUALIZAR PERFIL DE USUARIO" + "INFO");
 
             aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR PERFIL DE USUARIO", "INFO", "Se actualizó el perfil de usuario: " + perfilUsr.Id + " - '" + descripcionAnterior + "' a '" + perfilUsr.Descripcion + "'", BitacoraDVH);
 

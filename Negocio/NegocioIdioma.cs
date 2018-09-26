@@ -13,15 +13,18 @@ namespace Negocio
         public Idioma Agregar(Idioma idioma, string usuario)
         {
             var ad = new IdiomaDAC();
-
-            idioma = ad.Agregar(idioma);
-
-            var inte = new IntegridadDatos();
+            var integ = new IntegridadDatos();
             var aud = new Auditoria();
 
-            var DVHBitacora = inte.CalcularDVH(idioma.Descripcion + "ALTA IDIOMA" + "INFO");
+            var DVH = integ.CalcularDVH(idioma.Id.ToString() + idioma.Descripcion + idioma.Abreviacion);
 
-            aud.grabarBitacora(DateTime.Now, usuario, "ALTA IDIOMA", "INFO", "Se creó el idioma: " + idioma.Id + " - " + idioma.Descripcion, DVHBitacora);
+            idioma = ad.Agregar(idioma, DVH);
+
+            integ.RecalcularDVV("SEG_Idioma");
+
+            var BitacoraDVH = integ.CalcularDVH(idioma.Id.ToString() + idioma.Descripcion + idioma.Abreviacion + "MODIFICAR IDIOMA" + "INFO");
+
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA IDIOMA", "INFO", "Se creó el idioma: " + idioma.Id + " - " + idioma.Descripcion, DVH);
 
             return (idioma);
 
@@ -40,7 +43,7 @@ namespace Negocio
                 var inte = new IntegridadDatos();
                 var aud = new Auditoria();
 
-                var BitacoraDVH = inte.CalcularDVH(idioma.Descripcion + "MODIFICAR IDIOMA" + "INFO");
+                var BitacoraDVH = inte.CalcularDVH(idioma.Id.ToString()+idioma.Descripcion+idioma.Abreviacion +  "MODIFICAR IDIOMA" + "INFO");
 
                 aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR IDIOMA", "INFO", "Se actualizó el idioma: " + idioma.Id + " - '" + descripcionAnterior + "' a '" + idioma.Descripcion + "'", BitacoraDVH);
             }
@@ -50,8 +53,8 @@ namespace Negocio
         public void BorrarPorId(Idioma idioma, string usuario)
         {
             var ad = new IdiomaDAC();
-            
-                        
+
+
             var inte = new IntegridadDatos();
 
             var aud = new Auditoria();

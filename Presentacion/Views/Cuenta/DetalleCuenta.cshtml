@@ -8,15 +8,15 @@
 @Html.Partial("_Espacio1")
 
 <h2>DATOS DE LA CUENTA</h2>
-<br />
 
 <div>
 
     <hr />
     <dl class="dl-horizontal">
 
-        DATOS PERSONALES
-
+        DATOS DE CONTACTO
+        <hr />
+        
         @if ((String)Session["PerfilUsuario"] == "Cliente")
         {
             <dt>
@@ -67,8 +67,7 @@
         <br />
         DATOS DE CONTACTO
         <hr />
-        <br />
-
+        
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -104,7 +103,7 @@
         <br />
         IDIOMA
         <hr />
-        <br />
+        
         <dt>
             @Html.DisplayNameFor(model => model.Idioma)
         </dt>

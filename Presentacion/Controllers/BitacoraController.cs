@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -16,7 +17,7 @@ namespace Presentacion.Controllers
         {
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                var ln = new NegocioBitacora();
+                var ln = new Auditoria();
 
                                
                 return View(ln.ConsultarBitacora());
@@ -31,7 +32,7 @@ namespace Presentacion.Controllers
             if ((String)Session["PerfilUsuario"] == "WebMaster")
 
             {
-                var ln = new NegocioBitacora();
+                var ln = new Auditoria();
 
                 if (fecha == "" && usr=="" && accion=="" && criticidad=="")
                 {

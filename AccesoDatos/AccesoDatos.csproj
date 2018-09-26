@@ -108,6 +108,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegridadDAC.cs" />
     <Compile Include="BitacoraDAC.cs" />
     <Compile Include="CuentaDAC.cs" />
     <Compile Include="DataAccessComponent.cs" />

@@ -16,7 +16,6 @@ namespace AccesoDatos
             const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] FROM dbo.SEG_Bitacora ORDER BY [FechaHora] DESC";
 
 
-
             var result = new List<Bitacora>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -84,14 +83,14 @@ namespace AccesoDatos
 
             sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaHora] DESC;";
 
-            
+
             var result = new List<Bitacora>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@fecha", DbType.String, fecha);
                 db.AddInParameter(cmd, "@fechaFin", DbType.String, fechaFin);
-               
+
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     while (dr.Read())

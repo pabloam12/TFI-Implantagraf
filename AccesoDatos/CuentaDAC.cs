@@ -16,7 +16,7 @@ namespace AccesoDatos
 
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
-               "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId AND [Estado] <> 'E' ;";
+               "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId;";
 
             var result = new List<Usuario>();
 
@@ -110,7 +110,7 @@ namespace AccesoDatos
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Id", DbType.Int32, usuarioModif.Id);
-                
+
                 db.AddInParameter(cmd, "@Direccion", DbType.String, usuarioModif.Direccion);
                 db.AddInParameter(cmd, "@Localidad", DbType.String, usuarioModif.Localidad.Id);
                 db.AddInParameter(cmd, "@Telefono", DbType.String, usuarioModif.Telefono);
@@ -287,7 +287,6 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Telefono", DbType.String, usr.Telefono);
                 db.AddInParameter(cmd, "@Direccion", DbType.String, usr.Direccion);
                 db.AddInParameter(cmd, "@LocalidadId", DbType.Int32, usr.Localidad.Id);
-                //db.AddInParameter(cmd, "@FechaNacimiento", DbType.Date, usr.FechaNacimiento);
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
                 db.AddInParameter(cmd, "@PerfilId", DbType.Int32, 3);
                 db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, 1);
@@ -313,11 +312,11 @@ namespace AccesoDatos
         {
             const string sqlStatement = "INSERT INTO dbo.SEG_Usuario ([RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], " +
                 "[Estado], [Intentos], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]) " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH], [FechaBaja], [FechaModi]) " +
 
                 "VALUES(@RazonSocial, @Nombre, @Apellido, @Usr, @Psw, @CUIL, " +
                 "@Estado, @Intentos, @Email, @Telefono, " +
-                "@Direccion, @LocalidadId, @FechaNacimiento, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
+                "@Direccion, @LocalidadId, @FechaNacimiento, @FechaAlta, @PerfilId, @IdiomaId, @DVH, @FechaBaja, @FechaModi); SELECT SCOPE_IDENTITY(); ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -327,7 +326,7 @@ namespace AccesoDatos
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@RazonSocial", DbType.String, usr.Nombre+usr.Apellido);
+                db.AddInParameter(cmd, "@RazonSocial", DbType.String, usr.Nombre + usr.Apellido);
                 db.AddInParameter(cmd, "@Nombre", DbType.String, usr.Nombre);
                 db.AddInParameter(cmd, "@Apellido", DbType.String, usr.Apellido);
                 db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usr);
@@ -344,6 +343,8 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@PerfilId", DbType.Int32, perfil);
                 db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, idioma);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
+                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
@@ -375,7 +376,8 @@ namespace AccesoDatos
                 Localidad = localidadDAC.BuscarPorId(GetDataValue<int>(dr, "LocalidadId")), //Mapper
                 FechaNacimiento = GetDataValue<DateTime>(dr, "FechaNacimiento"),
                 PerfilUsr = perfilUsrDAC.BuscarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
-                Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")) //Mapper
+                Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")), //Mapper
+                FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta")
             };
 
             return usuario;

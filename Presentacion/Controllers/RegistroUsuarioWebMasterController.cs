@@ -49,8 +49,7 @@ namespace Presentacion.Controllers
                 usuario.Direccion = "N/A";
                 usuario.Telefono = "N/A";
                 usuario.FechaNacimiento = DateTime.Now;
-
-
+                
                 ln.RegistrarUsuario(usuario, perfil, idioma, localidad, (String)Session["UsrLogin"]);
 
 

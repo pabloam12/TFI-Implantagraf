@@ -30,11 +30,13 @@ namespace Negocio
 
             usr.Psw = priv.EncriptarPsw(usr.Psw);
 
-            var ClienteDVH = inte.CalcularDVH(usr.RazonSocial + usr.Psw + usr.CUIL + usr.CUIL);
+            var ClienteDVH = inte.CalcularDVH(usr.RazonSocial + usr.CUIL + usr.PerfilUsr + usr.Usr + usr.Psw);
 
             usr = ad.RegistrarCliente(usr, ClienteDVH);
 
-            var BitacoraDVH = inte.CalcularDVH(usr.Usr + "ALTA USUARIO" + "INFO");
+            inte.RecalcularDVV("SEG_Usuario");
+
+            var BitacoraDVH = inte.CalcularDVH("SISTEMA" + usr.Usr + "ALTA USUARIO" + "INFO");
 
             aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA USUARIO", "INFO", "Se registró al usuario: " + usr.Id + " - '" + usr.Usr + "' con el perfil de 'Cliente'", BitacoraDVH);
 
@@ -53,7 +55,7 @@ namespace Negocio
 
             usr.Psw = priv.EncriptarPsw(usr.Psw);
 
-            var UsuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.Psw + usr.CUIL + usr.CUIL);
+            var UsuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.CUIL + usr.PerfilUsr + usr.Usr + usr.Psw);
 
             ad.RegistrarUsuario(usr, perfil, idioma, localidad, UsuarioDVH);
 
@@ -66,7 +68,7 @@ namespace Negocio
         public Usuario Autenticar(Usuario usr)
         {
             var ad = new CuentaDAC();
-            
+
             var aud = new Auditoria();
             var inte = new IntegridadDatos();
 

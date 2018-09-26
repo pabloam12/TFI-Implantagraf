@@ -87,7 +87,7 @@ namespace Presentacion.Controllers
             if (usrSesion.Nombre == null || usrSesion.PerfilUsr.Descripcion == null)
 
             {
-                //TODO
+                //TODO MENSAJE correcto
                 Session["Excepcion"] = "[Error Nº 47] - Error de Base de Datos";
                 return RedirectToAction("Index", "Excepciones");
             }

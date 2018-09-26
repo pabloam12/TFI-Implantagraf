@@ -29,15 +29,10 @@ namespace Presentacion.Controllers
         public ActionResult Registrarse(Usuario usuario)
         {
             var ln = new NegocioCuenta();
-
             
-
-            //var list = new SelectList(listaLocalidades, "Id", "Descripcion");
-
-            //ViewBag.Opciones = list;
-
             Session["ErrorRegistro"] = null;
             Session["Excepcion"] = null;
+
             // Usuario existente, solo devuelvo el error.
             if (ln.ValidarUsuario(usuario.Email) == false)
             {
@@ -49,9 +44,6 @@ namespace Presentacion.Controllers
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {
-                //if ((String)Session["PerfilUsuario"] == "Administrativo")
-                //{ return RedirectToAction("Index", "Cliente"); }
-
                 Session["IdUsuario"] = usrSesion.Id.ToString();
                 Session["NombreUsuario"] = usrSesion.Nombre;
                 Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
@@ -64,7 +56,7 @@ namespace Presentacion.Controllers
             else
             {
                 //TODO.
-                Session["Excepcion"] = "[Error Nº 47] - Error de Base de Datos";
+                Session["Excepcion"] = "[Error ] - Error de Registro de Usuario.";
                 return RedirectToAction("Index", "Excepciones");
             }
 

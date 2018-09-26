@@ -10,13 +10,16 @@
 <h2>Perfiles de Usuario</h2>
 <br />
 
-<p>
+@*<p>
     @Html.ActionLink("Nuevo Perfil de Usuario", "Crear", null, new { @class = "btn btn-primary btn-sm" })
-</p>
+</p>*@
 <br />
 
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Descripcion)
         </th>
@@ -26,12 +29,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
+            @Html.DisplayFor(modelItem => item.Id)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        @*<td>
             @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
             @Html.ActionLink("Borrar", "Borrar", new { id=item.Id })
-        </td>
+        </td>*@
     </tr>
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Seguridad;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,24 @@ namespace Presentacion.Controllers
     {
         public ActionResult Index()
         {
+            Session["Excepcion"] = null;
+
+            // Se comprueba la integridad de la base.
+            var integridad = new IntegridadDatos();
+
+            if (integridad.ValidarIntegridadTablas())
+            { //TODO MENSAJE correcto
+                Session["Excepcion"] = "[Error Nº 1] - Error de Integridad en la Base de Datos.";
+                return RedirectToAction("Index", "Excepciones");
+            }
+
+            //Se comprueban los DVV
+            if (integridad.ValidarTablasDVV())
+            { //TODO MENSAJE correcto
+                Session["Excepcion"] = "[Error Nº 2] - Error de Integridad en la Base de Datos.";
+                return RedirectToAction("Index", "Excepciones");
+            }
+
             return View();
         }
 

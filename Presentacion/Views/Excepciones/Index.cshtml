@@ -5,12 +5,12 @@
 
 @Html.Partial("_Espacio1")
 
-<h2>UPPS!! QUE VERGÜENZA!!</h2>
+<h2>TUVIMOS UN ERROR, DISCULPE LAS MOLESTIAS.</h2>
 <br />
 <hr />
     <div>
-
-        <div class="alert-danger"><h1>@Session["Excepcion"]</h1></div>
+                
+        <div class="alert alert-danger" role="alert">@Session["Excepcion"]!</div>
 
         <img src="~/Imagenes/sad_robot.png" />
 

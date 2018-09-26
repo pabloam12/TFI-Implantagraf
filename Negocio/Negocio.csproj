@@ -80,7 +80,6 @@
   <ItemGroup>
     <Compile Include="NegocioCategoria.cs" />
     <Compile Include="NegocioCuenta.cs" />
-    <Compile Include="NegocioBitacora.cs" />
     <Compile Include="NegocioIdioma.cs" />
     <Compile Include="NegocioCliente.cs" />
     <Compile Include="NegocioPerfilUsr.cs" />

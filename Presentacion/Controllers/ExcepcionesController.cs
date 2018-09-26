@@ -13,14 +13,21 @@ namespace Presentacion.Controllers
         // GET: Excepciones
         public ActionResult Index()
         {
-
             var aud = new Auditoria();
             var inte = new IntegridadDatos();
             var ln = new NegocioCuenta();
 
-            var BitacoraDVH = inte.CalcularDVH((String)Session["UsrLogin"] + "EXCEPCION" + "ERROR");
+            var criticidad = "LEVE";
 
-            aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXCEPCIÓN", "ERROR", "Ha ocurrido la siguiente excepción: " + (String)Session["Excepcion"], BitacoraDVH);
+            if ((String)Session["UsrLogin"] == null || (String)Session["UsrLogin"] == "")
+            {
+                Session["UsrLogin"] = "SISTEMA";
+                criticidad = "GRAVE";
+            }
+
+            var BitacoraDVH = inte.CalcularDVH((String)Session["UsrLogin"] + "EXCEPCION" + criticidad);
+
+            aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXCEPCIÓN", criticidad, (String)Session["Excepcion"], BitacoraDVH);
 
             ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 
@@ -33,8 +40,7 @@ namespace Presentacion.Controllers
             Session["UsrLogin"] = null;
 
             Session["ErrorLogin"] = null;
-            Session["Excepcion"] = null;
-
+            
             return View();
         }
     }
