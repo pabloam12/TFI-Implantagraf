@@ -10,43 +10,47 @@ namespace Seguridad
 {
     public class IntegridadDatos
     {
-        public List<string> ListarTablasFaltantes()
+        public bool ValidarIntegridadGlobal()
         {
-            string[] tablasImplantagraf = { "Carrito", "Categoria", "Marca", "Cliente", "DetalleOperacion", "Factura", "FormaPago", "ItemsCarrito", "Localidad", "Operacion", "Producto", "SEG_DVV", "Stock", "TipoOperacion", "SEG_Bitacora", "SEG_PerfilUsr", "SEG_Usuario", "Idioma", "SEG_EstadosCuenta" };
+            var flag = false;
 
-            List<String> tablasFaltantes = new List<String>();
+            if (ValidarRegistrosDVH())
+                flag = true;
 
-            for (int i = 0; i < tablasImplantagraf.Length; i++)
-            {
-                string tabla = tablasImplantagraf[i];
+            if (ValidarTablasDVV(flag))
+                flag = true;
 
-                if (ValidarExistencia(tabla) == 0)
+            if (ValidarIntegridadTablas())
+                flag = true;
 
-                { tablasFaltantes.Add(tabla); }
 
-            }
-
-            return tablasFaltantes;
+            return flag;
         }
 
         public bool ValidarIntegridadTablas()
         {
             string[] tablasImplantagraf = { "Carrito", "Categoria", "Marca", "Cliente", "DetalleOperacion", "Factura", "FormaPago", "ItemsCarrito", "Localidad", "Operacion", "Producto", "SEG_DVV", "Stock", "TipoOperacion", "SEG_Bitacora", "SEG_PerfilUsr", "SEG_Usuario", "Idioma", "SEG_EstadosCuenta" };
 
+            var flag = false;
+
             for (int i = 0; i < tablasImplantagraf.Length; i++)
             {
                 string tabla = tablasImplantagraf[i];
 
-                //Retorna true cuando falla la integridad.
                 if (ValidarExistencia(tabla) == 0)
-                { return true; }
+
+                {
+                    grabarRegistroIntegridad("SE ELIMINÓ", "Tabla: " + tabla);
+                    flag = true;
+                }
 
             }
 
-            return false;
+            //Retorna true cuando falla la integridad.
+            return flag;
         }
 
-        public bool ValidarTablasDVV()
+        public bool ValidarTablasDVV(bool flag)
         {
             string[] tablasDVV = { "SEG_Usuario", "SEG_Bitacora", "Operacion", "Cliente", "Factura" };
             long DVV = 0;
@@ -54,21 +58,31 @@ namespace Seguridad
             for (int i = 0; i < tablasDVV.Length; i++)
             {
                 string tabla = tablasDVV[i];
+                var cant = 0;
 
-                if (ContarRegistros(tabla) != 0)
+                if (ValidarExistencia(tabla) != 0)
                 {
-                    DVV = CalcularDVV(tabla);
-                    
-                    // Retorna true cuando el valor no coincide.
-                    if (ValidarDVV(tabla, DVV) == 0)
-                    { return true; }
+                    if ((cant = ContarRegistros(tabla)) != 0)
+                    {
+                        DVV = CalcularDVV(tabla);
+
+                        // Retorna true cuando el valor no coincide el valor DVV.
+                        if (ValidarDVV(tabla, DVV) == 0)
+                        {
+                            //NoCoincide el valor DVV ni la cantidad de registros.
+                            if (ValidarCantidadReg(tabla, cant) == 0)
+                            {
+                                grabarRegistroIntegridad("SE ALTERÓ EL Nº DE REGISTROS", "Tabla: " + tabla);
+                            }
+                                                        
+                            return true;
+                        }
+                    }
                 }
-                                                
             }
 
             return false;
         }
-
 
         public void RecalcularDVV()
         {
@@ -81,7 +95,9 @@ namespace Seguridad
 
                 DVV = CalcularDVV(tabla);
 
-                ActualizarDVV(tabla, DVV);
+                var CantReg = ContarRegistros(tabla);
+
+                ActualizarDVV(tabla, DVV, CantReg);
             }
 
         }
@@ -91,7 +107,10 @@ namespace Seguridad
             long DVV = 0;
 
             DVV = CalcularDVV(tabla);
-            ActualizarDVV(tabla, DVV);
+
+            var cantReg = ContarRegistros(tabla);
+
+            ActualizarDVV(tabla, DVV, cantReg);
 
         }
 
@@ -109,12 +128,18 @@ namespace Seguridad
             return accDatos.ValidarDVV(tabla, DVV);
         }
 
-
-        private void ActualizarDVV(string tabla, long DVV)
+        private int ValidarCantidadReg(string tabla, int cantReg)
         {
             var accDatos = new IntegridadDAC();
 
-            accDatos.ActualizarDVV(tabla, DVV);
+            return accDatos.ValidarDVV(tabla, cantReg);
+        }
+
+        private void ActualizarDVV(string tabla, long DVV, int CantReg)
+        {
+            var accDatos = new IntegridadDAC();
+
+            accDatos.ActualizarDVV(tabla, DVV, CantReg);
         }
 
         public int ContarRegistros(string tabla)
@@ -149,5 +174,58 @@ namespace Seguridad
 
             return DVH;
         }
+
+        public void grabarRegistroIntegridad(string Col_A = "N/A", string Col_B = "N/A", string Col_C = "N/A", string Col_D = "N/A", string Col_E = "N/A", string Col_F = "N/A", string Col_G = "N/A")
+        {
+            var accDatos = new IntegridadDAC();
+
+            accDatos.grabarRegistroIntegridad(Col_A, Col_B, Col_C, Col_D, Col_E, Col_F, Col_G);
+
+        }
+
+        public List<IntegridadRegistros> ListarRegistrosTablasFaltantes()
+        {
+            var accDatos = new IntegridadDAC();
+
+            return accDatos.ListarRegistrosTablasFaltantes();
+
+        }
+
+        public void LimpiarTablaRegistrosTablasFaltantes()
+        {
+            var accDatos = new IntegridadDAC();
+
+            accDatos.LimpiarTablaRegistrosTablasFaltantes();
+
+        }
+
+        public bool ValidarRegistrosDVH()
+        {
+            var flag = false;
+            var accDatosUsuario = new CuentaDAC();
+
+            List<Usuario> listadoUsuarios = new List<Usuario>();
+
+            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
+
+            foreach (Usuario usuarioActual in listadoUsuarios)
+            {
+                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    flag = true;
+                }
+            }
+
+            //AGREGAR EL RESTO DE LOS FOREACH.
+
+            //accDatos.ValidarBitacoraDVH();
+            //accDatos.ValidarOperacionDVH();
+            //accDatos.ValidarClienteDVH();
+            //accDatos.ValidarFacturaDVH();
+
+            return flag;
+        }
+
     }
 }

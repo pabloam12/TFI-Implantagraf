@@ -89,6 +89,7 @@
     <Compile Include="FormaPago.cs" />
     <Compile Include="Idioma.cs" />
     <Compile Include="Informacion.cs" />
+    <Compile Include="IntegridadRegistros.cs" />
     <Compile Include="ItemsCarrito.cs" />
     <Compile Include="Localidad.cs" />
     <Compile Include="Login.cs" />

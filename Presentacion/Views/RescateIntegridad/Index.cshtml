@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Entidades.IntegridadRegistros>
+
+@{
+    ViewBag.Title = "Usuarios WebMaster";
+
+}
+
+@Html.Partial("_Espacio1")
+
+<h2>DETALLE DE TABLAS CORRUPTAS</h2>
+<br />
+
+<table class="table">
+    @*<tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_A)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_B)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_C)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_D)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_E)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_F)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Col_G)
+        </th>
+        <th></th>
+    </tr>*@
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_A)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_B)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_C)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_D)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_E)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_F)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Col_G)
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.Partial("_Espacio2")

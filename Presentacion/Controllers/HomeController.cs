@@ -16,19 +16,14 @@ namespace Presentacion.Controllers
             // Se comprueba la integridad de la base.
             var integridad = new IntegridadDatos();
 
-            if (integridad.ValidarIntegridadTablas())
+            integridad.LimpiarTablaRegistrosTablasFaltantes();
+
+            if (integridad.ValidarIntegridadGlobal())
             { //TODO MENSAJE correcto
                 Session["Excepcion"] = "[Error Nº 1] - Error de Integridad en la Base de Datos.";
                 return RedirectToAction("Index", "Excepciones");
             }
-
-            //Se comprueban los DVV
-            if (integridad.ValidarTablasDVV())
-            { //TODO MENSAJE correcto
-                Session["Excepcion"] = "[Error Nº 2] - Error de Integridad en la Base de Datos.";
-                return RedirectToAction("Index", "Excepciones");
-            }
-
+            
             return View();
         }
 

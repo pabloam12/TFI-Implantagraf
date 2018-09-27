@@ -15,7 +15,7 @@ namespace AccesoDatos
         {
 
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
-               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
+               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]  " +
                "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId;";
 
             var result = new List<Usuario>();
@@ -377,7 +377,8 @@ namespace AccesoDatos
                 FechaNacimiento = GetDataValue<DateTime>(dr, "FechaNacimiento"),
                 PerfilUsr = perfilUsrDAC.BuscarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
                 Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")), //Mapper
-                FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta")
+                FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
             };
 
             return usuario;

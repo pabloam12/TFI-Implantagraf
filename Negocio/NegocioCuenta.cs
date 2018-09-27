@@ -31,7 +31,7 @@ namespace Negocio
             usr.Psw = priv.EncriptarPsw(usr.Psw);
 
             var ClienteDVH = inte.CalcularDVH(usr.RazonSocial + usr.CUIL + usr.PerfilUsr + usr.Usr + usr.Psw);
-
+            
             usr = ad.RegistrarCliente(usr, ClienteDVH);
 
             inte.RecalcularDVV("SEG_Usuario");
@@ -56,7 +56,7 @@ namespace Negocio
             usr.Psw = priv.EncriptarPsw(usr.Psw);
 
             var UsuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.CUIL + usr.PerfilUsr + usr.Usr + usr.Psw);
-
+            
             ad.RegistrarUsuario(usr, perfil, idioma, localidad, UsuarioDVH);
 
             var BitacoraDVH = inte.CalcularDVH(usuarioSistema + usr.Usr + "ALTA USUARIO" + "INFO");

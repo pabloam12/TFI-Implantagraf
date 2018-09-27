@@ -57,5 +57,7 @@ namespace Entidades
         public Idioma Idioma { get; set; }
 
         public DateTime FechaAlta { get; set; }
+
+        public long DVH { get; set; }
     }
 }

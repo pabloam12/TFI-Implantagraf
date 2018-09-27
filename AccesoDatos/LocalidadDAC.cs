@@ -90,7 +90,7 @@ namespace AccesoDatos
         public List<Localidad> Listar()
         {
 
-            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Localidad WHERE FechaBaja = '2000/01/01' OR FechaBaja is null ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Localidad WHERE (FechaBaja = '2000/01/01' OR FechaBaja is null) AND Id<>'1' ORDER BY [Descripcion]";
 
             var result = new List<Localidad>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
