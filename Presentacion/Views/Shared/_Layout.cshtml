@@ -7,14 +7,14 @@
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    </head>
+</head>
 
 
 
 <body>
     <div class="navbar navbar-default navbar-fixed-top" style="background-color: #FFFFFF">
-       
-    <div class="container">
+
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -28,7 +28,7 @@
                     Implantagraf
                     @*@Html.ActionLink("Implantagraf", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
                 </a>
-                
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -44,15 +44,16 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seguridad<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Consultar Bitacora", "Index", "Bitacora")</li>
+                                <li>@Html.ActionLink("Consultar Bitácora", "Index", "Bitacora")</li>
                             </ul>
                         </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Idiomas de Usuario", "Index", "Idioma")</li>
-                                <li>@Html.ActionLink("Perfiles de Usuario", "Index", "PerfilUsr")</li>
+                                @*<li>@Html.ActionLink("Idiomas de Usuario", "Index", "Idioma")</li>*@
+                                @*<li>@Html.ActionLink("Perfiles de Usuario", "Index", "PerfilUsr")</li>*@
+                                <li>@Html.ActionLink("Usuarios", "Contacto", "Home")</li>
                             </ul>
                         </li>
 
@@ -73,28 +74,29 @@
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Reporte de Clientes", "Contacto", "Home")</li>
                                 <li>@Html.ActionLink("Reporte de Ventas", "Contacto", "Home")</li>
-                                
+                                <li>@Html.ActionLink("Reporte de Alquileres", "Contacto", "Home")</li>
                             </ul>
                         </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gestión<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Clientes", "Index", "Cliente")</li>
                                 <li>@Html.ActionLink("Productos", "Contacto", "Home")</li>
                                 <li>@Html.ActionLink("Stock", "Contacto", "Home")</li>
                             </ul>
                         </li>
                     }
-                                       
+
+                    <li>@Html.ActionLink("Catálogo", "Contacto", "Home")</li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    
+
     <div class="container body-content">
-                @RenderBody()
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; Implantagraf - Pablo Mahiques - @DateTime.Now.Year</p>

@@ -89,7 +89,7 @@ namespace AccesoDatos
         public List<Categoria> Listar()
         {
 
-            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Categoria  WHERE FechaBaja = 2000/01/01 OR FechaBaja is null ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Categoria  WHERE FechaBaja = '2000/01/01' OR FechaBaja is null ORDER BY [Descripcion]";
 
             var result = new List<Categoria>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
