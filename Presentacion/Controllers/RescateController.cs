@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Negocio;
+using Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,21 @@ namespace Presentacion.Controllers
         // GET: Rescate
         public ActionResult Index()
         {
+
+            return View();
+
+        }
+
+        public ActionResult SolucionarIntegridad()
+        {
+            var integridad = new IntegridadDatos();
+
+            integridad.RecalcularTodosDVH();
+
+            integridad.LimpiarTablaRegistrosTablasFaltantes();
+
+            integridad.ValidarIntegridadGlobal();
+
             return View();
 
         }

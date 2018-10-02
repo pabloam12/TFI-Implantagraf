@@ -14,8 +14,8 @@ namespace AccesoDatos
         public List<Usuario> ListarUsuariosPorPerfil(int perfil)
         {
 
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
-               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]  " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
+               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
                "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId;";
 
             var result = new List<Usuario>();
@@ -233,8 +233,8 @@ namespace AccesoDatos
 
         public Usuario Autenticar(Usuario usr)
         {
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]  " +
                 "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
 
             Usuario usuario = null;
@@ -261,11 +261,11 @@ namespace AccesoDatos
         {
             const string sqlStatement = "INSERT INTO dbo.SEG_Usuario ([RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], " +
                 "[Estado], [Intentos], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]) " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [FechaBaja], [FechaModi], [PerfilId], [IdiomaId], [DVH]) " +
 
                 "VALUES(@RazonSocial, @Nombre, @Apellido, @Usr, @Psw, @CUIL, " +
                 "@Estado, @Intentos, @Email, @Telefono, " +
-                "@Direccion, @LocalidadId, @FechaAlta, @FechaAlta, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
+                "@Direccion, @LocalidadId, @FechaAlta, @FechaAlta, @FechaBaja, @FechaModi, @PerfilId, @IdiomaId, @DVH); SELECT SCOPE_IDENTITY(); ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -291,6 +291,8 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@PerfilId", DbType.Int32, 3);
                 db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, 1);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
+                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
 
                 // Ejecuto la consulta y guardo el id que devuelve.
                 usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
@@ -351,7 +353,6 @@ namespace AccesoDatos
 
             }
 
-
         }
 
         private Usuario MapearUsuario(IDataReader dr)
@@ -367,8 +368,8 @@ namespace AccesoDatos
                 Nombre = GetDataValue<string>(dr, "Nombre"),
                 Apellido = GetDataValue<string>(dr, "Apellido"),
                 Usr = GetDataValue<string>(dr, "Usr"),
-                Psw = "************",
-                PswConfirmacion = "************",
+                Psw = GetDataValue<string>(dr, "Psw"),
+                PswConfirmacion = GetDataValue<string>(dr, "Psw"),
                 CUIL = GetDataValue<string>(dr, "CUIL"),
                 Email = GetDataValue<string>(dr, "Email"),
                 Telefono = GetDataValue<string>(dr, "Telefono"),
@@ -386,8 +387,8 @@ namespace AccesoDatos
 
         public Usuario InformacionCuenta(string idUsuario)
         {
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [CUIL], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId]  " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
+                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
                 "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
 
             var infoUsuario = new Usuario();

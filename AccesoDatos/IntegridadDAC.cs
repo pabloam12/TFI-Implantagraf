@@ -178,5 +178,21 @@ namespace AccesoDatos
             return registro;
         }
 
+        public void ActualizarDVHUsuario(int id, long DVH)
+        {             
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario SET [DVH]=@DVH WHERE Id=@id";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@id", DbType.Int32, id);
+                
+                db.ExecuteScalar(cmd);
+            }
+
+        }
+
     }
 }

@@ -22,8 +22,7 @@ namespace Seguridad
 
             if (ValidarIntegridadTablas())
                 flag = true;
-
-
+            
             return flag;
         }
 
@@ -206,11 +205,33 @@ namespace Seguridad
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
 
+            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(1);
+
+            foreach (Usuario usuarioActual in listadoUsuarios)
+            {
+                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    flag = true;
+                }
+            }
+
+            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(2);
+
+            foreach (Usuario usuarioActual in listadoUsuarios)
+            {
+                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    flag = true;
+                }
+            }
+
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
-                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
+                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
                 {
                     grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
                     flag = true;
@@ -225,6 +246,50 @@ namespace Seguridad
             //accDatos.ValidarFacturaDVH();
 
             return flag;
+        }
+
+        public void ActualizarDVHUsuario(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+            
+            integ.ActualizarDVHUsuario(id, DVH);
+        }
+
+        public void RecalcularTodosDVH()
+        {
+            var accDatosUsuario = new CuentaDAC();
+            long dvhActual;
+
+            List<Usuario> listadoUsuarios = new List<Usuario>();
+
+            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(1);
+
+            foreach (Usuario usuarioActual in listadoUsuarios)
+            {
+                dvhActual = CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
+
+                ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
+            }
+
+            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(2);
+
+            foreach (Usuario usuarioActual in listadoUsuarios)
+            {
+                dvhActual = CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
+
+                ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
+            }
+
+            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
+
+            foreach (Usuario usuarioActual in listadoUsuarios)
+            {
+                dvhActual = CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
+
+                ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
+            }
+
+            RecalcularDVV("SEG_Usuario");
         }
 
     }
