@@ -3,6 +3,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -59,7 +60,7 @@ namespace AccesoDatos
             }
 
         }
-        
+
 
         public long CalcularDVV(string tabla)
         {
@@ -179,19 +180,82 @@ namespace AccesoDatos
         }
 
         public void ActualizarDVHUsuario(int id, long DVH)
-        {             
+        {
             const string sqlStatement = "UPDATE dbo.SEG_Usuario SET [DVH]=@DVH WHERE Id=@id";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
-            
+
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
                 db.AddInParameter(cmd, "@id", DbType.Int32, id);
-                
+
                 db.ExecuteScalar(cmd);
             }
 
+        }
+
+        public void RealizarBackUp()
+        {
+            const string sqlStatement = "DECLARE @path VARCHAR(500) DECLARE @name VARCHAR(500) DECLARE @pathwithname VARCHAR(500) DECLARE @time DATETIME " +
+                                        "DECLARE @year VARCHAR(4) DECLARE @month VARCHAR(2) DECLARE @day VARCHAR(2) DECLARE @hour VARCHAR(2) " +
+                                        "DECLARE @minute VARCHAR(2) DECLARE @second VARCHAR(2) " +
+
+                                        //2.Definir la ruta del archivo.
+                                        "SET @path = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\' " +
+
+                                        //3.Setear las variables.
+                                        "SELECT @time = GETDATE() SELECT @year = (SELECT CONVERT(VARCHAR(4), DATEPART(yy, @time))) SELECT @month = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(mm, @time), '00'))) " +
+                                        "SELECT @day = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(dd, @time), '00'))) SELECT @hour = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(hh, @time), '00'))) " +
+                                        "SELECT @minute = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(mi, @time), '00'))) " +
+
+                                        //4.Defining the filename format
+                                        "SELECT @name = 'Implantagraf' + '_' + @year + @month + @day + '_' + @hour + @minute SET @pathwithname = @path + @namE + '.bak' " +
+
+                                        //5.Executing the backup command.
+                                        "BACKUP DATABASE[Implantagraf] TO DISK = @pathwithname WITH NOFORMAT, NOINIT, SKIP, REWIND, NOUNLOAD, STATS = 10;";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.ExecuteScalar(cmd);
+            }
+
+        }
+
+        public List<Respaldo> ListarRespaldos()
+        {
+            List<Respaldo> listaRespaldos = new List<Respaldo>();
+
+            System.IO.DirectoryInfo directorio = new System.IO.DirectoryInfo(@"C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\Backup");
+
+            FileInfo[] archivos = directorio.GetFiles();
+
+            foreach (var archivoActual in archivos)
+            {
+                var respaldoActual = new Respaldo { Ruta = archivoActual.FullName };
+                listaRespaldos.Add(respaldoActual);
+
+            }
+
+            return listaRespaldos.OrderByDescending(x => x.Ruta).ToList();
+        }
+
+        public void RestaurarCopiaRespaldo(string rutaCompleta)
+        {
+            //string sqlStatement = "USE[master] " +
+                
+            //                      "RESTORE DATABASE Implantagraf " +
+            //                      "FROM DISK = '" + rutaCompleta + "';";
+
+            //var db = DatabaseFactory.CreateDatabase(ConnectionNameMaster);
+           
+            //using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            //{
+            //    cmd.CommandTimeout = 600;
+            //    db.ExecuteNonQuery(cmd);
+            //}
         }
 
     }

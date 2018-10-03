@@ -33,6 +33,34 @@ namespace Presentacion.Controllers
 
         }
 
-       
+        public ActionResult RealizarBackUp()
+        {
+            var integridad = new IntegridadDatos();
+
+            integridad.RealizarBackUp();
+
+            return View();
+
+        }
+
+        public ActionResult ListarRespaldos()
+        {
+            var integridad = new IntegridadDatos();
+
+
+            return View(integridad.ListarRespaldos());
+
+        }
+
+        public ActionResult RestaurarCopiaRespaldo(string rutaCompleta)
+        {
+                    
+                var integridad = new IntegridadDatos();
+
+                integridad.RestaurarCopiaRespaldo(rutaCompleta);
+
+                return View();
+           
+        }
     }
 }

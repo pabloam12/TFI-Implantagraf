@@ -13,6 +13,7 @@ namespace AccesoDatos
 
     {
         protected const string ConnectionName = "DefaultConnection";
+        protected const string ConnectionNameMaster = "DefaultConnection";
 
         static DataAccessComponent()
         {

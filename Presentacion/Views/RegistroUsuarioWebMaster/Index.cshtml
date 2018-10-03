@@ -10,73 +10,75 @@
 <h2>Usuarios WebMasters</h2>
 <br />
 
-    <div class="form-group">
+<div class="form-group">
     @Html.ActionLink("Nuevo Usuario WebMaster", "RegistrarUsuarioWebMaster", null, new { @class = "btn btn-success btn-sm" })
-   </div>
+</div>
 
 
 <div class="form-group">
     @Html.ActionLink("Volver", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
 </div>
 
-    <table class="table">
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usr)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FechaAlta)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-          
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usr)
-            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usr)
+            </td>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-                       
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAlta)
-            </th>
-            <th></th>
-        </tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido)
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usr)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Telefono)
-                </td>
-              
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaAlta)
-                </td>
-                @*TODO*@
-                @*<td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaAlta)
+            </td>
+            @*TODO*@
+            @*<td>
                     @Html.ActionLink("Borrar", "BorrarUsuario", new { id = item.Id })
                 </td>*@
-            </tr>
-        }
+        </tr>
+    }
 
-    </table>
+</table>
 
-    @Html.Partial("_Espacio2")
+<p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
+
+@Html.Partial("_Espacio2")

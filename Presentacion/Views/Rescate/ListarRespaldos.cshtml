@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Entidades.Respaldo>
+
+@Html.Partial("_Espacio1")
+
+
+<p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">Realizar Nuevo BackUp</a></p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ruta)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ruta)
+            </td>
+
+            <td>
+                @Html.ActionLink("Restaurar", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta })
+                @*  @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="row">
+    <p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
+</div>
+
+@Html.Partial("_Espacio2")

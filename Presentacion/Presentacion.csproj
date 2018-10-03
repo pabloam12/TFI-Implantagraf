@@ -300,6 +300,9 @@
     <Content Include="Views\Cliente\Index.cshtml" />
     <Content Include="Views\RescateIntegridad\Index.cshtml" />
     <Content Include="Views\Rescate\SolucionarIntegridad.cshtml" />
+    <Content Include="Views\Rescate\RealizarBackUp.cshtml" />
+    <Content Include="Views\Rescate\ListarRespaldos.cshtml" />
+    <Content Include="Views\Rescate\RestaurarCopiaRespaldo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,7 +22,7 @@ namespace Seguridad
 
             if (ValidarIntegridadTablas())
                 flag = true;
-            
+
             return flag;
         }
 
@@ -73,7 +73,7 @@ namespace Seguridad
                             {
                                 grabarRegistroIntegridad("SE ALTERÓ EL Nº DE REGISTROS", "Tabla: " + tabla);
                             }
-                                                        
+
                             return true;
                         }
                     }
@@ -251,12 +251,14 @@ namespace Seguridad
         public void ActualizarDVHUsuario(int id, long DVH)
         {
             var integ = new IntegridadDAC();
-            
+
             integ.ActualizarDVHUsuario(id, DVH);
         }
 
         public void RecalcularTodosDVH()
         {
+            //TODO FALTAN EL RESTO DE LAS TABLAS.
+
             var accDatosUsuario = new CuentaDAC();
             long dvhActual;
 
@@ -292,5 +294,29 @@ namespace Seguridad
             RecalcularDVV("SEG_Usuario");
         }
 
+        public void RealizarBackUp()
+        {
+
+            var integridad = new IntegridadDAC();
+
+            integridad.RealizarBackUp();
+
+        }
+
+        public IEnumerable<Respaldo> ListarRespaldos()
+        {
+            var integridad = new IntegridadDAC();
+
+            return integridad.ListarRespaldos();
+
+        }
+
+        public void RestaurarCopiaRespaldo(string rutaCompleta)
+        {
+            var integridad = new IntegridadDAC();
+
+            integridad.RestaurarCopiaRespaldo(rutaCompleta);
+
+        }
     }
 }
