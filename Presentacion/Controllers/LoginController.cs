@@ -14,7 +14,6 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
-
             Session["ErrorLogin"] = null;
             return RedirectToAction("Login");
         }

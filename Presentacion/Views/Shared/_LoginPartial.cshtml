@@ -4,19 +4,19 @@
     //using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     //{
         @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hola " + Session["NombreUsuario"] + "!", "Index", "Cuenta")
-            </li>
-            <li>@Html.ActionLink("Cerrar Sesión", "Index", "Logout")</li>
-        </ul>
+    <ul class="navbar_user">
+        @*<ul class="nav navbar-nav navbar-right">*@
+        <li>
+            @Html.ActionLink("Hola " + Session["NombreUsuario"] + "!", "Index", "Cuenta")
+        </li>
+        <li>@Html.ActionLink("Cerrar Sesión", "Index", "Logout")</li>
+    </ul>
     //}
 }
 else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Registrarse", "Index", "RegistroCliente")</li>
-        <li>@Html.ActionLink("Iniciar Sesión", "Index", "Login")</li>
-    </ul>
+{<ul class="navbar_user">
+    @*<ul class="nav navbar-nav navbar-right">*@
+    <li>@Html.ActionLink("Registrarse", "Index", "RegistroCliente")</li>
+    <li>@Html.ActionLink("Iniciar Sesión", "Index", "Login")</li>
+</ul>
 }

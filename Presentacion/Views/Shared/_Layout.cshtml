@@ -1,112 +1,194 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Colo Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/bootstrap4/bootstrap.min.css">
+    <link href="~/ColoShop/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/responsive.css">
 </head>
 
 
 
 <body>
-    <div class="navbar navbar-default navbar-fixed-top" style="background-color: #FFFFFF">
+    <div class="super_container">
+        <header class="header trans_300">
 
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="@Url.Action("Index","Home")">
+            <!-- Top Navigation -->
 
-                    <img src="~/Imagenes/Implantagraf - SoloLogo.png" width="25" height="25" class="d-inline-block align-top" alt="">
-                    @*<img src="~/Imagenes/Implantagraf - SoloLogo.png" width="30" height="30" class="d-inline-block align-top" alt="">*@
-                    Implantagraf
-                    @*@Html.ActionLink("Implantagraf", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-                </a>
+            <div class="top_nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if (Session["PerfilUsuario"] != null)
+                            {<div class="top_nav_left">Hola @Session["PerfilUsuario"]!</div>}
+                            else
+                            {<div class="top_nav_left">Bienvenido a nuestro sitio!</div>}
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="top_nav_right">
+                                <ul class="top_nav_menu">
 
+                                    <!-- Currency / Language / My Account -->
+                                    @*<li class="currency">
+                                            <a href="#">
+                                                usd
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="currency_selection">
+                                                <li><a href="#">cad</a></li>
+                                                <li><a href="#">aud</a></li>
+                                                <li><a href="#">eur</a></li>
+                                                <li><a href="#">gbp</a></li>
+                                            </ul>
+                                        </li>*@
+                                    <li class="language">
+                                        <a href="#">
+                                            Idioma
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="language_selection">
+                                            <li><a href="#">Español</a></li>
+                                            <li><a href="#">English</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="account">
+                                        <a href="#">
+                                            Cuenta
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="account_selection">
+
+                                            @if (Session["PerfilUsuario"] == null)
+
+                                            {
+                                                <li>@Html.ActionLink("LogIn", "Login", "Login")</li>}
+                                            else
+                                            {
+                                                <li> @Html.ActionLink("Info", "DetalleCuenta", "Cuenta") </li>
+                                                <li> @Html.ActionLink("Logout", "Index", "Logout") </li>}
+                                            @*<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>*@
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
 
-                    @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
-                    {
-                        <li>@Html.ActionLink("Quienes Somos", "Informacion", "Home")</li>
-                        <li>@Html.ActionLink("Contacto", "Contacto", "Home")</li>
-                    }
+            <!-- Main Navigation -->
 
-                    @if ((String)Session["PerfilUsuario"] == "WebMaster")
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seguridad<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Consultar Bitácora", "Index", "Bitacora")</li>
-                            </ul>
-                        </li>
+            <div class="main_nav_container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <div class="logo_container">
+                                <a href="~/Home/Index">implantagraf<span>@*graf*@</span></a>
+                            </div>
+                            <nav class="navbar">
+                                <ul class="navbar_menu">
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                @*<li>@Html.ActionLink("Idiomas de Usuario", "Index", "Idioma")</li>*@
-                                @*<li>@Html.ActionLink("Perfiles de Usuario", "Index", "PerfilUsr")</li>*@
-                                <li>@Html.ActionLink("Usuarios", "Contacto", "Home")</li>
-                            </ul>
-                        </li>
+                                    @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
+                                    {
+                                        <li><a href="~/Home/Index">página principal</a></li>
+                                        <li><a href="#">catálogo</a></li>
+                                        <li><a href="#">quienes somos</a></li>
+                                        <li><a href="~/Home/Contacto">Contacto</a></li>
+                                    }
+                                    @if ((String)Session["PerfilUsuario"] == "Administrativo")
+                                    {
+                                        <li><a href="~/Home/Index">Ventas</a></li>
+                                        <li><a href="#">Alquileres</a></li>
+                                        
+                                     }
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Objetos de Negocio<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Categorias", "Index", "Categoria")</li>
-                                <li>@Html.ActionLink("Localidades", "Index", "Localidad")</li>
-                                <li>@Html.ActionLink("Marcas", "Index", "Marca")</li>
-                            </ul>
-                        </li>
-                    }
+                                    @if ((String)Session["PerfilUsuario"] == "WebMaster")
+                                    {
+                                        <li><a href="~/Bitacora/Index">Consultar Bitácora</a></li>
+                                        <li><a href="#">Usuarios</a></li>
+                                        <li><a href="#">Objetos de Negocio</a></li>
+                                    }
 
-                    @if ((String)Session["PerfilUsuario"] == "Administrativo")
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Reporte de Clientes", "Contacto", "Home")</li>
-                                <li>@Html.ActionLink("Reporte de Ventas", "Contacto", "Home")</li>
-                                <li>@Html.ActionLink("Reporte de Alquileres", "Contacto", "Home")</li>
-                            </ul>
-                        </li>
+                                </ul>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gestión<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Productos", "Contacto", "Home")</li>
-                                <li>@Html.ActionLink("Stock", "Contacto", "Home")</li>
-                            </ul>
-                        </li>
-                    }
-
-                    <li>@Html.ActionLink("Catálogo", "Contacto", "Home")</li>
-
-                </ul>
-                @Html.Partial("_LoginPartial")
+                                @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
+                                {
+                                    <ul class="navbar_user">
+                                        @*<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>*@
+                                        @*<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>*@
+                                        <li class="checkout">
+                                            <a href="#">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                <span id="checkout_items" class="checkout_items">2</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                }
+                                <div class="hamburger_container">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="container body-content">
+        </header>
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; Implantagraf - Pablo Mahiques - @DateTime.Now.Year</p>
-        </footer>
+        <div class="container body-content">
+
+            <hr />
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                                <ul class="footer_nav">
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">FAQs</a></li>
+                                    <li><a href="contact.html">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="footer_nav_container">
+                                <div class="cr">©2018 - Pablo Mahiques - Trabajo Final de Ingeniería.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-
-    @RenderSection("scripts", required: false)
-
+    <script src="~/ColoShop/js/jquery-3.2.1.min.js"></script>
+    <script src="~/ColoShop/styles/bootstrap4/popper.js"></script>
+    <script src="~/ColoShop/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="~/ColoShop/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/ColoShop/plugins/easing/easing.js"></script>
+    <script src="~/ColoShop/js/custom.js"></script>
 </body>
 </html>
