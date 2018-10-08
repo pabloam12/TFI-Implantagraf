@@ -4,7 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Colo Shop Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        
+    
     <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/bootstrap4/bootstrap.min.css">
     <link href="~/ColoShop/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -98,7 +99,7 @@
                                     @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
                                     {
                                         <li><a href="~/Home/Index">página principal</a></li>
-                                        <li><a href="#">catálogo</a></li>
+                                        <li><a href="~/Producto/Catalogo">catálogo</a></li>
                                         <li><a href="#">quienes somos</a></li>
                                         <li><a href="~/Home/Contacto">Contacto</a></li>
                                     }
@@ -184,6 +185,7 @@
 
     </div>
 
+    
     <script src="~/ColoShop/js/jquery-3.2.1.min.js"></script>
     <script src="~/ColoShop/styles/bootstrap4/popper.js"></script>
     <script src="~/ColoShop/styles/bootstrap4/bootstrap.min.js"></script>
