@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Bitacora.cs" />
     <Compile Include="Carrito.cs" />
+    <Compile Include="CartItemDTO.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="DetalleOperacion.cs" />

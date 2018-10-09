@@ -244,18 +244,19 @@ namespace AccesoDatos
 
         public void RestaurarCopiaRespaldo(string rutaCompleta)
         {
-            //string sqlStatement = "USE[master] " +
-                
-            //                      "RESTORE DATABASE Implantagraf " +
-            //                      "FROM DISK = '" + rutaCompleta + "';";
+            string sqlStatement = "USE[master] " +
+                                  "ALTER DATABASE [Implantagraf] SET SINGLE_USER WITH ROLLBACK IMMEDIATE " +
+                                  "ALTER DATABASE [Implantagraf] SET MULTI_USER " +
+                                  "RESTORE DATABASE [Implantagraf] " +
+                                  "FROM DISK = '" + rutaCompleta + "' WITH REPLACE;";
+            
+            var db = DatabaseFactory.CreateDatabase(ConnectionNameMaster);
 
-            //var db = DatabaseFactory.CreateDatabase(ConnectionNameMaster);
-           
-            //using (var cmd = db.GetSqlStringCommand(sqlStatement))
-            //{
-            //    cmd.CommandTimeout = 600;
-            //    db.ExecuteNonQuery(cmd);
-            //}
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                cmd.CommandTimeout = 600;
+               db.ExecuteNonQuery(cmd);
+            }
         }
 
     }

@@ -9,7 +9,7 @@
 <body>
 
     <div class="container contact_container">
-   
+
         <div class="row">
 
             <div class="col-lg-9 contact_col">
@@ -27,7 +27,8 @@
                             @Html.LabelFor(model => model.Usr, htmlAttributes: new { @class = "control-label col-md-2" })
 
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Usr, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Usr, new { htmlAttributes = new { @class = "form-control" } }) 
+                                
                                 @Html.ValidationMessageFor(model => model.Usr, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -35,9 +36,12 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Psw, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Psw, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Psw, new { htmlAttributes = new { @class = "form-control" } }) 
+                                
                                 @Html.ValidationMessageFor(model => model.Psw, "", new { @class = "text-danger" })
                             </div>
+                                                       
+
                         </div>
                         <div class="form-group">
                             <div class="col-md-10 col-md-offset-1">
@@ -45,13 +49,14 @@
 
                                 @Html.ActionLink("¿Olvidó su Contraseña?", "RecuperarPsw", "Cuenta")
                             </div>
+
+
+                            @if ((String)Session["ErrorLogin"] != null)
+                            {<br />
+                                <div class="alert alert-danger" role="alert">@Session["ErrorLogin"]!</div>
+                            }
                         </div>
-
-                        @*@if (Session["ErrorLogin"] != null)
-                                {
-                            <div class="alert alert-danger" role="alert">@Session["ErrorLogin"]!</div>
-                                }*@
-
+                        
                     }
 
                 </div>
@@ -59,7 +64,7 @@
 
             <div class="col-lg-3 contact_col">
                 <div class="contact_contents">
-                    
+
                     <h4>SOY USUARIO NUEVO</h4>
                     <hr />
 

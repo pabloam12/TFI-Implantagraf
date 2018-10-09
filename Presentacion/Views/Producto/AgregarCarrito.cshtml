@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Productos en Carrito";
+}
+
+@Html.Partial("_Espacio1")
+
+<div class="row">
+    <div class="col-lg-8">
+        <h2>Productos en Carrito</h2><br />
+    </div>
+    @*<div class="col-lg-3">
+            <h4>Fecha: @DateTime.Now.ToShortDateString()</h4>
+        </div>*@
+    <div class="row">
+        <div class="col-lg-4" style="float:right">
+            @*@Html.ActionLink("Finalizar Compra", "finalizarCompra", "Cart", null, new { @class = "btn btn-primary" })*@
+            @*@Html.ActionLink("Finalizar Compra", "pagoCompra", "Cart", null, new { @class = "btn btn-primary" })*@
+        </div>
+    </div>
+</div>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayName("Id")
+        </th>
+        <th>
+            @Html.DisplayName("Nombre")
+        </th>
+        <th>
+            @Html.DisplayName("Descripcion")
+        </th>
+        <th></th>
+    </tr>
+    @{
+        double total = 0;
+    }
+    @if (Session["Carrito"] != null)
+    {
+        foreach (var item in Session["Carrito"] as List<Entidades.Producto>)
+        {
+            //total += (double)(item.Price * item.Quantity);
+            //item.ItemCount += 1;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Quitar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+        <tr>
+            <th colspan="2">
+                @Html.DisplayName("Total")
+            </th>
+            <th>
+                @Html.DisplayName(total.ToString())
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    }
+</table>
+<div class="row">
+    <div class="col-lg-2">
+        @Html.ActionLink("Seguir Agregando Productos", "Catalogo", "Producto", null, new { @class = "btn btn-success" })
+    </div>
+</div>
+
+@Html.Partial("_Espacio2")
