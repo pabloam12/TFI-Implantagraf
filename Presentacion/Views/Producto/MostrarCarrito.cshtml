@@ -13,8 +13,8 @@
                 <h2>Productos en Carrito</h2><br />
             </div>
             <div class="col-lg-8">
-                <h5>Fecha de Compra: @DateTime.Now.ToShortDateString()</h5>
-            </div>
+                    <h5>Fecha de Compra: @DateTime.Now.ToShortDateString()</h5>
+                </div>
             <div class="row">
                 <div class="col-lg-4" style="float:right">
                     @*@Html.ActionLink("Finalizar Compra", "finalizarCompra", "Cart", null, new { @class = "btn btn-primary" })*@
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        
+                
         <table class="table table-hover">
             <tr>
                 <th>
@@ -52,8 +52,7 @@
                 {
                     subTotal = (double)(item.Precio * item.Cantidad);
                     total += (double)(item.Precio * item.Cantidad);
-
-                    item.CantidadItems += 1;
+                                    
 
                     Session["ItemsCarrito"] = item.CantidadItems;
 
@@ -79,7 +78,7 @@
                     </tr>
                 }
 
-                <br />
+              
 
                 <tr>
                     <th colspan="2">

@@ -67,7 +67,7 @@ namespace Negocio
 
         }
 
-        public Usuario Autenticar(Usuario usr)
+        public Usuario Autenticar(Login usr)
         {
             var ad = new CuentaDAC();
 

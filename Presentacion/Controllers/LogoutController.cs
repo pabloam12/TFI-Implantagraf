@@ -25,6 +25,8 @@ namespace Presentacion.Controllers
 
             ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 
+            Session["ItemsCarrito"] = 0;
+
             Session["ErrorLogin"] = null;
             Session["IdUsuario"] = null;
             Session["NombreUsuario"] = null;

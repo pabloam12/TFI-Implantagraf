@@ -1,0 +1,102 @@
+﻿<html>
+
+<head>
+    <title>Single Product</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Colo Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/bootstrap4/bootstrap.min.css">
+    <link href="~/ColoShop/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" href="~/ColoShop/plugins/themify-icons/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/single_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/single_responsive.css">
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+    <div class="super_container">
+
+        <div class="container single_product_container">
+
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="single_product_pics">
+                        <div class="row">
+                            <div class="col-lg-12 image_col order-lg-2 order-1">
+                                <div class="single_product_image">
+                                    <div class="single_product_image_background" style="background-image: url('../../Imagenes/Fotos Maquinas/1.Manuales/MT-110.jpg'); "></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="product_details">
+                        <div class="product_details_title">
+                            <h2>Impresora Manual</h2>
+                            <h4>Modelo: MC-110</h4>
+                            <p>Máquina manual para imprimir en telas. Máxima área de impresión 150x100mm.</p>
+                        </div>
+                        <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
+                            <span class="ti-truck"></span><span>Envío Gratuito</span>
+                        </div>
+                        <br />
+                        <br />
+                        @*<div class="original_price">$629.99</div>*@
+                        <div class="product_price">$23.200</div>
+                        <ul class="star_rating">
+                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        </ul>
+
+                        <br />
+                        <br />
+                        <br />
+
+                        <h4>Cantidad:   1</h4>
+                        
+                        @if ((String)Session["PerfilUsuario"] != null)
+                        {
+
+                            <div class="red_button shop_now_button">@Html.ActionLink("Agregar al Carrito", "AgregarCarrito", new { productoId = 324 })</div>
+                        }
+
+                        @if ((String)Session["PerfilUsuario"] == null)
+                        {
+
+                            <div class="red_button shop_now_button">@Html.ActionLink("Iniciá Sesión", "Index", "Login")</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="~/ColoShop/js/jquery-3.2.1.min.js"></script>
+    <script src="~/ColoShop/styles/bootstrap4/popper.js"></script>
+    <script src="~/ColoShop/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="~/ColoShop/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/ColoShop/plugins/easing/easing.js"></script>
+    <script src="~/ColoShop/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="~/ColoShop/js/single_custom.js"></script>
+
+</body>
+
+</html>
+
+
+@Html.Partial("_Espacio2")

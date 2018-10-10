@@ -19,46 +19,67 @@ namespace Presentacion.Controllers
         }
 
 
-        public ActionResult DetalleProducto()
+        public ActionResult DetalleProductoMC110()
         {
+            return View();
+        }
+
+        public ActionResult MostrarCarrito()
+        {
+            return View();
+        }
+
+        public ActionResult AgregarCarrito(int productoId = 0)
+        {
+            var ln = new NegocioProducto();
+
+            var producto = ln.BuscarPorId(productoId);
+
+            if (Session["Carrito"] == null)
+            {
+                List<Carrito> productosCarrito = new List<Carrito>();
+
+                var carritoItem = new Carrito();
+                carritoItem.ProductoId = producto.Id;
+                carritoItem.Descripcion = producto.Nombre;
+                carritoItem.Cantidad = 1;
+                carritoItem.Precio = producto.Precio;
+
+                productosCarrito.Add(carritoItem);
+                Session["Carrito"] = productosCarrito;
+            }
+            else
+            {
+                List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+                var carritoItem = new Carrito();
+                carritoItem.ProductoId = producto.Id;
+                carritoItem.Descripcion = producto.Nombre;
+                carritoItem.Cantidad = 1;
+                carritoItem.Precio = producto.Precio;
+
+                int idexistente = controlarId(productoId);
+
+                if (idexistente == -1)
+                    productosCarrito.Add(carritoItem);
+                else
+                    productosCarrito[idexistente].Cantidad++;
+                Session["Carrito"] = productosCarrito;
+            }
 
             return View();
         }
 
-        public ActionResult AgregarCarrito(int productoId = 0, int cantidad = 0)
+        private int controlarId(int id)
         {
-            //var producto = new Producto ( productoId , "Maquina", "Maquina");
+            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
-            if (Session["Carrito"] == null)
+            for (int i = 0; i < productosCarrito.Count; i++)
             {
-                List<Producto> cartItem = new List<Producto>();
-                var carritoItem = new Producto();
-                carritoItem.Id = productoId;
-                carritoItem.Nombre = "Nombre de Prueba";
-                carritoItem.Descripcion = "Descripcion de Prueba";
-                //carritoItem.Quantity = producto.QuantitySold;
-
-                cartItem.Add(carritoItem);
-                Session["Carrito"] = cartItem;
+                if (productosCarrito[i].ProductoId == id)
+                    return i;
             }
-            else
-            {
-                List<Producto> cartItem = new List<Producto>();
-                var carritoItem = new Producto();
-                carritoItem.Id = productoId;
-                carritoItem.Nombre = "Nombre de Prueba";
-                carritoItem.Descripcion = "Descripcion de Prueba";
-                //carritoItem.Quantity = producto.QuantitySold;
 
-                cartItem.Add(carritoItem);
-
-                //if (idexistente == -1)
-                //    cartItem.Add(carritoItem);
-                //else
-                //    cartItem[idexistente].Quantity++;
-                Session["Carrito"] = cartItem;
-            }
-            return View();
+            return -1;
         }
     }
 }

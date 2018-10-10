@@ -26,14 +26,14 @@ namespace Presentacion.Controllers
 
 
         [HttpPost]
-        public ActionResult Login(Usuario usuario)
+        public ActionResult Login(Login login)
         {
             var ln = new NegocioCuenta();
             var seg = new Privacidad();
-            var usrSesion = usuario;
+           
 
             // Usuario con Sesión activa.
-            if (ln.ValidarSesionActiva(usuario.Usr))
+            if (ln.ValidarSesionActiva(login.Usuario))
             {
                 Session["ErrorLogin"] = "Usted ya tiene una Sesión Activa";
                 return RedirectToAction("Login");
@@ -50,29 +50,29 @@ namespace Presentacion.Controllers
             Session["Excepcion"] = null;
 
             // Usuario incorrecto, solo devuelvo el error al Login.
-            if (ln.ValidarUsuario(usuario.Usr))
+            if (ln.ValidarUsuario(login.Usuario))
             {
                 Session["ErrorLogin"] = "Usuario o contraseña inválidos";
                 return RedirectToAction("Login");
             }
 
             // Valido que la cuenta no este bloqueada.
-            if (ln.ValidarBloqueoCuenta(usuario.Usr))
+            if (ln.ValidarBloqueoCuenta(login.Usuario))
 
             { return RedirectToAction("CuentaBloqueada"); }
 
             //Encripto la contraseña.
-            usuario.Psw = seg.EncriptarPsw(usuario.Psw);
+            login.Contraseña = seg.EncriptarPsw(login.Contraseña);
 
             // Valido que la contraseña sea correcta, en caso negativo incremento intentos fallidos.
-            if (ln.ValidarUsuarioPsw(usuario.Usr, usuario.Psw))
+            if (ln.ValidarUsuarioPsw(login.Usuario, login.Contraseña))
             {
                 Session["ErrorLogin"] = "Usuario o contraseña inválidos";
 
                 //Sumo intento fallido.
-                if (ln.SumarIntentoFallido(usuario.Usr) == 3)
+                if (ln.SumarIntentoFallido(login.Usuario) == 3)
                 {
-                    ln.BloquearCuentaUsuario(usuario.Usr); //Bloqueo cuenta de Usuario.
+                    ln.BloquearCuentaUsuario(login.Usuario); //Bloqueo cuenta de Usuario.
 
                     return RedirectToAction("CuentaBloqueada");
                 }
@@ -80,7 +80,7 @@ namespace Presentacion.Controllers
                 return RedirectToAction("Login");
             }
 
-            usrSesion = ln.Autenticar(usuario);
+            var usrSesion = ln.Autenticar(login);
 
             //Error en la base de datos.
             if (usrSesion.Nombre == null || usrSesion.PerfilUsr.Descripcion == null)

@@ -231,7 +231,7 @@ namespace AccesoDatos
 
         }
 
-        public Usuario Autenticar(Usuario usr)
+        public Usuario Autenticar(Login usr)
         {
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]  " +
@@ -243,8 +243,8 @@ namespace AccesoDatos
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usr);
-                db.AddInParameter(cmd, "@Psw", DbType.String, usr.Psw);
+                db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usuario);
+                db.AddInParameter(cmd, "@Psw", DbType.String, usr.Contraseña);
 
                 using (var dr = db.ExecuteReader(cmd))
                 {
