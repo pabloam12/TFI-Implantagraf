@@ -462,7 +462,7 @@
     <Content Include="Views\Rescate\RestaurarCopiaRespaldo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Producto\DetalleProductoMC110.cshtml" />
+    <Content Include="Views\Producto\DetalleProducto.cshtml" />
     <Content Include="Views\Producto\Catalogo.cshtml" />
     <Content Include="Views\Producto\AgregarCarrito.cshtml" />
     <Content Include="Views\Producto\MostrarCarrito.cshtml" />

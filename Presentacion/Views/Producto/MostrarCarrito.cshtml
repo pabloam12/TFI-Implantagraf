@@ -12,93 +12,105 @@
             <div class="col-lg-8">
                 <h2>Productos en Carrito</h2><br />
             </div>
-            <div class="col-lg-8">
+
+        </div>
+
+        @if ((int)Session["ItemsCarrito"] == 0)
+            {
+            <div>
+
+                <div class="alert alert-success" role="alert">Usted no tiene Productos en el Carrito.</div>
+
+            </div>
+
+        }
+
+        @if ((int)Session["ItemsCarrito"] != 0)
+            {
+            <div class="row">
+                <div class="col-lg-8">
                     <h5>Fecha de Compra: @DateTime.Now.ToShortDateString()</h5>
                 </div>
-            <div class="row">
-                <div class="col-lg-4" style="float:right">
-                    @*@Html.ActionLink("Finalizar Compra", "finalizarCompra", "Cart", null, new { @class = "btn btn-primary" })*@
-                    @*@Html.ActionLink("Finalizar Compra", "pagoCompra", "Cart", null, new { @class = "btn btn-primary" })*@
-                </div>
             </div>
-        </div>
-                
-        <table class="table table-hover">
-            <tr>
-                <th>
-                    @Html.DisplayName("Código")
-                </th>
-                <th>
-                    @Html.DisplayName("Descripción")
-                </th>
-                <th>
-                    @Html.DisplayName("Cantidad")
-                </th>
-                <th>
-                    @Html.DisplayName("Precio Unidad")
-                </th>
-                <th>
-                    @Html.DisplayName("Sub-Total")
-                </th>
-                <th></th>
-            </tr>
-            @{
-                double total = 0;
-                double subTotal = 0;
-            }
-            @if (Session["Carrito"] != null)
-            {
-                foreach (var item in Session["Carrito"] as List<Entidades.Carrito>)
-                {
-                    subTotal = (double)(item.Precio * item.Cantidad);
-                    total += (double)(item.Precio * item.Cantidad);
-                                    
-
-                    Session["ItemsCarrito"] = item.CantidadItems;
-
+            <br />
+                <table class="table table-hover">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProductoId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descripcion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cantidad)
-                        </td>
-                        <td>
-                            $@Html.DisplayFor(modelItem => item.Precio).-
-                        </td>
-                        <td>
-                            $@Html.DisplayFor(modelItem => subTotal).-
-                        </td>
-                        <td>
-                            @Html.ActionLink("Quitar Producto", "Delete", new { id = item.ProductoId }, new { @class = "btn btn-danger btn-sm" })
-                        </td>
+                        <th>
+                            @Html.DisplayName("Código")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Descripción")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Cantidad")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Precio Unidad")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Sub-Total")
+                        </th>
+                        <th></th>
                     </tr>
-                }
+                    @{
+                        double total = 0;
+                        double subTotal = 0;
+                    }
 
-              
 
-                <tr>
-                    <th colspan="2">
-                        @Html.DisplayName("Importe Total a Pagar: ")
-                    </th>
-                    <th>
-                        @Html.DisplayName("$ " + total.ToString())
-                    </th>
-                    <th>
+                    @if (Session["Carrito"] != null)
+                    {
+                        foreach (var item in Session["Carrito"] as List<Entidades.Carrito>)
+                        {
 
-                    </th>
-                </tr>
-            }
-        </table>
-        <div class="row">
-            <div class="col-lg-2">
-                @Html.ActionLink("Agregar Más Productos", "Catalogo", "Producto", null, new { @class = "btn btn-success" })
-            </div>
-        </div>
+                            subTotal = (double)(item.Precio * item.Cantidad);
+                            total += (double)(item.Precio * item.Cantidad);
 
-        @Html.Partial("_Espacio2")
-    </div>
-</body>
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductoId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Precio).-
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => subTotal).-
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Quitar Producto", "QuitarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger btn-sm" })
+                                </td>
+                            </tr>
+                        }
+
+
+
+                        <tr>
+                            <th colspan="2">
+                                @Html.DisplayName("Importe Total a Pagar: ")
+                            </th>
+                            <th>
+                                @Html.DisplayName("$ " + total.ToString())
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    }
+                </table>
+                        } @*Cierro IF*@
+                        <div class="row">
+                            <div class="col-lg-2">
+                                @Html.ActionLink("Agregar Productos", "Catalogo", "Producto", null, new { @class = "btn btn-success" })
+                            </div>
+                        </div>
+
+                        @Html.Partial("_Espacio2")
+                    </div>
+                </body>

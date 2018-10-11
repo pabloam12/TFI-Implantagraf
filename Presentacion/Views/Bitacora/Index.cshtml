@@ -14,45 +14,40 @@
         <br />
         @*<div class="navbar navbar-default">*@
         <div class="row">
-            FILTROS DE BÚSQUEDA
-         </div>
+            <h4>FILTROS DE BÚSQUEDA</h4>
+        </div>
 
-        <div class="row">
-            @using (Html.BeginForm("Index", "Bitacora", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+
+        @using (Html.BeginForm("Index", "Bitacora", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
             {
-                
-                    
-                        <div class="form-group">
-                            <input type="text" name="fecha" class="form-control" placeholder="Filtrar Fecha" />
-                        </div>
-                    
-                    
-                        <div class="form-group">
-                            <input type="text" name="fechaFin" class="form-control" placeholder="Filtrar Rango de Fecha" />
-                        </div>
-                  
-                    
-                        <div class="form-group">
-                            <input type="text" name="usr" class="form-control" placeholder="Filtrar Usuario" />
-                        </div>
-                 
 
-                        <div class="form-group">
-                            <input type="text" name="accion" class="form-control" placeholder="Filtrar Accion" />
-                        </div>
+            
+            <div class="form-group">
+                <input type="date" name="fecha" class="form-control" placeholder="Filtrar Fecha" />
+            </div>
 
-                        <div class="form-group">
-                            <input type="text" name="criticidad" class="form-control" placeholder="Filtrar Criticidad" />
-                        </div>
+            <div class="form-group">
+                <div> <input type="date" name="fechaFin" class="form-control" placeholder="Filtrar Rango de Fecha" /></div>
+            </div>
 
-                        <hr />
-                        <div class="form-group">
-                            <p><button type="submit" value="Search" class="btn btn-success">Filtrar</button></p>
-                        </div>
-                        }
+            <div class="form-group">
+                <div>    <input type="text" name="usr" class="form-control" placeholder="Filtrar Usuario" />                   </div>
+            </div>
 
+            <div class="form-group">
+                <input type="text" name="accion" class="form-control" placeholder="Filtrar Accion" />
+            </div>
 
+            <div class="form-group">
+                <input type="text" name="criticidad" class="form-control" placeholder="Filtrar Criticidad" />
+            </div>
+
+                    <hr />
+                    <div class="form-group">
+                        <p><button type="submit" value="Search" class="btn btn-success">Filtrar</button></p>
                     </div>
+        }
+
         <div class="row">
             <table class="table">
                 <tr>

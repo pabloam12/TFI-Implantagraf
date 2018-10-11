@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="col-lg-12 image_col order-lg-2 order-1">
                                 <div class="single_product_image">
-                                    <div class="single_product_image_background" style="background-image: url('../../Imagenes/Fotos Maquinas/1.Manuales/MT-110.jpg'); "></div>
+                                    <div class="single_product_image_background" style="background-image: url('@ViewBag.Imagen'); "></div>
                                 </div>
                             </div>
                         </div>
@@ -41,9 +41,9 @@
                 <div class="col-lg-5">
                     <div class="product_details">
                         <div class="product_details_title">
-                            <h2>Impresora Manual</h2>
-                            <h4>Modelo: MC-110</h4>
-                            <p>Máquina manual para imprimir en telas. Máxima área de impresión 150x100mm.</p>
+                            <h2>@ViewBag.Titulo</h2>
+                            <h4>Modelo: @ViewBag.Modelo</h4>
+                            <p>@ViewBag.Descripcion</p>
                         </div>
                         <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
                             <span class="ti-truck"></span><span>Envío Gratuito</span>
@@ -51,7 +51,7 @@
                         <br />
                         <br />
                         @*<div class="original_price">$629.99</div>*@
-                        <div class="product_price">$23.200</div>
+                        <div class="product_price">$@ViewBag.Precio</div>
                         <ul class="star_rating">
                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -64,19 +64,18 @@
                         <br />
                         <br />
 
-                        <h4>Cantidad:   1</h4>
-                        
-                        @if ((String)Session["PerfilUsuario"] != null)
-                        {
+                        @*<h4>Cantidad a Agregar: 1</h4>*@
 
-                            <div class="red_button shop_now_button">@Html.ActionLink("Agregar al Carrito", "AgregarCarrito", new { productoId = 324 })</div>
-                        }
 
-                        @if ((String)Session["PerfilUsuario"] == null)
-                        {
 
-                            <div class="red_button shop_now_button">@Html.ActionLink("Iniciá Sesión", "Index", "Login")</div>
-                        }
+                        <div class="red_button shop_now_button">@Html.ActionLink("Agregar al Carrito", "AgregarCarrito", new { productoId = @ViewBag.CodigoProducto })</div>
+
+
+                        @*@if ((String)Session["PerfilUsuario"] == null)
+                            {
+
+                                <div class="red_button shop_now_button">@Html.ActionLink("Iniciá Sesión", "Index", "Login")</div>
+                            }*@
                     </div>
                 </div>
             </div>
