@@ -194,6 +194,22 @@ namespace AccesoDatos
             }
 
         }
+        public void ActualizarDVHProducto (int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Producto SET [DVH]=@DVH WHERE Codigo=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+
+        }
+        
 
         public void RealizarBackUp()
         {
@@ -249,13 +265,13 @@ namespace AccesoDatos
                                   "ALTER DATABASE [Implantagraf] SET MULTI_USER " +
                                   "RESTORE DATABASE [Implantagraf] " +
                                   "FROM DISK = '" + rutaCompleta + "' WITH REPLACE;";
-            
+
             var db = DatabaseFactory.CreateDatabase(ConnectionNameMaster);
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 cmd.CommandTimeout = 600;
-               db.ExecuteNonQuery(cmd);
+                db.ExecuteNonQuery(cmd);
             }
         }
 

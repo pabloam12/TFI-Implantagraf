@@ -2,37 +2,42 @@
 
 @Html.Partial("_Espacio1")
 
+<body>
 
-<p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">Realizar Nuevo BackUp</a></p>
+    <div class="container contact_container">
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Ruta)
-        </th>
+        <p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">Realizar Nuevo BackUp</a></p>
 
-        <th></th>
-    </tr>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ruta)
+                </th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ruta)
-            </td>
+                <th></th>
+            </tr>
 
-            <td>
-                @Html.ActionLink("Restaurar", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta })
-                @*  @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-            </td>
-        </tr>
-    }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ruta)
+                    </td>
 
-</table>
+                    <td>
+                        @Html.ActionLink("Restaurar", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta }, new { @class = "btn btn-success btn-sm" })
+                        @*  @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                    </td>
+                </tr>
+            }
 
-<div class="row">
-    <p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
-</div>
+        </table>
+              
+        <div class="form-group">
+            @Html.ActionLink("Volver", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
+        </div>
 
-@Html.Partial("_Espacio2")
+        </div>
+    </body>
+        @Html.Partial("_Espacio2")

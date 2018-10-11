@@ -1,18 +1,21 @@
 ﻿@Html.Partial("_Espacio1")
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Realizar Copia de Respaldo</title>
-</head>
-<body>
-    <div>
 
-        <div class="alert alert-success" role="alert">Se ha realizado la copia de respaldo correctamente.</div>
+    <body>
 
-    </div>
+        <div class="container contact_container">
+            <div>
 
-    <p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
-</body>
+                <div class="alert alert-success" role="alert">Se ha realizado con éxito una copia de respaldo.</div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.ActionLink("Volver", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
+            </div>
+
+            </div>
+    </body>
 
 
-@Html.Partial("_Espacio2")
+    @Html.Partial("_Espacio2")

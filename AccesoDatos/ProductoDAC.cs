@@ -12,10 +12,34 @@ namespace AccesoDatos
     public class ProductoDAC : DataAccessComponent
 
     {
+        public List<Producto> ListarProductos()
+        {
+            const string sqlStatement = "SELECT [Codigo], [Modelo], [Titulo], [Imagen], [Descripcion], [MarcaId], [CategoriaId], [Precio], [DVH] " +
+               "FROM dbo.Producto;";
+
+            var result = new List<Producto>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var producto = MapearProducto(dr); // Mapper
+                        result.Add(producto);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
         public Producto BuscarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Nombre], [MarcaId], [CategoriaId], [Precio] " +
-                "FROM dbo.Producto WHERE [ID]=@Id ";
+            const string sqlStatement = "SELECT [Codigo], [Modelo], [Titulo], [Imagen], [Descripcion], [MarcaId], [CategoriaId], [Precio], [DVH] " +
+                "FROM dbo.Producto WHERE [Codigo]=@Id ";
 
             Producto producto = null;
 
@@ -40,12 +64,15 @@ namespace AccesoDatos
 
             var producto = new Producto
             {
-                Id = GetDataValue<int>(dr, "Id"),
-                Nombre = GetDataValue<string>(dr, "Nombre"),
+                Codigo = GetDataValue<int>(dr, "Codigo"),
+                Modelo = GetDataValue<string>(dr, "Modelo"),
+                Titulo = GetDataValue<string>(dr, "Titulo"),
+                Imagen = GetDataValue<string>(dr, "Imagen"),
+                Descripcion = GetDataValue<string>(dr, "Descripcion"),
                 Marca = marcaDAC.BuscarPorId(GetDataValue<int>(dr, "MarcaId")), //Mapper
                 Categoria = categoriaDAC.BuscarPorId(GetDataValue<int>(dr, "CategoriaId")), //Mapper
-                Precio = GetDataValue<int>(dr, "Precio")
-
+                Precio = GetDataValue<int>(dr, "Precio"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
             };
             return producto;
         }

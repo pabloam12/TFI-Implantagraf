@@ -6,65 +6,46 @@
 }
 
 @Html.Partial("_Espacio1")
+<body>
 
-<h2>DETALLE DE TABLAS CORRUPTAS</h2>
-<br />
+    <div class="container contact_container">
 
-<table class="table">
-    @*<tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_A)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_B)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_C)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_D)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_E)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_F)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Col_G)
-        </th>
-        <th></th>
-    </tr>*@
+        <h3>DETALLE DE TABLAS CORRUPTAS</h3>
+        <br />
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_A)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_B)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_C)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_D)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_E)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_F)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Col_G)
-            </td>
-        </tr>
-    }
+        <table class="table">
+            
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_A)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_B)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_C)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_D)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_E)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_F)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Col_G)
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
 
-<p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
+        <p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
 
-@Html.Partial("_Espacio2")
+        </div>
+    </body>
+        @Html.Partial("_Espacio2")

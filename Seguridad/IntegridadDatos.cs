@@ -202,42 +202,58 @@ namespace Seguridad
         {
             var flag = false;
             var accDatosUsuario = new CuentaDAC();
+            var accDatosProductos = new ProductoDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
+            List<Producto> listadoProductos = new List<Producto>();
 
+            // Usuarios Webmasters.
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(1);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
                 if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
                     flag = true;
                 }
             }
 
+            // Usuarios Administrativos.
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(2);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
                 if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
                     flag = true;
                 }
             }
 
+            // Usuarios Clientes.
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
                 if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razon Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
                     flag = true;
                 }
             }
 
+            // Productos.
+            listadoProductos = accDatosProductos.ListarProductos();
+
+            foreach (Producto productoActual in listadoProductos)
+            {
+                if(CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Marca.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Producto", "Código: " + productoActual.Codigo.ToString(), "Título: " + productoActual.Titulo, "Modelo: " + productoActual.Modelo, "Marca: " + productoActual.Marca.Descripcion, "Categoría: " + productoActual.Categoria.Descripcion);
+                    flag = true;
+                }
+            }
             //AGREGAR EL RESTO DE LOS FOREACH.
 
             //accDatos.ValidarBitacoraDVH();
@@ -255,15 +271,26 @@ namespace Seguridad
             integ.ActualizarDVHUsuario(id, DVH);
         }
 
+        public void ActualizarDVHProducto(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHProducto(cod, DVH);
+        }
+
         public void RecalcularTodosDVH()
         {
             //TODO FALTAN EL RESTO DE LAS TABLAS.
 
             var accDatosUsuario = new CuentaDAC();
+            var accDatosProductos = new ProductoDAC();
+
             long dvhActual;
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
+            List<Producto> listadoProductos = new List<Producto>();
 
+            // Usuarios Webmasters.
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(1);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
@@ -273,6 +300,7 @@ namespace Seguridad
                 ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
             }
 
+            // Usuarios Administrativos.
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(2);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
@@ -282,6 +310,7 @@ namespace Seguridad
                 ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
             }
 
+            // Usuarios Clientes.
             listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
 
             foreach (Usuario usuarioActual in listadoUsuarios)
@@ -291,7 +320,18 @@ namespace Seguridad
                 ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
             }
 
+            // Productos.
+            listadoProductos = accDatosProductos.ListarProductos();
+
+            foreach (Producto productoActual in listadoProductos)
+            {
+                dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Marca.Id.ToString()+ productoActual.Precio.ToString());
+
+                ActualizarDVHProducto(productoActual.Codigo, dvhActual);
+            }
+
             RecalcularDVV("SEG_Usuario");
+            RecalcularDVV("Producto");
         }
 
         public void RealizarBackUp()

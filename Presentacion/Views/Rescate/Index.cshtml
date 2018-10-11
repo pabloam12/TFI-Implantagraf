@@ -4,43 +4,47 @@
 }
 
 @Html.Partial("_Espacio1")
+<body>
 
-<div class="col-md-12">
-    <h3>ALTA USUARIO WEBMASTER</h3>
-    <hr />
+    <div class="container contact_container">
+        <div class="col-md-12">
+            <h4>USUARIOS WEBMASTER</h4>
+            <hr />
 
-    <p><a href="~/RegistroUsuarioWebMaster/Index" class="btn btn-sm btn-info" role="button">Gestionar Usuarios WebMasters</a></p>
+            <p>-  <a href="~/RegistroUsuarioWebMaster/Index" class="btn btn-sm btn-info" role="button">Gestion de Usuarios WebMasters</a></p>
+            <br />
+        </div>
 
-</div>
+        <div class="col-md-12">
+            
+            <h4>ERRORES DE INTEGRIDAD</h4>
+            <hr />
 
-<div class="col-md-12">
-    <h3>DETALLE DE ERRORES DE INTEGRIDAD</h3>
-    <hr />
+            <p>-  <a href="~/RescateIntegridad/Index" class="btn btn-sm btn-info" role="button">Ver Detalle de Errores</a></p>
 
-    <p><a href="~/RescateIntegridad/Index" class="btn btn-sm btn-info" role="button">Ver Detalle</a></p>
+            <p>-  <a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">Solucionar Integridad de Datos Leves</a></p>
+            <br />
+        </div>
 
-    <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">Solucionar Integridad de Datos</a></p>
+        <div class="col-md-12">
+            
+           
+            <h4>COPIA DE RESPALDO</h4>
+            <hr />
 
-</div>
+            <p>-  <a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">Realizar Copia de Respaldo Ahora</a></p>
+            <br />
+        </div>
 
-<div class="col-md-12">
-    <br />
-    <hr />
-    <h3>REALIZAR COPIA DE RESPALDO</h3>
-    <hr />
+        <div class="col-md-12">
+            
+           
+            <h4>RESTORE DE LA BASE</h4>
+            <hr />
 
-    <p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">Realizar Respaldo</a></p>
-
-</div>
-
-<div class="col-md-12">
-    <br />
-    <hr />
-    <h3>REALIZAR RESTORE DE LA BASE</h3>
-    <hr />
-
-    <p><a href="~/Rescate/ListarRespaldos" class="btn btn-sm btn-info" role="button">Realizar Restore</a></p>
-
-</div>
-
-@Html.Partial("_Espacio2")
+            <p>- <a href="~/Rescate/ListarRespaldos" class="btn btn-sm btn-info" role="button">Realizar Restore Ahora</a></p>
+            <br />
+        </div>
+        </div>
+    </body>
+        @Html.Partial("_Espacio2")

@@ -21,12 +21,18 @@ namespace Presentacion.Controllers
 
         public ActionResult DetalleProducto(int productoId = 0)//int codProducto = 0)
         {
-            ViewBag.Imagen = "../../Imagenes/Fotos Maquinas/1.Manuales/MT-110.jpg";
-            ViewBag.Titulo = "Impresora Manual";
-            ViewBag.Modelo = "MC-110";
-            ViewBag.Descripcion = "Máquina manual para imprimir en telas. Máxima área de impresión 150x100mm.";
-            ViewBag.Precio = "23.200";
-            ViewBag.CodigoProducto = productoId;
+            var ln = new NegocioProducto();
+
+            var producto = ln.BuscarPorId(productoId);
+
+            ViewBag.CodigoProducto = producto.Codigo.ToString();
+
+            ViewBag.Imagen = producto.Imagen;
+            ViewBag.Titulo = producto.Titulo;
+            ViewBag.Modelo = producto.Modelo;
+            ViewBag.Descripcion = producto.Descripcion;
+            ViewBag.Precio = producto.Precio.ToString();
+
 
             return View();
         }
@@ -47,8 +53,8 @@ namespace Presentacion.Controllers
                 List<Carrito> productosCarrito = new List<Carrito>();
 
                 var carritoItem = new Carrito();
-                carritoItem.ProductoId = producto.Id;
-                carritoItem.Descripcion = producto.Nombre;
+                carritoItem.ProductoId = producto.Codigo;
+                carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
                 carritoItem.Cantidad = 1;
                 carritoItem.Precio = producto.Precio;
 
@@ -59,8 +65,8 @@ namespace Presentacion.Controllers
             {
                 List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
                 var carritoItem = new Carrito();
-                carritoItem.ProductoId = producto.Id;
-                carritoItem.Descripcion = producto.Nombre;
+                carritoItem.ProductoId = producto.Codigo;
+                carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
                 carritoItem.Cantidad = 1;
                 carritoItem.Precio = producto.Precio;
 
@@ -70,6 +76,7 @@ namespace Presentacion.Controllers
                     productosCarrito.Add(carritoItem);
                 else
                     productosCarrito[idexistente].Cantidad++;
+
                 Session["Carrito"] = productosCarrito;
             }
 
