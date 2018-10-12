@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Entidades.Bitacora>
 
 @{
-    ViewBag.Title = "Bitácora del Sistema";
+    ViewBag.Title = Presentacion.Recursos.Recursos.BITACORA_TITULO;
 
 }
 
@@ -10,11 +10,11 @@
 <body>
 
     <div class="container contact_container">
-        <h4>Bitácora del Sistema</h4>
+        <h4>@Presentacion.Recursos.Recursos.BITACORA_TITULO</h4>
         <br />
         @*<div class="navbar navbar-default">*@
         <div class="row">
-            <h4>FILTROS DE BÚSQUEDA</h4>
+            <h6>@Presentacion.Recursos.Recursos.BITACORA_TITULO_FILTROS</h6>
         </div>
 
 
@@ -23,28 +23,28 @@
 
             
             <div class="form-group">
-                <input type="date" name="fecha" class="form-control" placeholder="Filtrar Fecha" />
+                <div>@Presentacion.Recursos.Recursos.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" /></div>
             </div>
 
             <div class="form-group">
-                <div> <input type="date" name="fechaFin" class="form-control" placeholder="Filtrar Rango de Fecha" /></div>
+                <div> @Presentacion.Recursos.Recursos.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" placeholder="Filtrar Rango de Fecha" /></div>
             </div>
 
             <div class="form-group">
-                <div>    <input type="text" name="usr" class="form-control" placeholder="Filtrar Usuario" />                   </div>
+                <div>  @Presentacion.Recursos.Recursos.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" @*placeholder="Filtrar Usuario"*@ />                   </div>
             </div>
 
             <div class="form-group">
-                <input type="text" name="accion" class="form-control" placeholder="Filtrar Accion" />
+               <div> @Presentacion.Recursos.Recursos.ENTIDAD_ACCION<input type="text" name="accion" class="form-control" @*placeholder="Filtrar Accion"*@ /></div>
             </div>
 
             <div class="form-group">
-                <input type="text" name="criticidad" class="form-control" placeholder="Filtrar Criticidad" />
+                <div>  @Presentacion.Recursos.Recursos.ENTIDAD_CRITICIDAD<input type="text" name="criticidad" class="form-control" @*placeholder="Filtrar Criticidad"*@ /></div>
             </div>
 
                     <hr />
                     <div class="form-group">
-                        <p><button type="submit" value="Search" class="btn btn-success">Filtrar</button></p>
+                        <p><button type="submit" value="Search" class="btn btn-success">@Presentacion.Recursos.Recursos.BITACORA_FILTROS_BOTON_FILTRAR</button></p>
                     </div>
         }
 

@@ -23,10 +23,12 @@ namespace Presentacion.Controllers
                 Session["Excepcion"] = "[Error Nº 1] - Error de Integridad en la Base de Datos.";
                 return RedirectToAction("Index", "Excepciones");
             }
-            
+       
+
             return View();
         }
 
+        
         public ActionResult Informacion()
         {
             //ViewBag.Message = "Your application description page.";
@@ -40,5 +42,7 @@ namespace Presentacion.Controllers
 
             return View();
         }
+
+        
     }
 }

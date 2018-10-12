@@ -101,6 +101,10 @@ namespace Presentacion.Controllers
 
             Session["UsrLogin"] = usrSesion.Usr;
 
+            HttpCookie cookie = new HttpCookie("UsrLogin");
+            cookie.Value = usrSesion.Usr;
+            Response.Cookies.Add(cookie);
+
             //Activo la Sesión.
             ln.ActivarSesionCuentaUsuario(usrSesion.Usr);
 

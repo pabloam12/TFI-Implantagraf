@@ -1,14 +1,14 @@
 ﻿@model Entidades.Usuario
 
 @{
-    ViewBag.Title = "Actualizar Datos de Cuenta";
+    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_ACTUALIZARDATOS_TITULO;
 
 }
 
 <body>
     @Html.Partial("_Espacio1")
     <div class="container contact_container">
-        <h2>ACTUALIZAR DATOS DE CUENTA</h2>
+        <h4>@Presentacion.Recursos.Recursos.CUENTA_ACTUALIZARDATOS_TITULO</h4>
         <hr />
 
         @using (Html.BeginForm())
@@ -52,7 +52,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Guardar Cambios" class="btn btn-default" />
+                        <input type="submit" value=@Presentacion.Recursos.Recursos.CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR class="btn btn-success" />
                     </div>
                 </div>
             </div>

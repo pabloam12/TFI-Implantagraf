@@ -1,9 +1,5 @@
 ﻿@model Entidades.Login
 
-@{
-    ViewBag.Title = "Login";
-}
-
 @Html.Partial("_Espacio1")
 
 <body>
@@ -17,7 +13,7 @@
 
                     @using (Html.BeginForm("Login","Login"))
                     {
-                        <h4>TENGO UNA CUENTA</h4>
+                        <h4>@Presentacion.Recursos.Recursos.LOGIN_TITULO_TENGO_CUENTA</h4>
                         <hr />
                         
                         @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
@@ -25,9 +21,9 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese Usuario..." } })
+                                @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control"@*, placeholder = "Ingrese Usuario..."*@ } })
                                 
-                                @*@Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })*@
+                                
                                 @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger text-right" })
                             </div>
                         </div>
@@ -35,7 +31,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese Contraseña..." } })
+                                @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control"@*, placeholder = "Ingrese Contraseña..."*@ } })
                                                                
                                 @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger text-right" })
                             </div>
@@ -45,7 +41,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <input type="submit" value="Iniciar Sesión" class="btn btn-success btn-sm" />
 
-                                @Html.ActionLink("¿Olvidó su Contraseña?", "RecuperarPsw", "Cuenta")
+                                @Html.ActionLink(@Presentacion.Recursos.Recursos.LOGIN_OLVIDO_CONTRASEÑA, "RecuperarPsw", "Cuenta")
                             </div>
 
 
@@ -63,10 +59,10 @@
             <div class="col-lg-3 contact_col">
                 <div class="contact_contents">
 
-                    <h4>SOY USUARIO NUEVO</h4>
+                    <h4>@Presentacion.Recursos.Recursos.LOGIN_TITULO_USUARIO_NUEVO</h4>
                     <hr />
 
-                    <p><a href="~/RegistroCliente/Index" class="btn btn-lg btn-success" role="button">Registrarse</a></p>
+                    <p><a href="~/RegistroCliente/Index" class="btn btn-lg btn-success" role="button">@Presentacion.Recursos.Recursos.BOTON_REGISTRAR</a></p>
 
                 </div>
             </div>

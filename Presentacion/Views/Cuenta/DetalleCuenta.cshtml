@@ -1,7 +1,7 @@
 ﻿@model Entidades.Usuario
 
 @{
-    ViewBag.Title = "Actualizar Datos de Cuenta";
+    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO;
 
 }
 
@@ -11,14 +11,14 @@
 
     <div class="container contact_container">
 
-        <h2>DATOS DE LA CUENTA</h2>
+        <h4>@Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO</h4>
 
         <div>
 
             <hr />
             <dl class="dl-horizontal">
 
-                DATOS PERSONALES
+                @Presentacion.Recursos.Recursos.CUENTA_DETALLE_DATOSPERSONALES
                 <hr />
 
                 @if ((String)Session["PerfilUsuario"] == "Cliente")
@@ -69,7 +69,7 @@
                 }
 
                 <br />
-                DATOS DE CONTACTO
+                @Presentacion.Recursos.Recursos.CUENTA_DETALLE_DATOSCONTACTO
                 <hr />
 
                 <dt>
@@ -105,7 +105,7 @@
                 </dd>
 
                 <br />
-                IDIOMA
+                @Presentacion.Recursos.Recursos.CUENTA_DETALLE_IDIOMA
                 <hr />
 
                 <dt>
@@ -119,7 +119,7 @@
             </dl>
         </div>
         <p>
-            @Html.ActionLink("Actualizar Datos de Cuenta", "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink(@Presentacion.Recursos.Recursos.CUENTA_DETALLE_BOTON_ACTUALIZARDATOS, "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
         </p>
 
         @Html.Partial("_Espacio2")

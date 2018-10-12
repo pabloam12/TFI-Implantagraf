@@ -82,7 +82,7 @@ namespace Presentacion.Controllers
 
             Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
 
-            return View();
+            return RedirectToAction("MostrarCarrito");
         }
 
         public ActionResult QuitarProductoCarrito(int productoId)

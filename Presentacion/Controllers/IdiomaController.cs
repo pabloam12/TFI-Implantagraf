@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using System.Threading;
+using System.Globalization;
 
 namespace Presentacion.Controllers
 {
@@ -93,5 +95,21 @@ namespace Presentacion.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        public ActionResult TraducirIdioma (string idioma)
+        {
+            if(idioma != null)
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(idioma);
+
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(idioma);
+            }
+
+            HttpCookie cookie = new HttpCookie("Idioma");
+            cookie.Value = idioma;
+            Response.Cookies.Add(cookie);
+
+            return RedirectToAction("Index", "Home");
+
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<html>
 
 <head>
-    <title>Single Product</title>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Colo Shop Template">
@@ -26,6 +26,8 @@
 
         <div class="container single_product_container">
 
+            <h4>@Presentacion.Recursos.Recursos.PRODUCTO_DETALLE_TITULO</h4>
+
             <div class="row">
                 <div class="col-lg-7">
                     <div class="single_product_pics">
@@ -41,12 +43,14 @@
                 <div class="col-lg-5">
                     <div class="product_details">
                         <div class="product_details_title">
-                            <h2>@ViewBag.Titulo</h2>
-                            <h4>Modelo: @ViewBag.Modelo</h4>
+
+                            <h2>@ViewBag.Modelo</h2>
+                            <h4>@ViewBag.Titulo</h4>
+
                             <p>@ViewBag.Descripcion</p>
                         </div>
                         <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
-                            <span class="ti-truck"></span><span>Envío Gratuito</span>
+                            <span class="ti-truck"></span><span>@Presentacion.Recursos.Recursos.PRODUCTO_LEYENDA_ENVIO</span>
                         </div>
                         <br />
                         <br />
@@ -68,7 +72,7 @@
 
 
 
-                        <div class="red_button shop_now_button">@Html.ActionLink("Agregar al Carrito", "AgregarCarrito", new { productoId = @ViewBag.CodigoProducto })</div>
+                        <div class="red_button shop_now_button">@Html.ActionLink(@Presentacion.Recursos.Recursos.BOTON_AGREGAR_CARRITO, "AgregarCarrito", new { productoId = @ViewBag.CodigoProducto })</div>
 
 
                         @*@if ((String)Session["PerfilUsuario"] == null)
