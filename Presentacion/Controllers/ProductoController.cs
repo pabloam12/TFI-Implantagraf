@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Entidades;
 using Negocio;
 using Seguridad;
+using Servicios;
 
 namespace Presentacion.Controllers
 {
@@ -149,6 +150,95 @@ namespace Presentacion.Controllers
             }
 
             return -1;
+
+        }
+
+        public ActionResult RealizarPago()
+        {
+
+            return View();
+
+        }
+
+        //[HttpPost]
+
+        //TarjetaCredito datosTarjeta = null,
+        public ActionResult RealizarPagoContado( int formaPago = 0)
+        {
+            var importeTotal = CalularImporteTotal();
+
+            var fechaHora = DateTime.Now;
+
+            //if (formaPago == 0)
+            //{
+            //    if (ValidarPago(datosTarjeta, importeTotal))
+            //    { return View(); }
+            //}
+
+            RegistrarVenta(fechaHora, importeTotal, formaPago);
+            
+            //ActualizarStock();
+
+            return RedirectToAction("FinalizarCompra");
+
+        }
+
+        private void RegistrarVenta(DateTime fechaHora, double importeTotal, int formaPago)
+        {
+            var ln = new NegocioOperaciones();
+
+            var estado = "PENDIENTE";
+
+            if (formaPago == 0)
+
+            { estado = "APROBADA"; }
+            
+            var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"]);
+
+            //ln.RegistrarVenta((Int32)Session["CodCliente"], importeTotal, estado, factura.Codigo);
+
+            Session["Factura"] = factura;
+            
+        }
+
+        private double CalularImporteTotal()
+        {
+            double importeTotal = 0;
+
+            if (Session["Carrito"] != null)
+            {
+                foreach (var item in Session["Carrito"] as List<Carrito>)
+                {
+                    importeTotal += (double)(item.Precio * item.Cantidad);
+
+                }
+            }
+
+            return importeTotal;
+        }
+
+        private bool ValidarPago(TarjetaCredito datosTarjeta, double importeTotal)
+        {
+            //var ws = new WebService();
+
+            //if (ws.ValidarTarjeta(datosTarjeta.Numero, datosTarjeta.MesVenc, datosTarjeta.AnioVenc, datosTarjeta.CodigoV))
+            //{
+            //    Session["ErrorTarjeta"] = "La tarjeta ingresada no es válida.";
+            //    return true;
+            //}
+
+            //if (ws.ValidarLimite(importeTotal))
+            //{
+            //    Session["ErrorTarjeta"] = "La tarjeta ingresada no cuenta con límite suficiente.";
+            //    return true;
+            //}
+
+            return false;
+        }
+
+        public ActionResult FinalizarCompra()
+        {
+            return View();
 
         }
 

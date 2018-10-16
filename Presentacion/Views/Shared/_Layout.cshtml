@@ -27,8 +27,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            @if (Session["PerfilUsuario"] != null)
-                            {<div class="top_nav_left">@Presentacion.Recursos.Recursos.LOYOUT_SALUDO_BIENVENIDA_USUARIO @Session["PerfilUsuario"]!</div>}
+                            @if ((String)Session["PerfilUsuario"] == "Cliente")
+                            {<div class="top_nav_left">@Presentacion.Recursos.Recursos.LOYOUT_SALUDO_BIENVENIDA_USUARIO @Session["NombreUsuario"]!</div>}
                             else
                             {<div class="top_nav_left">@Presentacion.Recursos.Recursos.LOYOUT_SALUDO_BIENVENIDA</div>}
                         </div>

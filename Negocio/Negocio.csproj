@@ -87,6 +87,7 @@
     <Compile Include="NegocioLocalidad.cs" />
     <Compile Include="NegocioMarca.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NegocioOperaciones.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccesoDatos\AccesoDatos.csproj">

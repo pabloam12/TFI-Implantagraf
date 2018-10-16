@@ -7,9 +7,9 @@ namespace Entidades
 {
     public class Factura
     {
-        public int Id { get; set; }
         public int Codigo { get; set; }
-        public int Tipo { get; set; }
+        public DateTime FechaHora { get; set; }
+        public string Tipo { get; set; }
         public double Monto { get; set; }
         public int FormaPagoId { get; set; }
         public string Direccion { get; set; }

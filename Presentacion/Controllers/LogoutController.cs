@@ -23,7 +23,7 @@ namespace Presentacion.Controllers
 
             aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "CIERRE DE SESIÓN", "INFO", "El Usuario ha cerrado sesión.", BitacoraDVH);
 
-            ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
+            //ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 
             Session["ItemsCarrito"] = 0;
 
@@ -32,6 +32,7 @@ namespace Presentacion.Controllers
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
+            Session["DireccionUsuario"] = null;
 
             Session["UsrLogin"] = null;
 

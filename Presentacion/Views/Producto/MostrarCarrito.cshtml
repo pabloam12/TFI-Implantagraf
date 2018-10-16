@@ -30,89 +30,101 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h5>@Presentacion.Recursos.Recursos.ENTIDAD_FECHA: @DateTime.Now.ToShortDateString()</h5>
+                    
                 </div>
+
+                
+                <div class="col-lg-8">
+                    <br />
+                    @Html.ActionLink("Comprar", "RealizarPago", "Producto", null, new { @class = "btn btn-info" })
+                </div>
+
             </div>
             <br />
-                            <table class="table table-hover">
-                    <tr>
-                        <th>
-                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CODIGO)
-                        </th>
-                        <th>
-                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_DESCRIPCION)
-                        </th>
-                        <th>
-                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CANTIDAD)
-                        </th>
-                        <th>
-                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_PRECIO_UNITARIO)
-                        </th>
-                        <th>
-                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_SUBTOTAL)
-                        </th>
-                        <th></th>
-                    </tr>
-                    @{
-                        double total = 0;
-                        double subTotal = 0;
-                    }
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CODIGO)
+                    </th>
+                    <th>
+                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_DESCRIPCION)
+                    </th>
+                    <th>
+                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CANTIDAD)
+                    </th>
+                    <th>
+                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_PRECIO_UNITARIO)
+                    </th>
+                    <th>
+                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_SUBTOTAL)
+                    </th>
+                    <th></th>
+                </tr>
+                @{
+                    double total = 0;
+                    double subTotal = 0;
+                }
 
 
-                    @if (Session["Carrito"] != null)
+                @if (Session["Carrito"] != null)
+                {
+                    foreach (var item in Session["Carrito"] as List<Entidades.Carrito>)
                     {
-                        foreach (var item in Session["Carrito"] as List<Entidades.Carrito>)
-                        {
 
-                            subTotal = (double)(item.Precio * item.Cantidad);
-                            total += (double)(item.Precio * item.Cantidad);
-
-
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ProductoId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Descripcion)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Cantidad)
-                                </td>
-                                <td>
-                                    $@Html.DisplayFor(modelItem => item.Precio).-
-                                </td>
-                                <td>
-                                    $@Html.DisplayFor(modelItem => subTotal).-
-                                </td>
-                                <td>
-                                    @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_QUITAR_PRODUCTO, "QuitarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger btn-sm" })
-                                </td>
-                            </tr>
-                        }
-
+                        subTotal = (double)(item.Precio * item.Cantidad);
+                        total += (double)(item.Precio * item.Cantidad);
 
 
                         <tr>
-                            <th colspan="2">
-                                <br />
-                                @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_IMPORTE_TOTAL_PAGAR)
-                            </th>
-                            <th>
-                                <br />
-                                @Html.DisplayName("$ " + total.ToString())
-                            </th>
-                            <th>
-
-                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductoId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+                            <td>
+                                $@Html.DisplayFor(modelItem => item.Precio).-
+                            </td>
+                            <td>
+                                $@Html.DisplayFor(modelItem => subTotal).-
+                            </td>
+                            <td>
+                                @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_QUITAR_PRODUCTO, "QuitarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger btn-sm" })
+                            </td>
                         </tr>
                     }
-                </table>
-                        } @*Cierro IF*@
-                        <div class="row">
-                            <div class="col-lg-2">
-                                @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_AGREGAR_CARRITO, "Catalogo", "Producto", null, new { @class = "btn btn-success" })
-                            </div>
-                        </div>
 
-                        @Html.Partial("_Espacio2")
+
+
+                    <tr>
+                        <th colspan="2">
+                            <br />
+                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_IMPORTE_TOTAL_PAGAR)
+                        </th>
+                        <th>
+                            <br />
+                            @Html.DisplayName("$ " + total.ToString())
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                }
+            </table>
+
+
+                    } @*Cierro IF*@
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_AGREGAR_CARRITO, "Catalogo", "Producto", null, new { @class = "btn btn-success" })
+                        </div>
                     </div>
-                </body>
+
+
+                    @Html.Partial("_Espacio2")
+                </div>
+            </body>

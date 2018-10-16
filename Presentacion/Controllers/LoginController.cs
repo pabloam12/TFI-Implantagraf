@@ -43,6 +43,9 @@ namespace Presentacion.Controllers
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
+            Session["CodCliente"] = null;
+            Session["DireccionUsuario"] = null;
+            Session["RazonSocialUsuario"] = null;
 
             Session["UsrLogin"] = null;
 
@@ -87,17 +90,19 @@ namespace Presentacion.Controllers
 
             {
                 //TODO MENSAJE correcto
-                Session["Excepcion"] = "[Error Nº 47] - Error de Base de Datos";
+                Session["Excepcion"] = "[Error Nº 0] - Error de Base de Datos";
                 return RedirectToAction("Index", "Excepciones");
             }
-
-
+            
             //Usuario Logueado correctamente, se mapean las variables de Sesión.
 
             Session["IdUsuario"] = usrSesion.Id.ToString();
             Session["NombreUsuario"] = usrSesion.Nombre;
+            Session["RazonSocialUsuario"] = usrSesion.RazonSocial;
             Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
             Session["EmailUsuario"] = usrSesion.Email;
+            Session["CodCliente"] = usrSesion.Id;
+            Session["DireccionUsuario"] = usrSesion.Direccion;
 
             Session["UsrLogin"] = usrSesion.Usr;
 
@@ -106,9 +111,8 @@ namespace Presentacion.Controllers
             Response.Cookies.Add(cookie);
 
             //Activo la Sesión.
-            ln.ActivarSesionCuentaUsuario(usrSesion.Usr);
-
-            
+            //ln.ActivarSesionCuentaUsuario(usrSesion.Usr);
+                        
             return RedirectToAction("Index", "Home");
 
         }

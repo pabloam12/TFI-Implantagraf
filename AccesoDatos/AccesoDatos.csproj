@@ -114,6 +114,7 @@
     <Compile Include="DataAccessComponent.cs" />
     <Compile Include="ClienteDAC.cs" />
     <Compile Include="IdiomaDAC.cs" />
+    <Compile Include="OperacionesDAC.cs" />
     <Compile Include="PerfilUsrDAC.cs" />
     <Compile Include="LocalidadDAC.cs" />
     <Compile Include="CategoriaDAC.cs" />

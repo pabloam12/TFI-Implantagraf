@@ -476,6 +476,8 @@
     <Content Include="Views\Producto\Catalogo.cshtml" />
     <Content Include="Views\Producto\AgregarCarrito_OLD.cshtml" />
     <Content Include="Views\Producto\MostrarCarrito.cshtml" />
+    <Content Include="Views\Producto\RealizarPago.cshtml" />
+    <Content Include="Views\Producto\FinalizarCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -500,6 +502,10 @@
     <ProjectReference Include="..\Seguridad\Seguridad.csproj">
       <Project>{F3C361F0-A3A3-47BD-B95A-2EADB31A8700}</Project>
       <Name>Seguridad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Servicios\Servicios.csproj">
+      <Project>{8b7d65fa-59e3-4c01-820d-9783c817533a}</Project>
+      <Name>Servicios</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
