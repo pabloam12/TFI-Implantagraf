@@ -12,7 +12,6 @@ namespace Entidades
         public double Monto { get; set; }
         public int Cantidad { get; set; }
         public double SubTotal { get; set; }
-
         public long DVH { get; set; }
     }
 }

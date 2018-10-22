@@ -114,6 +114,7 @@ namespace AccesoDatos
             {
                 Id = GetDataValue<int>(dr, "Id"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
 
             };
             return categoria;

@@ -92,7 +92,7 @@ namespace AccesoDatos
         public List<Idioma> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion] FROM dbo.Idioma WHERE FechaBaja = '2000/01/01' ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion], [DVH] FROM dbo.Idioma WHERE FechaBaja = '2000/01/01' ORDER BY [Descripcion]";
 
             var result = new List<Idioma>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -118,7 +118,8 @@ namespace AccesoDatos
             {
                 Id = GetDataValue<int>(dr, "ID"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion"),
-                Abreviacion = GetDataValue<string>(dr, "Abreviacion")
+                Abreviacion = GetDataValue<string>(dr, "Abreviacion"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
 
             };
             return idioma;

@@ -78,6 +78,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NegocioFormaPago.cs" />
     <Compile Include="NegocioCategoria.cs" />
     <Compile Include="NegocioCuenta.cs" />
     <Compile Include="NegocioIdioma.cs" />

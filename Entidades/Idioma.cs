@@ -11,5 +11,7 @@ namespace Entidades
         public string Descripcion { get; set; }
 
         public string Abreviacion { get; set; }
+
+        public long DVH { get; set; }
     }
 }

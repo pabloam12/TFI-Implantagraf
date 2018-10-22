@@ -28,7 +28,11 @@ namespace Seguridad
 
         public bool ValidarIntegridadTablas()
         {
-            string[] tablasImplantagraf = { "Carrito", "Categoria", "Marca", "Cliente", "DetalleOperacion", "Factura", "FormaPago", "ItemsCarrito", "Localidad", "Operacion", "Producto", "SEG_DVV", "Stock", "TipoOperacion", "SEG_Bitacora", "SEG_PerfilUsr", "SEG_Usuario", "Idioma", "SEG_EstadosCuenta" };
+            string[] tablasImplantagraf = { "Categoria", "Marca", "Cliente", "DetalleOperacion",
+                                            "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
+                                            "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_DVV", "SEG_EstadosCuenta",
+                                            "SEG_IntegridadRegistros", "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
+                                            "WS_Empresa_TC" };
 
             var flag = false;
 
@@ -51,7 +55,11 @@ namespace Seguridad
 
         public bool ValidarTablasDVV(bool flag)
         {
-            string[] tablasDVV = { "SEG_Usuario", "SEG_Bitacora", "Operacion", "Cliente", "Factura" };
+            string[] tablasDVV = { "Categoria", "Marca", "Cliente", "DetalleOperacion",
+                                   "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
+                                   "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_EstadosCuenta",
+                                   "SEG_IntegridadRegistros", "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
+                                   "WS_Empresa_TC" };
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -85,7 +93,11 @@ namespace Seguridad
 
         public void RecalcularDVV()
         {
-            string[] tablasDVV = { "SEG_Usuario", "SEG_Bitacora", "Operacion", "Cliente", "Factura" };
+            string[] tablasDVV = { "Categoria", "Marca", "Cliente", "DetalleOperacion",
+                                   "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
+                                   "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_EstadosCuenta",
+                                   "SEG_IntegridadRegistros", "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
+                                   "WS_Empresa_TC" };
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -206,11 +218,24 @@ namespace Seguridad
             var accDatosCategorias = new CategoriaDAC();
             var accDatosClientes = new ClienteDAC();
             var accDatosOperaciones = new OperacionesDAC();
+            var accDatosFormaPago = new FormaPagoDAC();
+            var accDatosIdioma = new IdiomaDAC();
+            var accDatosLocalidad = new LocalidadDAC();
+            var accDatosMarca = new MarcaDAC();
+            var accDatosBitacora = new BitacoraDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
             List<Producto> listadoProductos = new List<Producto>();
             List<Categoria> listadoCategorias = new List<Categoria>();
             List<Cliente> listadoClientes = new List<Cliente>();
+            List<DetalleOperacion> listadoDetalleOperaciones = new List<DetalleOperacion>();
+            List<Factura> listadoFacturas = new List<Factura>();
+            List<FormaPago> listadoFormasPago = new List<FormaPago>();
+            List<Idioma> listadoIdiomas = new List<Idioma>();
+            List<Localidad> listadoLocalidades = new List<Localidad>();
+            List<Marca> listadoMarcas = new List<Marca>();
+            List<Operacion> listadoOperaciones = new List<Operacion>();
+            List<Bitacora> listadoBitacora = new List<Bitacora>();
 
             // Usuarios.
             listadoUsuarios = accDatosUsuario.ListarUsuarios();
@@ -263,24 +288,102 @@ namespace Seguridad
             }
 
             // Detalle Operacion
-            //listadoDetalleOperaciones = accDatosOperaciones.Listar();
+            listadoDetalleOperaciones = accDatosOperaciones.ListarDetalleOperacion();
 
-            foreach (Cliente clienteActual in listadoClientes)
+            foreach (DetalleOperacion detalleActual in listadoDetalleOperaciones)
             {
-                if (CalcularDVH(clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString()) != clienteActual.DVH)
+                if (CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString()) != detalleActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Cliente", "Código: " + clienteActual.Id.ToString(), "Razón Social: " + clienteActual.RazonSocial, "CUIL: " + clienteActual.CUIL, "Email: " + clienteActual.Email, "Fecha Alta: " + clienteActual.FechaAlta.ToString());
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: DetalleOperacion", "Operación: " + detalleActual.OperacionId.ToString(), "Producto: " + detalleActual.ProductoId.ToString(), "SubTotal: " + detalleActual.SubTotal.ToString());
                     flag = true;
                 }
             }
 
-            //AGREGAR EL RESTO DE LOS FOREACH.
+            // Facturas
+            listadoFacturas = accDatosOperaciones.ListarFacturas();
 
-            //accDatos.ValidarBitacoraDVH();
-            //accDatos.ValidarOperacionDVH();
-            //accDatos.ValidarClienteDVH();
-            //accDatos.ValidarFacturaDVH();
+            foreach (Factura facturaActual in listadoFacturas)
+            {
+                if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.RazonSocial + facturaActual.Monto.ToString()) != facturaActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Factura", "Código: " + facturaActual.Codigo.ToString(), "Razon Social: " + facturaActual.RazonSocial, "Monto: " + facturaActual.Monto.ToString());
+                    flag = true;
+                }
+            }
 
+            // Formas de Pago
+            listadoFormasPago = accDatosFormaPago.Listar();
+
+            foreach (FormaPago formaPagoActual in listadoFormasPago)
+            {
+                if (CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion) != formaPagoActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: FormaPago", "Código: " + formaPagoActual.Id.ToString(), "Descripción: " + formaPagoActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Idioma
+            listadoIdiomas = accDatosIdioma.Listar();
+
+            foreach (Idioma idiomaActual in listadoIdiomas)
+            {
+                if (CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion) != idiomaActual.DVH)
+                { 
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Idioma", "Código: " + idiomaActual.Id.ToString(), "Descripción: " + idiomaActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Localidad
+            listadoLocalidades = accDatosLocalidad.Listar();
+
+            foreach (Localidad localidadActual in listadoLocalidades)
+            {
+                if (CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion) != localidadActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Localidad", "Código: " + localidadActual.Id.ToString(), "Descripción: " + localidadActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Marca
+            listadoMarcas = accDatosMarca.Listar();
+
+            foreach (Marca marcaActual in listadoMarcas)
+            {
+                if (CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion) != marcaActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Marca", "Código: " + marcaActual.Id.ToString(), "Descripción: " + marcaActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Operaciones
+            listadoOperaciones = accDatosOperaciones.ListarOperaciones();
+
+            foreach (Operacion operacionActual in listadoOperaciones)
+            {
+                if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString()+ operacionActual.TipoOperacion+operacionActual.ImporteTotal.ToString()+operacionActual.FacturaId.ToString()) != operacionActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Operacion", "Código: " + operacionActual.Id.ToString(), "Cliente: " + operacionActual.ClienteId.ToString(), "Fecha/Hora: " + operacionActual.FechaHora.ToString(), "Importe Total: " + operacionActual.ImporteTotal.ToString(), "Factura: "+ operacionActual.FacturaId.ToString());
+                    flag = true;
+                }
+            }
+
+            // Bitácora
+            listadoBitacora = accDatosBitacora.ConsultarBitacora();
+
+            foreach (Bitacora bitacoraActual in listadoBitacora)
+            {
+                if (CalcularDVH(bitacoraActual.Id.ToString() + bitacoraActual.Id.ToString() + bitacoraActual.FechaHora.ToString() + bitacoraActual.TipoOperacion + bitacoraActual.ImporteTotal.ToString() + bitacoraActual.FacturaId.ToString()) != bitacoraActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Operacion", "Código: " + bitacoraActual.Id.ToString(), "Cliente: " + bitacoraActual.ClienteId.ToString(), "Fecha/Hora: " + bitacoraActual.FechaHora.ToString(), "Importe Total: " + bitacoraActual.ImporteTotal.ToString(), "Factura: " + bitacoraActual.FacturaId.ToString());
+                    flag = true;
+                }
+            }
+
+            //Retorno el resultado final.
             return flag;
         }
 

@@ -477,7 +477,7 @@ namespace AccesoDatos
 
         public Usuario InformacionCuenta(string idUsuario)
         {
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
                 "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
 

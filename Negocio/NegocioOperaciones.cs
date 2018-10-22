@@ -62,5 +62,21 @@ namespace Negocio
             datos.RegistrarDetalleOperacion(operacionId, productoId, monto, cantidad, subtotal, DVH);
         }
 
+        public List<DetalleOperacion> ListarDetalleOperacion()
+        {
+            var datos = new OperacionesDAC();
+
+            return datos.ListarDetalleOperacion();
+
+        }
+
+        public List<DetalleOperacion> ListarDetalleporOperacion(int id)
+        {
+            var datos = new OperacionesDAC();
+
+            return datos.ListarDetalleOperacion();
+
+        }
+
     }
 }

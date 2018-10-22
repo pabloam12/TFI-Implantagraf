@@ -114,6 +114,135 @@ namespace AccesoDatos
             return result;
         }
 
+        public List<Operacion> ListarOperacionesporTipo(string tipo)
+        {
+
+            string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [Estado], [FacturaId] " +
+               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+               "FROM dbo.Operacion WHERE TipoOperacion=" + tipo + "; ";
+
+            var result = new List<Operacion>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var operacion = MapearOperacion(dr); // Mapper
+                        result.Add(operacion);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<DetalleOperacion> ListarDetalleOperacion()
+        {
+            const string sqlStatement = "SELECT [OperacionId], [ProductoId], [Monto], [Cantidad], [SubTotal], [DVH]" +
+               "FROM dbo.DetalleOperacion;";
+
+            var result = new List<DetalleOperacion>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var detalleoperacion = MapearDetalleOperacion(dr); // Mapper
+                        result.Add(detalleoperacion);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public List<DetalleOperacion> ListarDetalleporOperacion(int operacionId)
+        {
+            const string sqlStatement = "SELECT [OperacionId], [ProductoId], [Monto], [Cantidad], [SubTotal], [DVH]" +
+               "FROM dbo.DetalleOperacion " +
+               "WHERE OperacionId = @OperacionId;";
+
+            var result = new List<DetalleOperacion>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    db.AddInParameter(cmd, "@OperacionId", DbType.Int32, operacionId);
+
+                    while (dr.Read())
+                    {
+                        var detalleoperacion = MapearDetalleOperacion(dr); // Mapper
+                        result.Add(detalleoperacion);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public List<Factura> ListarFacturas()
+        {
+            const string sqlStatement = "SELECT [Codigo], [FechaHora], [Tipo], [RazonSocial], [Monto], [FormaPagoId], [NroTarjeta], [Direccion], [Email], [Estado], [DVH]" +
+               "FROM dbo.Factura;";
+
+            var result = new List<Factura>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var factura = MapearFactura(dr); // Mapper
+                        result.Add(factura);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public List<Factura> ListarFacturasporCliente(string razonSocial)
+        {
+            string sqlStatement = "SELECT [Codigo], [FechaHora], [Tipo], [RazonSocial], [Monto], [FormaPagoId], [NroTarjeta], [Direccion], [Email], [Estado], [DVH]" +
+               "FROM dbo.Factura WHERE RazonSocial=" + razonSocial + "; ";
+
+            var result = new List<Factura>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var factura = MapearFactura(dr); // Mapper
+                        result.Add(factura);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
 
         private Operacion MapearOperacion(IDataReader dr)
         {
@@ -127,6 +256,43 @@ namespace AccesoDatos
 
             };
             return operacion;
+        }
+
+        private DetalleOperacion MapearDetalleOperacion(IDataReader dr)
+        {
+            var detalleOperacion = new DetalleOperacion
+            {
+                OperacionId = GetDataValue<Int32>(dr, "OperacionId"),
+                ProductoId = GetDataValue<Int32>(dr, "ProductoId"),
+                Monto = GetDataValue<Int64>(dr, "Monto"),
+                Cantidad = GetDataValue<Int32>(dr, "Cantidad"),
+                SubTotal = GetDataValue<Int64>(dr, "SubTotal"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
+
+            };
+
+            return detalleOperacion;
+        }
+
+        private Factura MapearFactura(IDataReader dr)
+        {
+            var factura = new Factura
+            {
+                Codigo = GetDataValue<Int32>(dr, "Codigo"),
+                FechaHora = GetDataValue<DateTime>(dr, "FechaHora"),
+                Tipo = GetDataValue<string>(dr, "Tipo"),
+                RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
+                Monto = GetDataValue<Int64>(dr, "Monto"),
+                FormaPagoId = GetDataValue<Int32>(dr, "FormaPagoId"),
+                NroTarjeta = GetDataValue<Int64>(dr, "NroTarjeta"),
+                Direccion = GetDataValue<string>(dr, "Direccion"),
+                Email = GetDataValue<string>(dr, "Email"),
+                Estado = GetDataValue<string>(dr, "Estado"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
+
+            };
+
+            return factura;
         }
 
     }

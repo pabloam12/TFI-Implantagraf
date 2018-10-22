@@ -92,7 +92,7 @@ namespace AccesoDatos
         public List<Marca> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.Marca ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion], [DVH] FROM dbo.Marca ORDER BY [Descripcion]";
 
             var result = new List<Marca>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -117,6 +117,7 @@ namespace AccesoDatos
             {
                 Id = GetDataValue<int>(dr, "ID"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
 
             };
             return marca;
