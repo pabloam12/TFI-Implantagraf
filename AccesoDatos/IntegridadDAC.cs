@@ -78,7 +78,7 @@ namespace AccesoDatos
 
         public long ActualizarDVV(string tabla, long DVV, int CantReg)
         {
-            const string sqlStatement = "UPDATE  dbo.SEG_DVV SET [Valor]=@DVV, [CantidadReg]=@CantReg WHERE [Tabla]=@tabla";
+            const string sqlStatement = "UPDATE  dbo.SEG_DVV SET [DVV]=@DVV, [CantidadReg]=@CantReg WHERE [Tabla]=@tabla";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 

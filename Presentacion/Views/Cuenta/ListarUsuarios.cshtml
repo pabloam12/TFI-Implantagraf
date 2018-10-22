@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Entidades.Usuario>
+
+
+@{
+    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO;
+
+}
+
+@Html.Partial("_Espacio1")
+
+<body>
+
+    <div class="container contact_container">
+
+        <h4>Listado de Usuarios</h4>
+
+        <p>
+            @Html.ActionLink("Alto Usuario Administrativo", "", null, new { @class = "btn btn-success btn-sm" })}
+        </p>
+        <table class="table">
+            <tr>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.RazonSocial)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CUIL)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Usr)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.PerfilUsr.Descripcion)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaNacimiento)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaAlta)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.DVH)
+                </th>*@
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CUIL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usr)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PerfilUsr.Descripcion)
+                    </td>
+                    
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>*@
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaAlta)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.DVH)
+                    </td>*@
+                    <td>
+                        @Html.ActionLink("Ver Permisos", "VerPermisosUsuario", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                    </td>
+                    <td>
+                        @if (item.Estado == "B")
+                        {@Html.ActionLink("Desbloquear Cuenta", "DesbloquearCuenta", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })}
+
+                        @if (item.Estado == "S" && item.PerfilUsr.Descripcion != "WebMaster")
+                        {@Html.ActionLink("Bloquear Cuenta", "BloquearCuenta", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })}
+                    </td>
+                    
+                       <td>
+@if (item.PerfilUsr.Descripcion != "WebMaster")
+
+{ @Html.ActionLink("Eliminar Cuenta", "Delete", new { id = item.Id })}  
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @Html.Partial("_Espacio2")
+
+
+    </div>
+</body>

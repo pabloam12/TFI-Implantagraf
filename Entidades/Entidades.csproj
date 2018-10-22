@@ -94,7 +94,9 @@
     <Compile Include="Localidad.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Marca.cs" />
+    <Compile Include="OlvidoPsw.cs" />
     <Compile Include="Operacion.cs" />
+    <Compile Include="PermisosUsr.cs" />
     <Compile Include="PerfilUsr.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

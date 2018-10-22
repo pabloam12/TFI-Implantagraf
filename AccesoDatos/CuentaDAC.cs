@@ -11,10 +11,36 @@ namespace AccesoDatos
     public class CuentaDAC : DataAccessComponent
     {
 
+        public List<Usuario> ListarUsuarios()
+        {
+
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
+               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+               "FROM dbo.SEG_Usuario;";
+
+            var result = new List<Usuario>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var usuario = MapearUsuario(dr); // Mapper
+                        result.Add(usuario);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public List<Usuario> ListarUsuariosPorPerfil(int perfil)
         {
 
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
                "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
                "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId;";
 
@@ -38,6 +64,39 @@ namespace AccesoDatos
             return result;
         }
 
+        public List<PermisosUsr> VerPermisosUsuario(int usuarioId)
+        {
+            const string sqlStatement = "SELECT P.PermisoId, P.Descripcion, P.DVH " +
+                                        "FROM [dbo].[SEG_Permisos] as P " +
+                                        "JOIN [dbo].[SEG_DetallePermisos] as DP " +
+                                            "ON P.PermisoId = DP.PermisoId " +
+                                        "JOIN [dbo].[SEG_PerfilUsr] as PF " +
+                                            "ON PF.Id = DP.PerfilId " +
+                                        "JOIN [dbo].[SEG_Usuario] as U " +
+                                            "ON U.PerfilId = DP.PerfilId " +
+                                        "WHERE U.Id = @UsuarioId; ";
+
+            var result = new List<PermisosUsr>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@UsuarioId", DbType.Int32, usuarioId);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var permiso = MapearPermisoUsuario(dr); // Mapper
+                        result.Add(permiso);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
         public bool ValidarUsuario(String nombreUsuario)
         {
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr";
@@ -54,6 +113,36 @@ namespace AccesoDatos
 
                 // Si no existe el usuario devuelve true asi entra en el if.
                 return true;
+            }
+
+        }
+
+        public void BloquearCuenta(int usuarioId)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Estado] = 'B' WHERE [Id] = @Id";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, usuarioId);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+        public void DesbloquearCuenta(int usuarioId)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Estado] = 'S' WHERE [Id] = @Id";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, usuarioId);
+
+                db.ExecuteNonQuery(cmd);
             }
 
         }
@@ -233,7 +322,7 @@ namespace AccesoDatos
 
         public Usuario Autenticar(Login usr)
         {
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Email], [Telefono], " +
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH]  " +
                 "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
 
@@ -371,6 +460,7 @@ namespace AccesoDatos
                 Psw = GetDataValue<string>(dr, "Psw"),
                 PswConfirmacion = GetDataValue<string>(dr, "Psw"),
                 CUIL = GetDataValue<string>(dr, "CUIL"),
+                Estado = GetDataValue<string>(dr, "Estado"),
                 Email = GetDataValue<string>(dr, "Email"),
                 Telefono = GetDataValue<string>(dr, "Telefono"),
                 Direccion = GetDataValue<string>(dr, "Direccion"),
@@ -409,6 +499,19 @@ namespace AccesoDatos
             }
 
             return infoUsuario;
+        }
+
+        private PermisosUsr MapearPermisoUsuario(IDataReader dr)
+        {
+
+            var permiso = new PermisosUsr
+            {
+                Id = GetDataValue<int>(dr, "PermisoId"),
+                Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
+            };
+
+            return permiso;
         }
     }
 }

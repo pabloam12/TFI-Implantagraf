@@ -9,7 +9,7 @@ namespace Negocio
 {
     public class NegocioOperaciones
     {
-        public Factura RegistrarFactura(DateTime fechaHora, string tipoFactura, double importeTotal, int formaPago, string direccion, string razonSocial, string email)
+        public Factura RegistrarFactura(DateTime fechaHora, string tipoFactura, double importeTotal, int formaPago, string estado, string direccion, string razonSocial, string email, double NroTarjeta = 0)
         {
             var datos = new OperacionesDAC();
 
@@ -18,24 +18,49 @@ namespace Negocio
                 FechaHora = fechaHora,
                 Tipo = tipoFactura,
                 Monto = importeTotal,
-                FormaPagoId=formaPago,
-                Direccion= direccion,
-                RazonSocial=razonSocial,
-                Email=email
+                FormaPagoId = formaPago,
+                Estado = estado,
+                Direccion = direccion,
+                RazonSocial = razonSocial,
+                NroTarjeta = NroTarjeta,
+                Email = email
             };
 
+            factura.DVH = 231232;
 
-            return datos.RegistrarFactura(factura, 54564546);
+            return datos.RegistrarFactura(factura);
 
         }
 
-        //public int RegistrarVenta(int codCliente, double importeTotal, string estado, int codFactura)
-        //{
-        //    datos = new OperacionesDAC();
+        public Operacion RegistrarVenta(DateTime fechaHora, int codCliente, double importeTotal, int formaPago, string tipoOperacion, string estado, int codFactura)
+        {
+            var datos = new OperacionesDAC();
 
-        //    return datos.RegistrarVenta(codCliente, "VENTA", importeTotal, estado, codFactura, 456465);
+            var venta = new Operacion
+            {
+                FechaHora = fechaHora,
+                TipoOperacion = tipoOperacion,
+                ImporteTotal = importeTotal,
+                FormaPagoId = formaPago,
+                Estado = estado,
+                FacturaId = codFactura
+            };
 
-        //} 
+            venta.DVH = 23231;
+
+
+            return datos.RegistrarOperacion(venta);
+
+        }
+
+
+        public void RegistrarDetalleOperacion(int operacionId, int productoId, double monto, int cantidad, double subtotal, long DVH)
+        {
+
+            var datos = new OperacionesDAC();
+
+            datos.RegistrarDetalleOperacion(operacionId, productoId, monto, cantidad, subtotal, DVH);
+        }
 
     }
 }

@@ -39,14 +39,20 @@ namespace AccesoDatos
             var sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] FROM dbo.SEG_Bitacora ";
 
             var whereStatement = "";
+                   
 
             if (fecha != "")
             {
-                whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fecha)  ";
+                fecha = InvertirFecha(fecha);
+
+                whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fecha) ";
 
                 if (fechaFin != "")
                 {
-                    whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fechaFin)  ";
+
+                    fechaFin = InvertirFecha(fechaFin);
+
+                    whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fechaFin) ";
 
                 }
             }
@@ -126,6 +132,17 @@ namespace AccesoDatos
                 return (Convert.ToBoolean(db.ExecuteScalar(cmd)));
 
             }
+
+        }
+
+        private string InvertirFecha(string fecha)
+        {
+
+            var anio = fecha.Substring(0, 4);
+            var mes = fecha.Substring(5, 2);
+            var dia = fecha.Substring(8, 2);
+
+            return (dia + "-" + mes + "-" + anio);
 
         }
 

@@ -48,6 +48,8 @@ namespace Entidades
 
         public string Direccion { get; set; }
 
+        public string Estado { get; set; }
+
         public Localidad Localidad { get; set; }
 
         [DataType(DataType.Date)]

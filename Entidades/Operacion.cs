@@ -9,10 +9,11 @@ namespace Entidades
     {
         public int Id { get; set; }
         public int ClienteId { get; set; }
-        public System.DateTime FechaOperacion { get; set; }
-        public int TipoOperacionId { get; set; }
-        public double MontoTotal { get; set; }
-        public Nullable<int> Estado { get; set; }
+        public DateTime FechaHora { get; set; }
+        public string TipoOperacion { get; set; }
+        public double ImporteTotal { get; set; }
+        public string Estado { get; set; }
+        public int FormaPagoId { get; set; }
         public int FacturaId { get; set; }
         public long DVH { get; set; }
 

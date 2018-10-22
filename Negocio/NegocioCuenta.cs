@@ -12,6 +12,14 @@ namespace Negocio
     public class NegocioCuenta
     {
 
+        public List<Usuario> ListarUsuarios()
+        {
+            var ad = new CuentaDAC();
+
+            return (ad.ListarUsuarios());
+
+
+        }
         public List<Usuario> ListarUsuariosPorPerfil(int perfil)
         {
 
@@ -21,6 +29,36 @@ namespace Negocio
 
 
         }
+
+        public List<PermisosUsr> VerPermisosUsuario(int usuarioId)
+        {
+
+            var ad = new CuentaDAC();
+
+            return ad.VerPermisosUsuario(usuarioId);
+
+        }
+
+        public void BloquearCuenta (int usuarioId)
+        {
+
+            var ad = new CuentaDAC();
+
+            ad.BloquearCuenta(usuarioId);
+
+            
+        }
+
+        public void DesbloquearCuenta(int usuarioId)
+        {
+
+            var ad = new CuentaDAC();
+
+            ad.DesbloquearCuenta(usuarioId);
+
+
+        }
+
         public Usuario RegistrarCliente(Usuario usr)
         {
             var ad = new CuentaDAC();

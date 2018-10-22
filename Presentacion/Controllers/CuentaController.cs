@@ -22,6 +22,14 @@ namespace Presentacion.Controllers
 
         }
 
+        public ActionResult ListarUsuarios()
+        {
+            var ln = new NegocioCuenta();
+
+            return View(ln.ListarUsuarios());
+
+        }
+
         public ActionResult DetalleCuenta()
         {
             if ((String)Session["PerfilUsuario"] != null)
@@ -34,6 +42,35 @@ namespace Presentacion.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult VerPermisosUsuario(int id)
+        {
+            var ln = new NegocioCuenta();
+
+            return View(ln.VerPermisosUsuario(id));
+
+
+        }
+
+        public ActionResult BloquearCuenta (int id)
+        {
+            var ln = new NegocioCuenta();
+
+            ln.BloquearCuenta(id);
+
+            return View();
+
+        }
+
+        public ActionResult DesbloquearCuenta(int id)
+        {
+            var ln = new NegocioCuenta();
+
+            ln.DesbloquearCuenta(id);
+
+            return View();
+
         }
 
         public ActionResult ActualizarDatosCuenta(Usuario usuarioModif)

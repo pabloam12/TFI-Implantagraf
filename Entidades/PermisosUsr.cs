@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Entidades
 {
-    public class Categoria
+    public class PermisosUsr
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
-        public long DVH { get; set; }
+                public long DVH { get; set; }
     }
 }

@@ -10,42 +10,55 @@
 
     <div class="container contact_container">
 
-        <h3>DETALLE DE TABLAS CORRUPTAS</h3>
-        <br />
+        @{ var cantidad = Model.Count();
 
-        <table class="table">
-            
-            @foreach (var item in Model)
+            if (cantidad == 0)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_A)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_B)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_C)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_D)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_E)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_F)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Col_G)
-                    </td>
-                </tr>
+                <div>
+
+                    <div class="alert alert-success" role="alert">No se han encontrado problemas de integridad.</div>
+
+                </div>
             }
+            else
+            {
+                <h3>DETALLE DE TABLAS CORRUPTAS</h3>
+                <br />
+                <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">Solucionar Integridad de Datos</a></p>
+                <table class="table">
 
-        </table>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_A)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_B)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_C)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_D)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_E)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_F)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_G)
+                            </td>
+                        </tr>
+                    }
 
-        <p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>
+                </table>
+            }
+            @*<p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>*@
+        }
+    </div>
+</body>
 
-        </div>
-    </body>
-        @Html.Partial("_Espacio2")
+@Html.Partial("_Espacio2")

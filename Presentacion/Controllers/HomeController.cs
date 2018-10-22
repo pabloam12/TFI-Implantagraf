@@ -11,6 +11,9 @@ namespace Presentacion.Controllers
     {
         public ActionResult Index()
         {
+            if((String)Session["PerfilUsuario"] == "WebMaster")
+            { return RedirectToAction("Index", "RescateIntegridad"); }
+
             Session["Excepcion"] = null;
 
             // Se comprueba la integridad de la base.

@@ -11,10 +11,10 @@ namespace Entidades
         public string RazonSocial { get; set; }
         public string CUIL { get; set; }
         public string Email { get; set; }
+        public string Telefono { get; set; }
         public string Direccion { get; set; }
         public Localidad Localidad { get; set; }
         public System.DateTime FechaAlta { get; set; }
-        public string Activo { get; set; }
         public long DVH { get; set; }
     }
 }

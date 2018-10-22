@@ -53,6 +53,9 @@
                         @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CANTIDAD)
                     </th>
                     <th>
+                        
+                    </th>
+                    <th>
                         @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_PRECIO_UNITARIO)
                     </th>
                     <th>
@@ -83,8 +86,11 @@
                                 @Html.DisplayFor(modelItem => item.Descripcion)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Cantidad)
+                                @Html.DisplayFor(modelItem => item.Cantidad)   
                             </td>
+
+                            <td>@Html.ActionLink(" + ", "SumarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-success btn-sm" })</td>
+
                             <td>
                                 $@Html.DisplayFor(modelItem => item.Precio).-
                             </td>

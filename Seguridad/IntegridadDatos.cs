@@ -14,14 +14,14 @@ namespace Seguridad
         {
             var flag = false;
 
-            if (ValidarRegistrosDVH())
-                flag = true;
+            //if (ValidarRegistrosDVH())
+            //    flag = true;
 
-            if (ValidarTablasDVV(flag))
-                flag = true;
+            //if (ValidarTablasDVV(flag))
+            //    flag = true;
 
-            if (ValidarIntegridadTablas())
-                flag = true;
+            //if (ValidarIntegridadTablas())
+            //    flag = true;
 
             return flag;
         }
@@ -203,24 +203,17 @@ namespace Seguridad
             var flag = false;
             var accDatosUsuario = new CuentaDAC();
             var accDatosProductos = new ProductoDAC();
+            var accDatosCategorias = new CategoriaDAC();
+            var accDatosClientes = new ClienteDAC();
+            var accDatosOperaciones = new OperacionesDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
             List<Producto> listadoProductos = new List<Producto>();
+            List<Categoria> listadoCategorias = new List<Categoria>();
+            List<Cliente> listadoClientes = new List<Cliente>();
 
-            // Usuarios Webmasters.
-            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(1);
-
-            foreach (Usuario usuarioActual in listadoUsuarios)
-            {
-                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
-                {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
-                    flag = true;
-                }
-            }
-
-            // Usuarios Administrativos.
-            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(2);
+            // Usuarios.
+            listadoUsuarios = accDatosUsuario.ListarUsuarios();
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
@@ -231,18 +224,7 @@ namespace Seguridad
                 }
             }
 
-            // Usuarios Clientes.
-            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
-
-            foreach (Usuario usuarioActual in listadoUsuarios)
-            {
-                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
-                {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
-                    flag = true;
-                }
-            }
-
+           
             // Productos.
             listadoProductos = accDatosProductos.ListarProductos();
 
@@ -254,6 +236,44 @@ namespace Seguridad
                     flag = true;
                 }
             }
+
+
+            // Categorias.
+            listadoCategorias = accDatosCategorias.Listar();
+
+            foreach (Categoria categoriaActual in listadoCategorias)
+            {
+                if (CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion) != categoriaActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Categoría", "Código: " + categoriaActual.Id.ToString(), "Descripción: " + categoriaActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Clientes
+            listadoClientes = accDatosClientes.Listar();
+
+            foreach (Cliente clienteActual in listadoClientes)
+            {
+                if (CalcularDVH(clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString()) != clienteActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Cliente", "Código: " + clienteActual.Id.ToString(), "Razón Social: " + clienteActual.RazonSocial, "CUIL: " + clienteActual.CUIL, "Email: " + clienteActual.Email, "Fecha Alta: " + clienteActual.FechaAlta.ToString());
+                    flag = true;
+                }
+            }
+
+            // Detalle Operacion
+            //listadoDetalleOperaciones = accDatosOperaciones.Listar();
+
+            foreach (Cliente clienteActual in listadoClientes)
+            {
+                if (CalcularDVH(clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString()) != clienteActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Cliente", "Código: " + clienteActual.Id.ToString(), "Razón Social: " + clienteActual.RazonSocial, "CUIL: " + clienteActual.CUIL, "Email: " + clienteActual.Email, "Fecha Alta: " + clienteActual.FechaAlta.ToString());
+                    flag = true;
+                }
+            }
+
             //AGREGAR EL RESTO DE LOS FOREACH.
 
             //accDatos.ValidarBitacoraDVH();

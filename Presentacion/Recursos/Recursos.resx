@@ -150,11 +150,20 @@
   <data name="BOTON_VER" xml:space="preserve">
     <value>DETALLE</value>
   </data>
+  <data name="BOTON_VOLVER" xml:space="preserve">
+    <value>Volver</value>
+  </data>
   <data name="CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR" xml:space="preserve">
     <value>Guardar Cambios</value>
   </data>
   <data name="CUENTA_ACTUALIZARDATOS_TITULO" xml:space="preserve">
     <value>Actualizar Datos de Cuenta</value>
+  </data>
+  <data name="CUENTA_BLOQUEARCUENTA_LEYENDA" xml:space="preserve">
+    <value>La cuenta de usuario se ha bloqueado con éxito.</value>
+  </data>
+  <data name="CUENTA_DESBLOQUEARCUENTA_LEYENDA" xml:space="preserve">
+    <value>La cuenta de usuario se ha desbloqueado con éxito.</value>
   </data>
   <data name="CUENTA_DETALLE_BOTON_ACTUALIZARDATOS" xml:space="preserve">
     <value>Actualizar Datos</value>
@@ -173,6 +182,9 @@
   </data>
   <data name="CUENTA_RECUPERAR_PSW_TITULO" xml:space="preserve">
     <value>Recuperar Contraseña</value>
+  </data>
+  <data name="CUENTA_VERPERMISOS_TITULO" xml:space="preserve">
+    <value>Permisos de Usuario</value>
   </data>
   <data name="ENTIDAD_ACCION" xml:space="preserve">
     <value>Acción</value>
@@ -344,6 +356,12 @@
   </data>
   <data name="LOYOUT_BARRA_MENU_NEGOCIO" xml:space="preserve">
     <value>Objetos de Negocio</value>
+  </data>
+  <data name="LOYOUT_BARRA_MENU_RESPALDO" xml:space="preserve">
+    <value>Realizar BackUp</value>
+  </data>
+  <data name="LOYOUT_BARRA_MENU_RESTAURAR" xml:space="preserve">
+    <value>Restaurar Respaldo</value>
   </data>
   <data name="LOYOUT_BARRA_MENU_USUARIOS" xml:space="preserve">
     <value>Usuarios</value>

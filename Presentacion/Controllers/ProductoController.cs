@@ -100,13 +100,33 @@ namespace Presentacion.Controllers
 
             Session["Carrito"] = productosCarrito;
 
-            int cantidadTotalItems = (int)Session["ItemsCarrito"];
+            //int cantidadTotalItems = (int)Session["ItemsCarrito"];
 
             Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] - 1);
 
-            cantidadTotalItems = (int)Session["ItemsCarrito"];
+            //cantidadTotalItems = (int)Session["ItemsCarrito"];
 
             return View("MostrarCarrito");
+
+        }
+
+        public ActionResult SumarProductoCarrito(int productoId)
+        {
+
+            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+
+            int idProdCarrito = controlarId(productoId);
+
+            productosCarrito[idProdCarrito].Cantidad++;
+
+            Session["Carrito"] = productosCarrito;
+
+            
+            Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
+
+            
+            return View("MostrarCarrito");
+
 
         }
 
@@ -163,7 +183,7 @@ namespace Presentacion.Controllers
         //[HttpPost]
 
         //TarjetaCredito datosTarjeta = null,
-        public ActionResult RealizarPagoContado( int formaPago = 0)
+        public ActionResult RealizarPagoContado(int formaPago = 0)
         {
             var importeTotal = CalularImporteTotal();
 
@@ -176,7 +196,7 @@ namespace Presentacion.Controllers
             //}
 
             RegistrarVenta(fechaHora, importeTotal, formaPago);
-            
+
             //ActualizarStock();
 
             return RedirectToAction("FinalizarCompra");
@@ -187,18 +207,22 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioOperaciones();
 
-            var estado = "PENDIENTE";
+            var estado = "PAGO_PENDIENTE";
 
             if (formaPago == 0)
 
             { estado = "APROBADA"; }
-            
-            var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"]);
 
-            //ln.RegistrarVenta((Int32)Session["CodCliente"], importeTotal, estado, factura.Codigo);
+            var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, estado, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"]);
+
+            var venta = ln.RegistrarVenta(fechaHora, (Int32)Session["CodCliente"],  importeTotal, formaPago, "VE", estado, factura.Codigo);
+
+            RegistrarDetalleVenta(venta.Id);
 
             Session["Factura"] = factura;
-            
+
+            Session["Carrito"] = null;
+
         }
 
         private double CalularImporteTotal()
@@ -215,6 +239,26 @@ namespace Presentacion.Controllers
             }
 
             return importeTotal;
+        }
+
+        private void RegistrarDetalleVenta(int operacionId)
+        {
+
+            var ln = new NegocioOperaciones();
+
+            if (Session["Carrito"] != null)
+            {
+                foreach (var item in Session["Carrito"] as List<Carrito>)
+                {
+                    var subtotal = (double)(item.Precio * item.Cantidad);
+
+                    var detalleDVH = 23323;
+
+                    ln.RegistrarDetalleOperacion(operacionId, item.ProductoId, item.Precio, item.Cantidad, subtotal, detalleDVH);
+
+                }
+            }
+
         }
 
         private bool ValidarPago(TarjetaCredito datosTarjeta, double importeTotal)

@@ -12,7 +12,7 @@ namespace Entidades
         public long Id { get; set; }
 
         [Display(Name = "Fecha y Hora")]
-        public System.DateTime FechaHora { get; set; }
+        public DateTime FechaHora { get; set; }
 
         [Display(Name = "Usuario")]
         public string Usuario { get; set; }

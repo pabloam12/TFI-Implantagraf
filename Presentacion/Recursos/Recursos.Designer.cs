@@ -160,6 +160,15 @@ namespace Presentacion.Recursos {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Volver.
+        /// </summary>
+        public static string BOTON_VOLVER {
+            get {
+                return ResourceManager.GetString("BOTON_VOLVER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Guardar Cambios.
         /// </summary>
         public static string CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR {
@@ -174,6 +183,24 @@ namespace Presentacion.Recursos {
         public static string CUENTA_ACTUALIZARDATOS_TITULO {
             get {
                 return ResourceManager.GetString("CUENTA_ACTUALIZARDATOS_TITULO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La cuenta de usuario se ha bloqueado con éxito..
+        /// </summary>
+        public static string CUENTA_BLOQUEARCUENTA_LEYENDA {
+            get {
+                return ResourceManager.GetString("CUENTA_BLOQUEARCUENTA_LEYENDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La cuenta de usuario se ha desbloqueado con éxito..
+        /// </summary>
+        public static string CUENTA_DESBLOQUEARCUENTA_LEYENDA {
+            get {
+                return ResourceManager.GetString("CUENTA_DESBLOQUEARCUENTA_LEYENDA", resourceCulture);
             }
         }
         
@@ -228,6 +255,15 @@ namespace Presentacion.Recursos {
         public static string CUENTA_RECUPERAR_PSW_TITULO {
             get {
                 return ResourceManager.GetString("CUENTA_RECUPERAR_PSW_TITULO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Permisos de Usuario.
+        /// </summary>
+        public static string CUENTA_VERPERMISOS_TITULO {
+            get {
+                return ResourceManager.GetString("CUENTA_VERPERMISOS_TITULO", resourceCulture);
             }
         }
         
@@ -741,6 +777,24 @@ namespace Presentacion.Recursos {
         public static string LOYOUT_BARRA_MENU_NEGOCIO {
             get {
                 return ResourceManager.GetString("LOYOUT_BARRA_MENU_NEGOCIO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Realizar BackUp.
+        /// </summary>
+        public static string LOYOUT_BARRA_MENU_RESPALDO {
+            get {
+                return ResourceManager.GetString("LOYOUT_BARRA_MENU_RESPALDO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Restaurar Respaldo.
+        /// </summary>
+        public static string LOYOUT_BARRA_MENU_RESTAURAR {
+            get {
+                return ResourceManager.GetString("LOYOUT_BARRA_MENU_RESTAURAR", resourceCulture);
             }
         }
         

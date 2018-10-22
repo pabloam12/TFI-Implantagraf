@@ -11,21 +11,21 @@ namespace Negocio
     public class NegocioCliente
 
     {
-       public Usuario BuscarPorId(int id)
-        {
-            var ad = new ClienteDAC();
+       //public Usuario BuscarPorId(int id)
+       // {
+       //     var ad = new ClienteDAC();
 
-            return ad.BuscarPorId(id);
+       //     //return ad.BuscarPorId(id);
 
-        }
+       // }
 
-        public List<Usuario> Listar()
-        {
-            var ad = new ClienteDAC();
+        //public List<Usuario> Listar()
+        //{
+        //    var ad = new ClienteDAC();
 
-            return (ad.Listar());
+        //    //return (ad.Listar());
 
-        }
+        //}
         
     }
 }

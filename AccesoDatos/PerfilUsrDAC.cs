@@ -92,7 +92,7 @@ namespace AccesoDatos
         public List<PerfilUsr> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion] FROM dbo.SEG_PerfilUsr WHERE FechaBaja = 2000/01/01 OR FechaBaja is null ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.SEG_PerfilUsr WHERE FechaBaja = 2000/01/01 OR FechaBaja is null ORDER BY [Descripcion]";
 
             var result = new List<PerfilUsr>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -116,7 +116,7 @@ namespace AccesoDatos
         {
             var perfilUsr = new PerfilUsr
             {
-                Id = GetDataValue<int>(dr, "ID"),
+                Id = GetDataValue<int>(dr, "Id"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion")
 
             };

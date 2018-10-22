@@ -478,6 +478,10 @@
     <Content Include="Views\Producto\MostrarCarrito.cshtml" />
     <Content Include="Views\Producto\RealizarPago.cshtml" />
     <Content Include="Views\Producto\FinalizarCompra.cshtml" />
+    <Content Include="Views\Cuenta\ListarUsuarios.cshtml" />
+    <Content Include="Views\Cuenta\VerPermisosUsuario.cshtml" />
+    <Content Include="Views\Cuenta\BloquearCuenta.cshtml" />
+    <Content Include="Views\Cuenta\DesbloquearCuenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
