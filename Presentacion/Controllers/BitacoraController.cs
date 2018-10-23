@@ -15,15 +15,15 @@ namespace Presentacion.Controllers
         // GET: Idioma
         public ActionResult Index()
         {
-            //if ((String)Session["PerfilUsuario"] == "WebMaster")
-            //{
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
                 var ln = new Auditoria();
 
                                
                 return View(ln.ConsultarBitacora());
-            //}
+            }
 
-            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

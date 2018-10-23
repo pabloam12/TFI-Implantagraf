@@ -9,9 +9,9 @@ namespace Entidades
     {
         public int OperacionId { get; set; }
         public int ProductoId { get; set; }
-        public double Monto { get; set; }
+        public decimal Monto { get; set; }
         public int Cantidad { get; set; }
-        public double SubTotal { get; set; }
+        public decimal SubTotal { get; set; }
         public long DVH { get; set; }
     }
 }

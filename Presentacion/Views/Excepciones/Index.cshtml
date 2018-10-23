@@ -1,16 +1,20 @@
 ﻿
-@Html.Partial("_Espacio1")
+<body>
+    @Html.Partial("_Espacio1")
+    <div class="container contact_container">
 
-<h3>@Presentacion.Recursos.Recursos.EXCEPCIONES_INDEX_TITULO</h3>
-<br />
-<hr />
-    <div>
-                
-        <div class="alert alert-danger" role="alert">@Session["Excepcion"]!</div>
+        <h3>@Presentacion.Recursos.Recursos.EXCEPCIONES_INDEX_TITULO</h3>
+        <br />
+        <hr />
+        <div>
 
-        <img src="~/Imagenes/sad_robot.png" />
+            <div class="alert alert-danger" role="alert">@Session["Excepcion"]!</div>
+
+            <img src="~/Imagenes/sad_robot.png" />
+
+        </div>
 
     </div>
-
+</body>
 @Html.Partial("_Espacio2")
 

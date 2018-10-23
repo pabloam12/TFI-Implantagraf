@@ -14,7 +14,7 @@ namespace Entidades
         public string Telefono { get; set; }
         public string Direccion { get; set; }
         public Localidad Localidad { get; set; }
-        public System.DateTime FechaAlta { get; set; }
+        public DateTime FechaAlta { get; set; }
         public long DVH { get; set; }
     }
 }

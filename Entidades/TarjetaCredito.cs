@@ -13,7 +13,7 @@ namespace Entidades
 
         public string Marca { get; set; }
 
-                public int MesVenc { get; set; }
+        public int MesVenc { get; set; }
 
         public int AnioVenc { get; set; }
 

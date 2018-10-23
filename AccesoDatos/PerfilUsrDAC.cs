@@ -21,9 +21,6 @@ namespace AccesoDatos
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
-                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
-                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
-                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
@@ -45,7 +42,6 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, perfilUsr.Descripcion);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, perfilUsr.Id);
-                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, DateTime.Now);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 db.ExecuteNonQuery(cmd);
@@ -63,15 +59,14 @@ namespace AccesoDatos
             {
                 
                 db.AddInParameter(cmd, "@Id", DbType.Int32, id);
-                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, DateTime.Now);
-
+                
                 db.ExecuteNonQuery(cmd);
             }
         }
 
         public PerfilUsr BuscarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Descripcion] " +
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] " +
                 "FROM dbo.SEG_PerfilUsr WHERE [ID]=@Id ";
 
             PerfilUsr perfilUsr = null;
@@ -92,7 +87,7 @@ namespace AccesoDatos
         public List<PerfilUsr> Listar()
         {
 
-            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.SEG_PerfilUsr WHERE FechaBaja = 2000/01/01 OR FechaBaja is null ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] FROM dbo.SEG_PerfilUsr ORDER BY [Descripcion]";
 
             var result = new List<PerfilUsr>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -117,7 +112,8 @@ namespace AccesoDatos
             var perfilUsr = new PerfilUsr
             {
                 Id = GetDataValue<int>(dr, "Id"),
-                Descripcion = GetDataValue<string>(dr, "Descripcion")
+                Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
 
             };
             return perfilUsr;

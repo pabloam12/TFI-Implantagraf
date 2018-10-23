@@ -71,7 +71,7 @@ namespace AccesoDatos
 
         public Idioma BuscarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Descripcion], [Abreviacion] " +
+            const string sqlStatement = "SELECT [Id], [Descripcion], [Abreviacion], [DVH] " +
                 "FROM dbo.Idioma WHERE [ID]=@Id ";
 
             Idioma idioma = null;
@@ -92,7 +92,7 @@ namespace AccesoDatos
         public List<Idioma> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion], [DVH] FROM dbo.Idioma WHERE FechaBaja = '2000/01/01' ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion], [Abreviacion], [DVH] FROM dbo.Idioma ORDER BY [Descripcion]";
 
             var result = new List<Idioma>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);

@@ -70,7 +70,7 @@ namespace AccesoDatos
 
         public Marca BuscarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Descripcion] " +
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] " +
                 "FROM dbo.Marca WHERE [ID]=@Id ";
 
             Marca marca = null;

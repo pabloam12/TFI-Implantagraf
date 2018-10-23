@@ -9,7 +9,7 @@ namespace Negocio
 {
     public class NegocioOperaciones
     {
-        public Factura RegistrarFactura(DateTime fechaHora, string tipoFactura, double importeTotal, int formaPago, string estado, string direccion, string razonSocial, string email, double NroTarjeta = 0)
+        public Factura RegistrarFactura(DateTime fechaHora, string tipoFactura, decimal importeTotal, int formaPago, string estado, string direccion, string razonSocial, string email, double NroTarjeta = 0)
         {
             var datos = new OperacionesDAC();
 
@@ -32,7 +32,7 @@ namespace Negocio
 
         }
 
-        public Operacion RegistrarVenta(DateTime fechaHora, int codCliente, double importeTotal, int formaPago, string tipoOperacion, string estado, int codFactura)
+        public Operacion RegistrarVenta(DateTime fechaHora, int codCliente, decimal importeTotal, int formaPago, string tipoOperacion, string estado, int codFactura)
         {
             var datos = new OperacionesDAC();
 
@@ -54,7 +54,7 @@ namespace Negocio
         }
 
 
-        public void RegistrarDetalleOperacion(int operacionId, int productoId, double monto, int cantidad, double subtotal, long DVH)
+        public void RegistrarDetalleOperacion(int operacionId, int productoId, decimal monto, int cantidad, decimal subtotal, long DVH)
         {
 
             var datos = new OperacionesDAC();

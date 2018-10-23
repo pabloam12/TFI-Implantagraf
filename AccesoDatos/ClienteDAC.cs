@@ -64,7 +64,7 @@ namespace AccesoDatos
             var localidadDAC = new LocalidadDAC();
             var cliente = new Cliente
             {
-                Id = GetDataValue<int>(dr, "ID"),
+                Id = GetDataValue<int>(dr, "Id"),
                 RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
                 CUIL = GetDataValue<string>(dr, "CUIL"),
                 Email = GetDataValue<string>(dr, "Email"),

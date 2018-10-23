@@ -22,7 +22,7 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@FechaHora", DbType.DateTime, factura.FechaHora);
                 db.AddInParameter(cmd, "@Tipo", DbType.String, factura.Tipo);
-                db.AddInParameter(cmd, "@Monto", DbType.Int64, factura.Monto);
+                db.AddInParameter(cmd, "@Monto", DbType.Decimal, factura.Monto);
                 db.AddInParameter(cmd, "@FormaPagoId", DbType.Int32, factura.FormaPagoId);
                 db.AddInParameter(cmd, "@Estado", DbType.String, factura.Estado);
                 db.AddInParameter(cmd, "@Direccion", DbType.String, factura.Direccion);
@@ -52,7 +52,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@FechaHora", DbType.DateTime, operacion.FechaHora);
                 db.AddInParameter(cmd, "@TipoOperacion", DbType.String, operacion.TipoOperacion);
                 db.AddInParameter(cmd, "@FormaPagoId", DbType.Int32, operacion.FormaPagoId);
-                db.AddInParameter(cmd, "@ImporteTotal", DbType.Int64, operacion.ImporteTotal);
+                db.AddInParameter(cmd, "@ImporteTotal", DbType.Decimal, operacion.ImporteTotal);
                 db.AddInParameter(cmd, "@Estado", DbType.String, operacion.Estado);
                 db.AddInParameter(cmd, "@FacturaId", DbType.Int32, operacion.FacturaId);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, operacion.DVH);
@@ -66,7 +66,7 @@ namespace AccesoDatos
         }
 
 
-        public void RegistrarDetalleOperacion(int operacionId, int productoId, double monto, int cantidad, double subtotal, long DVH)
+        public void RegistrarDetalleOperacion(int operacionId, int productoId, decimal monto, int cantidad, decimal subtotal, long DVH)
         {
 
             const string sqlStatement = "INSERT INTO dbo.DetalleOperacion  ([OperacionId], [ProductoId], [Monto], [Cantidad], [SubTotal], [DVH])" +
@@ -77,9 +77,9 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@OperacionId", DbType.Int32, operacionId);
                 db.AddInParameter(cmd, "@ProductoId", DbType.Int32, productoId);
-                db.AddInParameter(cmd, "@Monto", DbType.Int64, monto);
+                db.AddInParameter(cmd, "@Monto", DbType.Decimal, monto);
                 db.AddInParameter(cmd, "@Cantidad", DbType.Int32, cantidad);
-                db.AddInParameter(cmd, "@SubTotal", DbType.Int64, subtotal);
+                db.AddInParameter(cmd, "@SubTotal", DbType.Decimal, subtotal);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
 
                 db.ExecuteScalar(cmd);
@@ -91,8 +91,7 @@ namespace AccesoDatos
         public List<Operacion> ListarOperaciones()
         {
 
-            const string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [Estado], [FacturaId] " +
-               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+            const string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [Estado], [FacturaId], [DVH] " +
                "FROM dbo.Operacion;";
 
             var result = new List<Operacion>();
@@ -251,9 +250,13 @@ namespace AccesoDatos
                 Id = GetDataValue<int>(dr, "Id"),
                 ClienteId = GetDataValue<Int32>(dr, "ClienteId"),
                 FechaHora = GetDataValue<DateTime>(dr, "FechaHora"),
-                TipoOperacion = GetDataValue<string>(dr, "ClienteId")
-
-
+                TipoOperacion = GetDataValue<string>(dr, "TipoOperacion"),
+                FormaPagoId = GetDataValue<Int32>(dr, "FormaPagoId"),
+                ImporteTotal = GetDataValue<decimal>(dr, "ImporteTotal"),
+                Estado = GetDataValue<string>(dr, "Estado"),
+                FacturaId = GetDataValue<Int32>(dr, "FacturaId"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
+                
             };
             return operacion;
         }
@@ -264,9 +267,9 @@ namespace AccesoDatos
             {
                 OperacionId = GetDataValue<Int32>(dr, "OperacionId"),
                 ProductoId = GetDataValue<Int32>(dr, "ProductoId"),
-                Monto = GetDataValue<Int64>(dr, "Monto"),
+                Monto = GetDataValue<decimal>(dr, "Monto"),
                 Cantidad = GetDataValue<Int32>(dr, "Cantidad"),
-                SubTotal = GetDataValue<Int64>(dr, "SubTotal"),
+                SubTotal = GetDataValue<decimal>(dr, "SubTotal"),
                 DVH = GetDataValue<Int64>(dr, "DVH")
 
             };
@@ -282,7 +285,7 @@ namespace AccesoDatos
                 FechaHora = GetDataValue<DateTime>(dr, "FechaHora"),
                 Tipo = GetDataValue<string>(dr, "Tipo"),
                 RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
-                Monto = GetDataValue<Int64>(dr, "Monto"),
+                Monto = GetDataValue<decimal>(dr, "Monto"),
                 FormaPagoId = GetDataValue<Int32>(dr, "FormaPagoId"),
                 NroTarjeta = GetDataValue<Int64>(dr, "NroTarjeta"),
                 Direccion = GetDataValue<string>(dr, "Direccion"),

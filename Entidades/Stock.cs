@@ -9,8 +9,9 @@ namespace Entidades
     {
         public int Id { get; set; }
         public int ProductoId { get; set; }
-        public System.DateTime FechaCalendario { get; set; }
-        public int Stock1 { get; set; }
+        public DateTime FechaCalendario { get; set; }
+        public int Cantidad { get; set; }
         public int TipoOperacionId { get; set; }
+        public long DVH { get; set; }
     }
 }

@@ -11,16 +11,22 @@ namespace Presentacion.Controllers
     {
         public ActionResult Index()
         {
-            if((String)Session["PerfilUsuario"] == "WebMaster")
-            { return RedirectToAction("Index", "RescateIntegridad"); }
-
-            Session["Excepcion"] = null;
-
-            // Se comprueba la integridad de la base.
             var integridad = new IntegridadDatos();
 
             integridad.LimpiarTablaRegistrosTablasFaltantes();
 
+            Session["Excepcion"] = null;
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
+                // Se comprueba la integridad de la base.
+                integridad.ValidarIntegridadGlobal();
+
+                return RedirectToAction("Index", "RescateIntegridad");
+            }
+
+            
+            // Se comprueba la integridad de la base.
             if (integridad.ValidarIntegridadGlobal())
             { //TODO MENSAJE correcto
                 Session["Excepcion"] = "[Error Nº 1] - Error de Integridad en la Base de Datos.";

@@ -10,7 +10,7 @@ namespace Entidades
         public int Codigo { get; set; }
         public DateTime FechaHora { get; set; }
         public string Tipo { get; set; }
-        public double Monto { get; set; }
+        public decimal Monto { get; set; }
         public int FormaPagoId { get; set; }
         public string Estado { get; set; }
         public string Direccion { get; set; }

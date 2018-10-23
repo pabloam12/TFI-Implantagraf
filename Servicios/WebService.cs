@@ -8,7 +8,7 @@ namespace Servicios
     public class WebService
     {
 
-        public float CalcularInteres(int importeTotal, int numCuotas)
+        public decimal CalcularInteres(int importeTotal, int numCuotas)
         {
             return 0;
         }

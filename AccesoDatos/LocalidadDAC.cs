@@ -69,7 +69,7 @@ namespace AccesoDatos
 
         public Localidad BuscarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Descripcion] " +
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] " +
                 "FROM dbo.Localidad WHERE [ID]=@Id ";
 
             Localidad localidad = null;
@@ -90,7 +90,7 @@ namespace AccesoDatos
         public List<Localidad> Listar()
         {
 
-            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] FROM dbo.Localidad WHERE (FechaBaja = '2000/01/01' OR FechaBaja is null) AND Id<>'1' ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] FROM dbo.Localidad ORDER BY [Descripcion]";
 
             var result = new List<Localidad>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);

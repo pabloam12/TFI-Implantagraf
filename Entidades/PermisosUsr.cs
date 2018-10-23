@@ -9,6 +9,6 @@ namespace Entidades
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
-                public long DVH { get; set; }
+        public long DVH { get; set; }
     }
 }

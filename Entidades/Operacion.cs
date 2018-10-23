@@ -11,7 +11,7 @@ namespace Entidades
         public int ClienteId { get; set; }
         public DateTime FechaHora { get; set; }
         public string TipoOperacion { get; set; }
-        public double ImporteTotal { get; set; }
+        public decimal ImporteTotal { get; set; }
         public string Estado { get; set; }
         public int FormaPagoId { get; set; }
         public int FacturaId { get; set; }

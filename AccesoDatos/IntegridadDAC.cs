@@ -29,7 +29,7 @@ namespace AccesoDatos
 
         public int ValidarDVV(string tabla, long DVV)
         {
-            string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_DVV WHERE [Tabla]=@tabla AND [Valor]=@DVV";
+            string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_DVV WHERE [Tabla]=@tabla AND [DVV]=@DVV";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -64,7 +64,7 @@ namespace AccesoDatos
 
         public long CalcularDVV(string tabla)
         {
-            string sqlStatement = "SELECT SUM(DVH) FROM " + tabla;
+            string sqlStatement = "SELECT IsNull(SUM(DVH),0) FROM " + tabla;
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -207,9 +207,203 @@ namespace AccesoDatos
 
                 db.ExecuteScalar(cmd);
             }
-
         }
-        
+
+        public void ActualizarDVHCategoria(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Categoria SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHCliente(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Cliente SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHDetalleOperacion(int codope, int codprod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.DetalleOperacion SET [DVH]=@DVH WHERE OperacionId=@OperaId and ProductoId=@ProdId";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@OperaId", DbType.Int32, codope);
+                db.AddInParameter(cmd, "@ProdId", DbType.Int32, codprod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHFactura(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Factura SET [DVH]=@DVH WHERE Codigo=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHFormaPago(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.FormaPago SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHIdioma(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Idioma SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHLocalidad(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Localidad SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHMarca(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Marca SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHOperacion(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Operacion SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHBitacora(long cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Bitacora SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHPerfilUsr(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_PerfilUsr SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHPermisos(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Permisos SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHStock(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.Stock SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
 
         public void RealizarBackUp()
         {

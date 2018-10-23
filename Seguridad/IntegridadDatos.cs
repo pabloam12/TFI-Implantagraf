@@ -14,25 +14,24 @@ namespace Seguridad
         {
             var flag = false;
 
-            //if (ValidarRegistrosDVH())
-            //    flag = true;
+            if (ValidarRegistrosDVH())
+                flag = true;
 
-            //if (ValidarTablasDVV(flag))
-            //    flag = true;
+            if (ValidarTablasDVV(flag))
+                flag = true;
 
-            //if (ValidarIntegridadTablas())
-            //    flag = true;
+            if (ValidarIntegridadTablas())
+                flag = true;
 
             return flag;
         }
 
         public bool ValidarIntegridadTablas()
         {
-            string[] tablasImplantagraf = { "Categoria", "Marca", "Cliente", "DetalleOperacion",
+            string[] tablasImplantagraf = { "Categoria", "Cliente", "DetalleOperacion",
                                             "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
-                                            "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_DVV", "SEG_EstadosCuenta",
-                                            "SEG_IntegridadRegistros", "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
-                                            "WS_Empresa_TC" };
+                                            "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_PerfilUsr",
+                                            "SEG_Permisos", "SEG_Usuario", "Stock"};
 
             var flag = false;
 
@@ -55,11 +54,10 @@ namespace Seguridad
 
         public bool ValidarTablasDVV(bool flag)
         {
-            string[] tablasDVV = { "Categoria", "Marca", "Cliente", "DetalleOperacion",
+            string[] tablasDVV = { "Categoria", "Cliente", "DetalleOperacion",
                                    "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
-                                   "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_EstadosCuenta",
-                                   "SEG_IntegridadRegistros", "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
-                                   "WS_Empresa_TC" };
+                                   "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_PerfilUsr",
+                                   "SEG_Permisos", "SEG_Usuario", "Stock"};
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -93,11 +91,10 @@ namespace Seguridad
 
         public void RecalcularDVV()
         {
-            string[] tablasDVV = { "Categoria", "Marca", "Cliente", "DetalleOperacion",
+            string[] tablasDVV = { "Categoria", "Cliente", "DetalleOperacion",
                                    "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
-                                   "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_EstadosCuenta",
-                                   "SEG_IntegridadRegistros", "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
-                                   "WS_Empresa_TC" };
+                                   "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_PerfilUsr",
+                                   "SEG_Permisos", "SEG_Usuario", "Stock"};
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -213,6 +210,7 @@ namespace Seguridad
         public bool ValidarRegistrosDVH()
         {
             var flag = false;
+
             var accDatosUsuario = new CuentaDAC();
             var accDatosProductos = new ProductoDAC();
             var accDatosCategorias = new CategoriaDAC();
@@ -223,6 +221,8 @@ namespace Seguridad
             var accDatosLocalidad = new LocalidadDAC();
             var accDatosMarca = new MarcaDAC();
             var accDatosBitacora = new BitacoraDAC();
+            var accDatosPerfiles = new PerfilUsrDAC();
+            var accDatosStock = new StockDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
             List<Producto> listadoProductos = new List<Producto>();
@@ -236,26 +236,29 @@ namespace Seguridad
             List<Marca> listadoMarcas = new List<Marca>();
             List<Operacion> listadoOperaciones = new List<Operacion>();
             List<Bitacora> listadoBitacora = new List<Bitacora>();
+            List<PermisosUsr> listadoPermisos = new List<PermisosUsr>();
+            List<PerfilUsr> listadoPerfiles = new List<PerfilUsr>();
+            List<Stock> listadoStock = new List<Stock>();
 
             // Usuarios.
             listadoUsuarios = accDatosUsuario.ListarUsuarios();
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
-                if (CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
+                if (CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw) != usuarioActual.DVH)
                 {
                     grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
                     flag = true;
                 }
             }
 
-           
-            // Productos.
+
+            // Productos
             listadoProductos = accDatosProductos.ListarProductos();
 
             foreach (Producto productoActual in listadoProductos)
             {
-                if(CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Marca.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
+                if (CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Marca.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
                 {
                     grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Producto", "Código: " + productoActual.Codigo.ToString(), "Título: " + productoActual.Titulo, "Modelo: " + productoActual.Modelo, "Marca: " + productoActual.Marca.Descripcion, "Categoría: " + productoActual.Categoria.Descripcion);
                     flag = true;
@@ -280,7 +283,7 @@ namespace Seguridad
 
             foreach (Cliente clienteActual in listadoClientes)
             {
-                if (CalcularDVH(clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString()) != clienteActual.DVH)
+                if (CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString()) != clienteActual.DVH)
                 {
                     grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Cliente", "Código: " + clienteActual.Id.ToString(), "Razón Social: " + clienteActual.RazonSocial, "CUIL: " + clienteActual.CUIL, "Email: " + clienteActual.Email, "Fecha Alta: " + clienteActual.FechaAlta.ToString());
                     flag = true;
@@ -294,7 +297,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString()) != detalleActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: DetalleOperacion", "Operación: " + detalleActual.OperacionId.ToString(), "Producto: " + detalleActual.ProductoId.ToString(), "SubTotal: " + detalleActual.SubTotal.ToString());
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: DetalleOperacion", "Código: " + detalleActual.OperacionId.ToString(), "Producto: " + detalleActual.ProductoId.ToString(), "SubTotal: " + detalleActual.SubTotal.ToString());
                     flag = true;
                 }
             }
@@ -306,7 +309,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.RazonSocial + facturaActual.Monto.ToString()) != facturaActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Factura", "Código: " + facturaActual.Codigo.ToString(), "Razon Social: " + facturaActual.RazonSocial, "Monto: " + facturaActual.Monto.ToString());
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Factura", "Código: " + facturaActual.Codigo.ToString(), "Razón Social: " + facturaActual.RazonSocial, "Monto: " + facturaActual.Monto.ToString());
                     flag = true;
                 }
             }
@@ -329,7 +332,7 @@ namespace Seguridad
             foreach (Idioma idiomaActual in listadoIdiomas)
             {
                 if (CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion) != idiomaActual.DVH)
-                { 
+                {
                     grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Idioma", "Código: " + idiomaActual.Id.ToString(), "Descripción: " + idiomaActual.Descripcion);
                     flag = true;
                 }
@@ -364,9 +367,9 @@ namespace Seguridad
 
             foreach (Operacion operacionActual in listadoOperaciones)
             {
-                if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString()+ operacionActual.TipoOperacion+operacionActual.ImporteTotal.ToString()+operacionActual.FacturaId.ToString()) != operacionActual.DVH)
+                if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.FacturaId.ToString()) != operacionActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Operacion", "Código: " + operacionActual.Id.ToString(), "Cliente: " + operacionActual.ClienteId.ToString(), "Fecha/Hora: " + operacionActual.FechaHora.ToString(), "Importe Total: " + operacionActual.ImporteTotal.ToString(), "Factura: "+ operacionActual.FacturaId.ToString());
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Operacion", "Código: " + operacionActual.Id.ToString(), "Cliente: " + operacionActual.ClienteId.ToString(), "Fecha/Hora: " + operacionActual.FechaHora.ToString(), "Importe Total: " + operacionActual.ImporteTotal.ToString(), "Factura: " + operacionActual.FacturaId.ToString());
                     flag = true;
                 }
             }
@@ -376,9 +379,46 @@ namespace Seguridad
 
             foreach (Bitacora bitacoraActual in listadoBitacora)
             {
-                if (CalcularDVH(bitacoraActual.Id.ToString() + bitacoraActual.Id.ToString() + bitacoraActual.FechaHora.ToString() + bitacoraActual.TipoOperacion + bitacoraActual.ImporteTotal.ToString() + bitacoraActual.FacturaId.ToString()) != bitacoraActual.DVH)
+
+                if (CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle) != bitacoraActual.DVH)
                 {
-                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Operacion", "Código: " + bitacoraActual.Id.ToString(), "Cliente: " + bitacoraActual.ClienteId.ToString(), "Fecha/Hora: " + bitacoraActual.FechaHora.ToString(), "Importe Total: " + bitacoraActual.ImporteTotal.ToString(), "Factura: " + bitacoraActual.FacturaId.ToString());
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Bitacora", "Fecha/Hora: " + bitacoraActual.FechaHora.ToString(), "Acción: " + bitacoraActual.Accion, "Fecha/Hora: " + bitacoraActual.FechaHora.ToString(), "Criticidad: " + bitacoraActual.Criticidad, "Detalle: " + bitacoraActual.Detalle);
+                    flag = true;
+                }
+            }
+
+            // Permisos
+            listadoPermisos = accDatosUsuario.VerPermisosUsuario();
+
+            foreach (PermisosUsr permisoActual in listadoPermisos)
+            {
+                if (CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion) != permisoActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Permisos", "Código: " + permisoActual.Id.ToString(), "Descripción: " + permisoActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Perfiles de Usuario
+            listadoPerfiles = accDatosPerfiles.Listar();
+
+            foreach (PerfilUsr perfilActual in listadoPerfiles)
+            {
+                if (CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion) != perfilActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_PerfilUsr", "Código: " + perfilActual.Id.ToString(), "Descripción: " + perfilActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Stock
+            listadoStock = accDatosStock.VerStock();
+
+            foreach (Stock stockActual in listadoStock)
+            {
+                if (CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString()) != stockActual.DVH)
+                {
+                    grabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Stock", "Código Producto: " + stockActual.ProductoId.ToString(), "Fecha: " + stockActual.FechaCalendario, "Catnidad: " + stockActual.Cantidad.ToString(), "Tipo de Operación: " + stockActual.TipoOperacionId.ToString());
                     flag = true;
                 }
             }
@@ -401,60 +441,300 @@ namespace Seguridad
             integ.ActualizarDVHProducto(cod, DVH);
         }
 
+        public void ActualizarDVHCategoria(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHCategoria(id, DVH);
+        }
+
+        public void ActualizarDVHCliente(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHCliente(cod, DVH);
+        }
+
+        public void ActualizarDVHDetalleOperacion(int opeId, int prodId, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHDetalleOperacion(opeId, prodId, DVH);
+        }
+
+        public void ActualizarDVHFactura(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHFactura(cod, DVH);
+        }
+
+        public void ActualizarDVHFormaPago(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHFormaPago(id, DVH);
+        }
+
+        public void ActualizarDVHIdioma(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHIdioma(cod, DVH);
+        }
+
+        public void ActualizarDVHLocalidad(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHLocalidad(id, DVH);
+        }
+
+        public void ActualizarDVHMarca(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHMarca(cod, DVH);
+        }
+
+        public void ActualizarDVHOperacion(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHOperacion(id, DVH);
+        }
+
+        public void ActualizarDVHBitacora(long cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHBitacora(cod, DVH);
+        }
+
+        public void ActualizarDVHPerfilUsr(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHPerfilUsr(id, DVH);
+        }
+
+        public void ActualizarDVHPermisos(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHPermisos(cod, DVH);
+        }
+
+        public void ActualizarDVHStock(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHStock(id, DVH);
+        }
+               
+
         public void RecalcularTodosDVH()
         {
-            //TODO FALTAN EL RESTO DE LAS TABLAS.
+            long dvhActual;
 
             var accDatosUsuario = new CuentaDAC();
             var accDatosProductos = new ProductoDAC();
-
-            long dvhActual;
+            var accDatosCategorias = new CategoriaDAC();
+            var accDatosClientes = new ClienteDAC();
+            var accDatosOperaciones = new OperacionesDAC();
+            var accDatosFormaPago = new FormaPagoDAC();
+            var accDatosIdioma = new IdiomaDAC();
+            var accDatosLocalidad = new LocalidadDAC();
+            var accDatosMarca = new MarcaDAC();
+            var accDatosBitacora = new BitacoraDAC();
+            var accDatosPerfiles = new PerfilUsrDAC();
+            var accDatosStock = new StockDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
             List<Producto> listadoProductos = new List<Producto>();
+            List<Categoria> listadoCategorias = new List<Categoria>();
+            List<Cliente> listadoClientes = new List<Cliente>();
+            List<DetalleOperacion> listadoDetalleOperaciones = new List<DetalleOperacion>();
+            List<Factura> listadoFacturas = new List<Factura>();
+            List<FormaPago> listadoFormasPago = new List<FormaPago>();
+            List<Idioma> listadoIdiomas = new List<Idioma>();
+            List<Localidad> listadoLocalidades = new List<Localidad>();
+            List<Marca> listadoMarcas = new List<Marca>();
+            List<Operacion> listadoOperaciones = new List<Operacion>();
+            List<Bitacora> listadoBitacora = new List<Bitacora>();
+            List<PermisosUsr> listadoPermisos = new List<PermisosUsr>();
+            List<PerfilUsr> listadoPerfiles = new List<PerfilUsr>();
+            List<Stock> listadoStock = new List<Stock>();
 
-            // Usuarios Webmasters.
-            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(1);
 
-            foreach (Usuario usuarioActual in listadoUsuarios)
-            {
-                dvhActual = CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
-
-                ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
-            }
-
-            // Usuarios Administrativos.
-            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(2);
-
-            foreach (Usuario usuarioActual in listadoUsuarios)
-            {
-                dvhActual = CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
-
-                ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
-            }
-
-            // Usuarios Clientes.
-            listadoUsuarios = accDatosUsuario.ListarUsuariosPorPerfil(3);
+            // Usuarios.
+            listadoUsuarios = accDatosUsuario.ListarUsuarios();
 
             foreach (Usuario usuarioActual in listadoUsuarios)
             {
-                dvhActual = CalcularDVH(usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
-
+                dvhActual = CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Usr + usuarioActual.Psw);
+                
                 ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
             }
+
 
             // Productos.
             listadoProductos = accDatosProductos.ListarProductos();
 
             foreach (Producto productoActual in listadoProductos)
             {
-                dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Marca.Id.ToString()+ productoActual.Precio.ToString());
-
+                dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Marca.Id.ToString() + productoActual.Precio.ToString());
+                    
                 ActualizarDVHProducto(productoActual.Codigo, dvhActual);
+
             }
 
-            RecalcularDVV("SEG_Usuario");
+            // Categorias.
+            listadoCategorias = accDatosCategorias.Listar();
+
+            foreach (Categoria categoriaActual in listadoCategorias)
+            {
+                dvhActual = CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion);
+
+                ActualizarDVHCategoria(categoriaActual.Id, dvhActual);
+            }
+
+            // Clientes
+            listadoClientes = accDatosClientes.Listar();
+
+            foreach (Cliente clienteActual in listadoClientes)
+            {
+                dvhActual = CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString());
+
+                ActualizarDVHCliente(clienteActual.Id, dvhActual);
+
+            }
+
+            // Detalle Operacion
+            listadoDetalleOperaciones = accDatosOperaciones.ListarDetalleOperacion();
+
+            foreach (DetalleOperacion detalleActual in listadoDetalleOperaciones)
+            {
+                dvhActual = CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString());
+
+                ActualizarDVHDetalleOperacion(detalleActual.OperacionId, detalleActual.ProductoId, dvhActual);
+            }
+
+            // Facturas
+            listadoFacturas = accDatosOperaciones.ListarFacturas();
+
+            foreach (Factura facturaActual in listadoFacturas)
+            {
+                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.RazonSocial + facturaActual.Monto.ToString());
+
+                ActualizarDVHFactura(facturaActual.Codigo, dvhActual);
+            }
+
+            // Formas de Pago
+            listadoFormasPago = accDatosFormaPago.Listar();
+
+            foreach (FormaPago formaPagoActual in listadoFormasPago)
+            {
+                dvhActual = CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion);
+
+                ActualizarDVHFormaPago(formaPagoActual.Id, dvhActual);
+            }
+
+            // Idioma
+            listadoIdiomas = accDatosIdioma.Listar();
+
+            foreach (Idioma idiomaActual in listadoIdiomas)
+            {
+                dvhActual = CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion);
+
+                ActualizarDVHIdioma(idiomaActual.Id, dvhActual);
+            }
+
+            // Localidad
+            listadoLocalidades = accDatosLocalidad.Listar();
+
+            foreach (Localidad localidadActual in listadoLocalidades)
+            {
+                dvhActual = CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion);
+
+                ActualizarDVHLocalidad(localidadActual.Id, dvhActual);
+            }
+
+            // Marca
+            listadoMarcas = accDatosMarca.Listar();
+
+            foreach (Marca marcaActual in listadoMarcas)
+            {
+                dvhActual = CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion);
+
+                ActualizarDVHMarca(marcaActual.Id, dvhActual);
+            }
+
+            // Operaciones
+            listadoOperaciones = accDatosOperaciones.ListarOperaciones();
+
+            foreach (Operacion operacionActual in listadoOperaciones)
+            {
+                dvhActual = CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.FacturaId.ToString());
+
+                ActualizarDVHOperacion(operacionActual.Id, dvhActual);
+            }
+
+            // Bitácora
+            listadoBitacora = accDatosBitacora.ConsultarBitacora();
+
+            foreach (Bitacora bitacoraActual in listadoBitacora)
+            {
+                dvhActual = CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle);
+
+                ActualizarDVHBitacora(bitacoraActual.Id, dvhActual);
+            }
+
+            // Permisos
+            listadoPermisos = accDatosUsuario.VerPermisosUsuario();
+
+            foreach (PermisosUsr permisoActual in listadoPermisos)
+            {
+                dvhActual = CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion);
+
+                ActualizarDVHPermisos(permisoActual.Id, dvhActual);
+            }
+
+            // Perfiles de Usuario
+            listadoPerfiles = accDatosPerfiles.Listar();
+
+            foreach (PerfilUsr perfilActual in listadoPerfiles)
+            {
+                dvhActual = CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion);
+
+                ActualizarDVHPerfilUsr(perfilActual.Id, dvhActual);
+            }
+
+            // Stock
+            listadoStock = accDatosStock.VerStock();
+
+            foreach (Stock stockActual in listadoStock)
+            {
+                dvhActual = CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString());
+
+                ActualizarDVHStock(stockActual.Id, dvhActual);
+            }
+
+            RecalcularDVV("Categoria");
+            RecalcularDVV("Cliente");
+            RecalcularDVV("DetalleOperacion");
+            RecalcularDVV("Factura");
+            RecalcularDVV("FormaPago");
+            RecalcularDVV("Idioma");
+            RecalcularDVV("Localidad");
+            RecalcularDVV("Marca");
+            RecalcularDVV("Operacion");
             RecalcularDVV("Producto");
+            RecalcularDVV("SEG_Bitacora");
+            RecalcularDVV("SEG_PerfilUsr");
+            RecalcularDVV("SEG_Permisos");
+            RecalcularDVV("SEG_Usuario");
+            RecalcularDVV("Stock");
         }
 
         public void RealizarBackUp()

@@ -68,7 +68,7 @@ namespace AccesoDatos
 
         public Categoria BuscarPorId(int id)
         {
-            const string sqlStatement = "SELECT [Id], [Descripcion] " +
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] " +
                 "FROM dbo.Categoria WHERE [Id]=@Id ";
 
             Categoria categoria = null;
@@ -89,7 +89,7 @@ namespace AccesoDatos
         public List<Categoria> Listar()
         {
 
-            const string sqlStatement = "SELECT [Id], [Descripcion] FROM dbo.Categoria  WHERE FechaBaja = '2000/01/01' OR FechaBaja is null ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] FROM dbo.Categoria  ORDER BY [Descripcion]";
 
             var result = new List<Categoria>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);

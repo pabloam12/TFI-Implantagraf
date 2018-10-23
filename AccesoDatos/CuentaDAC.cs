@@ -64,12 +64,42 @@ namespace AccesoDatos
             return result;
         }
 
-        public List<PermisosUsr> VerPermisosUsuario(int usuarioId)
+        public List<PermisosUsr> VerPermisosUsuario()
         {
-            const string sqlStatement = "SELECT P.PermisoId, P.Descripcion, P.DVH " +
+            const string sqlStatement = "SELECT P.Id, P.Descripcion, P.DVH " +
                                         "FROM [dbo].[SEG_Permisos] as P " +
                                         "JOIN [dbo].[SEG_DetallePermisos] as DP " +
-                                            "ON P.PermisoId = DP.PermisoId " +
+                                            "ON P.Id = DP.PermisoId " +
+                                        "JOIN [dbo].[SEG_PerfilUsr] as PF " +
+                                            "ON PF.Id = DP.PerfilId " +
+                                        "JOIN [dbo].[SEG_Usuario] as U " +
+                                            "ON U.PerfilId = DP.PerfilId; ";
+
+            var result = new List<PermisosUsr>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var permiso = MapearPermisoUsuario(dr); // Mapper
+                        result.Add(permiso);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public List<PermisosUsr> VerPermisosUsuario(int usuarioId)
+        {
+            const string sqlStatement = "SELECT P.Id, P.Descripcion, P.DVH " +
+                                        "FROM [dbo].[SEG_Permisos] as P " +
+                                        "JOIN [dbo].[SEG_DetallePermisos] as DP " +
+                                            "ON P.Id = DP.PermisoId " +
                                         "JOIN [dbo].[SEG_PerfilUsr] as PF " +
                                             "ON PF.Id = DP.PerfilId " +
                                         "JOIN [dbo].[SEG_Usuario] as U " +
@@ -506,7 +536,7 @@ namespace AccesoDatos
 
             var permiso = new PermisosUsr
             {
-                Id = GetDataValue<int>(dr, "PermisoId"),
+                Id = GetDataValue<int>(dr, "Id"),
                 Descripcion = GetDataValue<string>(dr, "Descripcion"),
                 DVH = GetDataValue<Int64>(dr, "DVH")
             };

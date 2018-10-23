@@ -203,7 +203,7 @@ namespace Presentacion.Controllers
 
         }
 
-        private void RegistrarVenta(DateTime fechaHora, double importeTotal, int formaPago)
+        private void RegistrarVenta(DateTime fechaHora, decimal importeTotal, int formaPago)
         {
             var ln = new NegocioOperaciones();
 
@@ -225,15 +225,15 @@ namespace Presentacion.Controllers
 
         }
 
-        private double CalularImporteTotal()
+        private decimal CalularImporteTotal()
         {
-            double importeTotal = 0;
+            decimal importeTotal = 0;
 
             if (Session["Carrito"] != null)
             {
                 foreach (var item in Session["Carrito"] as List<Carrito>)
                 {
-                    importeTotal += (double)(item.Precio * item.Cantidad);
+                    importeTotal += (item.Precio * item.Cantidad);
 
                 }
             }
@@ -250,7 +250,7 @@ namespace Presentacion.Controllers
             {
                 foreach (var item in Session["Carrito"] as List<Carrito>)
                 {
-                    var subtotal = (double)(item.Precio * item.Cantidad);
+                    var subtotal = (item.Precio * item.Cantidad);
 
                     var detalleDVH = 23323;
 
