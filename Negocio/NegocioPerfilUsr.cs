@@ -23,17 +23,15 @@ namespace Negocio
         {
             var ad = new PerfilUsrDAC();
             var integ = new IntegridadDatos();
+                        var aud = new Auditoria();
 
-            var aud = new Auditoria();
             var DVH = integ.CalcularDVH(perfilUsr.Id.ToString() + perfilUsr.Descripcion);
 
             perfilUsr = ad.Agregar(perfilUsr, DVH);
 
             integ.RecalcularDVV("SEG_PerfilUsr");
 
-            var BitacoraDVH = integ.CalcularDVH(usuario + "ALTA PERFIL DE USUARIO" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "ALTA PERFIL DE USUARIO", "INFO", "Se creó el perfil de usuario: " + perfilUsr.Id + " - '" + perfilUsr.Descripcion + "'", BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA PERFIL DE USUARIO", "INFO", "Se creó el perfil de usuario: " + perfilUsr.Id + " - '" + perfilUsr.Descripcion + "'");
 
             return (perfilUsr);
 
@@ -53,9 +51,7 @@ namespace Negocio
 
             integ.RecalcularDVV("SEG_PerfilUsr");
 
-            var BitacoraDVH = integ.CalcularDVH(usuario + "ACTUALIZAR PERFIL DE USUARIO" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR PERFIL DE USUARIO", "INFO", "Se actualizó el perfil de usuario: " + perfilUsr.Id + " - '" + descripcionAnterior + "' a '" + perfilUsr.Descripcion + "'", BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR PERFIL DE USUARIO", "INFO", "Se actualizó el perfil de usuario: " + perfilUsr.Id + " - '" + descripcionAnterior + "' a '" + perfilUsr.Descripcion + "'");
 
         }
 
@@ -65,12 +61,12 @@ namespace Negocio
 
             ad.BorrarPorId(perfilUsr.Id);
 
-            var inte = new IntegridadDatos();
+            
             var aud = new Auditoria();
 
-            var BitacoraDVH = inte.CalcularDVH(usuario + "BORRAR PERFIL DE USUARIO" + "INFO");
+            
 
-            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR PERFIL DE USUARIO", "INFO", "Se borró el perfil de usuario: " + perfilUsr.Id + " - '" + perfilUsr.Descripcion + "'", BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR PERFIL DE USUARIO", "INFO", "Se borró el perfil de usuario: " + perfilUsr.Id + " - '" + perfilUsr.Descripcion + "'");
 
         }
 

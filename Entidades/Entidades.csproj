@@ -81,18 +81,21 @@
   <ItemGroup>
     <Compile Include="Bitacora.cs" />
     <Compile Include="Carrito.cs" />
+    <Compile Include="Marca_TC.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="DetalleOperacion.cs" />
     <Compile Include="DVV.cs" />
     <Compile Include="Factura.cs" />
     <Compile Include="FormaPago.cs" />
+    <Compile Include="FrmLogin.cs" />
+    <Compile Include="FrmRegistroCliente.cs" />
+    <Compile Include="FrmRegistroWebMaster.cs" />
     <Compile Include="Idioma.cs" />
     <Compile Include="Informacion.cs" />
     <Compile Include="IntegridadRegistros.cs" />
     <Compile Include="ItemsCarrito.cs" />
     <Compile Include="Localidad.cs" />
-    <Compile Include="Login.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="OlvidoPsw.cs" />
     <Compile Include="Operacion.cs" />
@@ -102,7 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respaldo.cs" />
     <Compile Include="Stock.cs" />
-    <Compile Include="TarjetaCredito.cs" />
+    <Compile Include="FrmTarjetaCredito.cs" />
     <Compile Include="TipoOperacion.cs" />
     <Compile Include="Traductor.cs" />
     <Compile Include="Usuario.cs" />

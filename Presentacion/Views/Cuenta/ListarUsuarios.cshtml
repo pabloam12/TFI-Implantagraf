@@ -19,21 +19,7 @@
         </p>
         <table class="table">
             <tr>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.RazonSocial)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nombre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Apellido)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CUIL)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>*@
+              
                 <th>
                     @Html.DisplayNameFor(model => model.Usr)
                 </th>
@@ -41,21 +27,11 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PerfilUsr.Descripcion)
                 </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.Telefono)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Direccion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaNacimiento)
-                </th>*@
+               
                 <th>
                     @Html.DisplayNameFor(model => model.FechaAlta)
                 </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.DVH)
-                </th>*@
+              
                 <th></th>
                 <th></th>
                 <th></th>
@@ -64,21 +40,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.RazonSocial)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Apellido)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CUIL)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>*@
+                  
                     <td>
                         @Html.DisplayFor(modelItem => item.Usr)
                     </td>
@@ -87,21 +49,11 @@
                         @Html.DisplayFor(modelItem => item.PerfilUsr.Descripcion)
                     </td>
                     
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Telefono)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Direccion)
-                    </td>*@
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.FechaNacimiento)
-                    </td>*@
+                   
                     <td>
                         @Html.DisplayFor(modelItem => item.FechaAlta)
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.DVH)
-                    </td>*@
+                    
                     <td>
                         @Html.ActionLink("Ver Permisos", "VerPermisosUsuario", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
                     </td>

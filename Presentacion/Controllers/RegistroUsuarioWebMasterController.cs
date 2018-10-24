@@ -33,47 +33,45 @@ namespace Presentacion.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrarUsuarioWebMaster(Usuario usuario)
+        public ActionResult RegistrarUsuarioWebMaster(FrmRegistroWebMaster registroWebMaster)
         {
-            try
-            {
-                Session["Excepcion"] = "";
+            //try
+            //{
+            Session["Excepcion"] = "";
 
-                var ln = new NegocioCuenta();
-                var perfil = 1;
-                var localidad = 1;
-                var idioma = 1;
+            var ln = new NegocioCuenta();
 
-                usuario.Direccion = "N/A";
-                usuario.CUIL = "N/A";
-                usuario.Direccion = "N/A";
-                usuario.Telefono = "N/A";
-                usuario.FechaNacimiento = DateTime.Now;
-                
-                ln.RegistrarUsuario(usuario, perfil, idioma, localidad, (String)Session["UsrLogin"]);
+            var usuario = new Usuario();
 
+            //Características de "WebMaster".
+            usuario.Nombre = registroWebMaster.Nombre;
+            usuario.Apellido = registroWebMaster.Apellido;
+            usuario.Email = registroWebMaster.Email;
+            usuario.Usr = registroWebMaster.Usr;
+            usuario.Psw = registroWebMaster.Psw;
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                Session["Excepcion"] = "Error al Registrar Usuario.";
-                return RedirectToAction("Index", "Excepciones");
-            }
+            usuario.Direccion = "N/A";
+            usuario.CUIL = "N/A";
+            usuario.Telefono = "N/A";
+            usuario.RazonSocial = "N/A";
+            usuario.PerfilUsr = new PerfilUsr { Id = 1, Descripcion = "WebMaster" };
+            usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
+
+            usuario.Usr = usuario.Email;
+
+            // Registro Usuario.
+            ln.RegistrarUsuario(usuario);
+
+            return RedirectToAction("Index");
+            //}
+            //catch
+            //{
+            //TODO
+            //    Session["Excepcion"] = "Error al Registrar Usuario.";
+            //    return RedirectToAction("Index", "Excepciones");
+            //}
         }
 
-        //public ActionResult Borrar(int id)
-        //{
-        //    if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
-        //    {
-        //        var ln = new NegocioCuenta();
-        //        ln.BorrarPorId(id);
-
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return RedirectToAction("Index", "Home");
-        //}
 
     }
 }

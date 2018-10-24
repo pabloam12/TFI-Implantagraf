@@ -39,14 +39,14 @@ namespace Negocio
 
         }
 
-        public void BloquearCuenta (int usuarioId)
+        public void BloquearCuenta(int usuarioId)
         {
 
             var ad = new CuentaDAC();
 
             ad.BloquearCuenta(usuarioId);
 
-            
+
         }
 
         public void DesbloquearCuenta(int usuarioId)
@@ -59,7 +59,7 @@ namespace Negocio
 
         }
 
-        public Usuario RegistrarCliente(Usuario usr)
+        public Usuario RegistrarUsuario(Usuario usr)
         {
             var ad = new CuentaDAC();
             var aud = new Auditoria();
@@ -67,45 +67,23 @@ namespace Negocio
             var inte = new IntegridadDatos();
 
             usr.Psw = priv.EncriptarPsw(usr.Psw);
+                      
+            var usuarioActual = ad.RegistrarUsuario(usr);
 
-            var clienteDVH = inte.CalcularDVH(usr.RazonSocial + usr.CUIL + "3" + usr.Email + usr.Psw);
+            var clienteDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
 
-            usr = ad.RegistrarCliente(usr, clienteDVH);
-            
+            // Actualiza el DVH y DVV.
+            inte.ActualizarDVHUsuario(usuarioActual.Id, clienteDVH);
             inte.RecalcularDVV("SEG_Usuario");
 
-            var BitacoraDVH = inte.CalcularDVH("SISTEMA" + usr.Usr + "ALTA USUARIO" + "INFO");
+            // Grabo en Bitácora.                       
+            aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA USUARIO", "INFO", "Se registró al usuario: " + usuarioActual.Id.ToString() + " - '" + usuarioActual.Usr + "' con el perfil de " + usuarioActual.PerfilUsr.Descripcion);
 
-            aud.grabarBitacora(DateTime.Now, usr.Usr, "ALTA USUARIO", "INFO", "Se registró al usuario: " + usr.Id + " - '" + usr.Usr + "' con el perfil de 'Cliente'", BitacoraDVH);
-
-            return (usr);
+            return (usuarioActual);
 
         }
 
-        public void RegistrarUsuario(Usuario usr, int perfil, int idioma, int localidad, String usuarioSistema)
-        {
-            var ad = new CuentaDAC();
-            var aud = new Auditoria();
-            var seg = new Privacidad();
-
-            var priv = new Privacidad();
-            var inte = new IntegridadDatos();
-
-            usr.Psw = priv.EncriptarPsw(usr.Psw);
-
-            var usuarioDVH = inte.CalcularDVH(usr.RazonSocial + usr.CUIL + perfil.ToString() + usr.Usr + usr.Psw);
-            
-            ad.RegistrarUsuario(usr, perfil, idioma, localidad, usuarioDVH);
-
-            inte.RecalcularDVV("SEG_Usuario");
-
-            var BitacoraDVH = inte.CalcularDVH(usuarioSistema + usr.Usr + "ALTA USUARIO" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuarioSistema, "ALTA USUARIO", "INFO", "Se registró al usuario: " + usr.Id + " - '" + usr.Usr + "' con el perfil de '" + perfil + "'", BitacoraDVH);
-
-        }
-
-        public Usuario Autenticar(Login usr)
+        public Usuario Autenticar(FrmLogin usr)
         {
             var ad = new CuentaDAC();
 
@@ -113,10 +91,8 @@ namespace Negocio
             var inte = new IntegridadDatos();
 
             var usrLogin = ad.Autenticar(usr);
-
-            var BitacoraDVH = inte.CalcularDVH(usrLogin.Usr + "LOGIN DE USUARIO" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usrLogin.Usr, "INICIO DE SESIÓN", "INFO", "El Usuario ha inciado sesión en el sistema.", BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, usrLogin.Usr, "INICIO DE SESIÓN", "INFO", "El Usuario ha inciado sesión en el sistema.");
 
             return usrLogin;
 
@@ -174,18 +150,12 @@ namespace Negocio
         public void BloquearCuentaUsuario(string nombreUsuario)
         {
             var ad = new CuentaDAC();
+            var aud = new Auditoria();
 
             // Bloquea la cuenta de Usuario
             ad.BloquearCuentaUsuario(nombreUsuario);
-
-            var seg = new Privacidad();
-
-            var aud = new Auditoria();
-            var inte = new IntegridadDatos();
-
-            var BitacoraDVH = inte.CalcularDVH(nombreUsuario + "BLOQUEO DE CUENTA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, nombreUsuario, "BLOQUEO DE CUENTA", "INFO", "Se ha bloqueado la cuenta por ingresos erroneos.", BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, nombreUsuario, "BLOQUEO DE CUENTA", "INFO", "Se ha bloqueado la cuenta de Usuario.");
 
         }
 

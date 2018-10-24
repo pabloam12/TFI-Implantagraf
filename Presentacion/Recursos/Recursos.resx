@@ -420,4 +420,7 @@
   <data name="PRODUCTO_TUNEL_SECADO" xml:space="preserve">
     <value>Túnel de Secado</value>
   </data>
+  <data name="VALIDACION_USURIO_OBLIGATORIO" xml:space="preserve">
+    <value>El {0} es Obligatorio.</value>
+  </data>
 </root>

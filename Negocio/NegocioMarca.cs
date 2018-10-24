@@ -24,12 +24,9 @@ namespace Negocio
 
             marca = ad.Agregar(marca);
 
-            var inte = new IntegridadDatos();
             var aud = new Auditoria();
-
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ALTA MARCA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "ALTA MARCA", "INFO", "Se creó la marca: " + marca.Id + " - '" + marca.Descripcion + "'", BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA MARCA", "INFO", "Se creó la marca: " + marca.Id + " - '" + marca.Descripcion + "'");
 
             return (marca);
 
@@ -38,17 +35,14 @@ namespace Negocio
         public void ActualizarPorId(Marca marca, string usuario)
         {
             var ad = new MarcaDAC();
-
-            var inte = new IntegridadDatos();
+            
             var aud = new Auditoria();
 
             var descripcionAnterior = BuscarPorId(marca.Id).Descripcion;
 
             ad.ActualizarPorId(marca);
 
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ACTUALIZAR MARCA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR MARCA", "INFO", "Se actualizó la marca: " + marca.Id + " - '" + descripcionAnterior + "' a '" + marca.Descripcion + "'", BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR MARCA", "INFO", "Se actualizó la marca: " + marca.Id + " - '" + descripcionAnterior + "' a '" + marca.Descripcion + "'");
 
 
         }
@@ -59,14 +53,9 @@ namespace Negocio
 
             ad.BorrarPorId(marca.Id);
 
-            var inte = new IntegridadDatos();
             var aud = new Auditoria();
-
-            ad.ActualizarPorId(marca);
-
-            var BitacoraDVH = inte.CalcularDVH(usuario + "BORRAR MARCA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR MARCA", "INFO", "Se borró la marca: " + marca.Id + " - '" + marca.Descripcion + "'", BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR MARCA", "INFO", "Se borró la marca: " + marca.Id + " - '" + marca.Descripcion + "'");
 
         }
 

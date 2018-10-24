@@ -117,7 +117,7 @@ namespace AccesoDatos
         {
 
             string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [Estado], [FacturaId] " +
-               "[Direccion], [LocalidadId], [FechaNacimiento], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+               "[Direccion], [LocalidadId], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
                "FROM dbo.Operacion WHERE TipoOperacion=" + tipo + "; ";
 
             var result = new List<Operacion>();

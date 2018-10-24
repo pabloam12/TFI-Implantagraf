@@ -968,5 +968,14 @@ namespace Presentacion.Recursos {
                 return ResourceManager.GetString("PRODUCTO_TUNEL_SECADO", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El {0} es Obligatorio..
+        /// </summary>
+        public static string VALIDACION_USURIO_OBLIGATORIO {
+            get {
+                return ResourceManager.GetString("VALIDACION_USURIO_OBLIGATORIO", resourceCulture);
+            }
+        }
     }
 }

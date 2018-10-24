@@ -83,6 +83,7 @@
     <Compile Include="NegocioCuenta.cs" />
     <Compile Include="NegocioIdioma.cs" />
     <Compile Include="NegocioCliente.cs" />
+    <Compile Include="NegocioMarcaTC.cs" />
     <Compile Include="NegocioProducto.cs" />
     <Compile Include="NegocioPerfilUsr.cs" />
     <Compile Include="NegocioLocalidad.cs" />

@@ -22,9 +22,7 @@ namespace Negocio
 
             integ.RecalcularDVV("SEG_Idioma");
 
-            var BitacoraDVH = integ.CalcularDVH(idioma.Id.ToString() + idioma.Descripcion + idioma.Abreviacion + "MODIFICAR IDIOMA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "ALTA IDIOMA", "INFO", "Se creó el idioma: " + idioma.Id + " - " + idioma.Descripcion, DVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA IDIOMA", "INFO", "Se creó el idioma: " + idioma.Id + " - " + idioma.Descripcion);
 
             return (idioma);
 
@@ -40,12 +38,9 @@ namespace Negocio
 
             if (idioma.Descripcion != null)
             {
-                var inte = new IntegridadDatos();
                 var aud = new Auditoria();
 
-                var BitacoraDVH = inte.CalcularDVH(idioma.Id.ToString()+idioma.Descripcion+idioma.Abreviacion +  "MODIFICAR IDIOMA" + "INFO");
-
-                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR IDIOMA", "INFO", "Se actualizó el idioma: " + idioma.Id + " - '" + descripcionAnterior + "' a '" + idioma.Descripcion + "'", BitacoraDVH);
+                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR IDIOMA", "INFO", "Se actualizó el idioma: " + idioma.Id + " - '" + descripcionAnterior + "' a '" + idioma.Descripcion + "'");
             }
 
         }
@@ -53,17 +48,12 @@ namespace Negocio
         public void BorrarPorId(Idioma idioma, string usuario)
         {
             var ad = new IdiomaDAC();
-
-
-            var inte = new IntegridadDatos();
-
+            
             var aud = new Auditoria();
 
             ad.BorrarPorId(idioma.Id);
 
-            var BitacoraDVH = inte.CalcularDVH(idioma.Id.ToString() + "BORRAR IDIOMA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR IDIOMA", "INFO", "Se borró el idioma: " + idioma.Id + " - " + idioma.Descripcion, BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR IDIOMA", "INFO", "Se borró el idioma: " + idioma.Id + " - " + idioma.Descripcion);
 
         }
 
@@ -82,7 +72,6 @@ namespace Negocio
             return (ad.Listar());
 
         }
-
 
     }
 }

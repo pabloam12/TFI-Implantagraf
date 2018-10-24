@@ -26,6 +26,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Marca_TC, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                
+                                @Html.DropDownListFor(m => m.Marca_TC.Id, new SelectList(ViewBag.Marcas_TC, "Id", "Descripcion"), "", new { @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.Marca_TC.Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">

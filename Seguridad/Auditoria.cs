@@ -25,13 +25,15 @@ namespace Seguridad
 
         }
 
-        public void grabarBitacora(DateTime fechaHora, String usuario, String descripcion, String criticidad, String detalle, long DVH)
+        public void grabarBitacora(DateTime fechaHora, String usuario, String accion, String criticidad, String detalle)
         {
             var ad = new BitacoraDAC();
             var integ = new IntegridadDatos();
 
-            ad.grabarBitacora(fechaHora, usuario, descripcion, criticidad, detalle, DVH);
+            var BitacoraDVH = integ.CalcularDVH(fechaHora.ToString() + usuario + accion + criticidad + detalle);
 
+            ad.grabarBitacora(fechaHora, usuario, accion, criticidad, detalle, BitacoraDVH);
+                        
             integ.RecalcularDVV("SEG_Bitacora");
 
         }

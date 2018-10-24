@@ -15,13 +15,10 @@ namespace Presentacion.Controllers
         public ActionResult Index()
         {
             var aud = new Auditoria();
-            var inte = new IntegridadDatos();
-
+            
             var ln = new NegocioCuenta();
 
-            var BitacoraDVH = inte.CalcularDVH((String)Session["UsrLogin"] + "LOGIN DE USUARIO" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "CIERRE DE SESIÓN", "INFO", "El Usuario ha cerrado sesión.", BitacoraDVH);
+                        aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "CIERRE DE SESIÓN", "INFO", "El Usuario ha cerrado sesión.");
 
             //ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 

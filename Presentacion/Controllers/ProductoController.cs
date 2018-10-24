@@ -20,7 +20,7 @@ namespace Presentacion.Controllers
         }
 
 
-        public ActionResult DetalleProducto(int productoId = 0)//int codProducto = 0)
+        public ActionResult DetalleProducto(int productoId = 0)
         {
             var ln = new NegocioProducto();
 
@@ -175,6 +175,12 @@ namespace Presentacion.Controllers
 
         public ActionResult RealizarPago()
         {
+            if ((String)Session["PerfilUsuario"] != "Cliente" || (String)Session["PerfilUsuario"] != "Administrativo")
+            { return RedirectToAction("Index", "Login"); }
+
+            var ln = new NegocioMarcaTC();
+            
+            ViewBag.Marcas_TC = ln.Listar();
 
             return View();
 
@@ -261,7 +267,7 @@ namespace Presentacion.Controllers
 
         }
 
-        private bool ValidarPago(TarjetaCredito datosTarjeta, double importeTotal)
+        private bool ValidarPago(FrmTarjetaCredito datosTarjeta, double importeTotal)
         {
             //var ws = new WebService();
 

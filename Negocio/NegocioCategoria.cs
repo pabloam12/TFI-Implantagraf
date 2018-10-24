@@ -16,12 +16,9 @@ namespace Negocio
 
             var nuevaCategoria = ad.Agregar(categoria);
 
-            var inte = new IntegridadDatos();
             var aud = new Auditoria();
 
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ALTA CATEGORIA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "ALTA CATEGORIA", "INFO", "Se creó la categoría : '" + categoria.Descripcion + "'", BitacoraDVH);
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA CATEGORIA", "INFO", "Se creó la categoría : '" + categoria.Descripcion + "'");
 
             return (nuevaCategoria);
 
@@ -37,12 +34,9 @@ namespace Negocio
 
             if (categoria.Descripcion != null)
             {
-                var inte = new IntegridadDatos();
                 var aud = new Auditoria();
 
-                var BitacoraDVH = inte.CalcularDVH(usuario + "MODIFICAR CATEGORIA" + "INFO");
-
-                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR CATEGORIA", "INFO", "Se actualizó la categoría: " + categoria.Id + " - '" + descripcionAnterior + "' a '" + categoria.Descripcion + "'", BitacoraDVH);
+                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR CATEGORIA", "INFO", "Se actualizó la categoría: " + categoria.Id + " - '" + descripcionAnterior + "' a '" + categoria.Descripcion + "'");
             }
         }
 
@@ -53,13 +47,9 @@ namespace Negocio
 
             ad.BorrarPorId(categoria.Id);
 
-            var inte = new IntegridadDatos();
-
             var aud = new Auditoria();
-
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ELIMINAR CATEGORIA" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "ELIMINAR CATEGORIA", "INFO", "Se eliminó la categoría: " + categoria.Id.ToString() + " -" + categoria.Descripcion, BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, usuario, "ELIMINAR CATEGORIA", "INFO", "Se eliminó la categoría: " + categoria.Id.ToString() + " -" + categoria.Descripcion);
 
         }
 

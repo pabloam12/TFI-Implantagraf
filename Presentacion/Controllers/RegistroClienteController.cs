@@ -26,21 +26,38 @@ namespace Presentacion.Controllers
         }
 
         [HttpPost]
-        public ActionResult Registrarse(Usuario usuario)
+        public ActionResult Registrarse(FrmRegistroCliente registroCliente)
         {
             var ln = new NegocioCuenta();
-            
+
             Session["ErrorRegistro"] = null;
             Session["Excepcion"] = null;
 
             // Usuario existente, solo devuelvo el error.
-            if (ln.ValidarUsuario(usuario.Email) == false)
+            if (ln.ValidarUsuario(registroCliente.Email) == false)
             {
                 Session["ErrorRegistro"] = "Usuario ya existente.";
                 return RedirectToAction("Registrarse");
             }
 
-            var usrSesion = ln.RegistrarCliente(usuario);
+            var usuario = new Usuario();
+            
+            usuario.RazonSocial = registroCliente.RazonSocial;
+            usuario.Email = registroCliente.Email;
+            usuario.Psw = registroCliente.Psw;
+            usuario.CUIL = registroCliente.CUIL.ToString();
+            usuario.Direccion = registroCliente.Direccion;
+            usuario.Localidad = registroCliente.Localidad;
+            usuario.PerfilUsr = new PerfilUsr { Id = 3, Descripcion = "Cliente" };
+
+            // Características propias de Clientes.
+            usuario.Nombre = registroCliente.RazonSocial;
+            usuario.Apellido = "N/A";
+            usuario.Usr = registroCliente.Email;
+            usuario.Telefono = "N/A";
+
+            // Registro Usuario.
+            var usrSesion = ln.RegistrarUsuario(usuario);
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {

@@ -14,12 +14,14 @@ namespace Presentacion.Controllers
         // GET: Rescate
         public ActionResult Index()
         {
-            if ((String)Session["PerfilUsuario"] == "Rescate")
-            {
-                return View();
-            }
+            //TODO
 
-            return RedirectToAction("Index", "Home");
+            //if ((String)Session["PerfilUsuario"] == "Rescate")
+            //{
+                return View();
+            //}
+
+            //return RedirectToAction("Index", "Home");
         }
 
         public ActionResult SolucionarIntegridad()

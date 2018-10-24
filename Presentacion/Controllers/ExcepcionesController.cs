@@ -14,7 +14,6 @@ namespace Presentacion.Controllers
         public ActionResult Index()
         {
             var aud = new Auditoria();
-            var inte = new IntegridadDatos();
             var ln = new NegocioCuenta();
 
             var criticidad = "LEVE";
@@ -24,10 +23,8 @@ namespace Presentacion.Controllers
                 Session["UsrLogin"] = "SISTEMA";
                 criticidad = "GRAVE";
             }
-
-            var BitacoraDVH = inte.CalcularDVH((String)Session["UsrLogin"] + "EXCEPCION" + criticidad);
-
-            aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXCEPCIÓN", criticidad, (String)Session["Excepcion"], BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXCEPCIÓN", criticidad, (String)Session["Excepcion"]);
 
             ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 

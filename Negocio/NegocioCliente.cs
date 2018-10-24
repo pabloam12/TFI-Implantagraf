@@ -11,6 +11,8 @@ namespace Negocio
     public class NegocioCliente
 
     {
+        //TODO
+
        //public Usuario BuscarPorId(int id)
        // {
        //     var ad = new ClienteDAC();

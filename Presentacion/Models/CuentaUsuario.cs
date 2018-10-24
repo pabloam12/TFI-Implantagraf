@@ -36,8 +36,7 @@ namespace Presentacion.Models
         public string Direccion { get; set; }
         [Required]
         public int LocalidadId { get; set; }
-        [Required]
-        public System.DateTime FechaNacimiento { get; set; }
+
         [Required]
         public System.DateTime FechaAlta { get; set; }
         [Required]

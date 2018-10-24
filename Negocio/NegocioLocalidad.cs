@@ -15,13 +15,10 @@ namespace Negocio
             var ad = new LocalidadDAC();
 
             localidad = ad.Agregar(localidad);
-
-            var inte = new IntegridadDatos();
+                        
             var aud = new Auditoria();
-
-            var BitacoraDVH = inte.CalcularDVH(usuario + "ALTA LOCALIDAD" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "ALTA LOCALIDAD", "INFO", "Se creó la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'", BitacoraDVH);
+            
+            aud.grabarBitacora(DateTime.Now, usuario, "ALTA LOCALIDAD", "INFO", "Se creó la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'");
 
             return (localidad);
 
@@ -37,12 +34,9 @@ namespace Negocio
 
             if (localidad.Descripcion != null)
             {
-                var inte = new IntegridadDatos();
-                var aud = new Auditoria();
-
-                var BitacoraDVH = inte.CalcularDVH(usuario + "ACTUALIZAR LOCALIDAD" + "INFO");
-
-                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR LOCALIDAD", "INFO", "Se actualizó la localidad: " + localidad.Id + " - '" + descripcionAnterior + "' a '" + localidad.Descripcion + "'", BitacoraDVH);
+                                var aud = new Auditoria();
+                
+                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR LOCALIDAD", "INFO", "Se actualizó la localidad: " + localidad.Id + " - '" + descripcionAnterior + "' a '" + localidad.Descripcion + "'");
             }
 
         }
@@ -52,14 +46,10 @@ namespace Negocio
             var ad = new LocalidadDAC();
 
             ad.BorrarPorId(localidad.Id);
-
-            var inte = new IntegridadDatos();
-
+            
             var aud = new Auditoria();
-
-            var BitacoraDVH = inte.CalcularDVH(usuario + "BORRAR LOCALIDAD" + "INFO");
-
-            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR LOCALIDAD", "INFO", "Se borró la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'", BitacoraDVH);
+                        
+            aud.grabarBitacora(DateTime.Now, usuario, "BORRAR LOCALIDAD", "INFO", "Se borró la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'");
 
         }
 

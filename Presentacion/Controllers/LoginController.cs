@@ -26,7 +26,7 @@ namespace Presentacion.Controllers
 
 
         [HttpPost]
-        public ActionResult Login(Login login)
+        public ActionResult Login(FrmLogin login)
         {
             var ln = new NegocioCuenta();
             var seg = new Privacidad();
