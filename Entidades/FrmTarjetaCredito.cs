@@ -20,10 +20,12 @@ namespace Entidades
 
         [RegularExpression(@"^[0-9]{2}$", ErrorMessage = "El Mes debe ser numérico de 2 dígitos.")]
         [Required(ErrorMessage = "El Mes de Vencimiento es Obligatorio.")]
+        [Range(1, 12, ErrorMessage = "El valor debe estar entre 1 y 12.")]
         public string MesVenc { get; set; }
 
         [RegularExpression(@"^[0-9]{2}$", ErrorMessage = "El Año debe ser numérico de 2 dígitos.")]
         [Required(ErrorMessage = "El Año de Vencimiento es Obligatorio.")]
+        [Range(1, 99, ErrorMessage = "El valor debe estar entre 1 y 99.")]
         public string AnioVenc { get; set; }
 
         [RegularExpression(@"^[0-9]{3}$", ErrorMessage = "El Código Verificador debe ser numérico de 3 dígitos.")]

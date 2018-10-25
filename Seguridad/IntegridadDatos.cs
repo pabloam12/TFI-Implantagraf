@@ -112,9 +112,7 @@ namespace Seguridad
 
         public void RecalcularDVV(string tabla)
         {
-            long DVV = 0;
-
-            DVV = CalcularDVV(tabla);
+            var DVV = CalcularDVV(tabla);
 
             var cantReg = ContarRegistros(tabla);
 
@@ -307,7 +305,7 @@ namespace Seguridad
 
             foreach (Factura facturaActual in listadoFacturas)
             {
-                if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta.ToString() + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado) != facturaActual.DVH)
+                if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado) != facturaActual.DVH)
                 {
                     GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Factura", "Código: " + facturaActual.Codigo.ToString(), "Razón Social: " + facturaActual.RazonSocial, "Monto: " + facturaActual.Monto.ToString());
                     flag = true;
@@ -624,7 +622,7 @@ namespace Seguridad
 
             foreach (Factura facturaActual in listadoFacturas)
             {
-                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta.ToString() + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado);
+                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado);
 
                 ActualizarDVHFactura(facturaActual.Codigo, dvhActual);
             }

@@ -11,23 +11,52 @@ namespace Negocio
     public class NegocioCliente
 
     {
-        //TODO
+        public Cliente TraerCliente(int codUsuario)
+        {
+            var adCliente = new ClienteDAC();
+            var adUsuario = new CuentaDAC();
+            var inte = new IntegridadDatos();
+            var aud = new Auditoria();
 
-       //public Usuario BuscarPorId(int id)
-       // {
-       //     var ad = new ClienteDAC();
+            if (ExisteCliente(codUsuario)!=0)
+            {
+                return adCliente.BuscarPorId(codUsuario);
+            }
 
-       //     //return ad.BuscarPorId(id);
+            var usuario = adUsuario.ListarUsuarioPorId(codUsuario);
 
-       // }
+            // Registro al Cliente en base a los datos del Usuario.
+            var clienteActual = adCliente.RegistrarCliente(usuario);
 
-        //public List<Usuario> Listar()
-        //{
-        //    var ad = new ClienteDAC();
+            clienteActual.DVH = inte.CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString());
 
-        //    //return (ad.Listar());
+            // Actualiza el DVH y DVV.
+            inte.ActualizarDVHCliente(clienteActual.Id, clienteActual.DVH);
+            inte.RecalcularDVV("Cliente");
 
-        //}
-        
+            // Grabo en Bitácora.                       
+            aud.grabarBitacora(DateTime.Now, usuario.Usr, "ALTA CLIENTE", "INFO", "Se registró al Cliente: " + clienteActual.Id.ToString() + " - '" + clienteActual.RazonSocial);
+
+
+            return clienteActual;
+
+        }
+
+        private int ExisteCliente(int codUsuario)
+        {
+            var ad = new ClienteDAC();
+
+            return(ad.ExisteCliente(codUsuario));
+           
+        }
+
+        public List<Cliente> Listar()
+        {
+            var ad = new ClienteDAC();
+
+            return (ad.Listar());
+
+        }
+
     }
 }

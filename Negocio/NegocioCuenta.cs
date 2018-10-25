@@ -67,17 +67,19 @@ namespace Negocio
             var inte = new IntegridadDatos();
 
             usr.Psw = priv.EncriptarPsw(usr.Psw);
-                      
+            
+            //TODO CIFRAR DATOS DE USR.
+
             var usuarioActual = ad.RegistrarUsuario(usr);
 
             var clienteDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
-
+                                  
             // Actualiza el DVH y DVV.
             inte.ActualizarDVHUsuario(usuarioActual.Id, clienteDVH);
             inte.RecalcularDVV("SEG_Usuario");
 
             // Grabo en Bitácora.                       
-            aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA USUARIO", "INFO", "Se registró al usuario: " + usuarioActual.Id.ToString() + " - '" + usuarioActual.Usr + "' con el perfil de " + usuarioActual.PerfilUsr.Descripcion);
+            aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA USUARIO", "INFO", "Se registró al Usuario: " + usuarioActual.Id.ToString() + " - '" + usuarioActual.Usr + "' con el perfil de " + usuarioActual.PerfilUsr.Descripcion);
 
             return (usuarioActual);
 

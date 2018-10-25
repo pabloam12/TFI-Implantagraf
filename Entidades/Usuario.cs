@@ -16,7 +16,6 @@ namespace Entidades
         public string Email { get; set; }
         public string Usr { get; set; }
         public string Psw { get; set; }
-        public string PswConfirmacion { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
         public string Estado { get; set; }

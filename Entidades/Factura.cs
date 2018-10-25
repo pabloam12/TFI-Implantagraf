@@ -16,7 +16,7 @@ namespace Entidades
         public string Direccion { get; set; }
         public string RazonSocial { get; set; }
         public string Email { get; set; }
-        public double NroTarjeta { get; set; }
+        public string NroTarjeta { get; set; }
         public long DVH { get; set; }
     }
 }

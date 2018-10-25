@@ -12,31 +12,79 @@ namespace AccesoDatos
     public class ClienteDAC : DataAccessComponent
 
     {
-        //public Usuario BuscarPorId(int id)
-        //{
-        //    const string sqlStatement = "SELECT [Id], [RazonSocial], [CUIL], [Email], [Telefono], [Direccion], [LocalidadId], [FechaAlta] " +
-        //        "FROM dbo.SEG_Usuario WHERE [Id]=@Id AND [PerfilId]='3'";
+        public Cliente RegistrarCliente(Usuario usuario)
+        {
+            const string sqlStatement = "INSERT INTO dbo.Cliente ([Id], [RazonSocial], [CUIL], [Email], [Telefono], [Direccion], [LocalidadId], [FechaAlta], [DVH]) " +
+                                        "VALUES(@Id, @RazonSocial, @CUIL, @Email, @Telefono, @Direccion, @LocalidadId, @FechaAlta, @DVH);";
 
-        //    Usuario cliente = null;
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
-        //    var db = DatabaseFactory.CreateDatabase(ConnectionName);
-        //    using (var cmd = db.GetSqlStringCommand(sqlStatement))
-        //    {
-        //        db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+            var perfilUsrDAC = new PerfilUsrDAC();
+            var idiomaDAC = new IdiomaDAC();
+            var localidadDAC = new LocalidadDAC();
+            var fechaHora = DateTime.Now;
 
-        //        using (var dr = db.ExecuteReader(cmd))
-        //        {
-        //            if (dr.Read()) cliente = MapearCliente(dr); // Mapper
-        //        }
-        //    }
+            var codCliente = 0;
 
-        //    return cliente;
-        //}
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, usuario.Id);
+                db.AddInParameter(cmd, "@RazonSocial", DbType.String, usuario.RazonSocial);
+                db.AddInParameter(cmd, "@CUIL", DbType.String, usuario.CUIL);
+                db.AddInParameter(cmd, "@Email", DbType.String, usuario.Email);
+                db.AddInParameter(cmd, "@Telefono", DbType.String, usuario.Telefono);
+                db.AddInParameter(cmd, "@Direccion", DbType.String, usuario.Direccion);
+                db.AddInParameter(cmd, "@LocalidadId", DbType.Int32, usuario.Localidad.Id);
+                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, fechaHora);
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, 0);
+
+                // Ejecuto la consulta y guardo el id que devuelve.
+                codCliente = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+
+            }
+
+            var cliente = new Cliente
+            {
+                Id = codCliente,
+                RazonSocial = usuario.RazonSocial,
+                CUIL = usuario.CUIL,
+                Email = usuario.Email,
+                Telefono = usuario.Telefono,
+                Direccion = usuario.Direccion,
+                Localidad = localidadDAC.BuscarPorId(usuario.Localidad.Id), //Mapper
+                FechaAlta = fechaHora,
+                DVH = 0
+            };
+
+            return cliente;
+
+        }
+
+        public Cliente BuscarPorId(int id)
+        {
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [CUIL], [Email], [Telefono], [Direccion], [LocalidadId], [FechaAlta], [DVH] " +
+                "FROM dbo.Cliente WHERE [Id]=@Id";
+
+            Cliente cliente = null;
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read()) cliente = MapearCliente(dr); // Mapper
+                }
+            }
+
+            return cliente;
+        }
 
         public List<Cliente> Listar()
         {
 
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [CUIL], [Email], [Telefono], [Direccion], [LocalidadId], [FechaAlta], [DVH] "+
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [CUIL], [Email], [Telefono], [Direccion], [LocalidadId], [FechaAlta], [DVH] " +
                 "FROM dbo.Cliente ORDER BY [RazonSocial]";
 
             var result = new List<Cliente>();
@@ -44,7 +92,7 @@ namespace AccesoDatos
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                
+
                 using (var dr = db.ExecuteReader(cmd))
                 {
                     while (dr.Read())
@@ -56,6 +104,21 @@ namespace AccesoDatos
             }
 
             return result;
+        }
+
+        public int ExisteCliente(int codUsuario)
+        {
+
+            const string sqlStatement = "SELECT COUNT(*) FROM Cliente WHERE [Id] = @codUsuario";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@codUsuario", DbType.Int32, codUsuario);
+
+                return Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
         }
 
 

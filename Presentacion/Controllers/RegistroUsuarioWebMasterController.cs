@@ -49,16 +49,20 @@ namespace Presentacion.Controllers
             usuario.Email = registroWebMaster.Email;
             usuario.Usr = registroWebMaster.Usr;
             usuario.Psw = registroWebMaster.Psw;
+                        
+            usuario.Estado = "S";
+            usuario.FechaAlta = DateTime.Now;
+            usuario.FechaBaja = new DateTime(2000, 01, 01);
 
             usuario.Direccion = "N/A";
             usuario.CUIL = "N/A";
             usuario.Telefono = "N/A";
             usuario.RazonSocial = "N/A";
+
+            usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "es" };
             usuario.PerfilUsr = new PerfilUsr { Id = 1, Descripcion = "WebMaster" };
             usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
-
-            usuario.Usr = usuario.Email;
-
+                        
             // Registro Usuario.
             ln.RegistrarUsuario(usuario);
 

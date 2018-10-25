@@ -28,7 +28,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Direccion", DbType.String, factura.Direccion);
                 db.AddInParameter(cmd, "@RazonSocial", DbType.String, factura.RazonSocial);
                 db.AddInParameter(cmd, "@Email", DbType.String, factura.Email);
-                db.AddInParameter(cmd, "@NroTarjeta", DbType.Int64, factura.NroTarjeta);
+                db.AddInParameter(cmd, "@NroTarjeta", DbType.String, factura.NroTarjeta);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, factura.DVH);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
@@ -287,7 +287,7 @@ namespace AccesoDatos
                 RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
                 Monto = GetDataValue<decimal>(dr, "Monto"),
                 FormaPagoId = GetDataValue<Int32>(dr, "FormaPagoId"),
-                NroTarjeta = GetDataValue<Int64>(dr, "NroTarjeta"),
+                NroTarjeta = GetDataValue<string>(dr, "NroTarjeta"),
                 Direccion = GetDataValue<string>(dr, "Direccion"),
                 Email = GetDataValue<string>(dr, "Email"),
                 Estado = GetDataValue<string>(dr, "Estado"),

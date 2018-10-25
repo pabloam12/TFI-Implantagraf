@@ -43,7 +43,7 @@ namespace Presentacion.Controllers
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
-            Session["CodCliente"] = null;
+            Session["CodUsuario"] = null;
             Session["DireccionUsuario"] = null;
             Session["RazonSocialUsuario"] = null;
 
@@ -101,7 +101,7 @@ namespace Presentacion.Controllers
             Session["RazonSocialUsuario"] = usrSesion.RazonSocial;
             Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
             Session["EmailUsuario"] = usrSesion.Email;
-            Session["CodCliente"] = usrSesion.Id;
+            Session["CodUsuario"] = usrSesion.Id;
             Session["DireccionUsuario"] = usrSesion.Direccion;
 
             Session["UsrLogin"] = usrSesion.Usr;

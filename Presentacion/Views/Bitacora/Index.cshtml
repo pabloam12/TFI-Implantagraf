@@ -6,98 +6,136 @@
 
 }
 
-@Html.Partial("_Espacio1")
+<head>
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+</head>
 
 <body>
-
+    @Html.Partial("_Espacio1")
     <div class="container contact_container">
         <h4>@Presentacion.Recursos.Recursos.BITACORA_TITULO</h4>
         <br />
-        @*<div class="navbar navbar-default">*@
-        <div class="row">
-            <h6>@Presentacion.Recursos.Recursos.BITACORA_TITULO_FILTROS</h6>
-        </div>
 
+        @*<div class="row">
+                <h6>@Presentacion.Recursos.Recursos.BITACORA_TITULO_FILTROS</h6>
+            </div>*@
 
         @using (Html.BeginForm("Index", "Bitacora", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
-        {
+            {
 
+            <div class="row">
+                <div class="col">
 
-            <div class="form-group">
-                <div>@Presentacion.Recursos.Recursos.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" /></div>
-            </div>
+                    <div class="form-group">
+                        @Presentacion.Recursos.Recursos.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <div> @Presentacion.Recursos.Recursos.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" /></div>
-            </div>
+                    <div class="form-group">
+                        @Presentacion.Recursos.Recursos.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <div>  @Presentacion.Recursos.Recursos.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" /> </div>
-            </div>
+                </div>
 
-            <div class="form-group">
-                <div> @Presentacion.Recursos.Recursos.ENTIDAD_ACCION<input type="text" name="accion" class="form-control" @*placeholder="Filtrar Accion"*@ /></div>
-            </div>
+                <div class="col">
+                    <div class="form-group">
+                        @Presentacion.Recursos.Recursos.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <div>  @Presentacion.Recursos.Recursos.ENTIDAD_CRITICIDAD<input type="text" name="criticidad" class="form-control" @*placeholder="Filtrar Criticidad"*@ /></div>
-            </div>
+                    <div class="form-group">
+                        <div> @Presentacion.Recursos.Recursos.ENTIDAD_ACCION<input type="text" name="accion" class="form-control" @*placeholder="Filtrar Accion"*@ /></div>
+                    </div>
+                </div>
 
-            <hr />
+                <div class="col">
+                    <div class="form-group">
+                        <div>  @Presentacion.Recursos.Recursos.ENTIDAD_CRITICIDAD<input type="text" name="criticidad" class="form-control" @*placeholder="Filtrar Criticidad"*@ /></div>
+                    </div>
+                    <br />
+
                     <div class="form-group">
                         <p><button type="submit" value="Search" class="btn btn-success">@Presentacion.Recursos.Recursos.BITACORA_FILTROS_BOTON_FILTRAR</button></p>
                     </div>
+                </div>
+
+            </div>
         }
 
+        @if ((String)Session["ErrorFiltroBitacora"] != null)
+            {
+            <br />
+                <div class="alert alert-danger" role="alert">@Session["ErrorFiltroBitacora"]!</div>
+        }
+
+
+
         <div class="row">
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FechaHora)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Usuario)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Accion)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Criticidad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Detalle)
-                    </th>
+            <br />
+            <table class="table" id="table">
 
-                    <th></th>
-                </tr>
+                <thead>
 
-                @foreach (var item in Model)
-                {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaHora)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Usuario)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Accion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Criticidad)
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaHora)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Usuario)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Accion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Criticidad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Detalle)
+                        </th>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Detalle)
-                        </td>
-
-
+                        <th></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaHora)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Usuario)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Accion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Criticidad)
+                            </td>
 
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Detalle)
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
+
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
 </body>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+
+</script>
+
 
 @Html.Partial("_Espacio2")

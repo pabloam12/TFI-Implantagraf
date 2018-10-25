@@ -19,7 +19,7 @@ namespace Presentacion.Controllers
             {
                 var ln = new Auditoria();
 
-                               
+
                 return View(ln.ConsultarBitacora());
             }
 
@@ -34,7 +34,31 @@ namespace Presentacion.Controllers
             {
                 var ln = new Auditoria();
 
-                if (fecha == "" && usr=="" && accion=="" && criticidad=="")
+                if (fecha == "" && fechaFin != "")
+                {
+                    fechaFin = "";
+
+                    Session["ErrorFiltroBitacora"] = Recursos.Recursos.BITACORA_WARNING_SIN_FECHA_INICIO;
+                }
+
+                if (fecha != "" && fechaFin != "")
+                {
+                    DateTime fechaDate = DateTime.Parse(fecha);
+
+                    DateTime fechaFinDate = DateTime.Parse(fechaFin);
+
+                    if (fechaDate >= fechaFinDate)
+                    {
+                        fecha = "";
+                        fechaFin = "";
+
+                        Session["ErrorFiltroBitacora"] = Recursos.Recursos.BITACORA_WARNING_FECHAS_MAL;
+
+                    }
+
+                }
+
+                if (fecha == "" && usr == "" && accion == "" && criticidad == "")
                 {
                     return View(ln.ConsultarBitacora());
 

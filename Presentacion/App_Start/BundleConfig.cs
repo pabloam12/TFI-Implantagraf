@@ -11,6 +11,9 @@ namespace Presentacion
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            
+                        //"~/Scripts/jquery.dataTables.min.js"
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -27,6 +30,10 @@ namespace Presentacion
             //          "~/Content/bootstrap.css",
             //          //"~/Content/bootstrap-space.css",
             //          "~/Content/site.css"));
+
+            //bundles.Add(new StyleBundle("~/Content/css").Include(
+            //          "~/Content/jquery.dataTables.min.css"));
+
         }
     }
 }

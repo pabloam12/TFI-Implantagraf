@@ -88,6 +88,24 @@ namespace Presentacion.Recursos {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a LA FECHA DE INICIO SIEMPRE DEBE SER MENOR QUE LA DE FIN.
+        /// </summary>
+        public static string BITACORA_WARNING_FECHAS_MAL {
+            get {
+                return ResourceManager.GetString("BITACORA_WARNING_FECHAS_MAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a NO PUEDE INGRESAR FECHA DE FIN SIN FECHA DE INICIO.
+        /// </summary>
+        public static string BITACORA_WARNING_SIN_FECHA_INICIO {
+            get {
+                return ResourceManager.GetString("BITACORA_WARNING_SIN_FECHA_INICIO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Agregar al Carrito.
         /// </summary>
         public static string BOTON_AGREGAR_CARRITO {
@@ -957,6 +975,33 @@ namespace Presentacion.Recursos {
         public static string PRODUCTO_LEYENDA_ENVIO {
             get {
                 return ResourceManager.GetString("PRODUCTO_LEYENDA_ENVIO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a EL PAGO AL CONTADO DEBERÁ REALIZARSE EN LAS OFICINAS COMERCIALES DE LA EMPRESA, HASTA ENTONCES LA FACTURA QUEDARÁ COMO PENDIENTE Y NO SE ENTREGARÁ LA MERCADERIA HASTA QUE EL PAGO NO ESTE REALIZADO. MUCHAS GRACIAS..
+        /// </summary>
+        public static string PRODUCTO_PAGO_CONTADO_LEYENDA {
+            get {
+                return ResourceManager.GetString("PRODUCTO_PAGO_CONTADO_LEYENDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a PAGO CONTADO.
+        /// </summary>
+        public static string PRODUCTO_PAGO_CONTADO_TITULO {
+            get {
+                return ResourceManager.GetString("PRODUCTO_PAGO_CONTADO_TITULO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a PAGO CON TARJETA DE CRÉDITO.
+        /// </summary>
+        public static string PRODUCTO_PAGO_TC_TITULO {
+            get {
+                return ResourceManager.GetString("PRODUCTO_PAGO_TC_TITULO", resourceCulture);
             }
         }
         

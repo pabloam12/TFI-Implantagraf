@@ -126,6 +126,12 @@
   <data name="BITACORA_TITULO_FILTROS" xml:space="preserve">
     <value>Filtros de Búsqueda</value>
   </data>
+  <data name="BITACORA_WARNING_FECHAS_MAL" xml:space="preserve">
+    <value>LA FECHA DE INICIO SIEMPRE DEBE SER MENOR QUE LA DE FIN</value>
+  </data>
+  <data name="BITACORA_WARNING_SIN_FECHA_INICIO" xml:space="preserve">
+    <value>NO PUEDE INGRESAR FECHA DE FIN SIN FECHA DE INICIO</value>
+  </data>
   <data name="BOTON_AGREGAR_CARRITO" xml:space="preserve">
     <value>Agregar al Carrito</value>
   </data>
@@ -416,6 +422,15 @@
   </data>
   <data name="PRODUCTO_LEYENDA_ENVIO" xml:space="preserve">
     <value>Envío Gratis</value>
+  </data>
+  <data name="PRODUCTO_PAGO_CONTADO_LEYENDA" xml:space="preserve">
+    <value>EL PAGO AL CONTADO DEBERÁ REALIZARSE EN LAS OFICINAS COMERCIALES DE LA EMPRESA, HASTA ENTONCES LA FACTURA QUEDARÁ COMO PENDIENTE Y NO SE ENTREGARÁ LA MERCADERIA HASTA QUE EL PAGO NO ESTE REALIZADO. MUCHAS GRACIAS.</value>
+  </data>
+  <data name="PRODUCTO_PAGO_CONTADO_TITULO" xml:space="preserve">
+    <value>PAGO CONTADO</value>
+  </data>
+  <data name="PRODUCTO_PAGO_TC_TITULO" xml:space="preserve">
+    <value>PAGO CON TARJETA DE CRÉDITO</value>
   </data>
   <data name="PRODUCTO_TUNEL_SECADO" xml:space="preserve">
     <value>Túnel de Secado</value>

@@ -49,6 +49,10 @@ namespace Presentacion.Controllers
             usuario.Direccion = registroCliente.Direccion;
             usuario.Localidad = registroCliente.Localidad;
             usuario.PerfilUsr = new PerfilUsr { Id = 3, Descripcion = "Cliente" };
+            usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion="es" };
+            usuario.Estado = "S";
+            usuario.FechaAlta = DateTime.Now;
+            usuario.FechaBaja = new DateTime(2000, 01, 01);
 
             // Características propias de Clientes.
             usuario.Nombre = registroCliente.RazonSocial;

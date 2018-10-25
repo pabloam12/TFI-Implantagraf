@@ -15,7 +15,7 @@ namespace AccesoDatos
         {
 
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
-               "[Direccion], [LocalidadId], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+               "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
                "FROM dbo.SEG_Usuario;";
 
             var result = new List<Usuario>();
@@ -41,7 +41,7 @@ namespace AccesoDatos
         {
 
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
-               "[Direccion], [LocalidadId], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+               "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
                "FROM dbo.SEG_Usuario WHERE [PerfilId]=@PerfilId;";
 
             var result = new List<Usuario>();
@@ -62,6 +62,29 @@ namespace AccesoDatos
             }
 
             return result;
+        }
+
+        public Usuario ListarUsuarioPorId(int codUsuario)
+        {
+
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
+               "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
+               "FROM dbo.SEG_Usuario WHERE [Id]=@codUsuario;";
+
+            Usuario usuario = null;
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@codUsuario", DbType.Int32, codUsuario);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read()) usuario = MapearUsuario(dr); // Mapper
+                }
+            }
+
+            return usuario;
         }
 
         public List<PermisosUsr> VerPermisosUsuario()
@@ -353,7 +376,7 @@ namespace AccesoDatos
         public Usuario Autenticar(FrmLogin usr)
         {
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaAlta], [PerfilId], [IdiomaId], [DVH]  " +
+                "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja],[PerfilId], [IdiomaId], [DVH]  " +
                 "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
 
             Usuario usuario = null;
@@ -400,30 +423,31 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Usr", DbType.String, usr.Usr);
                 db.AddInParameter(cmd, "@Psw", DbType.String, usr.Psw);
                 db.AddInParameter(cmd, "@CUIL", DbType.String, usr.CUIL);
-                db.AddInParameter(cmd, "@Estado", DbType.String, 'S');
+                db.AddInParameter(cmd, "@Estado", DbType.String, usr.Estado);
                 db.AddInParameter(cmd, "@Intentos", DbType.Int32, 0);
                 db.AddInParameter(cmd, "@Email", DbType.String, usr.Email);
                 db.AddInParameter(cmd, "@Telefono", DbType.String, usr.Telefono);
                 db.AddInParameter(cmd, "@Direccion", DbType.String, usr.Direccion);
                 db.AddInParameter(cmd, "@LocalidadId", DbType.Int32, usr.Localidad.Id);
-                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
+                db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, usr.FechaAlta);
                 db.AddInParameter(cmd, "@PerfilId", DbType.Int32, usr.PerfilUsr.Id);
-                db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, 1);
+                db.AddInParameter(cmd, "@IdiomaId", DbType.Int32, usr.Idioma.Id);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, 0);
-                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
-                
+                db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, usr.FechaBaja);
+
                 // Ejecuto la consulta y guardo el id que devuelve.
                 usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
-                
+
                 usr.PerfilUsr = perfilUsrDAC.BuscarPorId(usr.PerfilUsr.Id); // Mapper
-                usr.Idioma = idiomaDAC.BuscarPorId(1); // Mapper
+                usr.Idioma = idiomaDAC.BuscarPorId(usr.Idioma.Id); // Mapper
                 usr.Localidad = localidadDAC.BuscarPorId(usr.Localidad.Id); // Mapper
+
             }
 
             return usr;
 
         }
-               
+
 
         private Usuario MapearUsuario(IDataReader dr)
         {
@@ -439,7 +463,6 @@ namespace AccesoDatos
                 Apellido = GetDataValue<string>(dr, "Apellido"),
                 Usr = GetDataValue<string>(dr, "Usr"),
                 Psw = GetDataValue<string>(dr, "Psw"),
-                PswConfirmacion = GetDataValue<string>(dr, "Psw"),
                 CUIL = GetDataValue<string>(dr, "CUIL"),
                 Estado = GetDataValue<string>(dr, "Estado"),
                 Email = GetDataValue<string>(dr, "Email"),
@@ -449,7 +472,9 @@ namespace AccesoDatos
                 PerfilUsr = perfilUsrDAC.BuscarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
                 Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")), //Mapper
                 FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta"),
+                FechaBaja = GetDataValue<DateTime>(dr, "FechaBaja"),
                 DVH = GetDataValue<Int64>(dr, "DVH")
+                
             };
 
             return usuario;
@@ -458,7 +483,7 @@ namespace AccesoDatos
         public Usuario InformacionCuenta(string idUsuario)
         {
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
+                "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
                 "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
 
             var infoUsuario = new Usuario();

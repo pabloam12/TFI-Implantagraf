@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccesoDatos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,9 +15,11 @@ namespace Servicios
         }
 
 
-        public bool ValidarTarjeta(int numero, int mesVenc, int anioVenc, int codVerifica)
+        public long ValidarTarjeta(string numero, int marcaId, string mesVenc, string anioVenc, string codSeguridad)
         {
-            return false;
+            var accDatos = new WS_DAC();
+
+            return accDatos.ValidarTarjeta(numero, marcaId, mesVenc, anioVenc, codSeguridad);
         }
 
         public bool ValidarLimite(int importeTotal)

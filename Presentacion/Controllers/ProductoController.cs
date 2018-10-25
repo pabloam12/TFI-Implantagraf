@@ -15,10 +15,8 @@ namespace Presentacion.Controllers
 
         public ActionResult Catalogo()
         {
-
             return View();
         }
-
 
         public ActionResult DetalleProducto(int productoId = 0)
         {
@@ -71,7 +69,7 @@ namespace Presentacion.Controllers
                 carritoItem.Cantidad = 1;
                 carritoItem.Precio = producto.Precio;
 
-                int idexistente = controlarId(productoId);
+                int idexistente = ControlarId(productoId);
 
                 if (idexistente == -1)
                     productosCarrito.Add(carritoItem);
@@ -90,7 +88,7 @@ namespace Presentacion.Controllers
         {
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
-            int idProdCarrito = controlarId(productoId);
+            int idProdCarrito = ControlarId(productoId);
 
             productosCarrito[idProdCarrito].Cantidad--;
 
@@ -115,22 +113,22 @@ namespace Presentacion.Controllers
 
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
-            int idProdCarrito = controlarId(productoId);
+            int idProdCarrito = ControlarId(productoId);
 
             productosCarrito[idProdCarrito].Cantidad++;
 
             Session["Carrito"] = productosCarrito;
 
-            
+
             Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
 
-            
+
             return View("MostrarCarrito");
 
 
         }
 
-        private int controlarId(int id)
+        private int ControlarId(int id)
         {
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
@@ -143,7 +141,7 @@ namespace Presentacion.Controllers
             return -1;
         }
 
-        private int verCantidadProductos(int id)
+        private int VerCantidadProductos(int id)
         {
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
@@ -157,7 +155,7 @@ namespace Presentacion.Controllers
             return -1;
         }
 
-        private int restarProducto(int id)
+        private int RestarProducto(int id)
         {
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
@@ -175,31 +173,22 @@ namespace Presentacion.Controllers
 
         public ActionResult RealizarPago()
         {
-            if ((String)Session["PerfilUsuario"] != "Cliente" || (String)Session["PerfilUsuario"] != "Administrativo")
+            if ((String)Session["PerfilUsuario"] != "Cliente" && (String)Session["PerfilUsuario"] != "Administrativo")
             { return RedirectToAction("Index", "Login"); }
 
             var ln = new NegocioMarcaTC();
-            
+
             ViewBag.Marcas_TC = ln.Listar();
 
             return View();
 
         }
 
-        //[HttpPost]
-
-        //TarjetaCredito datosTarjeta = null,
-        public ActionResult RealizarPagoContado(int formaPago = 0)
+        public ActionResult RealizarPagoContado()
         {
             var importeTotal = CalularImporteTotal();
-
+            var formaPago = 1;
             var fechaHora = DateTime.Now;
-
-            //if (formaPago == 0)
-            //{
-            //    if (ValidarPago(datosTarjeta, importeTotal))
-            //    { return View(); }
-            //}
 
             RegistrarVenta(fechaHora, importeTotal, formaPago);
 
@@ -209,24 +198,65 @@ namespace Presentacion.Controllers
 
         }
 
-        private void RegistrarVenta(DateTime fechaHora, decimal importeTotal, int formaPago)
+        [HttpPost]
+        public ActionResult RealizarPagoTarjeta(FrmTarjetaCredito datosTarjeta)
+        {
+            var importeTotal = CalularImporteTotal();
+            var formaPago = 2;
+            var fechaHora = DateTime.Now;
+
+            var limiteOtorgado = ValidarTarjeta(datosTarjeta, importeTotal);
+
+            if (limiteOtorgado == 0)
+            {
+                Session["ErrorTarjetaCredito"] = "Datos de Tarjeta inválidos.";
+
+                return RedirectToAction("RealizarPago");
+            }
+
+            if (limiteOtorgado < importeTotal)
+            {
+                Session["ErrorTarjetaCredito"] = "Límite de saldo de compra insuficiente.";
+
+                return RedirectToAction("RealizarPago");
+            }
+
+            RegistrarVenta(fechaHora, importeTotal, formaPago);
+
+            //TODO
+            //ActualizarStock();
+
+            return RedirectToAction("FinalizarCompra");
+
+        }
+
+        private void RegistrarVenta(DateTime fechaHora, decimal importeTotal, int formaPago, string NroTarjeta="N/A")
         {
             var ln = new NegocioOperaciones();
+            var cliLn = new NegocioCliente();
 
             var estado = "PAGO_PENDIENTE";
 
-            if (formaPago == 0)
+            if (formaPago == 2)
 
             { estado = "APROBADA"; }
 
-            var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, estado, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"]);
+            // Registro la Venta.
+            var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, estado, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"], NroTarjeta);
 
-            var venta = ln.RegistrarVenta(fechaHora, (Int32)Session["CodCliente"],  importeTotal, formaPago, "VE", estado, factura.Codigo);
+            // Si existe el Cliente, lo traigo, sino lo doy de alta y luego lo traigo.
+            var cliente = cliLn.TraerCliente((Int32)Session["CodUsuario"]);
 
+            // Registro la Venta.
+            var venta = ln.RegistrarVenta(fechaHora, cliente.Id, importeTotal, formaPago, "VE", estado, factura.Codigo);
+
+            // Registro Detalle de Venta.
             RegistrarDetalleVenta(venta.Id);
-
+                        
+            // Me guardo la factura para imprimir y enviar por correo.
             Session["Factura"] = factura;
 
+            // Borro los items del Carrito.
             Session["Carrito"] = null;
 
         }
@@ -267,23 +297,13 @@ namespace Presentacion.Controllers
 
         }
 
-        private bool ValidarPago(FrmTarjetaCredito datosTarjeta, double importeTotal)
+        private long ValidarTarjeta(FrmTarjetaCredito datosTarjeta, decimal importeTotal)
         {
-            //var ws = new WebService();
+            var ws = new WebService();
 
-            //if (ws.ValidarTarjeta(datosTarjeta.Numero, datosTarjeta.MesVenc, datosTarjeta.AnioVenc, datosTarjeta.CodigoV))
-            //{
-            //    Session["ErrorTarjeta"] = "La tarjeta ingresada no es válida.";
-            //    return true;
-            //}
+            var limite = ws.ValidarTarjeta(datosTarjeta.Numero, datosTarjeta.Marca_TC.Id, datosTarjeta.MesVenc, datosTarjeta.AnioVenc, datosTarjeta.CodigoV);
 
-            //if (ws.ValidarLimite(importeTotal))
-            //{
-            //    Session["ErrorTarjeta"] = "La tarjeta ingresada no cuenta con límite suficiente.";
-            //    return true;
-            //}
-
-            return false;
+            return limite;
         }
 
         public ActionResult FinalizarCompra()
