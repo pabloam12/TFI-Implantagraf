@@ -45,7 +45,7 @@ namespace Negocio
 
         }
 
-        public Operacion RegistrarVenta(DateTime fechaHora, int codCliente, decimal importeTotal, int formaPago, string tipoOperacion, string estado, int codFactura)
+        public Operacion RegistrarOperacion(DateTime fechaHora, int codCliente, decimal importeTotal, int formaPago, string tipoOperacion, string estado, int codFactura)
         {
             var datos = new OperacionesDAC();
             var datosUsuario = new CuentaDAC();
@@ -55,6 +55,7 @@ namespace Negocio
             var venta = new Operacion
             {
                 FechaHora = fechaHora,
+                ClienteId= codCliente,
                 TipoOperacion = tipoOperacion,
                 ImporteTotal = importeTotal,
                 FormaPagoId = formaPago,
@@ -82,12 +83,12 @@ namespace Negocio
         }
 
 
-        public void RegistrarDetalleOperacion(int operacionId, int productoId, decimal monto, int cantidad, decimal subtotal, long DVH)
+        public void RegistrarDetalleOperacion(DetalleOperacion detalleActual)
         {
 
             var datos = new OperacionesDAC();
 
-            datos.RegistrarDetalleOperacion(operacionId, productoId, monto, cantidad, subtotal, DVH);
+            datos.RegistrarDetalleOperacion(detalleActual);
         }
 
         public List<DetalleOperacion> ListarDetalleOperacion()

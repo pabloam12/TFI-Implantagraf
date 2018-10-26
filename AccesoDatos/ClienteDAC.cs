@@ -23,8 +23,7 @@ namespace AccesoDatos
             var idiomaDAC = new IdiomaDAC();
             var localidadDAC = new LocalidadDAC();
             var fechaHora = DateTime.Now;
-
-            var codCliente = 0;
+                       
 
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
@@ -39,24 +38,24 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, 0);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
-                codCliente = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+                var codCliente = (Convert.ToInt32(db.ExecuteScalar(cmd)));
 
+                var cliente = new Cliente
+                {
+                    Id = codCliente,
+                    RazonSocial = usuario.RazonSocial,
+                    CUIL = usuario.CUIL,
+                    Email = usuario.Email,
+                    Telefono = usuario.Telefono,
+                    Direccion = usuario.Direccion,
+                    Localidad = localidadDAC.BuscarPorId(usuario.Localidad.Id), //Mapper
+                    FechaAlta = fechaHora,
+                    DVH = 0
+                };
+
+                return cliente;
             }
-
-            var cliente = new Cliente
-            {
-                Id = codCliente,
-                RazonSocial = usuario.RazonSocial,
-                CUIL = usuario.CUIL,
-                Email = usuario.Email,
-                Telefono = usuario.Telefono,
-                Direccion = usuario.Direccion,
-                Localidad = localidadDAC.BuscarPorId(usuario.Localidad.Id), //Mapper
-                FechaAlta = fechaHora,
-                DVH = 0
-            };
-
-            return cliente;
+                       
 
         }
 

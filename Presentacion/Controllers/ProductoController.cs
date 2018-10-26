@@ -221,7 +221,7 @@ namespace Presentacion.Controllers
                 return RedirectToAction("RealizarPago");
             }
 
-            RegistrarVenta(fechaHora, importeTotal, formaPago);
+            RegistrarVenta(fechaHora, importeTotal, formaPago, datosTarjeta.Numero);
 
             //TODO
             //ActualizarStock();
@@ -230,7 +230,7 @@ namespace Presentacion.Controllers
 
         }
 
-        private void RegistrarVenta(DateTime fechaHora, decimal importeTotal, int formaPago, string NroTarjeta="N/A")
+        private void RegistrarVenta(DateTime fechaHora, decimal importeTotal, int formaPago, string NroTarjeta = "N/A")
         {
             var ln = new NegocioOperaciones();
             var cliLn = new NegocioCliente();
@@ -244,15 +244,17 @@ namespace Presentacion.Controllers
             // Registro la Venta.
             var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, estado, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"], NroTarjeta);
 
+            var codUsuario = (Int32)Session["CodUsuario"];
+
             // Si existe el Cliente, lo traigo, sino lo doy de alta y luego lo traigo.
-            var cliente = cliLn.TraerCliente((Int32)Session["CodUsuario"]);
+            var cliente = cliLn.TraerCliente(codUsuario);
 
             // Registro la Venta.
-            var venta = ln.RegistrarVenta(fechaHora, cliente.Id, importeTotal, formaPago, "VE", estado, factura.Codigo);
+            var venta = ln.RegistrarOperacion(fechaHora, cliente.Id, importeTotal, formaPago, "VE", estado, factura.Codigo);
 
             // Registro Detalle de Venta.
-            RegistrarDetalleVenta(venta.Id);
-                        
+            RegistrarDetalleOperacion(venta.Id);
+
             // Me guardo la factura para imprimir y enviar por correo.
             Session["Factura"] = factura;
 
@@ -277,10 +279,12 @@ namespace Presentacion.Controllers
             return importeTotal;
         }
 
-        private void RegistrarDetalleVenta(int operacionId)
+        private void RegistrarDetalleOperacion(int operacionId)
         {
 
             var ln = new NegocioOperaciones();
+            var inte = new IntegridadDatos();
+           
 
             if (Session["Carrito"] != null)
             {
@@ -288,9 +292,24 @@ namespace Presentacion.Controllers
                 {
                     var subtotal = (item.Precio * item.Cantidad);
 
-                    var detalleDVH = 23323;
+                    var detalleActual = new DetalleOperacion
+                    {
+                        OperacionId = operacionId,
+                        ProductoId = item.ProductoId,
+                        Monto = item.Precio,
+                        Cantidad = item.Cantidad,
+                        SubTotal = subtotal,
+                        DVH = 0
+                    };
 
-                    ln.RegistrarDetalleOperacion(operacionId, item.ProductoId, item.Precio, item.Cantidad, subtotal, detalleDVH);
+                    ln.RegistrarDetalleOperacion(detalleActual);
+
+                    detalleActual.DVH = inte.CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString());
+
+                    // Actualiza el DVH y DVV.
+                    inte.ActualizarDVHDetalleOperacion(detalleActual.OperacionId, detalleActual.ProductoId, detalleActual.DVH);
+                    inte.RecalcularDVV("DetalleOperacion");
+                                       
 
                 }
             }

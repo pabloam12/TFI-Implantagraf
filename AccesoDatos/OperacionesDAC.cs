@@ -66,7 +66,7 @@ namespace AccesoDatos
         }
 
 
-        public void RegistrarDetalleOperacion(int operacionId, int productoId, decimal monto, int cantidad, decimal subtotal, long DVH)
+        public void RegistrarDetalleOperacion(DetalleOperacion detalleActual)
         {
 
             const string sqlStatement = "INSERT INTO dbo.DetalleOperacion  ([OperacionId], [ProductoId], [Monto], [Cantidad], [SubTotal], [DVH])" +
@@ -75,12 +75,12 @@ namespace AccesoDatos
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
             {
-                db.AddInParameter(cmd, "@OperacionId", DbType.Int32, operacionId);
-                db.AddInParameter(cmd, "@ProductoId", DbType.Int32, productoId);
-                db.AddInParameter(cmd, "@Monto", DbType.Decimal, monto);
-                db.AddInParameter(cmd, "@Cantidad", DbType.Int32, cantidad);
-                db.AddInParameter(cmd, "@SubTotal", DbType.Decimal, subtotal);
-                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@OperacionId", DbType.Int32, detalleActual.OperacionId);
+                db.AddInParameter(cmd, "@ProductoId", DbType.Int32, detalleActual.ProductoId);
+                db.AddInParameter(cmd, "@Monto", DbType.Decimal, detalleActual.Monto);
+                db.AddInParameter(cmd, "@Cantidad", DbType.Int32, detalleActual.Cantidad);
+                db.AddInParameter(cmd, "@SubTotal", DbType.Decimal, detalleActual.SubTotal);
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, detalleActual.DVH);
 
                 db.ExecuteScalar(cmd);
             }

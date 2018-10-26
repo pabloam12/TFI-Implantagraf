@@ -56,9 +56,9 @@ namespace Presentacion.Controllers
 
             // Características propias de Clientes.
             usuario.Nombre = registroCliente.RazonSocial;
-            usuario.Apellido = "N/A";
+            usuario.Apellido = registroCliente.RazonSocial;
             usuario.Usr = registroCliente.Email;
-            usuario.Telefono = "N/A";
+            usuario.Telefono = registroCliente.Telefono;
 
             // Registro Usuario.
             var usrSesion = ln.RegistrarUsuario(usuario);
@@ -67,10 +67,17 @@ namespace Presentacion.Controllers
             {
                 Session["IdUsuario"] = usrSesion.Id.ToString();
                 Session["NombreUsuario"] = usrSesion.Nombre;
+                Session["RazonSocialUsuario"] = usrSesion.RazonSocial;
                 Session["PerfilUsuario"] = usrSesion.PerfilUsr.Descripcion;
                 Session["EmailUsuario"] = usrSesion.Email;
+                Session["CodUsuario"] = usrSesion.Id;
+                Session["DireccionUsuario"] = usrSesion.Direccion;
 
                 Session["UsrLogin"] = usrSesion.Usr;
+
+                HttpCookie cookie = new HttpCookie("UsrLogin");
+                cookie.Value = usrSesion.Usr;
+                Response.Cookies.Add(cookie);
 
                 return RedirectToAction("Index", "Home");
             }

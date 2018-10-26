@@ -42,7 +42,7 @@ namespace Seguridad
                 if (ValidarExistencia(tabla) == 0)
 
                 {
-                    GrabarRegistroIntegridad("SE ELIMINÓ", "Tabla: " + tabla);
+                    GrabarRegistroIntegridad("SE ELIMINÓ", tabla.ToUpper());
                     flag = true;
                 }
 
@@ -77,7 +77,7 @@ namespace Seguridad
                             //NoCoincide el valor DVV ni la cantidad de registros.
                             if (ValidarCantidadReg(tabla, cant) == 0)
                             {
-                                GrabarRegistroIntegridad("SE ALTERÓ EL Nº DE REGISTROS", "Tabla: " + tabla);
+                                GrabarRegistroIntegridad("SE ALTERÓ EL Nº DE REGISTROS", tabla.ToUpper());
                             }
 
                             return true;
@@ -245,7 +245,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion) != usuarioActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Usuario", "Código: " + usuarioActual.Id.ToString(), "Razón Social: " + usuarioActual.RazonSocial, "CUIL: " + usuarioActual.CUIL, "Perfil: " + usuarioActual.PerfilUsr.Descripcion, "Usuario: " + usuarioActual.Usr);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_USUARIO", usuarioActual.Id.ToString(), usuarioActual.RazonSocial, usuarioActual.CUIL, usuarioActual.PerfilUsr.Descripcion, usuarioActual.Usr);
                     flag = true;
                 }
             }
@@ -258,7 +258,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Producto", "Código: " + productoActual.Codigo.ToString(), "Título: " + productoActual.Titulo, "Modelo: " + productoActual.Modelo, "Marca: " + productoActual.Marca.Descripcion, "Categoría: " + productoActual.Categoria.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "PRODUCTO", productoActual.Codigo.ToString(), productoActual.Titulo, productoActual.Modelo, productoActual.Marca.Descripcion, productoActual.Categoria.Descripcion);
                     flag = true;
                 }
             }
@@ -271,7 +271,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion) != categoriaActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Categoría", "Código: " + categoriaActual.Id.ToString(), "Descripción: " + categoriaActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CATEGORIA", categoriaActual.Id.ToString(), categoriaActual.Descripcion);
                     flag = true;
                 }
             }
@@ -283,7 +283,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString()) != clienteActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Cliente", "Código: " + clienteActual.Id.ToString(), "Razón Social: " + clienteActual.RazonSocial, "CUIL: " + clienteActual.CUIL, "Email: " + clienteActual.Email, "Fecha Alta: " + clienteActual.FechaAlta.ToString());
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CLIENTE", clienteActual.Id.ToString(), clienteActual.RazonSocial, clienteActual.CUIL, clienteActual.Email, clienteActual.FechaAlta.ToString());
                     flag = true;
                 }
             }
@@ -295,7 +295,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString()) != detalleActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: DetalleOperacion", "Código: " + detalleActual.OperacionId.ToString(), "Producto: " + detalleActual.ProductoId.ToString(), "SubTotal: " + detalleActual.SubTotal.ToString());
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "DETALLEOPERACION", detalleActual.OperacionId.ToString(), detalleActual.ProductoId.ToString(), detalleActual.SubTotal.ToString());
                     flag = true;
                 }
             }
@@ -307,7 +307,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado) != facturaActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Factura", "Código: " + facturaActual.Codigo.ToString(), "Razón Social: " + facturaActual.RazonSocial, "Monto: " + facturaActual.Monto.ToString());
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FACTURA", facturaActual.Codigo.ToString(), facturaActual.RazonSocial, facturaActual.Monto.ToString());
                     flag = true;
                 }
             }
@@ -319,7 +319,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion) != formaPagoActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: FormaPago", "Código: " + formaPagoActual.Id.ToString(), "Descripción: " + formaPagoActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FORMAPAGO", formaPagoActual.Id.ToString(), formaPagoActual.Descripcion);
                     flag = true;
                 }
             }
@@ -331,7 +331,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion) != idiomaActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Idioma", "Código: " + idiomaActual.Id.ToString(), "Descripción: " + idiomaActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "IDIOMA", idiomaActual.Id.ToString(), idiomaActual.Descripcion, idiomaActual.Abreviacion);
                     flag = true;
                 }
             }
@@ -343,7 +343,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion) != localidadActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Localidad", "Código: " + localidadActual.Id.ToString(), "Descripción: " + localidadActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "LOCALIDAD", localidadActual.Id.ToString(), localidadActual.Descripcion);
                     flag = true;
                 }
             }
@@ -355,7 +355,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion) != marcaActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Marca", "Código: " + marcaActual.Id.ToString(), "Descripción: " + marcaActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "MARCA",marcaActual.Id.ToString(), marcaActual.Descripcion);
                     flag = true;
                 }
             }
@@ -367,7 +367,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.FacturaId.ToString()) != operacionActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Operacion", "Código: " + operacionActual.Id.ToString(), "Cliente: " + operacionActual.ClienteId.ToString(), "Fecha/Hora: " + operacionActual.FechaHora.ToString(), "Importe Total: " + operacionActual.ImporteTotal.ToString(), "Factura: " + operacionActual.FacturaId.ToString());
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "OPERACIÓN", operacionActual.Id.ToString(), operacionActual.ClienteId.ToString(), operacionActual.FechaHora.ToString(), operacionActual.ImporteTotal.ToString(), operacionActual.FacturaId.ToString());
                     flag = true;
                 }
             }
@@ -380,7 +380,7 @@ namespace Seguridad
 
                 if (CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle) != bitacoraActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Bitacora", "Fecha/Hora: " + bitacoraActual.FechaHora.ToString(), "Acción: " + bitacoraActual.Accion, "Fecha/Hora: " + bitacoraActual.FechaHora.ToString(), "Criticidad: " + bitacoraActual.Criticidad, "Detalle: " + bitacoraActual.Detalle);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_BITACORA", bitacoraActual.FechaHora.ToString(), bitacoraActual.Accion, bitacoraActual.FechaHora.ToString(), bitacoraActual.Criticidad, bitacoraActual.Detalle);
                     flag = true;
                 }
             }
@@ -392,7 +392,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion) != permisoActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_Permisos", "Código: " + permisoActual.Id.ToString(), "Descripción: " + permisoActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERMISOS", permisoActual.Id.ToString(), permisoActual.Descripcion);
                     flag = true;
                 }
             }
@@ -404,7 +404,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion) != perfilActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: SEG_PerfilUsr", "Código: " + perfilActual.Id.ToString(), "Descripción: " + perfilActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERFILUSR", perfilActual.Id.ToString(), perfilActual.Descripcion);
                     flag = true;
                 }
             }
@@ -414,9 +414,9 @@ namespace Seguridad
 
             foreach (Stock stockActual in listadoStock)
             {
-                if (CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString()) != stockActual.DVH)
+                if (CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario.ToString() + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString()) != stockActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE MODIFICÓ REGISTRO", "Tabla: Stock", "Código Producto: " + stockActual.ProductoId.ToString(), "Fecha: " + stockActual.FechaCalendario, "Catnidad: " + stockActual.Cantidad.ToString(), "Tipo de Operación: " + stockActual.TipoOperacionId.ToString());
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "STOCK", stockActual.ProductoId.ToString(), stockActual.FechaCalendario.ToString(), stockActual.Cantidad.ToString(), stockActual.TipoOperacionId.ToString());
                     flag = true;
                 }
             }
@@ -601,7 +601,8 @@ namespace Seguridad
 
             foreach (Cliente clienteActual in listadoClientes)
             {
-                dvhActual = CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString());
+                dvhActual = CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
+
 
                 ActualizarDVHCliente(clienteActual.Id, dvhActual);
 

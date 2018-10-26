@@ -28,7 +28,7 @@ namespace Negocio
             // Registro al Cliente en base a los datos del Usuario.
             var clienteActual = adCliente.RegistrarCliente(usuario);
 
-            clienteActual.DVH = inte.CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString());
+            clienteActual.DVH = inte.CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
 
             // Actualiza el DVH y DVV.
             inte.ActualizarDVHCliente(clienteActual.Id, clienteActual.DVH);
