@@ -285,6 +285,21 @@ namespace AccesoDatos
             }
         }
 
+        public void ActualizarDVHEstadoOperacion(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.EstadoOperacion SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
         public void ActualizarDVHIdioma(int cod, long DVH)
         {
             const string sqlStatement = "UPDATE dbo.Idioma SET [DVH]=@DVH WHERE Id=@cod";

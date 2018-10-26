@@ -37,12 +37,12 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, fechaHora);
                 db.AddInParameter(cmd, "@DVH", DbType.Int64, 0);
 
-                // Ejecuto la consulta y guardo el id que devuelve.
-                var codCliente = (Convert.ToInt32(db.ExecuteScalar(cmd)));
+                // Ejecuto la consulta.
+                db.ExecuteScalar(cmd);
 
                 var cliente = new Cliente
                 {
-                    Id = codCliente,
+                    Id = usuario.Id,
                     RazonSocial = usuario.RazonSocial,
                     CUIL = usuario.CUIL,
                     Email = usuario.Email,

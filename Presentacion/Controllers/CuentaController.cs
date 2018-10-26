@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using Presentacion.Models;
 using Negocio;
 using Entidades;
+using Servicios;
 
 namespace Presentacion.Controllers
 {
@@ -118,8 +119,11 @@ namespace Presentacion.Controllers
 
         public ActionResult RecuperarPsw()
         {
-            return View();
+            var servicioCorreo = new Mensajeria();
+
+            return RedirectToAction("Login", "Login");
         }
+                
 
     }
 }

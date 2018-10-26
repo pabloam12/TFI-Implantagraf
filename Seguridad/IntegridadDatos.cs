@@ -221,6 +221,7 @@ namespace Seguridad
             var accDatosBitacora = new BitacoraDAC();
             var accDatosPerfiles = new PerfilUsrDAC();
             var accDatosStock = new StockDAC();
+            var accDatosEstadoOperacion = new EstadoOperacionDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
             List<Producto> listadoProductos = new List<Producto>();
@@ -237,6 +238,7 @@ namespace Seguridad
             List<PermisosUsr> listadoPermisos = new List<PermisosUsr>();
             List<PerfilUsr> listadoPerfiles = new List<PerfilUsr>();
             List<Stock> listadoStock = new List<Stock>();
+            List<EstadoOperacion> listadoEstadoOperacion = new List<EstadoOperacion>();
 
             // Usuarios.
             listadoUsuarios = accDatosUsuario.ListarUsuarios();
@@ -305,9 +307,9 @@ namespace Seguridad
 
             foreach (Factura facturaActual in listadoFacturas)
             {
-                if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado) != facturaActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FACTURA", facturaActual.Codigo.ToString(), facturaActual.RazonSocial, facturaActual.Monto.ToString());
+                if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString()) != facturaActual.DVH)
+                {   
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FACTURA", facturaActual.Codigo.ToString(), facturaActual.Cliente.Id.ToString(), facturaActual.Monto.ToString());
                     flag = true;
                 }
             }
@@ -320,6 +322,18 @@ namespace Seguridad
                 if (CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion) != formaPagoActual.DVH)
                 {
                     GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FORMAPAGO", formaPagoActual.Id.ToString(), formaPagoActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            // Estado Operacion
+            listadoEstadoOperacion = accDatosEstadoOperacion.Listar();
+
+            foreach (EstadoOperacion estadoOperacionActual in listadoEstadoOperacion)
+            {
+                if (CalcularDVH(estadoOperacionActual.Id.ToString() + estadoOperacionActual.Descripcion) != estadoOperacionActual.DVH)
+                {
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "ESTADOOPERACION", estadoOperacionActual.Id.ToString(), estadoOperacionActual.Descripcion);
                     flag = true;
                 }
             }
@@ -365,9 +379,9 @@ namespace Seguridad
 
             foreach (Operacion operacionActual in listadoOperaciones)
             {
-                if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.FacturaId.ToString()) != operacionActual.DVH)
+                if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString()) != operacionActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "OPERACIÓN", operacionActual.Id.ToString(), operacionActual.ClienteId.ToString(), operacionActual.FechaHora.ToString(), operacionActual.ImporteTotal.ToString(), operacionActual.FacturaId.ToString());
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "OPERACIÓN", operacionActual.Id.ToString(), operacionActual.Cliente.Id.ToString(), operacionActual.FechaHora.ToString(), operacionActual.ImporteTotal.ToString(), operacionActual.Factura.Codigo.ToString());
                     flag = true;
                 }
             }
@@ -474,6 +488,13 @@ namespace Seguridad
             integ.ActualizarDVHFormaPago(id, DVH);
         }
 
+        public void ActualizarDVHEstadoOperacion(int id, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHEstadoOperacion(id, DVH);
+        }
+
         public void ActualizarDVHIdioma(int cod, long DVH)
         {
             var integ = new IntegridadDAC();
@@ -546,6 +567,7 @@ namespace Seguridad
             var accDatosBitacora = new BitacoraDAC();
             var accDatosPerfiles = new PerfilUsrDAC();
             var accDatosStock = new StockDAC();
+            var accDatosEstadoOperacion = new EstadoOperacionDAC();
 
             List<Usuario> listadoUsuarios = new List<Usuario>();
             List<Producto> listadoProductos = new List<Producto>();
@@ -562,6 +584,7 @@ namespace Seguridad
             List<PermisosUsr> listadoPermisos = new List<PermisosUsr>();
             List<PerfilUsr> listadoPerfiles = new List<PerfilUsr>();
             List<Stock> listadoStock = new List<Stock>();
+            List<EstadoOperacion> listadoEstadoOperacion = new List<EstadoOperacion>();
 
 
             // Usuarios.
@@ -623,8 +646,8 @@ namespace Seguridad
 
             foreach (Factura facturaActual in listadoFacturas)
             {
-                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.RazonSocial + facturaActual.Monto.ToString() + facturaActual.FormaPagoId.ToString() + facturaActual.NroTarjeta + facturaActual.Direccion + facturaActual.Email + facturaActual.Estado);
-
+                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString()); 
+                            
                 ActualizarDVHFactura(facturaActual.Codigo, dvhActual);
             }
 
@@ -636,6 +659,16 @@ namespace Seguridad
                 dvhActual = CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion);
 
                 ActualizarDVHFormaPago(formaPagoActual.Id, dvhActual);
+            }
+
+            // Estado Operacion
+            listadoEstadoOperacion = accDatosEstadoOperacion.Listar();
+
+            foreach (EstadoOperacion estadoOperacionActual in listadoEstadoOperacion)
+            {
+                dvhActual = CalcularDVH(estadoOperacionActual.Id.ToString() + estadoOperacionActual.Descripcion);
+
+                ActualizarDVHEstadoOperacion(estadoOperacionActual.Id, dvhActual);
             }
 
             // Idioma
@@ -673,7 +706,7 @@ namespace Seguridad
 
             foreach (Operacion operacionActual in listadoOperaciones)
             {
-                dvhActual = CalcularDVH(operacionActual.Id.ToString() + operacionActual.ClienteId.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.FacturaId.ToString());
+                dvhActual = CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString());
 
                 ActualizarDVHOperacion(operacionActual.Id, dvhActual);
             }

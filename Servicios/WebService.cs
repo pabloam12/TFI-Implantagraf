@@ -9,7 +9,7 @@ namespace Servicios
     public class WebService
     {
 
-        public decimal CalcularInteres(int importeTotal, int numCuotas)
+        public Int32 CalcularInteres(int importeTotal, int numCuotas)
         {
             return 0;
         }

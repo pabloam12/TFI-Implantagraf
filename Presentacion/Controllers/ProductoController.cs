@@ -230,42 +230,48 @@ namespace Presentacion.Controllers
 
         }
 
-        private void RegistrarVenta(DateTime fechaHora, decimal importeTotal, int formaPago, string NroTarjeta = "N/A")
+        private void RegistrarVenta(DateTime fechaHora, int importeTotal, int formaPago, string NroTarjeta = "N/A")
         {
             var ln = new NegocioOperaciones();
             var cliLn = new NegocioCliente();
+            var inte = new IntegridadDatos();
 
-            var estado = "PAGO_PENDIENTE";
+            var estadoId = 2;// Estado PENDIENTE DE PAGO.
 
             if (formaPago == 2)
 
-            { estado = "APROBADA"; }
+            { estadoId = 1 ; }// Estado APROBADA
 
-            // Registro la Venta.
-            var factura = ln.RegistrarFactura(fechaHora, "A", importeTotal, formaPago, estado, (String)Session["DireccionUsuario"], (String)Session["RazonSocialUsuario"], (String)Session["EmailUsuario"], NroTarjeta);
+            var tipoFactura = "A";
 
             var codUsuario = (Int32)Session["CodUsuario"];
-
+            
             // Si existe el Cliente, lo traigo, sino lo doy de alta y luego lo traigo.
-            var cliente = cliLn.TraerCliente(codUsuario);
+            var clienteActual = cliLn.TraerCliente(codUsuario);
+
+            // Registro la Factura.
+            var facturaActual = ln.RegistrarFactura(fechaHora, tipoFactura, importeTotal, formaPago, estadoId, clienteActual.Id);
+                                 
 
             // Registro la Venta.
-            var venta = ln.RegistrarOperacion(fechaHora, cliente.Id, importeTotal, formaPago, "VE", estado, factura.Codigo);
+            var operacionActual = ln.RegistrarOperacion(fechaHora, clienteActual.Id, importeTotal, formaPago, "VE", estadoId, facturaActual.Codigo);
 
             // Registro Detalle de Venta.
-            RegistrarDetalleOperacion(venta.Id);
+            RegistrarDetalleOperacion(operacionActual.Id);
+
+            
 
             // Me guardo la factura para imprimir y enviar por correo.
-            Session["Factura"] = factura;
+            Session["Factura"] = facturaActual;
 
             // Borro los items del Carrito.
             Session["Carrito"] = null;
 
         }
 
-        private decimal CalularImporteTotal()
+        private int CalularImporteTotal()
         {
-            decimal importeTotal = 0;
+            int importeTotal = 0;
 
             if (Session["Carrito"] != null)
             {
@@ -299,24 +305,24 @@ namespace Presentacion.Controllers
                         Monto = item.Precio,
                         Cantidad = item.Cantidad,
                         SubTotal = subtotal,
-                        DVH = 0
+                     
                     };
 
                     ln.RegistrarDetalleOperacion(detalleActual);
 
                     detalleActual.DVH = inte.CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString());
 
-                    // Actualiza el DVH y DVV.
+                    // Actualiza el DVH
                     inte.ActualizarDVHDetalleOperacion(detalleActual.OperacionId, detalleActual.ProductoId, detalleActual.DVH);
-                    inte.RecalcularDVV("DetalleOperacion");
-                                       
-
+                    
                 }
+
+                inte.RecalcularDVV("DetalleOperacion");
             }
 
         }
 
-        private long ValidarTarjeta(FrmTarjetaCredito datosTarjeta, decimal importeTotal)
+        private long ValidarTarjeta(FrmTarjetaCredito datosTarjeta, int importeTotal)
         {
             var ws = new WebService();
 

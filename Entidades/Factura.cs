@@ -10,13 +10,10 @@ namespace Entidades
         public int Codigo { get; set; }
         public DateTime FechaHora { get; set; }
         public string Tipo { get; set; }
-        public decimal Monto { get; set; }
-        public int FormaPagoId { get; set; }
-        public string Estado { get; set; }
-        public string Direccion { get; set; }
-        public string RazonSocial { get; set; }
-        public string Email { get; set; }
-        public string NroTarjeta { get; set; }
+        public int Monto { get; set; }
+        public FormaPago FormaPago { get; set; }
+        public EstadoOperacion Estado { get; set; }
+        public Cliente Cliente { get; set; }
         public long DVH { get; set; }
     }
 }

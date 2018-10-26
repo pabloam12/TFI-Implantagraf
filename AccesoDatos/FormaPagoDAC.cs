@@ -34,6 +34,27 @@ namespace AccesoDatos
             return result;
         }
 
+        public FormaPago BuscarPorId(int id)
+        {
+            const string sqlStatement = "SELECT [Id], [Descripcion], [DVH] " +
+                "FROM dbo.FormaPago WHERE [ID]=@Id ";
+
+            FormaPago formaPago = null;
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read()) formaPago = MapearFormaPago(dr); // Mapper
+                }
+            }
+
+            return formaPago;
+        }
+
         private static FormaPago MapearFormaPago(IDataReader dr)
         {
             var formaPago = new FormaPago
