@@ -13,110 +13,109 @@
 
         <h4>@Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO</h4>
 
-        <div>
+        
+        <hr />
 
-            <hr />
-            <dl class="dl-horizontal">
+        <div class="row">
 
+            <div class="col">
                 @Presentacion.Recursos.Recursos.CUENTA_DETALLE_DATOSPERSONALES
                 <hr />
+                <dl>
+                    @if ((String)Session["PerfilUsuario"] == "Cliente")
+                    {
 
-                @if ((String)Session["PerfilUsuario"] == "Cliente")
-                {
-                    <dt>
-                        @Html.DisplayNameFor(model => model.RazonSocial)
-                    </dt>
+                        <dt>@Html.DisplayNameFor(model => model.RazonSocial)</dt>
+                        <dd>@Html.DisplayFor(model => model.RazonSocial)</dd>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.RazonSocial)
-                    </dd>
+                        <dt>@Html.DisplayNameFor(model => model.CUIL)</dt>
+                        <dd>@Html.DisplayFor(model => model.CUIL)</dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.CUIL)
-                    </dt>
+                        <dt>Usuario / Email</dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.CUIL)
-                    </dd>
-                }
+                        <dd>@Html.DisplayFor(model => model.Email)</dd>
 
-                @if ((String)Session["PerfilUsuario"] != "Cliente")
-                {
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </dt>
+                    }
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Nombre)
-                    </dd>
+                    @if ((String)Session["PerfilUsuario"] != "Cliente")
+                    {
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Apellido)
-                    </dt>
+                        <dt> @Html.DisplayNameFor(model => model.Nombre)</dt>
+                        <dd> @Html.DisplayFor(model => model.Nombre)</dd>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Apellido)
-                    </dd>
+                        <dt>@Html.DisplayNameFor(model => model.Apellido)</dt>
 
-                   
-                }
+                        <dd>@Html.DisplayFor(model => model.Apellido)</dd>
 
-                <br />
+                    }                                                           
+
+                </dl>
+
+            </div>
+
+            <div class="col">
+
+
                 @Presentacion.Recursos.Recursos.CUENTA_DETALLE_DATOSCONTACTO
                 <hr />
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Email)
-                </dt>
+                <div class="col">
+                    <dl>
+                        
+                        <dt>@Html.DisplayNameFor(model => model.Telefono)</dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Email)
-                </dd>
+                        <dd>@Html.DisplayFor(model => model.Telefono)</dd>
+                
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Direccion)
+                        </dt>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Telefono)
-                </dt>
+                        <dd>  @Html.DisplayFor(model => model.Direccion)</dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Telefono)
-                </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Localidad)
+                        </dt>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Direccion)
-                </dt>
+                        <dd> @Html.DisplayFor(model => model.Localidad.Descripcion)</dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Direccion)
-                </dd>
+                    </dl>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Localidad)
-                </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Localidad.Descripcion)
-                </dd>
 
-                <br />
+            <div class="col">
+                                
                 @Presentacion.Recursos.Recursos.CUENTA_DETALLE_IDIOMA
                 <hr />
+                <dl>
+                    @*<dt>
+                        @Html.DisplayNameFor(model => model.Idioma)
+                    </dt>*@
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Idioma)
-                </dt>
+                    <dt>
+                        @Html.DisplayFor(model => model.Idioma.Descripcion)
+                    </dt>
+</dl>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Idioma.Descripcion)
-                </dd>
+                @*@Html.ActionLink("Cambiar Idioma", "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })*@
+            </div>
 
-            </dl>
         </div>
-        <p>
-            @Html.ActionLink(@Presentacion.Recursos.Recursos.CUENTA_DETALLE_BOTON_ACTUALIZARDATOS, "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
-        </p>
+        <hr />
+        <br />
+        
 
-        @Html.Partial("_Espacio2")
+        <div class="row">
 
+            <p>
+                @Html.ActionLink(@Presentacion.Recursos.Recursos.CUENTA_DETALLE_BOTON_ACTUALIZARDATOS, "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
+            </p>
 
-</div>
+        </div>
+
+    </div>
+
 </body>
+
+@Html.Partial("_Espacio2")

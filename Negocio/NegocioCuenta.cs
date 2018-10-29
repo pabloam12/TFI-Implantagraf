@@ -18,6 +18,13 @@ namespace Negocio
 
             return (ad.ListarUsuarios());
 
+        }
+
+        public Usuario BuscarUsuarioPorUsuario(string usr)
+        {
+            var ad = new CuentaDAC();
+
+            return (ad.BuscarUsuarioPorUsuario(usr));
 
         }
         public List<Usuario> ListarUsuariosPorPerfil(int perfil)
@@ -67,15 +74,15 @@ namespace Negocio
             var inte = new IntegridadDatos();
 
             usr.Psw = priv.EncriptarPsw(usr.Psw);
-            
+
             //TODO CIFRAR DATOS DE USR.
 
             var usuarioActual = ad.RegistrarUsuario(usr);
 
-            var clienteDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
-                                  
+            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+
             // Actualiza el DVH y DVV.
-            inte.ActualizarDVHUsuario(usuarioActual.Id, clienteDVH);
+            inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
             inte.RecalcularDVV("SEG_Usuario");
 
             // Grabo en Bitácora.                       
@@ -93,7 +100,7 @@ namespace Negocio
             var inte = new IntegridadDatos();
 
             var usrLogin = ad.Autenticar(usr);
-            
+
             aud.grabarBitacora(DateTime.Now, usrLogin.Usr, "INICIO DE SESIÓN", "INFO", "El Usuario ha inciado sesión en el sistema.");
 
             return usrLogin;
@@ -156,7 +163,7 @@ namespace Negocio
 
             // Bloquea la cuenta de Usuario
             ad.BloquearCuentaUsuario(nombreUsuario);
-            
+
             aud.grabarBitacora(DateTime.Now, nombreUsuario, "BLOQUEO DE CUENTA", "INFO", "Se ha bloqueado la cuenta de Usuario.");
 
         }
@@ -192,6 +199,30 @@ namespace Negocio
             var ad = new CuentaDAC();
 
             ad.ReiniciarIntentosFallidos(nombreUsuario);
+        }
+
+        public void ActualizarPswUsuario(string usr, string nuevaPsw)
+        {
+            var priv = new Privacidad();
+            var ad = new CuentaDAC();
+            var inte = new IntegridadDatos();
+            var negocioUsr = new NegocioCuenta();
+            var aud = new Auditoria();
+
+            var nuevaPswEncriptada = priv.EncriptarPsw(nuevaPsw);
+
+            ad.ActualizarPswUsuario(usr, nuevaPswEncriptada);
+
+            var usuarioActual = negocioUsr.BuscarUsuarioPorUsuario(usr);
+
+            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+
+            // Actualiza el DVH y DVV.
+            inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
+            inte.RecalcularDVV("SEG_Usuario");
+
+            aud.grabarBitacora(DateTime.Now, usr, "CAMBIO CLAVE", "INFO", "Se ha cambiado la contraseña del Usuario: " + usr + ".");
+
         }
     }
 }

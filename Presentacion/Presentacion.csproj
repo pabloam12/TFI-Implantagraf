@@ -484,6 +484,9 @@
     <Content Include="Views\Cuenta\VerPermisosUsuario.cshtml" />
     <Content Include="Views\Cuenta\BloquearCuenta.cshtml" />
     <Content Include="Views\Cuenta\DesbloquearCuenta.cshtml" />
+    <Content Include="Views\Cuenta\CambiarPsw.cshtml" />
+    <Content Include="Views\Cuenta\EnviarNuevaPsw.cshtml" />
+    <Content Include="Views\Cuenta\ActualizarPsw.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

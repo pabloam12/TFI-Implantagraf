@@ -64,6 +64,28 @@ namespace AccesoDatos
             return result;
         }
 
+        public Usuario BuscarUsuarioPorUsuario(string usr)
+        {
+
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
+               "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
+               "FROM dbo.SEG_Usuario WHERE [Usr]=@usr;";
+
+            Usuario usuario = null;
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@usr", DbType.String, usr);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read()) usuario = MapearUsuario(dr); // Mapper
+                }
+            }
+
+            return usuario;
+        }
         public Usuario ListarUsuarioPorId(int codUsuario)
         {
 
@@ -358,6 +380,22 @@ namespace AccesoDatos
 
         }
 
+        public void ActualizarPswUsuario(string usr, string nuevaPsw)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
+                "SET[Psw] = @nuevaPsw WHERE [Usr] = @usr";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@nuevaPsw", DbType.String, nuevaPsw);
+                db.AddInParameter(cmd, "@usr", DbType.String, usr);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
         public void ActivarCuentaUsuario(String nombreUsuario)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
@@ -474,11 +512,12 @@ namespace AccesoDatos
                 FechaAlta = GetDataValue<DateTime>(dr, "FechaAlta"),
                 FechaBaja = GetDataValue<DateTime>(dr, "FechaBaja"),
                 DVH = GetDataValue<Int64>(dr, "DVH")
-                
+
             };
 
             return usuario;
         }
+
 
         public Usuario InformacionCuenta(string idUsuario)
         {

@@ -10,6 +10,7 @@ using Presentacion.Models;
 using Negocio;
 using Entidades;
 using Servicios;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -118,12 +119,59 @@ namespace Presentacion.Controllers
         }
 
         public ActionResult RecuperarPsw()
+        {            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EnviarNuevaPsw(FrmOlvidoPsw formularioCambioPsw)
         {
+            var negocioUsuario = new NegocioCuenta();
+            
+            
+            if (negocioUsuario.ValidarUsuario(formularioCambioPsw.Usuario))
+            {
+                Session["ErrorRecuperoPsw"] = "El Usuario que ingreso no es inválido.";
+                return RedirectToAction("RecuperarPsw");
+            }
+
             var servicioCorreo = new Mensajeria();
 
-            return RedirectToAction("Login", "Login");
+            var usuarioActual = negocioUsuario.BuscarUsuarioPorUsuario(formularioCambioPsw.Usuario);
+
+            negocioUsuario.ActualizarPswUsuario(usuarioActual.Usr, "Inicio1234");
+
+            var asuntoMsj = "Cambio de Contraseña";
+            var cuerpoMsj = "Se ha reestablecido su contraseña. La misma es 'Inicio1234'. Por favor cuando ingrese correctamente se recomienda cambiarla. Muchas gracias.";
+
+            servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
+
+            return View();
         }
-                
+
+        public ActionResult CambiarPsw()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult ActualizarPsw(FrmCambiarPsw frmCambioPsw)
+        {
+            var negocioUsuario = new NegocioCuenta();
+            var servicioCorreo = new Mensajeria();
+
+            negocioUsuario.ActualizarPswUsuario((String)Session["UsrLogin"], frmCambioPsw.NuevaPsw);
+
+            var asuntoMsj = "Cambio de Contraseña";
+            var cuerpoMsj = "Se ha actualizado su contraseña. Si usted no solicito este cambio por favor comuniquese con nostros. Muchas gracias.";
+
+            servicioCorreo.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
+
+            return View();
+        }
+
+
 
     }
 }

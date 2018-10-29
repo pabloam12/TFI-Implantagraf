@@ -1,0 +1,57 @@
+﻿@model Entidades.FrmCambiarPsw
+
+@Html.Partial("_Espacio1")
+
+<body>
+
+    <div class="container contact_container">
+
+        @*<h4>@Presentacion.Recursos.Recursos.CUENTA_RECUPERAR_PSW_TITULO</h4>*@
+
+        @using (Html.BeginForm("ActualizarPsw", "Cuenta", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <h4>Por favor Ingrese la nueva clave.</h4>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NuevaPsw, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NuevaPsw, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.ValidationMessageFor(model => model.NuevaPsw, "", new { @class = "text-danger text-right" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PswConfirmacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PswConfirmacion, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.ValidationMessageFor(model => model.PswConfirmacion, "", new { @class = "text-danger text-right" })
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Actualizar Contraseña" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+    @Html.Partial("_Espacio2")
+
+</body>
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+
+
+
+
+

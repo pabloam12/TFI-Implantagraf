@@ -4,9 +4,7 @@ using System.Net;
 namespace Servicios
 {
     public class Mensajeria
-    {
-
-        //public void EnviarCorreo(string correoRemitente, string correoDestinatario, string asunto, string cuerpo)
+    {                
         public void EnviarCorreo(string remitente, string destinatario, string asunto, string cuerpo)
         {
             MailMessage msj = new MailMessage();
@@ -22,10 +20,11 @@ namespace Servicios
 
             msj.Priority = MailPriority.Normal;
 
-            
+
             //cli.Host = "smtp.gmail.com";
             //cli.Port = 587;
             //cli.Credentials = new NetworkCredential("pablo.a.mahiques@gmail.com", "psw");
+            //cli.EnableSsl = true;
 
             cli.Host = "mailnotes.bancopatagonia.net.ar";
             cli.Credentials = new NetworkCredential("", "");

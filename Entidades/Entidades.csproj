@@ -82,6 +82,7 @@
     <Compile Include="Bitacora.cs" />
     <Compile Include="Carrito.cs" />
     <Compile Include="EstadoOperacion.cs" />
+    <Compile Include="FrmCambiarPsw.cs" />
     <Compile Include="Marca_TC.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="ItemsCarrito.cs" />
     <Compile Include="Localidad.cs" />
     <Compile Include="Marca.cs" />
-    <Compile Include="OlvidoPsw.cs" />
+    <Compile Include="FrmOlvidoPsw.cs" />
     <Compile Include="Operacion.cs" />
     <Compile Include="PermisosUsr.cs" />
     <Compile Include="PerfilUsr.cs" />

@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Negocio;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
+            var mensajeria = new Mensajeria();
+            
             Session["ErrorRegistro"] = null;
             Session["Excepcion"] = null;
 
@@ -62,6 +65,12 @@ namespace Presentacion.Controllers
 
             // Registro Usuario.
             var usrSesion = ln.RegistrarUsuario(usuario);
+
+            // Envío correo de bienvenida.
+            var cuerpoMsj = "Bienvenido a Implantagraf. Muchas gracias por confiar en nosotros, esperamos que encuentres lo que buscas y no dudes en consultarnos por lo que necesites.";
+            var asuntoMsj = "Bienvenido!!";
+            mensajeria.EnviarCorreo("implantagraf@gmail.com", usuario.Email, asuntoMsj, cuerpoMsj);
+
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {

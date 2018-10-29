@@ -190,9 +190,18 @@ namespace Presentacion.Controllers
             var formaPago = 1;
             var fechaHora = DateTime.Now;
 
+            var mensajeria = new Mensajeria();
+
             RegistrarVenta(fechaHora, importeTotal, formaPago);
 
             //ActualizarStock();
+
+            var facturaCompra = (Factura)Session["Factura"];
+
+            // Envío correo con Factura adjunta TODO.
+            var cuerpoMsj = "Muchas gracias por su compra! Adjuntamos su factura y recuerde que para recibir la mercaderia debera abonar el total de la factura en nuestras oficinas comerciales. Saludos.";
+            var asuntoMsj = "Factura " + facturaCompra.Codigo.ToString();
+            mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
 
             return RedirectToAction("FinalizarCompra");
 
@@ -240,18 +249,18 @@ namespace Presentacion.Controllers
 
             if (formaPago == 2)
 
-            { estadoId = 1 ; }// Estado APROBADA
+            { estadoId = 1; }// Estado APROBADA
 
             var tipoFactura = "A";
 
             var codUsuario = (Int32)Session["CodUsuario"];
-            
+
             // Si existe el Cliente, lo traigo, sino lo doy de alta y luego lo traigo.
             var clienteActual = cliLn.TraerCliente(codUsuario);
 
             // Registro la Factura.
             var facturaActual = ln.RegistrarFactura(fechaHora, tipoFactura, importeTotal, formaPago, estadoId, clienteActual.Id);
-                                 
+
 
             // Registro la Venta.
             var operacionActual = ln.RegistrarOperacion(fechaHora, clienteActual.Id, importeTotal, formaPago, "VE", estadoId, facturaActual.Codigo);
@@ -259,7 +268,7 @@ namespace Presentacion.Controllers
             // Registro Detalle de Venta.
             RegistrarDetalleOperacion(operacionActual.Id);
 
-            
+
 
             // Me guardo la factura para imprimir y enviar por correo.
             Session["Factura"] = facturaActual;
@@ -290,7 +299,7 @@ namespace Presentacion.Controllers
 
             var ln = new NegocioOperaciones();
             var inte = new IntegridadDatos();
-           
+
 
             if (Session["Carrito"] != null)
             {
@@ -305,7 +314,7 @@ namespace Presentacion.Controllers
                         Monto = item.Precio,
                         Cantidad = item.Cantidad,
                         SubTotal = subtotal,
-                     
+
                     };
 
                     ln.RegistrarDetalleOperacion(detalleActual);
@@ -314,7 +323,7 @@ namespace Presentacion.Controllers
 
                     // Actualiza el DVH
                     inte.ActualizarDVHDetalleOperacion(detalleActual.OperacionId, detalleActual.ProductoId, detalleActual.DVH);
-                    
+
                 }
 
                 inte.RecalcularDVV("DetalleOperacion");
