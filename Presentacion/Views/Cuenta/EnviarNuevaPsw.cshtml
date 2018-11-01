@@ -6,12 +6,12 @@
     <div class="container contact_container">
         <div>
 
-            <div class="alert alert-success" role="alert">La nueva clave se ha enviado a su correo de usuario. Muchas gracias.</div>
+            <div class="alert alert-success" role="alert">@ViewBag.CUENTA_ENVIO_CLAVE_LEYENDA</div>
 
         </div>
 
         <div class="form-group">
-            @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_VOLVER, "Index", "Home", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink((String)ViewBag.BOTON_VOLVER, "Index", "Home", null, new { @class = "btn btn-info btn-sm" })
         </div>
 
     </div>

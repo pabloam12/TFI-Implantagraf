@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = Presentacion.Recursos.Recursos.BITACORA_TITULO;
+    ViewBag.Title = ViewBag.BITACORA_TITULO;
 
 }
 
@@ -13,12 +13,9 @@
 <body>
     @Html.Partial("_Espacio1")
     <div class="container contact_container">
-        <h4>@Presentacion.Recursos.Recursos.BITACORA_TITULO</h4>
+        <h4>@ViewBag.BITACORA_TITULO</h4>
         <br />
-
-        @*<div class="row">
-                <h6>@Presentacion.Recursos.Recursos.BITACORA_TITULO_FILTROS</h6>
-            </div>*@
+           
 
         @using (Html.BeginForm("Index", "Bitacora", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
             {
@@ -27,33 +24,33 @@
                 <div class="col">
 
                     <div class="form-group">
-                        @Presentacion.Recursos.Recursos.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" />
+                        @ViewBag.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" />
                     </div>
 
                     <div class="form-group">
-                        @Presentacion.Recursos.Recursos.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" />
+                        @ViewBag.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" />
                     </div>
 
                 </div>
 
                 <div class="col">
                     <div class="form-group">
-                        @Presentacion.Recursos.Recursos.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" />
+                        @ViewBag.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" />
                     </div>
 
                     <div class="form-group">
-                        <div> @Presentacion.Recursos.Recursos.ENTIDAD_ACCION<input type="text" name="accion" class="form-control" @*placeholder="Filtrar Accion"*@ /></div>
+                        <div> @ViewBag.ENTIDAD_ACCION<input type="text" name="accion" class="form-control" @*placeholder="Filtrar Accion"*@ /></div>
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="form-group">
-                        <div>  @Presentacion.Recursos.Recursos.ENTIDAD_CRITICIDAD<input type="text" name="criticidad" class="form-control" @*placeholder="Filtrar Criticidad"*@ /></div>
+                        <div>@ViewBag.ENTIDAD_CRITICIDAD<input type="text" name="criticidad" class="form-control" @*placeholder="Filtrar Criticidad"*@ /></div>
                     </div>
                     <br />
 
                     <div class="form-group">
-                        <p><button type="submit" value="Search" class="btn btn-success">@Presentacion.Recursos.Recursos.BITACORA_FILTROS_BOTON_FILTRAR</button></p>
+                        <p><button type="submit" value="Search" class="btn btn-success">@ViewBag.BITACORA_FILTROS_BOTON_FILTRAR</button></p>
                     </div>
                 </div>
 
@@ -76,19 +73,19 @@
 
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.FechaHora)
+                            @ViewBag.ENTIDAD_FECHAHORA
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Usuario)
+                            @ViewBag.ENTIDAD_USUARIO
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Accion)
+                            @ViewBag.ENTIDAD_ACCION
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Criticidad)
+                            @ViewBag.ENTIDAD_CRITICIDAD
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Detalle)
+                            @ViewBag.ENTIDAD_DETALLE
                         </th>
 
                         <th></th>
@@ -113,9 +110,7 @@
 
                             <td>
                                 @Html.DisplayFor(modelItem => item.Detalle)
-                            </td>
-
-
+                            </td>                            
                         </tr>
                     }
                 </tbody>

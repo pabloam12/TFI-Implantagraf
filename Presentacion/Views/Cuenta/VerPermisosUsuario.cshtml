@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Entidades.PermisosUsr>
 
 @{
-    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_VERPERMISOS_TITULO;
+    ViewBag.Title = ViewBag.CUENTA_VERPERMISOS_TITULO;
 }
 
 @Html.Partial("_Espacio1")
@@ -10,7 +10,7 @@
 
     <div class="container contact_container">
 
-        <h4>@Presentacion.Recursos.Recursos.CUENTA_VERPERMISOS_TITULO</h4>
+        <h4>@ViewBag.CUENTA_VERPERMISOS_TITULO</h4>
 
         <table class="table">
             <tr>
@@ -32,7 +32,7 @@
         </table>
 
         <div class="form-group">
-            @Html.ActionLink("Volver", "ListarUsuarios", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink((String)ViewBag.BOTON_VOLVER, "ListarUsuarios", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
         </div>
 </div>
     @Html.Partial("_Espacio2")

@@ -13,13 +13,14 @@
 
                     @using (Html.BeginForm("Login", "Login"))
                     {
-                        <h4>@Presentacion.Recursos.Recursos.LOGIN_TITULO_TENGO_CUENTA</h4>
+                        <h4>@ViewBag.LOGIN_TITULO_TENGO_CUENTA</h4>
                         <hr />
 
                         @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @*@Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @ViewBag.ENTIDAD_USUARIO
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Usuario, new
                            {
@@ -34,7 +35,8 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @*@Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @ViewBag.ENTIDAD_PSW
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control" } })
 
@@ -46,7 +48,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <input type="submit" value="Iniciar Sesión" class="btn btn-success btn-sm" />
 
-                                @Html.ActionLink(@Presentacion.Recursos.Recursos.LOGIN_OLVIDO_CONTRASEÑA, "RecuperarPsw", "Cuenta")
+                                @Html.ActionLink((String)ViewBag.LOGIN_OLVIDO_PSW, "RecuperarPsw", "Cuenta")
                             </div>
 
                             @if ((String)Session["ErrorLogin"] != null)
@@ -57,8 +59,6 @@
 
                         </div>
 
-
-
                     }
 
                 </div>
@@ -67,10 +67,10 @@
             <div class="col-lg-3 contact_col">
                 <div class="contact_contents">
 
-                    <h4>@Presentacion.Recursos.Recursos.LOGIN_TITULO_USUARIO_NUEVO</h4>
+                    <h4>@ViewBag.LOGIN_TITULO_USUARIO_NUEVO</h4>
                     <hr />
 
-                    <p><a href="~/RegistroCliente/Index" class="btn btn-lg btn-success" role="button">@Presentacion.Recursos.Recursos.BOTON_REGISTRAR</a></p>
+                    <p><a href="~/RegistroCliente/Index" class="btn btn-lg btn-success" role="button">@ViewBag.BOTON_REGISTRAR</a></p>
 
                 </div>
             </div>

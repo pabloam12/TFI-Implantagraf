@@ -1,7 +1,7 @@
 ﻿@model Entidades.Usuario
 
 @{
-    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO;
+    ViewBag.Title = ViewBag.CUENTA_DETALLE_TITULO;
 
 }
 
@@ -11,27 +11,27 @@
 
     <div class="container contact_container">
 
-        <h4>@Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO</h4>
+        <h4>@ViewBag.CUENTA_DETALLE_TITULO</h4>
 
-        
+
         <hr />
 
         <div class="row">
 
             <div class="col">
-                @Presentacion.Recursos.Recursos.CUENTA_DETALLE_DATOSPERSONALES
+                @ViewBag.CUENTA_DETALLE_DATOSPERSONALES
                 <hr />
                 <dl>
                     @if ((String)Session["PerfilUsuario"] == "Cliente")
                     {
 
-                        <dt>@Html.DisplayNameFor(model => model.RazonSocial)</dt>
+                        <dt>@ViewBag.ENTIDAD_RAZONSOCIAL</dt>
                         <dd>@Html.DisplayFor(model => model.RazonSocial)</dd>
 
-                        <dt>@Html.DisplayNameFor(model => model.CUIL)</dt>
+                        <dt>@ViewBag.ENTIDAD_CUIL</dt>
                         <dd>@Html.DisplayFor(model => model.CUIL)</dd>
 
-                        <dt>Usuario / Email</dt>
+                        <dt>@ViewBag.ENTIDAD_USUARIO_MAIL</dt>
 
                         <dd>@Html.DisplayFor(model => model.Email)</dd>
 
@@ -40,14 +40,14 @@
                     @if ((String)Session["PerfilUsuario"] != "Cliente")
                     {
 
-                        <dt> @Html.DisplayNameFor(model => model.Nombre)</dt>
+                        <dt> @ViewBag.ENTIDAD_NOMBRE</dt>
                         <dd> @Html.DisplayFor(model => model.Nombre)</dd>
 
-                        <dt>@Html.DisplayNameFor(model => model.Apellido)</dt>
+                        <dt>@ViewBag.ENTIDAD_APELLIDO</dt>
 
                         <dd>@Html.DisplayFor(model => model.Apellido)</dd>
 
-                    }                                                           
+                    }
 
                 </dl>
 
@@ -56,24 +56,24 @@
             <div class="col">
 
 
-                @Presentacion.Recursos.Recursos.CUENTA_DETALLE_DATOSCONTACTO
+                @ViewBag.CUENTA_DETALLE_DATOSCONTACTO
                 <hr />
 
                 <div class="col">
                     <dl>
-                        
-                        <dt>@Html.DisplayNameFor(model => model.Telefono)</dt>
+
+                        <dt>@ViewBag.ENTIDAD_TELEFONO</dt>
 
                         <dd>@Html.DisplayFor(model => model.Telefono)</dd>
-                
+
                         <dt>
-                            @Html.DisplayNameFor(model => model.Direccion)
+                            @ViewBag.ENTIDAD_DIRECCION)
                         </dt>
 
                         <dd>  @Html.DisplayFor(model => model.Direccion)</dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.Localidad)
+                            @ViewBag.ENTIDAD_LOCALIDAD)
                         </dt>
 
                         <dd> @Html.DisplayFor(model => model.Localidad.Descripcion)</dd>
@@ -85,32 +85,21 @@
 
 
             <div class="col">
-                                
-                @Presentacion.Recursos.Recursos.CUENTA_DETALLE_IDIOMA
+
+                @ViewBag.CUENTA_DETALLE_IDIOMA
                 <hr />
                 <dl>
-                    @*<dt>
-                        @Html.DisplayNameFor(model => model.Idioma)
-                    </dt>*@
-
+                   
                     <dt>
                         @Html.DisplayFor(model => model.Idioma.Descripcion)
                     </dt>
-</dl>
+                </dl>
+                <br />
+                <div>@Html.ActionLink((String)ViewBag.BOTON_ACTUALIZAR_PSW, "CambiarPsw", null, new { @class = "btn btn-info btn-sm" })</div>
+                <br />
+                <div>@Html.ActionLink((String)ViewBag.BOTON_ACTUALIZAR_DATOS_CUENTA, "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-success btn-xl" })</div>
 
-                @*@Html.ActionLink("Cambiar Idioma", "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })*@
             </div>
-
-        </div>
-        <hr />
-        <br />
-        
-
-        <div class="row">
-
-            <p>
-                @Html.ActionLink(@Presentacion.Recursos.Recursos.CUENTA_DETALLE_BOTON_ACTUALIZARDATOS, "ActualizarDatosCuenta", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
-            </p>
 
         </div>
 

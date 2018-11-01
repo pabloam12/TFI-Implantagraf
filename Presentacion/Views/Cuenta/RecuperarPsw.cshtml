@@ -1,7 +1,7 @@
 ﻿@model Entidades.FrmOlvidoPsw
 
 @{
-    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_RECUPERAR_PSW_TITULO;
+    ViewBag.Title = ViewBag.CUENTA_RECUPERAR_PSW_TITULO;
 
 }
 
@@ -11,7 +11,7 @@
 
     <div class="container contact_container">
 
-        <h4>@Presentacion.Recursos.Recursos.CUENTA_RECUPERAR_PSW_TITULO</h4>
+        <h4>@ViewBag.CUENTA_RECUPERAR_PSW_TITULO</h4>
 
         @using (Html.BeginForm("EnviarNuevaPsw", "Cuenta", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
@@ -19,7 +19,8 @@
             <hr />
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                @*@Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                @ViewBag.ENTIDAD_USUARIO
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
 
@@ -29,7 +30,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Recuperar" class="btn btn-success" />
+                    <input type="submit" value=@ViewBag.BOTON_RECUPERAR_PSW class="btn btn-success" />
                 </div>
                 
                 @if ((String)Session["ErrorRecuperoPsw"] != null)

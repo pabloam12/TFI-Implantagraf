@@ -1,6 +1,7 @@
 ﻿using Entidades;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -111,6 +112,32 @@ namespace AccesoDatos
             return result;
         }
 
+        public Hashtable Traducir(string idioma)
+        {
+
+            string sqlStatement = "SELECT [Elemento], [" + idioma + "] as Traduccion FROM dbo.Traductor ORDER BY [Elemento]";
+
+            var result = new Hashtable();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //db.AddInParameter(cmd, "@Idioma", DbType.String, idioma);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var traduccion = MapearTraduccion(dr); // Mapper
+                        result.Add(traduccion.Elemento, traduccion.Traduccion);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
 
         private static Idioma MapearIdioma(IDataReader dr)
         {
@@ -123,6 +150,17 @@ namespace AccesoDatos
 
             };
             return idioma;
+        }
+
+        private static Diccionario MapearTraduccion(IDataReader dr)
+        {
+            var diccionario = new Diccionario
+            {
+                Elemento = GetDataValue<string>(dr, "Elemento"),
+                Traduccion = GetDataValue<string>(dr, "Traduccion")
+
+            };
+            return diccionario;
         }
     }
 }

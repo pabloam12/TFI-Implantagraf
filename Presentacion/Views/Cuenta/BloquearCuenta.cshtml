@@ -6,12 +6,12 @@
     <div class="container contact_container">
         <div>
 
-            <div class="alert alert-success" role="alert">@Presentacion.Recursos.Recursos.CUENTA_BLOQUEARCUENTA_LEYENDA</div>
+            <div class="alert alert-success" role="alert">@ViewBag.CUENTA_BLOQUEARCUENTA_LEYENDA</div>
 
         </div>
 
         <div class="form-group">
-            @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_VOLVER, "ListarUsuarios", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink((String)ViewBag.BOTON_VOLVER, "ListarUsuarios", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
         </div>
 
     </div>

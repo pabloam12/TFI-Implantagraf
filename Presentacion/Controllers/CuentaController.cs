@@ -19,6 +19,8 @@ namespace Presentacion.Controllers
         // GET: /Cuenta/Index
         public ActionResult Index()
         {
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return RedirectToAction("DetalleCuenta");
 
@@ -27,6 +29,9 @@ namespace Presentacion.Controllers
         public ActionResult ListarUsuarios()
         {
             var ln = new NegocioCuenta();
+
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return View(ln.ListarUsuarios());
 
@@ -40,6 +45,9 @@ namespace Presentacion.Controllers
 
                 var idUsuario = (String)Session["IdUsuario"];
 
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
                 return View(ln.InformacionCuenta(idUsuario));
             }
 
@@ -50,16 +58,22 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             return View(ln.VerPermisosUsuario(id));
 
 
         }
 
-        public ActionResult BloquearCuenta (int id)
+        public ActionResult BloquearCuenta(int id)
         {
             var ln = new NegocioCuenta();
 
             ln.BloquearCuenta(id);
+
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
 
@@ -70,6 +84,9 @@ namespace Presentacion.Controllers
             var ln = new NegocioCuenta();
 
             ln.DesbloquearCuenta(id);
+
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
 
@@ -82,8 +99,16 @@ namespace Presentacion.Controllers
                 try
                 {
                     var ln = new NegocioCuenta();
+                    var aud = new Auditoria();
+                    var inte = new IntegridadDatos();
+
+                    // Traduce páginas de CUENTA.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
                     var usrAnterior = ln.InformacionCuenta(usuarioModif.Id.ToString());
+
+                    if (usuarioModif.Direccion == null && usuarioModif.Telefono == null && usuarioModif.Localidad.Id == 0 && usuarioModif.Idioma.Id == 0)
+                    { return RedirectToAction("Index"); }
 
                     if (usuarioModif.Direccion == null)
                     { usuarioModif.Direccion = usrAnterior.Direccion; }
@@ -100,6 +125,18 @@ namespace Presentacion.Controllers
                     { usuarioModif.Idioma.Id = usrAnterior.Idioma.Id; }
 
                     ln.ActualizarDatosCuenta(usuarioModif);
+
+                    var usuarioActual = ln.BuscarUsuarioPorUsuario((String)Session["UsrLogin"]);
+
+                    var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+
+                    // Actualiza el DVH y DVV.
+                    inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
+                    inte.RecalcularDVV("SEG_Usuario");
+
+                    aud.grabarBitacora(DateTime.Now, usuarioActual.Usr, "CAMBIO DATOS CUENTA", "INFO", "Se han actualizado datos de cuenta del Usuario: " + usuarioActual.Usr + ".");
+
+                    Session["IdiomaApp"] = usuarioActual.Idioma.Abreviacion;
 
                     return RedirectToAction("Index");
                 }
@@ -119,7 +156,10 @@ namespace Presentacion.Controllers
         }
 
         public ActionResult RecuperarPsw()
-        {            
+        {
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             return View();
         }
 
@@ -127,8 +167,10 @@ namespace Presentacion.Controllers
         public ActionResult EnviarNuevaPsw(FrmOlvidoPsw formularioCambioPsw)
         {
             var negocioUsuario = new NegocioCuenta();
-            
-            
+
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             if (negocioUsuario.ValidarUsuario(formularioCambioPsw.Usuario))
             {
                 Session["ErrorRecuperoPsw"] = "El Usuario que ingreso no es inválido.";
@@ -151,6 +193,9 @@ namespace Presentacion.Controllers
 
         public ActionResult CambiarPsw()
         {
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             return View();
         }
 
@@ -161,6 +206,9 @@ namespace Presentacion.Controllers
             var negocioUsuario = new NegocioCuenta();
             var servicioCorreo = new Mensajeria();
 
+            // Traduce páginas de CUENTA.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             negocioUsuario.ActualizarPswUsuario((String)Session["UsrLogin"], frmCambioPsw.NuevaPsw);
 
             var asuntoMsj = "Cambio de Contraseña";
@@ -169,6 +217,59 @@ namespace Presentacion.Controllers
             servicioCorreo.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
 
             return View();
+        }
+
+        private void TraducirPagina(string idioma)
+        {
+            var traductor = new Traductor();
+
+            // Buscar Traducciones de Idioma.
+            if (idioma == null)
+            { idioma = "Esp"; }
+
+            //Devuelve el Hastable con todas las traducciones.
+            var diccionario = traductor.Traducir(idioma);
+
+            //Traduce Vistas CUENTA.
+            ViewBag.CUENTA_ACTUALIZARDATOS_TITULO = diccionario["CUENTA_ACTUALIZARDATOS_TITULO"];
+            ViewBag.ENTIDAD_TELEFONO = diccionario["ENTIDAD_TELEFONO"];
+            ViewBag.ENTIDAD_DIRECCION = diccionario["ENTIDAD_DIRECCION"];
+            ViewBag.ENTIDAD_LOCALIDAD = diccionario["ENTIDAD_LOCALIDAD"];
+            ViewBag.ENTIDAD_IDIOMA = diccionario["ENTIDAD_IDIOMA"];
+            ViewBag.CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR = diccionario["CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR"];
+            ViewBag.CUENTA_ACTUALIZAR_CLAVE_LEYENDA = diccionario["CUENTA_ACTUALIZAR_CLAVE_LEYENDA"];
+            ViewBag.BOTON_VOLVER = diccionario["BOTON_VOLVER"];
+            ViewBag.CUENTA_BLOQUEARCUENTA_LEYENDA = diccionario["CUENTA_BLOQUEARCUENTA_LEYENDA"];
+            ViewBag.CUENTA_CAMBIAR_CLAVE_TITULO = diccionario["CUENTA_CAMBIAR_CLAVE_TITULO"];
+            ViewBag.ENTIDAD_NUEVA_PSW = diccionario["ENTIDAD_NUEVA_PSW"];
+            ViewBag.ENTIDAD_CONFIRMACION_PSW = diccionario["ENTIDAD_CONFIRMACION_PSW"];
+            ViewBag.BOTON_ACTUALIZAR_PSW = diccionario["BOTON_ACTUALIZAR_PSW"];
+            ViewBag.CUENTA_DESBLOQUEARCUENTA_LEYENDA = diccionario["CUENTA_DESBLOQUEARCUENTA_LEYENDA"];
+            ViewBag.CUENTA_DETALLE_TITULO = diccionario["CUENTA_DETALLE_TITULO"];
+            ViewBag.CUENTA_DETALLE_DATOSPERSONALES = diccionario["CUENTA_DETALLE_DATOSPERSONALES"];
+            ViewBag.ENTIDAD_RAZONSOCIAL = diccionario["ENTIDAD_RAZONSOCIAL"];
+            ViewBag.ENTIDAD_CUIL = diccionario["ENTIDAD_CUIL"];
+            ViewBag.ENTIDAD_USUARIO_MAIL = diccionario["ENTIDAD_USUARIO_MAIL"];
+            ViewBag.ENTIDAD_NOMBRE = diccionario["ENTIDAD_NOMBRE"];
+            ViewBag.ENTIDAD_APELLIDO = diccionario["ENTIDAD_APELLIDO"];
+            ViewBag.CUENTA_DETALLE_DATOSCONTACTO = diccionario["CUENTA_DETALLE_DATOSCONTACTO"];
+            ViewBag.CUENTA_ENVIO_CLAVE_LEYENDA = diccionario["CUENTA_ENVIO_CLAVE_LEYENDA"];
+            ViewBag.BOTON_ACTUALIZAR_DATOS_CUENTA = diccionario["BOTON_ACTUALIZAR_DATOS_CUENTA"];
+            ViewBag.CUENTA_DETALLE_IDIOMA = diccionario["CUENTA_DETALLE_IDIOMA"];
+            ViewBag.CUENTA_LISTADO_USUARIOS = diccionario["CUENTA_LISTADO_USUARIOS"];
+            ViewBag.BOTON_ALTA_USR_ADMINISTRATIVO = diccionario["BOTON_ALTA_USR_ADMINISTRATIVO"];
+            ViewBag.ENTIDAD_USUARIO = diccionario["ENTIDAD_USUARIO"];
+            ViewBag.ENTIDAD_FECHA_ALTA = diccionario["ENTIDAD_FECHA_ALTA"];
+            ViewBag.ENTIDAD_DESCRIPCION = diccionario["ENTIDAD_DESCRIPCION"];
+            ViewBag.BOTON_DESBLOQUEAR_CUENTA = diccionario["BOTON_DESBLOQUEAR_CUENTA"];
+            ViewBag.BOTON_PERMISOS = diccionario["BOTON_PERMISOS"];
+            ViewBag.BOTON_BLOQUEAR_CUENTA = diccionario["BOTON_BLOQUEAR_CUENTA"];
+            ViewBag.BOTON_ELIMINAR_CUENTA = diccionario["BOTON_ELIMINAR_CUENTA"];
+            ViewBag.CUENTA_RECUPERAR_PSW_TITULO = diccionario["CUENTA_RECUPERAR_PSW_TITULO"];
+            ViewBag.BOTON_RECUPERAR_PSW = diccionario["BOTON_RECUPERAR_PSW"];
+            ViewBag.CUENTA_VERPERMISOS_TITULO = diccionario["CUENTA_VERPERMISOS_TITULO"];
+
+
         }
 
 

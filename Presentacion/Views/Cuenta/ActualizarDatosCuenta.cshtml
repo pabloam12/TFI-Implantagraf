@@ -1,14 +1,14 @@
 ﻿@model Entidades.Usuario
 
 @{
-    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_ACTUALIZARDATOS_TITULO;
+    ViewBag.Title = ViewBag.CUENTA_ACTUALIZARDATOS_TITULO;
 
 }
 
 <body>
     @Html.Partial("_Espacio1")
     <div class="container contact_container">
-        <h4>@Presentacion.Recursos.Recursos.CUENTA_ACTUALIZARDATOS_TITULO</h4>
+        <h4>@ViewBag.CUENTA_ACTUALIZARDATOS_TITULO</h4>
         <hr />
 
         @using (Html.BeginForm())
@@ -21,23 +21,27 @@
                 @Html.HiddenFor(model => model.Id)
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @*@Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                    @ViewBag.ENTIDAD_TELEFONO
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
-                        @*@Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @*@Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    @ViewBag.ENTIDAD_DIRECCION
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
-                        @*@Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Localidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @*@Html.LabelFor(model => model.Localidad, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    @ViewBag.ENTIDAD_LOCALIDAD
                     <div class="col-md-10">
                         @Html.DropDownListFor(m => m.Localidad.Id, new SelectList(ViewBag.Localidades, "Id", "Descripcion"), "", new { @class = "form-control" })
                     </div>
@@ -46,7 +50,8 @@
                 @if ((String)Session["PerfilUsuario"] != "WebMaster")
                 {
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Idioma, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @*@Html.LabelFor(model => model.Idioma, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        @ViewBag.ENTIDAD_IDIOMA
                         <div class="col-md-10">
                             @Html.DropDownListFor(m => m.Idioma.Id, new SelectList(ViewBag.Idiomas, "Id", "Descripcion"), "", new { @class = "form-control" })
                         </div>
@@ -55,7 +60,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value=@Presentacion.Recursos.Recursos.CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR class="btn btn-success" />
+                        <input type="submit" value=@ViewBag.CUENTA_ACTUALIZARDATOS_BOTON_GUARDAR class="btn btn-success" />
                     </div>
                 </div>
             </div>

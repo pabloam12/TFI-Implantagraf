@@ -97,16 +97,18 @@ namespace Presentacion.Controllers
 
         public ActionResult TraducirIdioma (string idioma)
         {
-            if(idioma != null)
-            {
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(idioma);
+            //if(idioma != null)
+            //{
+            //    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(idioma);
 
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(idioma);
-            }
+            //    Thread.CurrentThread.CurrentUICulture = new CultureInfo(idioma);
+            //}
 
-            HttpCookie cookie = new HttpCookie("Idioma");
-            cookie.Value = idioma;
-            Response.Cookies.Add(cookie);
+            //HttpCookie cookie = new HttpCookie("Idioma");
+            //cookie.Value = idioma;
+            //Response.Cookies.Add(cookie);
+
+            Session["IdiomaApp"] = idioma;
 
             return RedirectToAction("Index", "Home");
 

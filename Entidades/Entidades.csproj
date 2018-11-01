@@ -83,6 +83,7 @@
     <Compile Include="Carrito.cs" />
     <Compile Include="EstadoOperacion.cs" />
     <Compile Include="FrmCambiarPsw.cs" />
+    <Compile Include="Diccionario.cs" />
     <Compile Include="Marca_TC.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
@@ -109,7 +110,6 @@
     <Compile Include="Stock.cs" />
     <Compile Include="FrmTarjetaCredito.cs" />
     <Compile Include="TipoOperacion.cs" />
-    <Compile Include="Traductor.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>
   <PropertyGroup>

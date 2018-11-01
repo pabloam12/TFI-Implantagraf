@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Negocio;
 using Seguridad;
+using Servicios;
 
 namespace Presentacion.Controllers
 {
@@ -15,10 +16,13 @@ namespace Presentacion.Controllers
         // GET: Idioma
         public ActionResult Index()
         {
+
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
                 var ln = new Auditoria();
 
+                //Traducir Página BITACORA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
                 return View(ln.ConsultarBitacora());
             }
@@ -34,11 +38,14 @@ namespace Presentacion.Controllers
             {
                 var ln = new Auditoria();
 
+                //Traducir Página BITACORA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
                 if (fecha == "" && fechaFin != "")
                 {
                     fechaFin = "";
 
-                    Session["ErrorFiltroBitacora"] = Recursos.Recursos.BITACORA_WARNING_SIN_FECHA_INICIO;
+                    Session["ErrorFiltroBitacora"] = ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO;
                 }
 
                 if (fecha != "" && fechaFin != "")
@@ -52,7 +59,7 @@ namespace Presentacion.Controllers
                         fecha = "";
                         fechaFin = "";
 
-                        Session["ErrorFiltroBitacora"] = Recursos.Recursos.BITACORA_WARNING_FECHAS_MAL;
+                        Session["ErrorFiltroBitacora"] = ViewBag.BITACORA_WARNING_FECHAS_MAL;
 
                     }
 
@@ -64,15 +71,42 @@ namespace Presentacion.Controllers
 
                 }
 
-                // Si la fecha de fin es posterior a la de inicio no la tiene en cuenta.
-                //if (DateTime.Compare(Convert.ToDateTime(fecha).Date , Convert.ToDateTime(fechaFin).Date) >= 0)
-
-                //{ fechaFin = ""; }
-
                 return View(ln.ConsultarBitacora(fecha, fechaFin, usr, accion, criticidad));
             }
 
+
+
             return RedirectToAction("Index", "Home");
+        }
+
+        private void TraducirPagina(string idioma)
+        {
+            var traductor = new Traductor();
+
+            // Buscar Traducciones de Idioma.
+            if (idioma == null)
+            { idioma = "Esp"; }
+
+            //Devuelve el Hastable con todas las traducciones.
+            var diccionario = traductor.Traducir(idioma);
+
+            //Traduce Vista BITACORA.
+            ViewBag.BITACORA_TITULO = diccionario["BITACORA_TITULO"];
+            ViewBag.ENTIDAD_FECHA_INICIO = diccionario["ENTIDAD_FECHA_INICIO"];
+            ViewBag.ENTIDAD_FECHA_FIN = diccionario["ENTIDAD_FECHA_FIN"];
+            ViewBag.ENTIDAD_USUARIO = diccionario["ENTIDAD_USUARIO"];
+            ViewBag.ENTIDAD_ACCION = diccionario["ENTIDAD_ACCION"];
+            ViewBag.ENTIDAD_CRITICIDAD = diccionario["ENTIDAD_CRITICIDAD"];
+            ViewBag.BITACORA_FILTROS_BOTON_FILTRAR = diccionario["BITACORA_FILTROS_BOTON_FILTRAR"];
+            ViewBag.ENTIDAD_FECHAHORA = diccionario["ENTIDAD_FECHAHORA"];
+            ViewBag.ENTIDAD_USUARIO = diccionario["ENTIDAD_USUARIO"];
+            ViewBag.ENTIDAD_ACCION = diccionario["ENTIDAD_ACCION"];
+            ViewBag.ENTIDAD_CRITICIDAD = diccionario["ENTIDAD_CRITICIDAD"];
+            ViewBag.ENTIDAD_DETALLE = diccionario["ENTIDAD_DETALLE"];
+            ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO = diccionario["BITACORA_WARNING_SIN_FECHA_INICIO"];
+            ViewBag.BITACORA_WARNING_FECHAS_MAL = diccionario["BITACORA_WARNING_FECHAS_MAL"];
+            
+
         }
     }
 }

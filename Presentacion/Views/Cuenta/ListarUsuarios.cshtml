@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = Presentacion.Recursos.Recursos.CUENTA_DETALLE_TITULO;
+    ViewBag.Title = ViewBag.CUENTA_LISTADO_USUARIOS;
 
 }
 
@@ -12,26 +12,26 @@
 
     <div class="container contact_container">
 
-        <h4>Listado de Usuarios</h4>
+        <h4>ViewBag.CUENTA_LISTADO_USUARIOS</h4>
 
         <p>
-            @Html.ActionLink("Alto Usuario Administrativo", "", null, new { @class = "btn btn-success btn-sm" })}
+            @Html.ActionLink((String)ViewBag.BOTON_ALTA_USR_ADMINISTRATIVO, "", null, new { @class = "btn btn-success btn-sm" })}
         </p>
         <table class="table">
             <tr>
-              
+
                 <th>
-                    @Html.DisplayNameFor(model => model.Usr)
+                    @ViewBag.ENTIDAD_USUARIO
                 </th>
-               
+
                 <th>
-                    @Html.DisplayNameFor(model => model.PerfilUsr.Descripcion)
+                    @ViewBag.ENTIDAD_DESCRIPCION
                 </th>
-               
+
                 <th>
-                    @Html.DisplayNameFor(model => model.FechaAlta)
+                    @ViewBag.ENTIDAD_FECHA_ALTA
                 </th>
-              
+
                 <th></th>
                 <th></th>
                 <th></th>
@@ -40,7 +40,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                  
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Usr)
                     </td>
@@ -48,27 +48,30 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.PerfilUsr.Descripcion)
                     </td>
-                    
-                   
+
+
                     <td>
                         @Html.DisplayFor(modelItem => item.FechaAlta)
                     </td>
-                    
+
                     <td>
-                        @Html.ActionLink("Ver Permisos", "VerPermisosUsuario", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                        @Html.ActionLink((String)ViewBag.BOTON_PERMISOS, "VerPermisosUsuario", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
                     </td>
                     <td>
                         @if (item.Estado == "B")
-                        {@Html.ActionLink("Desbloquear Cuenta", "DesbloquearCuenta", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })}
+
+                        {@Html.ActionLink((String)ViewBag.BOTON_DESBLOQUEAR_CUENTA, "DesbloquearCuenta", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })}
+
 
                         @if (item.Estado == "S" && item.PerfilUsr.Descripcion != "WebMaster")
-                        {@Html.ActionLink("Bloquear Cuenta", "BloquearCuenta", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })}
-                    </td>
-                    
-                       <td>
-@if (item.PerfilUsr.Descripcion != "WebMaster")
 
-{ @Html.ActionLink("Eliminar Cuenta", "Delete", new { id = item.Id })}  
+                        {@Html.ActionLink((String)ViewBag.BOTON_BLOQUEAR_CUENTA, "BloquearCuenta", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })}
+                    </td>
+
+                    <td>
+                        @if (item.PerfilUsr.Descripcion != "WebMaster")
+
+                        { @Html.ActionLink((String)ViewBag.BOTON_ELIMINAR_CUENTA, "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })}
                     </td>
                 </tr>
             }

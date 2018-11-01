@@ -80,12 +80,17 @@
   <ItemGroup>
     <Compile Include="Mensajeria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Traductor.cs" />
     <Compile Include="WebService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccesoDatos\AccesoDatos.csproj">
       <Project>{a734a5f3-0fb1-4aa8-bfdc-803077bfab25}</Project>
       <Name>AccesoDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{5D5B0CC2-11D0-4717-A052-F8A67B101ACC}</Project>
+      <Name>Entidades</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

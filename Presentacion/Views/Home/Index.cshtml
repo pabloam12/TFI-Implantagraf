@@ -4,9 +4,9 @@
         <div class="row align-items-center fill_height">
             <div class="col">
                 <div class="main_slider_content">
-                    <h1>@Presentacion.Recursos.Recursos.HOME_LEYENDA_PRINCIPAL_1</h1>
-                    <h3>@Presentacion.Recursos.Recursos.HOME_LEYENDA_PRINCIPAL_2</h3>
-                    <div class="red_button shop_now_button"><a href="/Producto/Catalogo">@Presentacion.Recursos.Recursos.BOTON_CATALOGO</a></div>
+                    <h1>@ViewBag.HOME_LEYENDA_PRINCIPAL_1</h1>
+                    <h3>@ViewBag.HOME_LEYENDA_PRINCIPAL_2</h3>
+                    <div class="red_button shop_now_button"><a href="/Producto/Catalogo">@ViewBag.BOTON_CATALOGO</a></div>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col text-center">
                 <div class="section_title new_arrivals_title">
-                    <h2>@Presentacion.Recursos.Recursos.HOME_TITULO_OFERTA_SEMANAL</h2>
+                    <h2>@ViewBag.HOME_TITULO_OFERTA_SEMANAL</h2>
                 </div>
             </div>
         </div>
@@ -70,19 +70,19 @@
                     <ul class="timer">
                         <li class="d-inline-flex flex-column justify-content-center align-items-center">
                             <div id="day" class="timer_num">05</div>
-                            <div class="timer_unit">@Presentacion.Recursos.Recursos.HOME_LEYENDA_OFERTA_DIAS</div>
+                            <div class="timer_unit">@ViewBag.HOME_LEYENDA_OFERTA_DIAS</div>
                         </li>
                         <li class="d-inline-flex flex-column justify-content-center align-items-center">
                             <div id="hour" class="timer_num">15</div>
-                            <div class="timer_unit">@Presentacion.Recursos.Recursos.HOME_LEYENDA_OFERTA_HORAS</div>
+                            <div class="timer_unit">@ViewBag.HOME_LEYENDA_OFERTA_HORAS</div>
                         </li>
                         <li class="d-inline-flex flex-column justify-content-center align-items-center">
                             <div id="minute" class="timer_num">45</div>
-                            <div class="timer_unit">@Presentacion.Recursos.Recursos.HOME_LEYENDA_OFERTA_MINUTOS</div>
+                            <div class="timer_unit">@ViewBag.HOME_LEYENDA_OFERTA_MINUTOS</div>
                         </li>
                         <li class="d-inline-flex flex-column justify-content-center align-items-center">
                             <div id="second" class="timer_num">23</div>
-                            <div class="timer_unit">@Presentacion.Recursos.Recursos.HOME_LEYENDA_OFERTA_SEGUNDOS</div>
+                            <div class="timer_unit">@ViewBag.HOME_LEYENDA_OFERTA_SEGUNDOS</div>
                         </li>
                     </ul>
 
@@ -93,7 +93,7 @@
                                 <br />
                                 <br />
                                 <h2>25% OFF!!</h2>
-                                <h2>@Presentacion.Recursos.Recursos.PRODUCTO_IMPRESORA_AUTOMATICA   AU 365</h2>
+                                <h2>@ViewBag.PRODUCTO_IMPRESORA_AUTOMATICA   AU 365</h2>
 
                                 <br />
                                 <br />
@@ -103,7 +103,7 @@
                     </div>
                     @*</div>*@
                     @*<div class="red_button deal_ofthe_week_button" size="xl"><a href="#">Comprar</a></div>*@
-                    <div class="red_button shop_now_button" size="xl">@Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_COMPRAR, "DetalleProducto", "Producto", new { productoId = 365 }, null)</div>
+                    <div class="red_button shop_now_button" size="xl">@Html.ActionLink((String)ViewBag.BOTON_COMPRAR, "DetalleProducto", "Producto", new { productoId = 365 }, null)</div>
                                                                      
                 </div>
             </div>
@@ -119,7 +119,7 @@
         <div class="row">
             <div class="col text-center">
                 <div class="section_title">
-                    <h2>@Presentacion.Recursos.Recursos.HOME_TITULO_BENEFICIOS</h2>
+                    <h2>@ViewBag.HOME_TITULO_BENEFICIOS</h2>
                 </div>
             </div>
         </div>
@@ -130,8 +130,8 @@
                 <div class="blog_item">
                     <div class="blog_background" style="background-image: url('../../Imagenes/SeccionBeneficios/beneficios_24x7 (FILEminimizer).jpg')"></div>
                     <div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                        <h4 class="blog_title">@Presentacion.Recursos.Recursos.HOME_SERVICIO_LUGAR_LEYENDA_1 </h4>
-                        <span class="blog_meta">@Presentacion.Recursos.Recursos.HOME_SERVICIO_LUGAR_LEYENDA_2</span>
+                        <h4 class="blog_title">@ViewBag.HOME_SERVICIO_LUGAR_LEYENDA_1 </h4>
+                        <span class="blog_meta">@ViewBag.HOME_SERVICIO_LUGAR_LEYENDA_2</span>
                         @*<a class="blog_more" href="#">Read more</a>*@
                     </div>
                 </div>
@@ -141,8 +141,8 @@
                 <div class="blog_item">
                     <div class="blog_background" style="background-image: url('../../Imagenes/SeccionBeneficios/beneficios_servicios_logistica (FILEminimizer).jpg')"></div>
                     <div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                        <h4 class="blog_title">@Presentacion.Recursos.Recursos.HOME_SERVICIO_ENVIO_LEYENDA_1</h4>
-                        <span class="blog_meta">@Presentacion.Recursos.Recursos.HOME_SERVICIO_ENVIO_LEYENDA_2</span>
+                        <h4 class="blog_title">@ViewBag.HOME_SERVICIO_ENVIO_LEYENDA_1</h4>
+                        <span class="blog_meta">@ViewBag.HOME_SERVICIO_ENVIO_LEYENDA_2</span>
                         @*<a class="blog_more" href="#">Read more</a>*@
                     </div>
                 </div>
@@ -152,8 +152,8 @@
                 <div class="blog_item">
                     <div class="blog_background" style="background-image: url('../../Imagenes/SeccionBeneficios/beneficios_materiales (FILEminimizer).jpg')"></div>
                     <div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                        <h4 class="blog_title">@Presentacion.Recursos.Recursos.HOME_SERVICIO_MATERIALES_LEYENDA_1</h4>
-                        <span class="blog_meta">@Presentacion.Recursos.Recursos.HOME_SERVICIO_MATERIALES_LEYENDA_2</span>
+                        <h4 class="blog_title">@ViewBag.HOME_SERVICIO_MATERIALES_LEYENDA_1</h4>
+                        <span class="blog_meta">@ViewBag.HOME_SERVICIO_MATERIALES_LEYENDA_2</span>
                         @*<a class="blog_more" href="#">Read more</a>*@
                     </div>
                 </div>
@@ -166,8 +166,8 @@
                 <div class="blog_item">
                     <div class="blog_background" style="background-image: url('../../Imagenes/SeccionBeneficios/beneficios_sustentable (FILEminimizer).jpg')"></div>
                     <div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                        <h4 class="blog_title">@Presentacion.Recursos.Recursos.HOME_SERVICIO_ECOLOGIA_LEYENDA_1</h4>
-                        <span class="blog_meta">@Presentacion.Recursos.Recursos.HOME_SERVICIO_ECOLOGIA_LEYENDA_2</span>
+                        <h4 class="blog_title">@ViewBag.HOME_SERVICIO_ECOLOGIA_LEYENDA_1</h4>
+                        <span class="blog_meta">@ViewBag.HOME_SERVICIO_ECOLOGIA_LEYENDA_2</span>
                         @*<a class="blog_more" href="#">Read more</a>*@
                     </div>
                 </div>
@@ -177,8 +177,8 @@
                 <div class="blog_item">
                     <div class="blog_background" style="background-image: url('../../Imagenes/SeccionBeneficios/beneficios_servicio_tecnico (FILEminimizer).jpg')"></div>
                     <div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                        <h4 class="blog_title">@Presentacion.Recursos.Recursos.HOME_SERVICIO_TECNICO_LEYENDA_1</h4>
-                        <span class="blog_meta">@Presentacion.Recursos.Recursos.HOME_SERVICIO_TECNICO_LEYENDA_2</span>
+                        <h4 class="blog_title">@ViewBag.HOME_SERVICIO_TECNICO_LEYENDA_1</h4>
+                        <span class="blog_meta">@ViewBag.HOME_SERVICIO_TECNICO_LEYENDA_2</span>
                         @*<a class="blog_more" href="#">Read more</a>*@
                     </div>
                 </div>
@@ -189,8 +189,8 @@
                 <div class="blog_item">
                     <div class="blog_background" style="background-image: url('../../Imagenes/SeccionBeneficios/beneficios_importadores (FILEminimizer).jpg')"></div>
                     <div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                        <h4 class="blog_title">@Presentacion.Recursos.Recursos.HOME_SERVICIO_IMPORTADOS_LEYENDA_1</h4>
-                        <span class="blog_meta">@Presentacion.Recursos.Recursos.HOME_SERVICIO_IMPORTADOS_LEYENDA_2</span>
+                        <h4 class="blog_title">@ViewBag.HOME_SERVICIO_IMPORTADOS_LEYENDA_1</h4>
+                        <span class="blog_meta">@ViewBag.HOME_SERVICIO_IMPORTADOS_LEYENDA_2</span>
                         @*<a class="blog_more" href="#">Read more</a>*@
                     </div>
                 </div>
@@ -210,15 +210,15 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                    <h4>@Presentacion.Recursos.Recursos.HOME_TITULO_FOLLETO</h4>
-                    <p>@Presentacion.Recursos.Recursos.HOME_LEYENDA_FOLLETO</p>
+                    <h4>@ViewBag.HOME_TITULO_FOLLETO</h4>
+                    <p>@ViewBag.HOME_LEYENDA_FOLLETO</p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <form action="post">
                     <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
                         <input id="newsletter_email" type="email" placeholder="Ingresa tu correo" required="required" data-error="Valid email is required.">
-                        <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">@Presentacion.Recursos.Recursos.BOTON_SUSCRIPCION</button>
+                        <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">@ViewBag.BOTON_SUSCRIPCION</button>
                     </div>
                 </form>
             </div>

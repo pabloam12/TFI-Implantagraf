@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Entidades;
 using Negocio;
 using Seguridad;
+using Servicios;
 
 namespace Presentacion.Controllers
 {
@@ -15,11 +16,17 @@ namespace Presentacion.Controllers
         public ActionResult Index()
         {
             Session["ErrorLogin"] = null;
+
+            // Traduce páginas de LOGIN.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             return RedirectToAction("Login");
         }
 
         public ActionResult Login()
         {
+            // Traduce páginas de LOGIN.
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
         }
@@ -30,7 +37,9 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
             var seg = new Privacidad();
-           
+
+            // Traduce páginas de LOGIN.
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             // Usuario con Sesión activa.
             if (ln.ValidarSesionActiva(login.Usuario))
@@ -93,7 +102,7 @@ namespace Presentacion.Controllers
                 Session["Excepcion"] = "[Error Nº 0] - Error de Base de Datos";
                 return RedirectToAction("Index", "Excepciones");
             }
-            
+
             //Usuario Logueado correctamente, se mapean las variables de Sesión.
 
             Session["IdUsuario"] = usrSesion.Id.ToString();
@@ -103,6 +112,7 @@ namespace Presentacion.Controllers
             Session["EmailUsuario"] = usrSesion.Email;
             Session["CodUsuario"] = usrSesion.Id;
             Session["DireccionUsuario"] = usrSesion.Direccion;
+            Session["IdiomaApp"] = usrSesion.Idioma.Abreviacion;
 
             Session["UsrLogin"] = usrSesion.Usr;
 
@@ -112,15 +122,39 @@ namespace Presentacion.Controllers
 
             //Activo la Sesión.
             //ln.ActivarSesionCuentaUsuario(usrSesion.Usr);
-                        
+
             return RedirectToAction("Index", "Home");
 
         }
 
         public ActionResult CuentaBloqueada(Usuario usuario)
         {
+            // Traduce páginas de LOGIN.
+            TraducirPagina((String)Session["IdiomaApp"]);
+
             Session["ErrorLogin"] = "Cuenta bloqueada.";
             return RedirectToAction("Login");
+        }
+
+        private void TraducirPagina(string idioma)
+        {
+            var traductor = new Traductor();
+
+            // Buscar Traducciones de Idioma.
+            if (idioma == null)
+            { idioma = "Esp"; }
+
+            //Devuelve el Hastable con todas las traducciones.
+            var diccionario = traductor.Traducir(idioma);
+
+            //Traduce Vistas CUENTA.
+            ViewBag.LOGIN_TITULO_TENGO_CUENTA = diccionario["LOGIN_TITULO_TENGO_CUENTA"];
+            ViewBag.ENTIDAD_USUARIO = diccionario["ENTIDAD_USUARIO"];
+            ViewBag.ENTIDAD_PSW = diccionario["ENTIDAD_PSW"];
+            ViewBag.LOGIN_OLVIDO_PSW = diccionario["LOGIN_OLVIDO_PSW"];
+            ViewBag.LOGIN_TITULO_USUARIO_NUEVO = diccionario["LOGIN_TITULO_USUARIO_NUEVO"];
+            ViewBag.BOTON_REGISTRAR = diccionario["BOTON_REGISTRAR"];
+
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Entidades
         [Display(Name = "TABLA")]
         public string Col_B { get; set; }
 
-        [Display(Name = "ID DE REGISTRO")]
+        [Display(Name = "REGISTRO")]
         public string Col_C { get; set; }
 
         [Display(Name = "CAMPOS DE DETALLE")]
