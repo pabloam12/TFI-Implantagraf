@@ -466,7 +466,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Producto\DetalleProducto.cshtml" />
     <Content Include="Views\Producto\Catalogo.cshtml" />
-    <Content Include="Views\Producto\AgregarCarrito_OLD.cshtml" />
     <Content Include="Views\Producto\MostrarCarrito.cshtml" />
     <Content Include="Views\Producto\RealizarPago.cshtml" />
     <Content Include="Views\Producto\FinalizarCompra.cshtml" />

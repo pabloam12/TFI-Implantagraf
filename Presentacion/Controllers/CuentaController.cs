@@ -138,7 +138,7 @@ namespace Presentacion.Controllers
 
                     Session["IdiomaApp"] = usuarioActual.Idioma.Abreviacion;
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
                 catch
                 {

@@ -8,12 +8,12 @@
 
         <div>
 
-            <div class="alert alert-success" role="alert"><h2>La operacion fue realizada con éxito. Muchas gracias por su compra!</h2></div>
+            <div class="alert alert-success" role="alert"><h2>@ViewBag.PRODUCTO_FINALIZAR_COMPRA_LEYENDA</h2></div>
 
         </div>
 
         <div class="form-group">
-            @Html.ActionLink("Finalizar", "Index", "Home", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink((String)ViewBag.BOTON_FINALIZAR, "Index", "Home", null, new { @class = "btn btn-info btn-sm" })
         </div>
 
         </div>

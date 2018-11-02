@@ -13,12 +13,13 @@
 
                     @using (Html.BeginForm("RealizarPagoTarjeta", "Producto"))
                     {
-                        <h4>@Presentacion.Recursos.Recursos.PRODUCTO_PAGO_TC_TITULO</h4>
+                        <h4>@ViewBag.PRODUCTO_PAGO_TC_TITULO</h4>
                         <hr />
 
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Titular, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @*@Html.LabelFor(model => model.Titular, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @ViewBag.ENTIDAD_TITULAR
                             <div class="col">
                                 @Html.EditorFor(model => model.Titular, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Titular, "", new { @class = "text-danger text-right" })
@@ -30,7 +31,8 @@
                                 <div class="col">
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @*@Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @ViewBag.ENTIDAD_NUMERO_TC
                                         <div class="col">
                                             @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger text-right" })
@@ -39,7 +41,8 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Marca_TC, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @*@Html.LabelFor(model => model.Marca_TC, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @ViewBag.ENTIDAD_EMPRESA_TC
                                         <div class="col">
                                             @Html.DropDownListFor(m => m.Marca_TC.Id, new SelectList(ViewBag.Marcas_TC, "Id", "Descripcion"), "", new { @class = "form-control" })
 
@@ -53,7 +56,8 @@
 
                                 <div class="col">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.MesVenc, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @*@Html.LabelFor(model => model.MesVenc, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @ViewBag.ENTIDAD_MES_V
                                         <div class="col">
                                             @Html.EditorFor(model => model.MesVenc, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.MesVenc, "", new { @class = "text-danger text-right" })
@@ -63,7 +67,8 @@
 
                                 <div class="col">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.AnioVenc, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @*@Html.LabelFor(model => model.AnioVenc, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @ViewBag.ENTIDAD_ANIO_V
                                         <div class="col">
                                             @Html.EditorFor(model => model.AnioVenc, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.AnioVenc, "", new { @class = "text-danger text-right" })
@@ -73,7 +78,8 @@
 
                                 <div class="col">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.CodigoV, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @*@Html.LabelFor(model => model.CodigoV, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                        @ViewBag.ENTIDAD_CODIGO_SEG
                                         <div class="col">
                                             @Html.EditorFor(model => model.CodigoV, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.CodigoV, "", new { @class = "text-danger text-right" })
@@ -86,7 +92,7 @@
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-1">
                                     <br />
-                                    <input type="submit" value="@Presentacion.Recursos.Recursos.BOTON_COMPRAR" class="btn btn-success btn-sm" />
+                                    <input type="submit" value="@ViewBag.BOTON_COMPRAR" class="btn btn-success btn-sm" />
                                 </div>
 
                             </div>
@@ -103,13 +109,13 @@
             <div class="col-lg-4 contact_col">
                 <div class="contact_contents">
 
-                    <h4>@Presentacion.Recursos.Recursos.PRODUCTO_PAGO_CONTADO_TITULO</h4>
+                    <h4>@ViewBag.PRODUCTO_PAGO_CONTADO_TITULO</h4>
                     <hr />
 
-                    <p>@Presentacion.Recursos.Recursos.PRODUCTO_PAGO_CONTADO_LEYENDA</p>
+                    <p>@ViewBag.PRODUCTO_PAGO_CONTADO_LEYENDA</p>
 
 
-                    <div>@Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_COMPRAR, "RealizarPagoContado", null, new { @class = "btn btn-success" })</div>
+                    <div>@Html.ActionLink((String)ViewBag.BOTON_COMPRAR, "RealizarPagoContado", null, new { @class = "btn btn-success" })</div>
                 </div>
             </div>
 

@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="col-lg-8">
-                <h4>@Presentacion.Recursos.Recursos.PRODUCTO_CARRITO_TITULO</h4><br />
+                <h4>@ViewBag.PRODUCTO_CARRITO_TITULO</h4><br />
             </div>
 
         </div>
@@ -19,7 +19,7 @@
             {
             <div>
 
-                <div class="alert alert-success" role="alert">@Presentacion.Recursos.Recursos.PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS</div>
+                <div class="alert alert-success" role="alert">@ViewBag.PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS</div>
 
             </div>
 
@@ -29,14 +29,14 @@
             {
             <div class="row">
                 <div class="col-lg-8">
-                    <h5>@Presentacion.Recursos.Recursos.ENTIDAD_FECHA: @DateTime.Now.ToShortDateString()</h5>
+                    <h5>@ViewBag.ENTIDAD_FECHA: @DateTime.Now.ToShortDateString()</h5>
                     
                 </div>
 
                 
                 <div class="col-lg-8">
                     <br />
-                    @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_COMPRAR, "RealizarPago", "Producto", null, new { @class = "btn btn-info" })
+                    @Html.ActionLink((String)ViewBag.BOTON_COMPRAR, "RealizarPago", "Producto", null, new { @class = "btn btn-info" })
                 </div>
 
             </div>
@@ -44,22 +44,22 @@
             <table class="table table-hover">
                 <tr>
                     <th>
-                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CODIGO)
+                        @ViewBag.ENTIDAD_CODIGO
                     </th>
                     <th>
-                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_DESCRIPCION)
+                        @ViewBag.ENTIDAD_DESCRIPCION
                     </th>
                     <th>
-                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_CANTIDAD)
+                        @ViewBag.ENTIDAD_CANTIDAD
                     </th>
                     <th>
                         
                     </th>
                     <th>
-                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_PRECIO_UNITARIO)
+                        @ViewBag.ENTIDAD_PRECIO_UNITARIO
                     </th>
                     <th>
-                        @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_SUBTOTAL)
+                        @ViewBag.ENTIDAD_SUBTOTAL
                     </th>
                     <th></th>
                 </tr>
@@ -98,7 +98,7 @@
                                 $@Html.DisplayFor(modelItem => subTotal).-
                             </td>
                             <td>
-                                @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_QUITAR_PRODUCTO, "QuitarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger btn-sm" })
+                                @Html.ActionLink((String)ViewBag.BOTON_QUITAR_PRODUCTO, "QuitarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger btn-sm" })
                             </td>
                         </tr>
                     }
@@ -108,7 +108,7 @@
                     <tr>
                         <th colspan="2">
                             <br />
-                            @Html.DisplayName(Presentacion.Recursos.Recursos.ENTIDAD_IMPORTE_TOTAL_PAGAR)
+                            @ViewBag.ENTIDAD_IMPORTE_TOTAL_PAGAR
                         </th>
                         <th>
                             <br />
@@ -126,7 +126,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            @Html.ActionLink(Presentacion.Recursos.Recursos.BOTON_AGREGAR_CARRITO, "Catalogo", "Producto", null, new { @class = "btn btn-success" })
+                            @Html.ActionLink((String)ViewBag.BOTON_AGREGAR_CARRITO, "Catalogo", "Producto", null, new { @class = "btn btn-success" })
                         </div>
                     </div>
 

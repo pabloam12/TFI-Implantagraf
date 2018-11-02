@@ -25,7 +25,7 @@
 
             <div class="col">
                 <br />
-                <h2>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_MAPA</h2>
+                <h2>@ViewBag.HOME_CONTACTO_TITULO_MAPA</h2>
                 <div id="google_map">
                     <div class="map_container">
                         <div id="map"></div>
@@ -40,8 +40,8 @@
 
             <div class="col-lg-6 contact_col">
                 <div class="contact_contents">
-                    <h1>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO</h1>
-                    <p>@Presentacion.Recursos.Recursos.HOME_CONTACTO_LEYENDA</p>
+                    <h1>@ViewBag.HOME_CONTACTO_TITULO</h1>
+                    <p>@ViewBag.HOME_CONTACTO_LEYENDA</p>
                     <div>
                         <p>(011) 4653-0650</p>
                     </div>
@@ -49,11 +49,11 @@
                         <p>Av. Diaz Velez 1540</p>
                     </div>
                     <br />
-                    <div><p>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_HORARIOS</p></div>
+                    <div><p>@ViewBag.HOME_CONTACTO_TITULO_HORARIOS</p></div>
                     <div>
-                        <p>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_HORARIOS_SEMANA: 8.00-18.00</p>
-                        <p>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_HORARIOS_SABADO: 9.00-13.00</p>
-                        <p>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS: @Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_HORARIOS_CERRADO</p>
+                        <p>@ViewBag.HOME_CONTACTO_TITULO_HORARIOS_SEMANA: 8.00-18.00</p>
+                        <p>@ViewBag.HOME_CONTACTO_TITULO_HORARIOS_SABADO: 9.00-13.00</p>
+                        <p>@ViewBag.HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS: @ViewBag.HOME_CONTACTO_TITULO_HORARIOS_CERRADO</p>
                     </div>
                 </div>
 
@@ -61,8 +61,8 @@
 
             <div class="col-lg-6 get_in_touch_col">
                 <div class="get_in_touch_contents">
-                    <h1>@Presentacion.Recursos.Recursos.HOME_CONTACTO_TITULO_2</h1>
-                    <p>@Presentacion.Recursos.Recursos.HOME_CONTACTO_FORMULARIO_LEYENDA</p>
+                    <h1>@ViewBag.HOME_CONTACTO_TITULO_2</h1>
+                    <p>@ViewBag.HOME_CONTACTO_FORMULARIO_LEYENDA</p>
                     <form action="post">
                         <div>
                             <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Nombre" required="required" data-error="Name is required.">
@@ -71,7 +71,7 @@
                             <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Mensaje" rows="3" required data-error="Please, write us a message."></textarea>
                         </div>
                         <div>
-                            <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">@Presentacion.Recursos.Recursos.BOTON_ENVIAR</button>
+                            <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">@ViewBag.BOTON_ENVIAR</button>
                         </div>
                     </form>
                 </div>

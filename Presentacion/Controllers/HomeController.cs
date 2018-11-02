@@ -27,14 +27,14 @@ namespace Presentacion.Controllers
 
         public ActionResult Informacion()
         {
-            //ViewBag.Message = "Your application description page.";
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
         }
 
         public ActionResult Contacto()
         {
-            //ViewBag.Message = "Your contact page.";
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
         }
@@ -42,6 +42,8 @@ namespace Presentacion.Controllers
         private void ValidarIntegridadGlobal()
         {
             var integridad = new IntegridadDatos();
+
+            TraducirPagina((String)Session["IdiomaApp"]);
 
             integridad.LimpiarTablaRegistrosTablasFaltantes();
 
@@ -125,6 +127,21 @@ namespace Presentacion.Controllers
             ViewBag.HOME_TITULO_FOLLETO = diccionario["HOME_TITULO_FOLLETO"];
             ViewBag.HOME_LEYENDA_FOLLETO = diccionario["HOME_LEYENDA_FOLLETO"];
             ViewBag.BOTON_SUSCRIPCION = diccionario["BOTON_SUSCRIPCION"];
+
+
+            ViewBag.HOME_CONTACTO_TITULO_MAPA = diccionario["HOME_CONTACTO_TITULO_MAPA"];
+            ViewBag.HOME_CONTACTO_TITULO = diccionario["HOME_CONTACTO_TITULO"];
+            ViewBag.HOME_CONTACTO_LEYENDA = diccionario["HOME_CONTACTO_LEYENDA"];
+            ViewBag.HOME_CONTACTO_TITULO_HORARIOS = diccionario["HOME_CONTACTO_TITULO_HORARIOS"];
+            ViewBag.HOME_CONTACTO_TITULO_HORARIOS_SEMANA = diccionario["HOME_CONTACTO_TITULO_HORARIOS_SEMANA"];
+            ViewBag.HOME_CONTACTO_TITULO_HORARIOS_SABADO = diccionario["HOME_CONTACTO_TITULO_HORARIOS_SABADO"];
+            ViewBag.HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS = diccionario["HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS"];
+            ViewBag.HOME_CONTACTO_TITULO_HORARIOS_CERRADO = diccionario["HOME_CONTACTO_TITULO_HORARIOS_CERRADO"];
+            ViewBag.HOME_CONTACTO_TITULO_2 = diccionario["HOME_CONTACTO_TITULO_2"];
+            ViewBag.HOME_CONTACTO_FORMULARIO_LEYENDA = diccionario["HOME_CONTACTO_FORMULARIO_LEYENDA"];
+            ViewBag.BOTON_ENVIAR = diccionario["BOTON_ENVIAR"];
+            
+
 
         }
 

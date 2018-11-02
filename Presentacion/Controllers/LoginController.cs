@@ -44,7 +44,7 @@ namespace Presentacion.Controllers
             // Usuario con Sesión activa.
             if (ln.ValidarSesionActiva(login.Usuario))
             {
-                Session["ErrorLogin"] = "Usted ya tiene una Sesión Activa";
+                Session["ErrorLogin"] = ViewBag.ERROR_LOGIN_SESION_ACTIVA;
                 return RedirectToAction("Login");
             }
 
@@ -64,7 +64,7 @@ namespace Presentacion.Controllers
             // Usuario incorrecto, solo devuelvo el error al Login.
             if (ln.ValidarUsuario(login.Usuario))
             {
-                Session["ErrorLogin"] = "Usuario o contraseña inválidos";
+                Session["ErrorLogin"] = ViewBag.ERROR_LOGIN_USUARIO_PSW_INVALIDOS;
                 return RedirectToAction("Login");
             }
 
@@ -79,7 +79,7 @@ namespace Presentacion.Controllers
             // Valido que la contraseña sea correcta, en caso negativo incremento intentos fallidos.
             if (ln.ValidarUsuarioPsw(login.Usuario, login.Contraseña))
             {
-                Session["ErrorLogin"] = "Usuario o contraseña inválidos";
+                Session["ErrorLogin"] = ViewBag.ERROR_LOGIN_USUARIO_PSW_INVALIDOS;
 
                 //Sumo intento fallido.
                 if (ln.SumarIntentoFallido(login.Usuario) == 3)
@@ -132,7 +132,7 @@ namespace Presentacion.Controllers
             // Traduce páginas de LOGIN.
             TraducirPagina((String)Session["IdiomaApp"]);
 
-            Session["ErrorLogin"] = "Cuenta bloqueada.";
+            Session["ErrorLogin"] = ViewBag.ERROR_LOGIN_CUENTA_BLOQUEADA;
             return RedirectToAction("Login");
         }
 
@@ -154,6 +154,10 @@ namespace Presentacion.Controllers
             ViewBag.LOGIN_OLVIDO_PSW = diccionario["LOGIN_OLVIDO_PSW"];
             ViewBag.LOGIN_TITULO_USUARIO_NUEVO = diccionario["LOGIN_TITULO_USUARIO_NUEVO"];
             ViewBag.BOTON_REGISTRAR = diccionario["BOTON_REGISTRAR"];
+
+            ViewBag.ERROR_LOGIN_SESION_ACTIVA = diccionario["ERROR_LOGIN_SESION_ACTIVA"];
+            ViewBag.ERROR_LOGIN_USUARIO_PSW_INVALIDOS = diccionario["ERROR_LOGIN_USUARIO_PSW_INVALIDOS"];
+            ViewBag.ERROR_LOGIN_CUENTA_BLOQUEADA = diccionario["ERROR_LOGIN_CUENTA_BLOQUEADA"];
 
         }
     }
