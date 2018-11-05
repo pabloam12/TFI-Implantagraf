@@ -113,9 +113,8 @@ namespace AccesoDatos
         public List<Operacion> ListarOperacionesporTipo(string tipo)
         {
 
-            string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId] " +
-               "[Direccion], [LocalidadId], [FechaAlta], [PerfilId], [IdiomaId], [DVH] " +
-               "FROM dbo.Operacion WHERE TipoOperacion=" + tipo + "; ";
+            string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
+               "FROM dbo.Operacion WHERE TipoOperacion='" + tipo + "'; ";
 
             var result = new List<Operacion>();
 

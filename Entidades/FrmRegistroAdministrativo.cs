@@ -6,12 +6,17 @@ using System.Web;
 
 namespace Entidades
 {
-    public class FrmRegistroCliente
+    public class FrmRegistroAdministrativo
     {
 
-        [Required(ErrorMessage = "La Razón Social es Obligatoria")]
-        [MaxLength(50, ErrorMessage = "La Razón Social no puede superar los {1} caracteres.")]
-        public string RazonSocial { get; set; }
+        [Required(ErrorMessage = "El {0} es Obligatorio.")]
+        [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
+        public string Nombre { get; set; }
+
+
+        [Required(ErrorMessage = "El {0} es Obligatorio.")]
+        [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
+        public string Apellido { get; set; }
 
         [Required(ErrorMessage = "El CUIL es Obligatorio")]
         [RegularExpression(@"^[0-9]{11}$", ErrorMessage = "El {0} debe ser numérico de 11 dígitos.")]
@@ -20,6 +25,12 @@ namespace Entidades
         [Required(ErrorMessage = "El Email es Obligatorio")]
         [RegularExpression(@"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", ErrorMessage = "El {0} no es válido.")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "El Usuario es Obligatorio.")]
+        [RegularExpression(@"/^[0 - 9a - zA - Z] +$/ ", ErrorMessage = "Solo se admiten letras y números sin espacios o símbolos.")]
+        [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
+        [MinLength(5, ErrorMessage = "El {0} debe tener como mínimo {1} caracteres.")]
+        public string Usr { get; set; }
 
         [Required(ErrorMessage = "La Contraseña es Obligatoria")]
         [DataType(DataType.Password)]
@@ -40,7 +51,7 @@ namespace Entidades
         [MinLength(8, ErrorMessage = "El Teléfono deber tener 8 dígitos como mínimo.")]
         public string Telefono { get; set; }
 
-        public Localidad Localidad { get; set; }
+        
 
     }
 }

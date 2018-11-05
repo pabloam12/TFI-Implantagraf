@@ -84,6 +84,7 @@
     <Compile Include="EstadoOperacion.cs" />
     <Compile Include="FrmCambiarPsw.cs" />
     <Compile Include="Diccionario.cs" />
+    <Compile Include="FrmRegistroAdministrativo.cs" />
     <Compile Include="Marca_TC.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />

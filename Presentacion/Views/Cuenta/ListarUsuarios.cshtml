@@ -12,11 +12,13 @@
 
     <div class="container contact_container">
 
-        <h4>ViewBag.CUENTA_LISTADO_USUARIOS</h4>
+        <h4>@ViewBag.CUENTA_LISTADO_USUARIOS</h4>
 
+        <br />
         <p>
-            @Html.ActionLink((String)ViewBag.BOTON_ALTA_USR_ADMINISTRATIVO, "", null, new { @class = "btn btn-success btn-sm" })}
+           <a href="~/RegistroUsuarioAdministrativo/Index" class="btn btn-sm btn-info" role="button">@ViewBag.BOTON_ALTA_USR_ADMINISTRATIVO</a>
         </p>
+
         <table class="table">
             <tr>
 
@@ -71,7 +73,7 @@
                     <td>
                         @if (item.PerfilUsr.Descripcion != "WebMaster")
 
-                        { @Html.ActionLink((String)ViewBag.BOTON_ELIMINAR_CUENTA, "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })}
+                        { @Html.ActionLink((String)ViewBag.BOTON_ELIMINAR_CUENTA, "BloquearCuenta", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })}
                     </td>
                 </tr>
             }

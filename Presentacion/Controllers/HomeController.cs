@@ -1,4 +1,6 @@
-﻿using Seguridad;
+﻿using AccesoDatos;
+using Negocio;
+using Seguridad;
 using Servicios;
 using System;
 using System.Collections;
@@ -19,6 +21,17 @@ namespace Presentacion.Controllers
 
             //Traducir Página Home.
             TraducirPagina((String)Session["IdiomaApp"]);
+
+            var exportador = new Exportador();
+            var accDatosBitacora = new Auditoria();
+            var accDatosCliente = new NegocioCliente();
+            var accDatosVentas = new OperacionesDAC();
+
+            exportador.ExportarBitacoraXML(accDatosBitacora.ConsultarBitacora());
+
+            exportador.ExportarClientesXML(accDatosCliente.Listar());
+
+            exportador.ExportarVentasXML(accDatosVentas.ListarOperacionesporTipo("VE"));
 
 
             return View();
@@ -77,6 +90,8 @@ namespace Presentacion.Controllers
 
             //Devuelve el Hastable con todas las traducciones.
             var diccionario = traductor.Traducir(idioma);
+
+            //TODO Poner ifs a cada asignacion por si viene null que no falle.
 
             //Traduce LAYOUT.
             Session["LOYOUT_BARRA_CUENTA_INICIAR"] = diccionario["LOYOUT_BARRA_CUENTA_INICIAR"];

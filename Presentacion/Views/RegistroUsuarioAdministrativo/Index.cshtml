@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Entidades.Usuario>
+
+@{
+    ViewBag.Title = "Usuarios Administrativos";
+
+}
+
+@Html.Partial("_Espacio1")
+<body>
+
+    <div class="container contact_container">
+        <h2>Usuarios Administrativos</h2>
+        <br />
+
+        <div class="form-group">
+            @Html.ActionLink("Nuevo Usuario WebMaster", "RegistrarUsuarioWebMaster", null, new { @class = "btn btn-success btn-sm" })
+        </div>
+
+
+        <table class="table">
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.Usr)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaAlta)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaAlta)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Eliminar Cuenta", "BloquearCuenta", "Cuenta",new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+
+
+        </table>
+
+        <div class="form-group">
+            @Html.ActionLink("Volver", "ListarUsuarios", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
+        </div>
+    </div>
+</body>
+@Html.Partial("_Espacio2")
