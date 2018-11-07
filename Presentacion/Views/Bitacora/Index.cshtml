@@ -6,11 +6,7 @@
 
 }
 
-<head>
-    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
-</head>
 
-<body>
     @Html.Partial("_Espacio1")
     <div class="container contact_container">
         <h4>@ViewBag.BITACORA_TITULO</h4>
@@ -63,7 +59,16 @@
                 <div class="alert alert-danger" role="alert">@Session["ErrorFiltroBitacora"]!</div>
         }
 
+        @section scripts{
 
+            <script>
+
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+
+            </script>
+        }
 
         <div class="row">
             <br />
@@ -88,7 +93,7 @@
                             @ViewBag.ENTIDAD_DETALLE
                         </th>
 
-                        <th></th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -117,20 +122,11 @@
             </table>
         </div>
     </div>
-
-    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
-
-</body>
+    
+    
 
 
 
-<script>
-
-    $(document).ready(function () {
-        $('#table').DataTable();
-    });
-
-</script>
 
 
 @Html.Partial("_Espacio2")

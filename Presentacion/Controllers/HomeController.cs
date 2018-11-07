@@ -94,25 +94,25 @@ namespace Presentacion.Controllers
             //TODO Poner ifs a cada asignacion por si viene null que no falle.
 
             //Traduce LAYOUT.
-            Session["LOYOUT_BARRA_CUENTA_INICIAR"] = diccionario["LOYOUT_BARRA_CUENTA_INICIAR"];
-            Session["BOTON_REGISTRAR"] = diccionario["BOTON_REGISTRAR"];
-            Session["LOYOUT_BARRA_CUENTA_INFO"] = diccionario["LOYOUT_BARRA_CUENTA_INFO"];
-            Session["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] = diccionario["LOYOUT_BARRA_CUENTA_INICIARLOYOUT_SALUDO_BIENVENIDA_USUARIO"];
-            Session["LOYOUT_SALUDO_BIENVENIDA"] = diccionario["LOYOUT_SALUDO_BIENVENIDA"];
-            Session["LOYOUT_MENU_IDIOMA"] = diccionario["LOYOUT_MENU_IDIOMA"];
-            Session["LOYOUT_MENU_CUENTA"] = diccionario["LOYOUT_MENU_CUENTA"];
-            Session["LOYOUT_BARRA_CUENTA_SALIR"] = diccionario["LOYOUT_BARRA_CUENTA_SALIR"];
-            Session["LOYOUT_BARRA_PAGINAPRINCIPAL"] = diccionario["LOYOUT_BARRA_PAGINAPRINCIPAL"];
-            Session["LOYOUT_BARRA_CATALOGO"] = diccionario["LOYOUT_BARRA_CATALOGO"];
-            Session["LOYOUT_BARRA_QUIENESSOMOS"] = diccionario["LOYOUT_BARRA_QUIENESSOMOS"];
-            Session["LOYOUT_BARRA_CONTACTO"] = diccionario["LOYOUT_BARRA_CONTACTO"];
-            Session["LOYOUT_BARRA_MENU_VENTAS"] = diccionario["LOYOUT_BARRA_MENU_VENTAS"];
-            Session["LOYOUT_BARRA_MENU_ALQUILERES"] = diccionario["LOYOUT_BARRA_MENU_ALQUILERES"];
-            Session["LOYOUT_BARRA_MENU_CLIENTES"] = diccionario["LOYOUT_BARRA_MENU_CLIENTES"];
-            Session["LOYOUT_BARRA_BITACORA"] = diccionario["LOYOUT_BARRA_BITACORA"];
-            Session["LOYOUT_BARRA_MENU_USUARIOS"] = diccionario["LOYOUT_BARRA_MENU_USUARIOS"];
-            Session["LOYOUT_BARRA_MENU_RESPALDO"] = diccionario["LOYOUT_BARRA_MENU_RESPALDO"];
-            Session["LOYOUT_BARRA_MENU_RESTAURAR"] = diccionario["LOYOUT_BARRA_MENU_RESTAURAR"];
+            Session["LOYOUT_BARRA_CUENTA_INICIAR"] = (diccionario["LOYOUT_BARRA_CUENTA_INICIAR"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_CUENTA_INICIAR"];
+            Session["BOTON_REGISTRAR"] = (diccionario["BOTON_REGISTRAR"] is DBNull) ? " " : diccionario["BOTON_REGISTRAR"];
+            Session["LOYOUT_BARRA_CUENTA_INFO"] = (diccionario["LOYOUT_BARRA_CUENTA_INFO"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_CUENTA_INFO"];
+            Session["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] = (diccionario["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] is DBNull) ? " " : diccionario["LOYOUT_SALUDO_BIENVENIDA_USUARIO"];
+            Session["LOYOUT_SALUDO_BIENVENIDA"] = (diccionario["LOYOUT_SALUDO_BIENVENIDA"] is DBNull) ? " " : diccionario["LOYOUT_SALUDO_BIENVENIDA"];
+            Session["LOYOUT_MENU_IDIOMA"] = (diccionario["LOYOUT_MENU_IDIOMA"] is DBNull) ? " " : diccionario["LOYOUT_MENU_IDIOMA"];
+            Session["LOYOUT_MENU_CUENTA"] = (diccionario["LOYOUT_MENU_CUENTA"] is DBNull) ? " " : diccionario["LOYOUT_MENU_CUENTA"];
+            Session["LOYOUT_BARRA_CUENTA_SALIR"] = (diccionario["LOYOUT_BARRA_CUENTA_SALIR"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_CUENTA_SALIR"];
+            Session["LOYOUT_BARRA_PAGINAPRINCIPAL"] = (diccionario["LOYOUT_BARRA_PAGINAPRINCIPAL"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_PAGINAPRINCIPAL"];
+            Session["LOYOUT_BARRA_CATALOGO"] = (diccionario["LOYOUT_BARRA_CATALOGO"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_CATALOGO"];
+            Session["LOYOUT_BARRA_QUIENESSOMOS"] = (diccionario["LOYOUT_BARRA_QUIENESSOMOS"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_QUIENESSOMOS"];
+            Session["LOYOUT_BARRA_CONTACTO"] = (diccionario["LOYOUT_BARRA_CONTACTO"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_CONTACTO"];
+            Session["LOYOUT_BARRA_MENU_VENTAS"] = (diccionario["LOYOUT_BARRA_MENU_VENTAS"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_MENU_VENTAS"];
+            Session["LOYOUT_BARRA_MENU_STOCK"] = (diccionario["LOYOUT_BARRA_MENU_STOCK"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_MENU_STOCK"];
+            Session["LOYOUT_BARRA_MENU_CLIENTES"] = (diccionario["LOYOUT_BARRA_MENU_CLIENTES"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_MENU_CLIENTES"];
+            Session["LOYOUT_BARRA_BITACORA"] = (diccionario["LOYOUT_BARRA_BITACORA"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_BITACORA"];
+            Session["LOYOUT_BARRA_MENU_USUARIOS"] = (diccionario["LOYOUT_BARRA_MENU_USUARIOS"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_MENU_USUARIOS"];
+            Session["LOYOUT_BARRA_MENU_RESPALDO"] = (diccionario["LOYOUT_BARRA_MENU_RESPALDO"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_MENU_RESPALDO"];
+            Session["LOYOUT_BARRA_MENU_RESTAURAR"] = (diccionario["LOYOUT_BARRA_MENU_RESTAURAR"] is DBNull) ? " " : diccionario["LOYOUT_BARRA_MENU_RESTAURAR"];
 
 
             //Traduce Vista HOME.

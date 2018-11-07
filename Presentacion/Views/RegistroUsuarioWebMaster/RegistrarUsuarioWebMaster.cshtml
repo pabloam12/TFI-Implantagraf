@@ -71,7 +71,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Crear WebMaster" class="btn btn-success" />
+                        <input type="submit" value="Registrar" class="btn btn-success" />
                     </div>
                 </div>
             </div>
@@ -79,4 +79,11 @@
 
         </div>
     </body>
-        @Html.Partial("_Espacio2")
+
+@Html.Partial("_Espacio2")
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

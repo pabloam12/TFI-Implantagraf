@@ -30,17 +30,12 @@
                 </div>
 
                 <div class="col">
-                                      <div class="form-group">
+                    <div class="form-group">
                         @*@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                                          @ViewBag.ENTIDAD_USUARIO_MAIL
+                        @ViewBag.ENTIDAD_USUARIO_MAIL
                         <div class="col">
                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
 
-                            @if (Session["ErrorRegistro"] != null)
-                            {
-                            <label class="alert alert-danger" role="alert">@Session["ErrorRegistro"]!</label>
-                            }
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -59,7 +54,7 @@
 
             <div class="row">
 
-                
+
                 <div class="col">
                     <div class="form-group">
                         @*@Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -70,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                           
+
                 <div class="col">
                     <div class="form-group">
                         @*@Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -80,7 +75,7 @@
                             @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                 </div>
+                </div>
                 <div class="col">
                     <div class="form-group">
                         @*@Html.LabelFor(model => model.Localidad, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -116,7 +111,12 @@
                         </div>
                     </div>
                 </div>
-                                
+
+                @if (Session["ErrorRegistro"] != null)
+                {
+                    <label class="alert alert-danger" role="alert">@Session["ErrorRegistro"]!</label>
+                }
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
             <br />
             <div class="form-group">

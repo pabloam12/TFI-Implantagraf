@@ -60,7 +60,7 @@ namespace Presentacion.Controllers
             usuario.RazonSocial = "N/A";
 
             usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
-            usuario.PerfilUsr = new PerfilUsr { Id = 1, Descripcion = "Administrativo" };
+            usuario.PerfilUsr = new PerfilUsr { Id = 2, Descripcion = "Administrativo" };
             usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
                         
             // Registro Usuario.

@@ -141,7 +141,7 @@ namespace Presentacion.Controllers
 
         private int ControlarId(int id)
         {
-            
+
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
             for (int i = 0; i < productosCarrito.Count; i++)
@@ -185,6 +185,7 @@ namespace Presentacion.Controllers
 
         public ActionResult RealizarPago()
         {
+            var ws = new WebService();
 
             TraducirPagina((String)Session["IdiomaApp"]);
 
@@ -194,6 +195,14 @@ namespace Presentacion.Controllers
             var ln = new NegocioMarcaTC();
 
             ViewBag.Marcas_TC = ln.Listar();
+
+            ViewBag.CUOTA_1 = "1 x $ " + ws.CalcularInteres(CalularImporteTotal(), 1).ToString() + ",00 .-";
+
+            ViewBag.CUOTA_3 = "3 x $ " + ws.CalcularInteres(CalularImporteTotal(), 3).ToString() + ",00 .-";
+
+            ViewBag.CUOTA_6 = "6 x $ " + ws.CalcularInteres(CalularImporteTotal(), 6).ToString() + ",00 .-";
+
+            ViewBag.CUOTA_12 = "12 x $ " + ws.CalcularInteres(CalularImporteTotal(), 12).ToString() + ",00 .-";
 
             return View();
 
@@ -382,7 +391,7 @@ namespace Presentacion.Controllers
             //Devuelve el Hastable con todas las traducciones.
             var diccionario = traductor.Traducir(idioma);
 
-             //Traduce Vista PRODUCTOS.
+            //Traduce Vista PRODUCTOS.
 
             ViewBag.PRODUCTO_CATALOGO_TITULO = diccionario["PRODUCTO_CATALOGO_TITULO"];
             ViewBag.CATALOGO_SELECTOR_TODAS = diccionario["CATALOGO_SELECTOR_TODAS"];
@@ -434,13 +443,15 @@ namespace Presentacion.Controllers
             ViewBag.ENTIDAD_CODIGO_SEG = diccionario["ENTIDAD_CODIGO_SEG"];
             ViewBag.BOTON_COMPRAR = diccionario["BOTON_COMPRAR"];
             ViewBag.PRODUCTO_PAGO_CONTADO_TITULO = diccionario["PRODUCTO_PAGO_CONTADO_TITULO"];
-            
+
 
             ViewBag.ERROR_LIMITE_SALDO = diccionario["ERROR_LIMITE_SALDO"];
             ViewBag.ERROR_DATOS_TC_INVALIDOS = diccionario["ERROR_DATOS_TC_INVALIDOS"];
             ViewBag.MENSAJE_MAIL_COMPRA = diccionario["MENSAJE_MAIL_COMPRA"];
 
             ViewBag.PRODUCTO_PAGO_CONTADO_LEYENDA = diccionario["PRODUCTO_PAGO_CONTADO_LEYENDA"];
+
+            ViewBag.ENTIDAD_CUOTAS = diccionario["ENTIDAD_CUOTAS"];
 
 
         }

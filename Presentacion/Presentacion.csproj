@@ -478,7 +478,7 @@
     <Content Include="Views\Cuenta\EnviarNuevaPsw.cshtml" />
     <Content Include="Views\Cuenta\ActualizarPsw.cshtml" />
     <Content Include="Views\RegistroUsuarioAdministrativo\Index.cshtml" />
-    <Content Include="Views\RegistroUsuarioAdministrativo\RegistrarUsuarioWebMaster.cshtml" />
+    <Content Include="Views\RegistroUsuarioAdministrativo\RegistrarUsuarioAdministrativo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

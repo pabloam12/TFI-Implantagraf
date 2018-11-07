@@ -28,10 +28,11 @@ namespace Seguridad
 
         public bool ValidarIntegridadTablas()
         {
-            string[] tablasImplantagraf = { "Categoria", "Cliente", "DetalleOperacion",
+            string[] tablasImplantagraf = { "Categoria", "Cliente", "DetalleOperacion", "EstadoOperacion",
                                             "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
-                                            "Producto", "SEG_Bitacora", "SEG_PerfilUsr",
-                                            "SEG_Permisos", "SEG_Usuario", "Stock"};
+                                            "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_DVV","SEG_IntegridadRegistros",
+                                            "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
+                                            "Traductor", "WS_Empresa_TC", "WS_Marca_TC"};
 
             var flag = false;
 
@@ -308,7 +309,7 @@ namespace Seguridad
             foreach (Factura facturaActual in listadoFacturas)
             {
                 if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString()) != facturaActual.DVH)
-                {   
+                {
                     GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FACTURA", facturaActual.Codigo.ToString(), facturaActual.Cliente.Id.ToString(), facturaActual.Monto.ToString());
                     flag = true;
                 }
@@ -369,7 +370,7 @@ namespace Seguridad
             {
                 if (CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion) != marcaActual.DVH)
                 {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "MARCA",marcaActual.Id.ToString(), marcaActual.Descripcion);
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "MARCA", marcaActual.Id.ToString(), marcaActual.Descripcion);
                     flag = true;
                 }
             }
@@ -646,8 +647,8 @@ namespace Seguridad
 
             foreach (Factura facturaActual in listadoFacturas)
             {
-                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString()); 
-                            
+                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString());
+
                 ActualizarDVHFactura(facturaActual.Codigo, dvhActual);
             }
 

@@ -37,6 +37,8 @@ namespace Presentacion.Controllers
         {
             var ln = new NegocioCuenta();
 
+            var ws = new WebService();
+
             var mensajeria = new Mensajeria();
 
             TraducirPagina((String)Session["IdiomaApp"]);
@@ -48,6 +50,12 @@ namespace Presentacion.Controllers
             if (ln.ValidarUsuario(registroCliente.Email) == false)
             {
                 Session["ErrorRegistro"] = ViewBag.ERROR_USUARIO_EXISTENTE;
+                return RedirectToAction("Registrarse");
+            }
+
+            if(ws.ValidarCUIT(registroCliente.CUIL) == false)
+            {
+                Session["ErrorRegistro"] = ViewBag.ERROR_CUIT;
                 return RedirectToAction("Registrarse");
             }
 
@@ -130,6 +138,7 @@ namespace Presentacion.Controllers
             ViewBag.ENTIDAD_PSW = diccionario["ENTIDAD_PSW"];
             ViewBag.ENTIDAD_CONFIRMACION_PSW = diccionario["ENTIDAD_CONFIRMACION_PSW"];
             ViewBag.BOTON_REGISTRAR = diccionario["BOTON_REGISTRAR"];
+            ViewBag.ERROR_CUIT = diccionario["ERROR_CUIT"];
         }
     }
 }

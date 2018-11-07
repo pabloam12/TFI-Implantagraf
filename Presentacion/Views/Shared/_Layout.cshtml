@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css" href="~/ColoShop/plugins/OwlCarousel2-2.2.1/animate.css">
     <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="~/ColoShop/styles/responsive.css">
+
+    @Styles.Render("~/bundles/css")
+
 </head>
 
 
@@ -27,10 +30,12 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            @if ((String)Session["PerfilUsuario"] == "Cliente")
-                            {<div class="top_nav_left">@Session["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] @Session["NombreUsuario"]!</div>}
-                            else
+                            @if ((String)Session["PerfilUsuario"] == null)
                             {<div class="top_nav_left">@Session["LOYOUT_SALUDO_BIENVENIDA"]</div>}
+
+                            else {<div class="top_nav_left">@Session["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] @Session["NombreUsuario"]!</div>}
+                            
+                            
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="top_nav_right">
@@ -105,7 +110,7 @@
                                     @if ((String)Session["PerfilUsuario"] == "Administrativo")
                                     {
                                         <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_VENTAS"], "Index", "Home")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_ALQUILERES"], "Index", "Home")</li>
+                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_STOCK"], "Index", "Home")</li>
                                         <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_CLIENTES"], "Index", "Cliente")</li>
 
                                     }
@@ -188,10 +193,13 @@
     <script src="~/ColoShop/plugins/easing/easing.js"></script>
     <script src="~/ColoShop/js/custom.js"></script>
 
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+  
+
     @Scripts.Render("~/bundles/jquery")
 
-
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 
 </body>
 </html>

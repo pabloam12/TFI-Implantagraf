@@ -9,12 +9,12 @@ namespace Entidades
     public class FrmRegistroAdministrativo
     {
 
-        [Required(ErrorMessage = "El {0} es Obligatorio.")]
+        [Required(ErrorMessage = "El Nombre es Obligatorio.")]
         [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
         public string Nombre { get; set; }
 
 
-        [Required(ErrorMessage = "El {0} es Obligatorio.")]
+        [Required(ErrorMessage = "El Apellido es Obligatorio.")]
         [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
         public string Apellido { get; set; }
 
@@ -27,7 +27,7 @@ namespace Entidades
         public string Email { get; set; }
 
         [Required(ErrorMessage = "El Usuario es Obligatorio.")]
-        [RegularExpression(@"/^[0 - 9a - zA - Z] +$/ ", ErrorMessage = "Solo se admiten letras y números sin espacios o símbolos.")]
+        //[RegularExpression(@"/^[0 - 9a - zA - Z] +$/ ", ErrorMessage = "Solo se admiten letras y números sin espacios o símbolos.")]
         [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
         [MinLength(5, ErrorMessage = "El {0} debe tener como mínimo {1} caracteres.")]
         public string Usr { get; set; }
