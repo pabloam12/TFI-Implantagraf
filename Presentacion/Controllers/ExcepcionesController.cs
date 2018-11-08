@@ -31,16 +31,18 @@ namespace Presentacion.Controllers
 
             ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 
-            Session["ErrorLogin"] = null;
             Session["IdUsuario"] = null;
             Session["NombreUsuario"] = null;
             Session["PerfilUsuario"] = null;
             Session["EmailUsuario"] = null;
+            Session["CodUsuario"] = null;
+            Session["DireccionUsuario"] = null;
+            Session["RazonSocialUsuario"] = null;
 
             Session["UsrLogin"] = null;
 
             Session["ErrorLogin"] = null;
-
+            
             return View();
         }
 

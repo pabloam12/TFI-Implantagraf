@@ -35,7 +35,7 @@
                         @ViewBag.ENTIDAD_USUARIO_MAIL
                         <div class="col">
                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 {
                     <label class="alert alert-danger" role="alert">@Session["ErrorRegistro"]!</label>
                 }
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                
             </div>
             <br />
             <div class="form-group">

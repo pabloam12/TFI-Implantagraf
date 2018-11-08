@@ -30,11 +30,18 @@ namespace Seguridad
             var ad = new BitacoraDAC();
             var integ = new IntegridadDatos();
 
-            var BitacoraDVH = integ.CalcularDVH(fechaHora.ToString() + usuario + accion + criticidad + detalle);
 
-            ad.grabarBitacora(fechaHora, usuario, accion, criticidad, detalle, BitacoraDVH);
-                        
-            integ.RecalcularDVV("SEG_Bitacora");
+            if (integ.ValidarExistencia("SEG_Bitacora") != 0)
+            {
+                var BitacoraDVH = integ.CalcularDVH(fechaHora.ToString() + usuario + accion + criticidad + detalle);
+
+                ad.grabarBitacora(fechaHora, usuario, accion, criticidad, detalle, BitacoraDVH);
+
+                if (integ.ExisteRegTablaDVV("SEG_Bitacora") != 0)
+                {
+                    integ.RecalcularDVV("SEG_Bitacora");
+                }
+            }
 
         }
     }

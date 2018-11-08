@@ -476,10 +476,11 @@ namespace AccesoDatos
                 // Ejecuto la consulta y guardo el id que devuelve.
                 usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
 
-                usr.PerfilUsr = perfilUsrDAC.BuscarPorId(usr.PerfilUsr.Id); // Mapper
-                usr.Idioma = idiomaDAC.BuscarPorId(usr.Idioma.Id); // Mapper
-                usr.Localidad = localidadDAC.BuscarPorId(usr.Localidad.Id); // Mapper
-
+            
+                    usr.PerfilUsr = perfilUsrDAC.BuscarPorId(usr.PerfilUsr.Id); // Mapper
+                    usr.Idioma = idiomaDAC.BuscarPorId(usr.Idioma.Id); // Mapper
+                    usr.Localidad = localidadDAC.BuscarPorId(usr.Localidad.Id); // Mapper
+                
             }
 
             return usr;

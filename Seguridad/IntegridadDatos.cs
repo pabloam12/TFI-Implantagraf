@@ -12,21 +12,196 @@ namespace Seguridad
     {
         public bool ValidarIntegridadGlobal()
         {
+            var accDatosUSr = new CuentaDAC();
+
             var flag = false;
 
-            if (ValidarRegistrosDVH())
+
+            if (ValidarExistenciaBase() == 0)
+            {
+                CrearBaseImplantagraf();
+
+                RestaurarCopiaRespaldo("C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\Implantagraf_20181108_1544.bak");
+
+                GrabarRegistroIntegridad("SE ELIMINÓ", "BD IMPLANTAGRAF");
+
+                flag = true;
+            }
+
+            if (ValidarExistencia("Traductor") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "TRADUCTOR");
+
+                CreoTablaTraductor();
+
                 flag = true;
 
+            }
+
+            if (ValidarExistencia("SEG_DVV") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_DVV");
+
+                CreoTablaDVV();
+
+                flag = true;
+
+            }
+
+
+
+
+            //Hace una validacion de integridad de ciertas tablas core.
+
+            //Idioma
+            if (ValidarExistencia("Idioma") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "IDIOMA");
+
+                CreoTablaIdioma();
+
+                flag = true;
+
+            }
+
+
+            flag = ValidaSoloIdioma(flag);
+
+
+            //Localidad
+            if (ValidarExistencia("Localidad") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "LOCALIDAD");
+
+                CreoTablaLocalidad();
+
+                flag = true;
+
+            }
+
+            flag = ValidaSoloLocalidad(flag);
+
+
+
+            //PerfilUsr
+            if (ValidarExistencia("SEG_PerfilUsr") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_PERFILUSR");
+
+                CreoTablaPerfilUsr();
+
+                flag = true;
+
+            }
+
+            flag = ValidaSoloPerfilUsr(flag);
+
+
+            // Valida que esten todas las tablas.
+            if (ValidarExistenciaTablas(flag))
+                flag = true;
+
+            // Valida que no se haya alterado el numero de registros de cada tabla.
             if (ValidarTablasDVV(flag))
                 flag = true;
 
-            if (ValidarIntegridadTablas())
+            //Inserto por Integridad Tablas Core.
+            InsertarIdiomaCompleto();
+            InsertarLocalidadCompleto();
+            InsertarPerfilUsrCompleto();
+            //InsertarDVVCompleto();
+
+
+            //Usuario
+            if (ValidarExistencia("SEG_Usuario") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_USUARIO");
+
+                CreoTablaUsuario();
+
                 flag = true;
+            }
+
+
+            if (accDatosUSr.ValidarUsuario("admin") == true)
+            {
+                AltaUsuario();
+
+                GrabarRegistroIntegridad("SE ELIMINÓ", "USUARIO ADMIN");
+
+                flag = true;
+            }
+
+
+            // Valida que no se haya alterado ningún registro.
+
+            if (ValidarRegistrosDVH(flag))
+                flag = true;
+
 
             return flag;
         }
 
-        public bool ValidarIntegridadTablas()
+        private int ValidarExistenciaBase()
+        {
+            var integ = new IntegridadDAC();
+
+            return integ.ValidarExistenciaBase();
+
+        }
+
+        private void CrearBaseImplantagraf()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CrearBaseImplantagraf();
+
+        }
+
+        private void AltaUsuario()
+        {
+            var priv = new Privacidad();
+            var usrAdmin = new Usuario();
+            var accDatosUSr = new CuentaDAC();
+
+
+            usrAdmin.Nombre = "WebMaster";
+            usrAdmin.Apellido = "WebMaster";
+            usrAdmin.Email = "N/A";
+            usrAdmin.Usr = "admin";
+            usrAdmin.Psw = "Admin1601";
+            usrAdmin.Estado = "S";
+            usrAdmin.FechaAlta = DateTime.Now;
+            usrAdmin.FechaBaja = new DateTime(2000, 01, 01);
+            usrAdmin.Direccion = "N/A";
+            usrAdmin.CUIL = "N/A";
+            usrAdmin.Telefono = "N/A";
+            usrAdmin.RazonSocial = "N/A";
+            usrAdmin.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
+            usrAdmin.PerfilUsr = new PerfilUsr { Id = 1, Descripcion = "WebMaster" };
+            usrAdmin.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
+
+            var aud = new Auditoria();
+            var inte = new IntegridadDatos();
+
+            usrAdmin.Psw = priv.EncriptarPsw(usrAdmin.Psw);
+
+            //TODO CIFRAR DATOS DE USR.
+
+            var usuarioActual = accDatosUSr.RegistrarUsuario(usrAdmin);
+
+            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+
+            // Actualiza el DVH y DVV.
+            inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
+            inte.RecalcularDVV("SEG_Usuario");
+
+            // Grabo en Bitácora.                       
+            aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA USUARIO", "INFO", "Se registró al Usuario: " + usuarioActual.Id.ToString() + " - '" + usuarioActual.Usr + "' con el perfil de " + usuarioActual.PerfilUsr.Descripcion);
+
+        }
+
+        public bool ValidarExistenciaTablas(bool flag)
         {
             string[] tablasImplantagraf = { "Categoria", "Cliente", "DetalleOperacion", "EstadoOperacion",
                                             "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
@@ -34,7 +209,6 @@ namespace Seguridad
                                             "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
                                             "Traductor", "WS_Empresa_TC", "WS_Marca_TC"};
 
-            var flag = false;
 
             for (int i = 0; i < tablasImplantagraf.Length; i++)
             {
@@ -68,26 +242,94 @@ namespace Seguridad
 
                 if (ValidarExistencia(tabla) != 0)
                 {
-                    if ((cant = ContarRegistros(tabla)) != 0)
+                    if (ExisteRegTablaDVV(tabla) != 0)
                     {
-                        DVV = CalcularDVV(tabla);
-
-                        // Retorna true cuando el valor no coincide el valor DVV.
-                        if (ValidarDVV(tabla, DVV) == 0)
+                        if ((cant = ContarRegistros(tabla)) != 0)
                         {
-                            //NoCoincide el valor DVV ni la cantidad de registros.
-                            if (ValidarCantidadReg(tabla, cant) == 0)
+                            DVV = CalcularDVV(tabla);
+
+
+                            // Retorna true cuando el valor no coincide el valor DVV.
+                            if (ValidarDVV(tabla, DVV) == 0)
                             {
-                                GrabarRegistroIntegridad("SE ALTERÓ EL Nº DE REGISTROS", tabla.ToUpper());
+                                //NoCoincide el valor DVV ni la cantidad de registros.
+                                if (ValidarCantidadReg(tabla, cant) == 0)
+                                {
+                                    GrabarRegistroIntegridad("SE ALTERÓ EL Nº DE REGISTROS", tabla.ToUpper());
+                                    flag = true;
+                                }
                             }
 
-                            return true;
                         }
+
                     }
+                    else
+                    {
+                        GrabarRegistroIntegridad("SE ELIMINÓ REGISTRO", "SEG_DVV", tabla.ToUpper());
+                        flag = true;
+                    }
+
                 }
+
             }
 
-            return false;
+            return flag;
+        }
+
+        private void CreoTablaUsuario()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaUsuario();
+
+        }
+
+        public int ExisteRegTablaDVV(string tabla)
+        {
+            var integ = new IntegridadDAC();
+
+            return integ.ExisteRegTablaDVV(tabla);
+
+        }
+
+        private void CreoTablaDVV()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaDVV();
+
+        }
+
+        private void CreoTablaTraductor()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaTraductor();
+
+        }
+
+        private void CreoTablaLocalidad()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaLocalidad();
+
+        }
+
+        private void CreoTablaPerfilUsr()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaPerfilUsr();
+
+        }
+
+        private void CreoTablaIdioma()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaIdioma();
+
         }
 
         public void RecalcularDVV()
@@ -102,23 +344,31 @@ namespace Seguridad
             {
                 string tabla = tablasDVV[i];
 
-                DVV = CalcularDVV(tabla);
+                if (ExisteRegTablaDVV(tabla) != 0)
+                {
+                    if (ValidarExistencia(tabla) != 0)
+                    {
+                        DVV = CalcularDVV(tabla);
 
-                var CantReg = ContarRegistros(tabla);
+                        var CantReg = ContarRegistros(tabla);
 
-                ActualizarDVV(tabla, DVV, CantReg);
+                        ActualizarDVV(tabla, DVV, CantReg);
+                    }
+                }
             }
 
         }
 
         public void RecalcularDVV(string tabla)
         {
-            var DVV = CalcularDVV(tabla);
+            if (ExisteRegTablaDVV(tabla) != 0 && ValidarExistencia(tabla) != 0)
+            {
+                var DVV = CalcularDVV(tabla);
 
-            var cantReg = ContarRegistros(tabla);
+                var cantReg = ContarRegistros(tabla);
 
-            ActualizarDVV(tabla, DVV, cantReg);
-
+                ActualizarDVV(tabla, DVV, cantReg);
+            }
         }
 
         private long CalcularDVV(string tabla)
@@ -146,7 +396,9 @@ namespace Seguridad
         {
             var accDatos = new IntegridadDAC();
 
-            accDatos.ActualizarDVV(tabla, DVV, CantReg);
+            if (ValidarExistencia("SEG_DVV") != 0)
+            { accDatos.ActualizarDVV(tabla, DVV, CantReg); }
+
         }
 
         public int ContarRegistros(string tabla)
@@ -156,7 +408,7 @@ namespace Seguridad
             return accDatos.ContarRegistros(tabla);
         }
 
-        private int ValidarExistencia(string tabla)
+        public int ValidarExistencia(string tabla)
         {
             var accDatos = new IntegridadDAC();
 
@@ -186,7 +438,21 @@ namespace Seguridad
         {
             var accDatos = new IntegridadDAC();
 
-            accDatos.grabarRegistroIntegridad(Col_A, Col_B, Col_C, Col_D, Col_E, Col_F, Col_G);
+            if (ValidarExistencia("SEG_IntegridadRegistros") == 0)
+            { CreoTablaIntegridad(); }
+
+            if (accDatos.ExisteRegistroIntegridad(Col_A, Col_B, Col_C) == 0)
+            {
+                accDatos.grabarRegistroIntegridad(Col_A, Col_B, Col_C, Col_D, Col_E, Col_F, Col_G);
+            }
+        }
+
+       
+        private void CreoTablaIntegridad()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaIntegridad();
 
         }
 
@@ -202,14 +468,66 @@ namespace Seguridad
         {
             var accDatos = new IntegridadDAC();
 
-            accDatos.LimpiarTablaRegistrosTablasFaltantes();
+            if (ValidarExistencia("SEG_IntegridadRegistros") != 0)
+            { accDatos.LimpiarTablaRegistrosTablasFaltantes(); }
 
         }
 
-        public bool ValidarRegistrosDVH()
+        public bool ValidaSoloIdioma(bool flag)
         {
-            var flag = false;
+            var accDatosIdioma = new IdiomaDAC();
 
+            var listadoIdiomas = accDatosIdioma.Listar();
+
+            foreach (Idioma idiomaActual in listadoIdiomas)
+            {
+                if (CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion) != idiomaActual.DVH)
+                {
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "IDIOMA", idiomaActual.Id.ToString(), idiomaActual.Descripcion, idiomaActual.Abreviacion);
+                    flag = true;
+                }
+            }
+
+            return flag;
+        }
+
+        public bool ValidaSoloLocalidad(bool flag)
+        {
+            var accDatosLocalidad = new LocalidadDAC();
+
+            var listadoLocalidades = accDatosLocalidad.Listar();
+
+            foreach (Localidad localidadActual in listadoLocalidades)
+            {
+                if (CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion) != localidadActual.DVH)
+                {
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "LOCALIDAD", localidadActual.Id.ToString(), localidadActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            return flag;
+        }
+
+        public bool ValidaSoloPerfilUsr(bool flag)
+        {
+            var accDatosPerfiles = new PerfilUsrDAC();
+
+            var listadoPerfiles = accDatosPerfiles.Listar();
+
+            foreach (PerfilUsr perfilActual in listadoPerfiles)
+            {
+                if (CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion) != perfilActual.DVH)
+                {
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERFILUSR", perfilActual.Id.ToString(), perfilActual.Descripcion);
+                    flag = true;
+                }
+            }
+            return flag;
+        }
+
+        public bool ValidarRegistrosDVH(bool flag)
+        {
             var accDatosUsuario = new CuentaDAC();
             var accDatosProductos = new ProductoDAC();
             var accDatosCategorias = new CategoriaDAC();
@@ -241,198 +559,246 @@ namespace Seguridad
             List<Stock> listadoStock = new List<Stock>();
             List<EstadoOperacion> listadoEstadoOperacion = new List<EstadoOperacion>();
 
-            // Usuarios.
-            listadoUsuarios = accDatosUsuario.ListarUsuarios();
-
-            foreach (Usuario usuarioActual in listadoUsuarios)
+            if (ValidarExistencia("SEG_Usuario") == 1)
             {
-                if (CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion) != usuarioActual.DVH)
+                // Usuarios.
+                listadoUsuarios = accDatosUsuario.ListarUsuarios();
+
+                foreach (Usuario usuarioActual in listadoUsuarios)
                 {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_USUARIO", usuarioActual.Id.ToString(), usuarioActual.RazonSocial, usuarioActual.CUIL, usuarioActual.PerfilUsr.Descripcion, usuarioActual.Usr);
-                    flag = true;
+                    if (CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion) != usuarioActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_USUARIO", usuarioActual.Id.ToString(), usuarioActual.RazonSocial, usuarioActual.CUIL, usuarioActual.PerfilUsr.Descripcion, usuarioActual.Usr);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Producto") == 1)
+            {
+                // Productos
+                listadoProductos = accDatosProductos.ListarProductos();
+
+                foreach (Producto productoActual in listadoProductos)
+                {
+                    if (CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "PRODUCTO", productoActual.Codigo.ToString(), productoActual.Titulo, productoActual.Modelo, productoActual.Marca.Descripcion, productoActual.Categoria.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Categoria") == 1)
+            {
+                // Categorias.
+                listadoCategorias = accDatosCategorias.Listar();
+
+                foreach (Categoria categoriaActual in listadoCategorias)
+                {
+                    if (CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion) != categoriaActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CATEGORIA", categoriaActual.Id.ToString(), categoriaActual.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Cliente") == 1)
+            {
+                // Clientes
+                listadoClientes = accDatosClientes.Listar();
+
+                foreach (Cliente clienteActual in listadoClientes)
+                {
+                    if (CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString()) != clienteActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CLIENTE", clienteActual.Id.ToString(), clienteActual.RazonSocial, clienteActual.CUIL, clienteActual.Email, clienteActual.FechaAlta.ToString());
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("DetalleOperacion") == 1)
+            {
+                // Detalle Operacion
+                listadoDetalleOperaciones = accDatosOperaciones.ListarDetalleOperacion();
+
+                foreach (DetalleOperacion detalleActual in listadoDetalleOperaciones)
+                {
+                    if (CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString()) != detalleActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "DETALLEOPERACION", detalleActual.OperacionId.ToString(), detalleActual.ProductoId.ToString(), detalleActual.SubTotal.ToString());
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Factura") == 1)
+            {
+                // Facturas
+                listadoFacturas = accDatosOperaciones.ListarFacturas();
+
+                foreach (Factura facturaActual in listadoFacturas)
+                {
+                    if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString()) != facturaActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FACTURA", facturaActual.Codigo.ToString(), facturaActual.Cliente.Id.ToString(), facturaActual.Monto.ToString());
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("FormaPago") == 1)
+            {
+                // Formas de Pago
+                listadoFormasPago = accDatosFormaPago.Listar();
+
+                foreach (FormaPago formaPagoActual in listadoFormasPago)
+                {
+                    if (CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion) != formaPagoActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FORMAPAGO", formaPagoActual.Id.ToString(), formaPagoActual.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("EstadoOperacion") == 1)
+            {
+                // Estado Operacion
+                listadoEstadoOperacion = accDatosEstadoOperacion.Listar();
+
+                foreach (EstadoOperacion estadoOperacionActual in listadoEstadoOperacion)
+                {
+                    if (CalcularDVH(estadoOperacionActual.Id.ToString() + estadoOperacionActual.Descripcion) != estadoOperacionActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "ESTADOOPERACION", estadoOperacionActual.Id.ToString(), estadoOperacionActual.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Idioma") == 1)
+            {
+                // Idioma
+                listadoIdiomas = accDatosIdioma.Listar();
+
+                foreach (Idioma idiomaActual in listadoIdiomas)
+                {
+                    if (CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion) != idiomaActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "IDIOMA", idiomaActual.Id.ToString(), idiomaActual.Descripcion, idiomaActual.Abreviacion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Localidad") == 1)
+            {
+                // Localidad
+                listadoLocalidades = accDatosLocalidad.Listar();
+
+                foreach (Localidad localidadActual in listadoLocalidades)
+                {
+                    if (CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion) != localidadActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "LOCALIDAD", localidadActual.Id.ToString(), localidadActual.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Marca") == 1)
+            {
+                // Marca
+                listadoMarcas = accDatosMarca.Listar();
+
+                foreach (Marca marcaActual in listadoMarcas)
+                {
+                    if (CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion) != marcaActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "MARCA", marcaActual.Id.ToString(), marcaActual.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Operacion") == 1)
+            {
+                // Operaciones
+                listadoOperaciones = accDatosOperaciones.ListarOperaciones();
+
+                foreach (Operacion operacionActual in listadoOperaciones)
+                {
+                    if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString()) != operacionActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "OPERACIÓN", operacionActual.Id.ToString(), operacionActual.Cliente.Id.ToString(), operacionActual.FechaHora.ToString(), operacionActual.ImporteTotal.ToString(), operacionActual.Factura.Codigo.ToString());
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("Bitacora") == 1)
+            {
+                // Bitácora
+                listadoBitacora = accDatosBitacora.ConsultarBitacora();
+
+                foreach (Bitacora bitacoraActual in listadoBitacora)
+                {
+
+                    if (CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle) != bitacoraActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_BITACORA", bitacoraActual.FechaHora.ToString(), bitacoraActual.Accion, bitacoraActual.FechaHora.ToString(), bitacoraActual.Criticidad, bitacoraActual.Detalle);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("SEG_Permisos") == 1)
+            {
+                // Permisos
+                listadoPermisos = accDatosUsuario.VerPermisosUsuario();
+
+                foreach (PermisosUsr permisoActual in listadoPermisos)
+                {
+                    if (CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion) != permisoActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERMISOS", permisoActual.Id.ToString(), permisoActual.Descripcion);
+                        flag = true;
+                    }
                 }
             }
 
 
-            // Productos
-            listadoProductos = accDatosProductos.ListarProductos();
-
-            foreach (Producto productoActual in listadoProductos)
+            if (ValidarExistencia("SEG_PerfilUsr") == 1)
             {
-                if (CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
+
+                // Perfiles de Usuario
+                listadoPerfiles = accDatosPerfiles.Listar();
+
+                foreach (PerfilUsr perfilActual in listadoPerfiles)
                 {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "PRODUCTO", productoActual.Codigo.ToString(), productoActual.Titulo, productoActual.Modelo, productoActual.Marca.Descripcion, productoActual.Categoria.Descripcion);
-                    flag = true;
+                    if (CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion) != perfilActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERFILUSR", perfilActual.Id.ToString(), perfilActual.Descripcion);
+                        flag = true;
+                    }
                 }
             }
 
-
-            // Categorias.
-            listadoCategorias = accDatosCategorias.Listar();
-
-            foreach (Categoria categoriaActual in listadoCategorias)
+            if (ValidarExistencia("Stock") == 1)
             {
-                if (CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion) != categoriaActual.DVH)
+                // Stock
+                listadoStock = accDatosStock.VerStock();
+
+                foreach (Stock stockActual in listadoStock)
                 {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CATEGORIA", categoriaActual.Id.ToString(), categoriaActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Clientes
-            listadoClientes = accDatosClientes.Listar();
-
-            foreach (Cliente clienteActual in listadoClientes)
-            {
-                if (CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString()) != clienteActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CLIENTE", clienteActual.Id.ToString(), clienteActual.RazonSocial, clienteActual.CUIL, clienteActual.Email, clienteActual.FechaAlta.ToString());
-                    flag = true;
-                }
-            }
-
-            // Detalle Operacion
-            listadoDetalleOperaciones = accDatosOperaciones.ListarDetalleOperacion();
-
-            foreach (DetalleOperacion detalleActual in listadoDetalleOperaciones)
-            {
-                if (CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString()) != detalleActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "DETALLEOPERACION", detalleActual.OperacionId.ToString(), detalleActual.ProductoId.ToString(), detalleActual.SubTotal.ToString());
-                    flag = true;
-                }
-            }
-
-            // Facturas
-            listadoFacturas = accDatosOperaciones.ListarFacturas();
-
-            foreach (Factura facturaActual in listadoFacturas)
-            {
-                if (CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString()) != facturaActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FACTURA", facturaActual.Codigo.ToString(), facturaActual.Cliente.Id.ToString(), facturaActual.Monto.ToString());
-                    flag = true;
-                }
-            }
-
-            // Formas de Pago
-            listadoFormasPago = accDatosFormaPago.Listar();
-
-            foreach (FormaPago formaPagoActual in listadoFormasPago)
-            {
-                if (CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion) != formaPagoActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "FORMAPAGO", formaPagoActual.Id.ToString(), formaPagoActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Estado Operacion
-            listadoEstadoOperacion = accDatosEstadoOperacion.Listar();
-
-            foreach (EstadoOperacion estadoOperacionActual in listadoEstadoOperacion)
-            {
-                if (CalcularDVH(estadoOperacionActual.Id.ToString() + estadoOperacionActual.Descripcion) != estadoOperacionActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "ESTADOOPERACION", estadoOperacionActual.Id.ToString(), estadoOperacionActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Idioma
-            listadoIdiomas = accDatosIdioma.Listar();
-
-            foreach (Idioma idiomaActual in listadoIdiomas)
-            {
-                if (CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion) != idiomaActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "IDIOMA", idiomaActual.Id.ToString(), idiomaActual.Descripcion, idiomaActual.Abreviacion);
-                    flag = true;
-                }
-            }
-
-            // Localidad
-            listadoLocalidades = accDatosLocalidad.Listar();
-
-            foreach (Localidad localidadActual in listadoLocalidades)
-            {
-                if (CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion) != localidadActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "LOCALIDAD", localidadActual.Id.ToString(), localidadActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Marca
-            listadoMarcas = accDatosMarca.Listar();
-
-            foreach (Marca marcaActual in listadoMarcas)
-            {
-                if (CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion) != marcaActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "MARCA", marcaActual.Id.ToString(), marcaActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Operaciones
-            listadoOperaciones = accDatosOperaciones.ListarOperaciones();
-
-            foreach (Operacion operacionActual in listadoOperaciones)
-            {
-                if (CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString()) != operacionActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "OPERACIÓN", operacionActual.Id.ToString(), operacionActual.Cliente.Id.ToString(), operacionActual.FechaHora.ToString(), operacionActual.ImporteTotal.ToString(), operacionActual.Factura.Codigo.ToString());
-                    flag = true;
-                }
-            }
-
-            // Bitácora
-            listadoBitacora = accDatosBitacora.ConsultarBitacora();
-
-            foreach (Bitacora bitacoraActual in listadoBitacora)
-            {
-
-                if (CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle) != bitacoraActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_BITACORA", bitacoraActual.FechaHora.ToString(), bitacoraActual.Accion, bitacoraActual.FechaHora.ToString(), bitacoraActual.Criticidad, bitacoraActual.Detalle);
-                    flag = true;
-                }
-            }
-
-            // Permisos
-            listadoPermisos = accDatosUsuario.VerPermisosUsuario();
-
-            foreach (PermisosUsr permisoActual in listadoPermisos)
-            {
-                if (CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion) != permisoActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERMISOS", permisoActual.Id.ToString(), permisoActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Perfiles de Usuario
-            listadoPerfiles = accDatosPerfiles.Listar();
-
-            foreach (PerfilUsr perfilActual in listadoPerfiles)
-            {
-                if (CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion) != perfilActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERFILUSR", perfilActual.Id.ToString(), perfilActual.Descripcion);
-                    flag = true;
-                }
-            }
-
-            // Stock
-            listadoStock = accDatosStock.VerStock();
-
-            foreach (Stock stockActual in listadoStock)
-            {
-                if (CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario.ToString() + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString()) != stockActual.DVH)
-                {
-                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "STOCK", stockActual.ProductoId.ToString(), stockActual.FechaCalendario.ToString(), stockActual.Cantidad.ToString(), stockActual.TipoOperacionId.ToString());
-                    flag = true;
+                    if (CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario.ToString() + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString()) != stockActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "STOCK", stockActual.ProductoId.ToString(), stockActual.FechaCalendario.ToString(), stockActual.Cantidad.ToString(), stockActual.TipoOperacionId.ToString());
+                        flag = true;
+                    }
                 }
             }
 
@@ -587,169 +953,217 @@ namespace Seguridad
             List<Stock> listadoStock = new List<Stock>();
             List<EstadoOperacion> listadoEstadoOperacion = new List<EstadoOperacion>();
 
-
-            // Usuarios.
-            listadoUsuarios = accDatosUsuario.ListarUsuarios();
-
-            foreach (Usuario usuarioActual in listadoUsuarios)
+            if (ValidarExistencia("SEG_Usuario") == 1)
             {
-                dvhActual = CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+                // Usuarios.
+                listadoUsuarios = accDatosUsuario.ListarUsuarios();
 
-                ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
+                foreach (Usuario usuarioActual in listadoUsuarios)
+                {
+                    dvhActual = CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+
+                    ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("Producto") == 1)
+            {
+                // Productos.
+                listadoProductos = accDatosProductos.ListarProductos();
+
+                foreach (Producto productoActual in listadoProductos)
+                {
+                    dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString());
+
+                    ActualizarDVHProducto(productoActual.Codigo, dvhActual);
+
+                }
+            }
+
+            if (ValidarExistencia("Categoria") == 1)
+            {
+                // Categorias.
+                listadoCategorias = accDatosCategorias.Listar();
+
+                foreach (Categoria categoriaActual in listadoCategorias)
+                {
+                    dvhActual = CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion);
+
+                    ActualizarDVHCategoria(categoriaActual.Id, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("Cliente") == 1)
+            {
+                // Clientes
+                listadoClientes = accDatosClientes.Listar();
+
+                foreach (Cliente clienteActual in listadoClientes)
+                {
+                    dvhActual = CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
+
+
+                    ActualizarDVHCliente(clienteActual.Id, dvhActual);
+
+                }
+            }
+
+            if (ValidarExistencia("DetalleOperacion") == 1)
+            {
+                // Detalle Operacion
+                listadoDetalleOperaciones = accDatosOperaciones.ListarDetalleOperacion();
+
+                foreach (DetalleOperacion detalleActual in listadoDetalleOperaciones)
+                {
+                    dvhActual = CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString());
+
+                    ActualizarDVHDetalleOperacion(detalleActual.OperacionId, detalleActual.ProductoId, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("Factura") == 1)
+            {
+                // Facturas
+                listadoFacturas = accDatosOperaciones.ListarFacturas();
+
+                foreach (Factura facturaActual in listadoFacturas)
+                {
+                    dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString());
+
+                    ActualizarDVHFactura(facturaActual.Codigo, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("FormaPago") == 1)
+            {
+                // Formas de Pago
+                listadoFormasPago = accDatosFormaPago.Listar();
+
+                foreach (FormaPago formaPagoActual in listadoFormasPago)
+                {
+                    dvhActual = CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion);
+
+                    ActualizarDVHFormaPago(formaPagoActual.Id, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("EstadoOperacion") == 1)
+            {
+                // Estado Operacion
+                listadoEstadoOperacion = accDatosEstadoOperacion.Listar();
+
+                foreach (EstadoOperacion estadoOperacionActual in listadoEstadoOperacion)
+                {
+                    dvhActual = CalcularDVH(estadoOperacionActual.Id.ToString() + estadoOperacionActual.Descripcion);
+
+                    ActualizarDVHEstadoOperacion(estadoOperacionActual.Id, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("Idioma") == 1)
+            {
+                // Idioma
+                listadoIdiomas = accDatosIdioma.Listar();
+
+                foreach (Idioma idiomaActual in listadoIdiomas)
+                {
+                    dvhActual = CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion);
+
+                    ActualizarDVHIdioma(idiomaActual.Id, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("Localidad") == 1)
+            {
+                // Localidad
+                listadoLocalidades = accDatosLocalidad.Listar();
+
+                foreach (Localidad localidadActual in listadoLocalidades)
+                {
+                    dvhActual = CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion);
+
+                    ActualizarDVHLocalidad(localidadActual.Id, dvhActual);
+                }
             }
 
 
-            // Productos.
-            listadoProductos = accDatosProductos.ListarProductos();
-
-            foreach (Producto productoActual in listadoProductos)
+            if (ValidarExistencia("Marca") == 1)
             {
-                dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString());
+                // Marca
+                listadoMarcas = accDatosMarca.Listar();
 
-                ActualizarDVHProducto(productoActual.Codigo, dvhActual);
+                foreach (Marca marcaActual in listadoMarcas)
+                {
+                    dvhActual = CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion);
 
+                    ActualizarDVHMarca(marcaActual.Id, dvhActual);
+                }
             }
 
-            // Categorias.
-            listadoCategorias = accDatosCategorias.Listar();
-
-            foreach (Categoria categoriaActual in listadoCategorias)
+            if (ValidarExistencia("Operacion") == 1)
             {
-                dvhActual = CalcularDVH(categoriaActual.Id.ToString() + categoriaActual.Descripcion);
+                // Operaciones
+                listadoOperaciones = accDatosOperaciones.ListarOperaciones();
 
-                ActualizarDVHCategoria(categoriaActual.Id, dvhActual);
+                foreach (Operacion operacionActual in listadoOperaciones)
+                {
+                    dvhActual = CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString());
+
+                    ActualizarDVHOperacion(operacionActual.Id, dvhActual);
+                }
             }
 
-            // Clientes
-            listadoClientes = accDatosClientes.Listar();
-
-            foreach (Cliente clienteActual in listadoClientes)
+            if (ValidarExistencia("Bitacora") == 1)
             {
-                dvhActual = CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
+                // Bitácora
+                listadoBitacora = accDatosBitacora.ConsultarBitacora();
 
+                foreach (Bitacora bitacoraActual in listadoBitacora)
+                {
+                    dvhActual = CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle);
 
-                ActualizarDVHCliente(clienteActual.Id, dvhActual);
-
+                    ActualizarDVHBitacora(bitacoraActual.Id, dvhActual);
+                }
             }
 
-            // Detalle Operacion
-            listadoDetalleOperaciones = accDatosOperaciones.ListarDetalleOperacion();
-
-            foreach (DetalleOperacion detalleActual in listadoDetalleOperaciones)
+            if (ValidarExistencia("SEG_Permisos") == 1)
             {
-                dvhActual = CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString());
+                // Permisos
+                listadoPermisos = accDatosUsuario.VerPermisosUsuario();
 
-                ActualizarDVHDetalleOperacion(detalleActual.OperacionId, detalleActual.ProductoId, dvhActual);
+                foreach (PermisosUsr permisoActual in listadoPermisos)
+                {
+                    dvhActual = CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion);
+
+                    ActualizarDVHPermisos(permisoActual.Id, dvhActual);
+                }
             }
 
-            // Facturas
-            listadoFacturas = accDatosOperaciones.ListarFacturas();
-
-            foreach (Factura facturaActual in listadoFacturas)
+            if (ValidarExistencia("SEG_PerfilUsr") == 1)
             {
-                dvhActual = CalcularDVH(facturaActual.Codigo.ToString() + facturaActual.FechaHora.ToString() + facturaActual.Tipo + facturaActual.Cliente.Id.ToString() + facturaActual.Monto.ToString() + facturaActual.FormaPago.Id.ToString() + facturaActual.Estado.Id.ToString());
+                // Perfiles de Usuario
+                listadoPerfiles = accDatosPerfiles.Listar();
 
-                ActualizarDVHFactura(facturaActual.Codigo, dvhActual);
+                foreach (PerfilUsr perfilActual in listadoPerfiles)
+                {
+                    dvhActual = CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion);
+
+                    ActualizarDVHPerfilUsr(perfilActual.Id, dvhActual);
+                }
             }
 
-            // Formas de Pago
-            listadoFormasPago = accDatosFormaPago.Listar();
-
-            foreach (FormaPago formaPagoActual in listadoFormasPago)
+            if (ValidarExistencia("Stock") == 1)
             {
-                dvhActual = CalcularDVH(formaPagoActual.Id.ToString() + formaPagoActual.Descripcion);
 
-                ActualizarDVHFormaPago(formaPagoActual.Id, dvhActual);
-            }
+                // Stock
+                listadoStock = accDatosStock.VerStock();
 
-            // Estado Operacion
-            listadoEstadoOperacion = accDatosEstadoOperacion.Listar();
+                foreach (Stock stockActual in listadoStock)
+                {
+                    dvhActual = CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString());
 
-            foreach (EstadoOperacion estadoOperacionActual in listadoEstadoOperacion)
-            {
-                dvhActual = CalcularDVH(estadoOperacionActual.Id.ToString() + estadoOperacionActual.Descripcion);
-
-                ActualizarDVHEstadoOperacion(estadoOperacionActual.Id, dvhActual);
-            }
-
-            // Idioma
-            listadoIdiomas = accDatosIdioma.Listar();
-
-            foreach (Idioma idiomaActual in listadoIdiomas)
-            {
-                dvhActual = CalcularDVH(idiomaActual.Id.ToString() + idiomaActual.Descripcion + idiomaActual.Abreviacion);
-
-                ActualizarDVHIdioma(idiomaActual.Id, dvhActual);
-            }
-
-            // Localidad
-            listadoLocalidades = accDatosLocalidad.Listar();
-
-            foreach (Localidad localidadActual in listadoLocalidades)
-            {
-                dvhActual = CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion);
-
-                ActualizarDVHLocalidad(localidadActual.Id, dvhActual);
-            }
-
-            // Marca
-            listadoMarcas = accDatosMarca.Listar();
-
-            foreach (Marca marcaActual in listadoMarcas)
-            {
-                dvhActual = CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion);
-
-                ActualizarDVHMarca(marcaActual.Id, dvhActual);
-            }
-
-            // Operaciones
-            listadoOperaciones = accDatosOperaciones.ListarOperaciones();
-
-            foreach (Operacion operacionActual in listadoOperaciones)
-            {
-                dvhActual = CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString());
-
-                ActualizarDVHOperacion(operacionActual.Id, dvhActual);
-            }
-
-            // Bitácora
-            listadoBitacora = accDatosBitacora.ConsultarBitacora();
-
-            foreach (Bitacora bitacoraActual in listadoBitacora)
-            {
-                dvhActual = CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle);
-
-                ActualizarDVHBitacora(bitacoraActual.Id, dvhActual);
-            }
-
-            // Permisos
-            listadoPermisos = accDatosUsuario.VerPermisosUsuario();
-
-            foreach (PermisosUsr permisoActual in listadoPermisos)
-            {
-                dvhActual = CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion);
-
-                ActualizarDVHPermisos(permisoActual.Id, dvhActual);
-            }
-
-            // Perfiles de Usuario
-            listadoPerfiles = accDatosPerfiles.Listar();
-
-            foreach (PerfilUsr perfilActual in listadoPerfiles)
-            {
-                dvhActual = CalcularDVH(perfilActual.Id.ToString() + perfilActual.Descripcion);
-
-                ActualizarDVHPerfilUsr(perfilActual.Id, dvhActual);
-            }
-
-            // Stock
-            listadoStock = accDatosStock.VerStock();
-
-            foreach (Stock stockActual in listadoStock)
-            {
-                dvhActual = CalcularDVH(stockActual.ProductoId.ToString() + stockActual.FechaCalendario + stockActual.Cantidad.ToString() + stockActual.TipoOperacionId.ToString());
-
-                ActualizarDVHStock(stockActual.Id, dvhActual);
+                    ActualizarDVHStock(stockActual.Id, dvhActual);
+                }
             }
 
             RecalcularDVV("Categoria");
@@ -793,5 +1207,46 @@ namespace Seguridad
             integridad.RestaurarCopiaRespaldo(rutaCompleta);
 
         }
+
+        //private void InsertarTraductorCompleto()
+        //{
+
+        //    var integridad = new IntegridadDAC();
+
+        //    integridad.InsertarTraductorCompleto();
+
+
+        //}
+
+
+
+        private void InsertarIdiomaCompleto()
+        {
+
+            var integridad = new IntegridadDAC();
+
+            integridad.InsertarIdiomaCompleto();
+
+
+        }
+
+        private void InsertarPerfilUsrCompleto()
+        {
+
+            var integridad = new IntegridadDAC();
+
+            integridad.InsertarPerfilUsrCompleto();
+        }
+
+        private void InsertarLocalidadCompleto()
+        {
+
+            var integridad = new IntegridadDAC();
+
+            integridad.InsertarLocalidadCompleto();
+
+        }
+
+
     }
 }

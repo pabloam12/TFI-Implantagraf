@@ -28,13 +28,19 @@ namespace Presentacion.Controllers
 
         public ActionResult ListarUsuarios()
         {
-            var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
 
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Usuario") == 1)
+            {
+                var ln = new NegocioCuenta();
 
-            return View(ln.ListarUsuarios());
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
+                return View(ln.ListarUsuarios());
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DetalleCuenta()
@@ -56,13 +62,19 @@ namespace Presentacion.Controllers
 
         public ActionResult VerPermisosUsuario(int id)
         {
-            var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
 
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                var ln = new NegocioCuenta();
 
-            return View(ln.VerPermisosUsuario(id));
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
+                return View(ln.VerPermisosUsuario(id));
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 

@@ -11,6 +11,268 @@ namespace AccesoDatos
 {
     public class IntegridadDAC : DataAccessComponent
     {
+
+        public int ValidarExistenciaBase()
+        {
+
+            const string sqlStatement = "USE [master]" +
+                                        "SELECT COUNT(*) FROM sysdatabases WHERE(name = 'Implantagraf');";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionNameMaster);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                return Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+        }
+
+        public void CrearBaseImplantagraf()
+        {
+            const string sqlStatement = "USE [master]" +
+                                        "CREATE DATABASE Implantagraf;";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionNameMaster);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+
+        }
+
+        public void CreoTablaTraductor()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE [dbo].[Traductor](" +
+                                        "[Elemento][nvarchar](100) NOT NULL," +
+                                        "[Esp] [nvarchar](1000) NULL," +
+                                        "[Eng][nvarchar](1000) NULL," +
+                                        "[Bra] [nvarchar](1000) NULL," +
+                                        "CONSTRAINT[PK_Traductor] PRIMARY KEY CLUSTERED(   [Elemento] ASC" +
+                                        ")WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]" +
+                                        ") ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaDVV()
+        {
+            const string sqlStatement = "CREATE TABLE [dbo].[SEG_DVV](" +
+                                        "[Tabla] [varchar](100) NOT NULL," +
+                                        "[DVV] [bigint] NOT NULL," +
+                                        "[CantidadReg] [int] NOT NULL," +
+                                        "CONSTRAINT[PK_SEG_DVV] PRIMARY KEY CLUSTERED([Tabla] ASC)" +
+                                        "WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]" +
+                                        ") ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaIdioma()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE [dbo].[Idioma](" +
+                                        "[Id][int] NOT NULL," +
+                                        "[Descripcion] [nvarchar](50) NOT NULL," +
+                                        "[Abreviacion] [nvarchar](3) NOT NULL," +
+                                        "[DVH] [bigint] NOT NULL) ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaLocalidad()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE [dbo].[Localidad](" +
+                                        "[Id][int] IDENTITY(1, 1) NOT NULL," +
+                                        "[Descripcion] [nvarchar](60) NOT NULL," +
+                                        "[DVH] [bigint] NOT NULL," +
+                                        "CONSTRAINT[PK_Localidad] PRIMARY KEY CLUSTERED([Id] ASC)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, " +
+                                        "IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]) ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaPerfilUsr()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE [dbo].[SEG_PerfilUsr](" +
+                                        "[Id][int] NOT NULL," +
+                                        "[Descripcion] [varchar](50) NOT NULL," +
+                                        "[DVH] [bigint] NOT NULL," +
+                                        "CONSTRAINT[PK_SEG_Perfil] PRIMARY KEY CLUSTERED([Id] ASC) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, " +
+                                        "IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]) ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaUsuario()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE[dbo].[SEG_Usuario]([Id][int] IDENTITY(1, 1) NOT NULL, " +
+                                        "[RazonSocial] [varchar](50) NOT NULL, " +
+                                        "[Nombre] [varchar](50) NOT NULL, " +
+                                        "[Apellido] [varchar](50) NOT NULL, " +
+                                        "[Usr] [varchar](50) NOT NULL, " +
+                                        "[Psw] [varchar](50) NOT NULL, " +
+                                        "[CUIL] [varchar](11) NOT NULL, " +
+                                        "[Estado] [char](1) NOT NULL, " +
+                                        "[Intentos] [bigint] NOT NULL, " +
+                                        "[Email] [varchar](100) NOT NULL, " +
+                                        "[Telefono] [varchar](25) NOT NULL, " +
+                                        "[Direccion] [varchar](100) NOT NULL, " +
+                                        "[LocalidadId] [int] NOT NULL, " +
+                                        "[PerfilId] [int] NOT NULL, " +
+                                        "[IdiomaId] [int] NOT NULL, " +
+                                        "[FechaAlta] [datetime] NOT NULL, " +
+                                        "[FechaBaja] [datetime] NOT NULL, " +
+                                        "[DVH] [bigint] NOT NULL, " +
+                                        "CONSTRAINT[PK_SEG_Usuario] PRIMARY KEY CLUSTERED(" +
+                                        "[Id] ASC)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF,  " +
+                                        "IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY] ) ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaIntegridad()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE [dbo].[SEG_IntegridadRegistros](" +
+                                        "[Col_A][varchar](100) NULL," +
+                                        "[Col_B][varchar](100) NULL," +
+                                        "[Col_C][varchar](100) NULL," +
+                                        "[Col_D][varchar](100) NULL," +
+                                        "[Col_E][varchar](100) NULL," +
+                                        "[Col_F][varchar](100) NULL," +
+                                        "[Col_G][varchar](100) NULL" +
+                                        ") ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void InsertarIdiomaCompleto()
+        {
+            const string sqlStatement = "DELETE FROM Idioma; " +
+                                        "INSERT [dbo].[Idioma] ([Id], [Descripcion], [Abreviacion], [DVH]) VALUES (1, N'Español', N'Esp', 1020);" +
+                                        "INSERT[dbo].[Idioma]([Id], [Descripcion], [Abreviacion], [DVH]) VALUES(2, N'English', N'Eng', 1046);";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+
+        }
+
+        public void InsertarLocalidadCompleto()
+        {
+            const string sqlStatement = "DELETE FROM Localidad; " +
+                                        "SET IDENTITY_INSERT [dbo].[Localidad] ON " +
+                                        "INSERT [dbo].[Localidad] ([Id], [Descripcion], [DVH]) VALUES (1, N'Implantagraf', 1287);" +
+                                        "INSERT [dbo].[Localidad] ([Id], [Descripcion], [DVH]) VALUES (2, N'Castelar', 865);" +
+                                        "INSERT [dbo].[Localidad] ([Id], [Descripcion], [DVH]) VALUES (3, N'Haedo', 532);" +
+                                        "INSERT [dbo].[Localidad] ([Id], [Descripcion], [DVH]) VALUES (4, N'Ciudadela', 944);" +
+                                        "SET IDENTITY_INSERT[dbo].[Localidad] OFF";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+
+        }
+
+
+        public void InsertarPerfilUsrCompleto()
+        {
+            const string sqlStatement = "DELETE FROM SEG_PerfilUsr; " +
+                                        "INSERT [dbo].[SEG_PerfilUsr] ([Id], [Descripcion], [DVH]) VALUES (1, N'WebMaster', 955); " +
+                                        "INSERT[dbo].[SEG_PerfilUsr] ([Id], [Descripcion], [DVH]) VALUES(2, N'Administrativo', 1536); " +
+                                        "INSERT[dbo].[SEG_PerfilUsr] ([Id], [Descripcion], [DVH]) VALUES(3, N'Cliente', 759); " +
+                                        "INSERT[dbo].[SEG_PerfilUsr] ([Id], [Descripcion], [DVH]) VALUES(4, N'Visita', 676);";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+
+        }
+
+
         public int ValidarExistencia(string tabla)
         {
 
@@ -26,6 +288,42 @@ namespace AccesoDatos
                 return Convert.ToInt32(db.ExecuteScalar(cmd));
             }
         }
+
+        public int ExisteRegistroIntegridad(string Col_A, string Col_B, string Col_C)
+        {
+
+            const string sqlStatement = "SELECT COUNT(*) FROM SEG_IntegridadRegistros WHERE Col_A = @Col_A AND Col_B = @Col_B AND Col_C = @Col_C";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Col_A", DbType.String, Col_A);
+                db.AddInParameter(cmd, "@Col_B", DbType.String, Col_B);
+                db.AddInParameter(cmd, "@Col_C", DbType.String, Col_C);
+
+                return Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+        }
+
+
+        public int ExisteRegTablaDVV(string tabla)
+        {
+
+            const string sqlStatement = "SELECT COUNT(*) FROM SEG_DVV WHERE Tabla=@tabla";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@tabla", DbType.String, tabla);
+
+                return Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+        }
+
 
         public int ValidarDVV(string tabla, long DVV)
         {
@@ -194,7 +492,7 @@ namespace AccesoDatos
             }
 
         }
-        public void ActualizarDVHProducto (int cod, long DVH)
+        public void ActualizarDVHProducto(int cod, long DVH)
         {
             const string sqlStatement = "UPDATE dbo.Producto SET [DVH]=@DVH WHERE Codigo=@cod";
 

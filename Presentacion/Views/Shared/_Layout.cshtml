@@ -52,7 +52,7 @@
                                         <ul class="language_selection">
                                             <li>@Html.ActionLink("Español", "TraducirIdioma", "Idioma", new { idioma = "Esp" }, null)</li>
                                             <li>@Html.ActionLink("English", "TraducirIdioma", "Idioma", new { idioma = "Eng" }, null)</li>
-                                            <li>@Html.ActionLink("Portugues", "TraducirIdioma", "Idioma", new { idioma = "Bra" }, null)</li>
+                                           @* <li>@Html.ActionLink("Portugues", "TraducirIdioma", "Idioma", new { idioma = "Bra" }, null)</li>*@
                                         </ul>
                                     </li>}
                                     <li class="account">
@@ -68,15 +68,21 @@
                                             @if (Session["PerfilUsuario"] == null)
 
                                             {
+
                                                 <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_INICIAR"], "Index", "Login") </li>
-
-
+                                                
                                                 <li> @Html.ActionLink((String)Session["BOTON_REGISTRAR"], "Index", "RegistroCliente") </li>}
                                             else
                                             {
-                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_INFO"], "DetalleCuenta", "Cuenta")</li>
-                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_SALIR"], "Index", "Logout") </li>
 
+
+                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_INFO"], "DetalleCuenta", "Cuenta")</li>
+
+                                                if ((String)Session["PerfilUsuario"] == "Cliente" || (String)Session["PerfilUsuario"] == "Administrativo")
+                                                {<li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_COMPRAS"], "Index", "MisCompras") </li>}
+
+                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_SALIR"], "Index", "Logout") </li>
+                                                                                                
                                             }
 
                                         </ul>
@@ -112,6 +118,7 @@
                                         <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_VENTAS"], "Index", "Home")</li>
                                         <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_STOCK"], "Index", "Home")</li>
                                         <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_CLIENTES"], "Index", "Cliente")</li>
+                                        
 
                                     }
 

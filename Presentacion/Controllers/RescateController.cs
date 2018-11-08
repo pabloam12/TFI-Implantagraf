@@ -15,13 +15,14 @@ namespace Presentacion.Controllers
         public ActionResult Index()
         {
             //TODO
-
-            //if ((String)Session["PerfilUsuario"] == "Rescate")
-            //{
-                return View();
-            //}
-
-            //return RedirectToAction("Index", "Home");
+                      
+            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            {
+                return RedirectToAction("Index", "RescateIntegridad");
+            }
+         
+            return View();
+            
         }
 
         public ActionResult SolucionarIntegridad()
@@ -29,7 +30,7 @@ namespace Presentacion.Controllers
             var integridad = new IntegridadDatos();
 
             integridad.RecalcularTodosDVH();
-
+            
             integridad.LimpiarTablaRegistrosTablasFaltantes();
 
             integridad.ValidarIntegridadGlobal();

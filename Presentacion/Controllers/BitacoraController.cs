@@ -16,8 +16,9 @@ namespace Presentacion.Controllers
         // GET: Idioma
         public ActionResult Index()
         {
+            var integ = new IntegridadDatos();
 
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Bitacora") == 1)
             {
                 var ln = new Auditoria();
 
@@ -105,7 +106,7 @@ namespace Presentacion.Controllers
             ViewBag.ENTIDAD_DETALLE = diccionario["ENTIDAD_DETALLE"];
             ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO = diccionario["BITACORA_WARNING_SIN_FECHA_INICIO"];
             ViewBag.BITACORA_WARNING_FECHAS_MAL = diccionario["BITACORA_WARNING_FECHAS_MAL"];
-            
+
 
         }
     }
