@@ -60,7 +60,7 @@ namespace Presentacion.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult VerPermisosUsuario(int id)
+        public ActionResult VerPermisosUsuario(int idUsr)
         {
             var integ = new IntegridadDatos();
 
@@ -71,12 +71,32 @@ namespace Presentacion.Controllers
                 // Traduce páginas de CUENTA.
                 TraducirPagina((String)Session["IdiomaApp"]);
 
-                return View(ln.VerPermisosUsuario(id));
+                return View(ln.VerDetallePermisosUsuario(idUsr));
             }
 
             return RedirectToAction("Index", "Home");
 
         }
+
+        public ActionResult SacarPermiso(int idDetallePermiso)
+        {
+            var ln = new NegocioCuenta();
+
+            var detalleModificado = ln.SacarPermiso(idDetallePermiso);
+
+            return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
+        }
+
+        public ActionResult DarPermiso(int idDetallePermiso)
+        {
+            var ln = new NegocioCuenta();
+
+            var detalleModificado = ln.DarPermiso(idDetallePermiso);
+
+            return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
+        }
+
+
 
         public ActionResult BloquearCuenta(int id)
         {
@@ -280,6 +300,10 @@ namespace Presentacion.Controllers
             ViewBag.CUENTA_RECUPERAR_PSW_TITULO = diccionario["CUENTA_RECUPERAR_PSW_TITULO"];
             ViewBag.BOTON_RECUPERAR_PSW = diccionario["BOTON_RECUPERAR_PSW"];
             ViewBag.CUENTA_VERPERMISOS_TITULO = diccionario["CUENTA_VERPERMISOS_TITULO"];
+            ViewBag.CUENTA_VERPERMISOS_SACAR = diccionario["CUENTA_VERPERMISOS_SACAR"];
+            ViewBag.CUENTA_VERPERMISOS_DAR = diccionario["CUENTA_VERPERMISOS_DAR"];
+            ViewBag.CUENTA_VERPERMISOS_LEYENDA_OTORGADOS = diccionario["CUENTA_VERPERMISOS_LEYENDA_OTORGADOS"];
+            ViewBag.CUENTA_VERPERMISOS_LEYENDA_RESTANTES = diccionario["CUENTA_VERPERMISOS_LEYENDA_RESTANTES"];
 
 
         }

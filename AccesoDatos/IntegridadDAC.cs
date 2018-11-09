@@ -189,6 +189,56 @@ namespace AccesoDatos
 
         }
 
+        public void CreoTablaPermisosUsr()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE[dbo].[SEG_Permisos](" +
+                                        "[Id][int] NOT NULL," +
+                                        "[Descripcion] [nvarchar](50) NOT NULL," +
+                                        "[DVH] [bigint] NOT NULL," +
+                                        "CONSTRAINT[PK_SEG_Permisos] PRIMARY KEY CLUSTERED" +
+                                        "([Id] ASC) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, " +
+                                        "IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]) ON[PRIMARY];";
+
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+        public void CreoTablaDetallePermisosUsr()
+        {
+            const string sqlStatement = "USE [Implantagraf]" +
+                                        "CREATE TABLE [dbo].[SEG_DetallePermisos](" +
+                                        "[Id][int] IDENTITY(1, 1) NOT NULL," +
+                                        "[UsrId] [int] NOT NULL," +
+                                        "[PermisoId] [int] NOT NULL," +
+                                        "[Otorgado] [nvarchar](1) NOT NULL," +
+                                        "[DVH] [bigint] NOT NULL," +
+                                        "CONSTRAINT[PK_SEG_DetallePermisos] PRIMARY KEY CLUSTERED" +
+                                        "([Id] ASC) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, " +
+                                        "ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]) ON[PRIMARY];";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                //cmd.CommandTimeout = 600;
+                db.ExecuteNonQuery(cmd);
+            }
+
+
+        }
+
+
         public void CreoTablaIntegridad()
         {
             const string sqlStatement = "USE [Implantagraf]" +
@@ -219,6 +269,45 @@ namespace AccesoDatos
             const string sqlStatement = "DELETE FROM Idioma; " +
                                         "INSERT [dbo].[Idioma] ([Id], [Descripcion], [Abreviacion], [DVH]) VALUES (1, N'Español', N'Esp', 1020);" +
                                         "INSERT[dbo].[Idioma]([Id], [Descripcion], [Abreviacion], [DVH]) VALUES(2, N'English', N'Eng', 1046);";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+
+        }
+
+        public void InsertarPermisosCompleto()
+        {
+            const string sqlStatement = "DELETE FROM SEG_Permisos; " +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (1,'Ver Carrito de Compras',2096);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (2,'Agregar Producto al Carrito',2620);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (3,'Realizar Compras',1634);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (4,'Realizar Pagos',1416);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (5,'Ver Página de Contacto',2036);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (6,'Ver Página de Información Empresarial',3476);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (7,'Consultar la Bitácora',2050);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (8,'Realizar Restore de la Base',2535);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (9,'Realizar Copia de Respaldo de la Base',3379);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (10,'Bloquear Cuenta de Usuario',2573);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (11,'Desbloquear Cuenta de Usuario',2890);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (12,'ABM de Objetos de Negocio',2271);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (13,'Generar Reporte de Ventas',2467);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (14,'Generar Reporte de Stock',2359);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (15,'Generar Reporte de Clientes',2667);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (16,'Solucionar Problemas de Integridad',3407);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (17,'Ver Informacion de Cuenta de Usaurio',3460);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (18,'Suscribirse al Voletin de Promociones',3708);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (19,'ABM de Usuarios',1438);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (20,'Consultar Compras Realizadas',2866);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (21,'Cancelar Facturas',1749);" +
+                                        "INSERT [dbo].[SEG_Permisos] ([Id], [Descripcion], [DVH]) VALUES (22,'Cambiar Idioma',1414);";
+
+
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
@@ -691,6 +780,21 @@ namespace AccesoDatos
         public void ActualizarDVHPermisos(int cod, long DVH)
         {
             const string sqlStatement = "UPDATE dbo.SEG_Permisos SET [DVH]=@DVH WHERE Id=@cod";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, DVH);
+                db.AddInParameter(cmd, "@cod", DbType.Int32, cod);
+
+                db.ExecuteScalar(cmd);
+            }
+        }
+
+        public void ActualizarDVHDetallePermisos(int cod, long DVH)
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_DetallePermisos SET [DVH]=@DVH WHERE Id=@cod";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Entidades.PermisosUsr>
+﻿@model IEnumerable<Entidades.DetallePermisoUsr>
 
 @{
     ViewBag.Title = ViewBag.CUENTA_VERPERMISOS_TITULO;
@@ -11,30 +11,86 @@
     <div class="container contact_container">
 
         <h4>@ViewBag.CUENTA_VERPERMISOS_TITULO</h4>
+        <br />
 
-        <table class="table">
-            <tr>
-                           
-                <th></th>
-            </tr>
+        <div class="row">
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descripcion)
-                    </td>
-                   
-                
-                </tr>
-            }
+            <div class="col">
 
-        </table>
+                <table class="table">
+                    <tr>
+
+                        <th>
+                            @ViewBag.CUENTA_VERPERMISOS_LEYENDA_OTORGADOS
+                        </th>
+
+                        <th></th>
+
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            @if (item.Otorgado == "S")
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink((String)ViewBag.CUENTA_VERPERMISOS_SACAR, "SacarPermiso", new { idDetallePermiso = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                                </td>
+
+                            }
+                        </tr>
+
+                    }
+
+                </table>
+            </div>
+
+
+            <div class="col">
+                <table class="table">
+                    <tr>
+
+                        <th>
+                            @ViewBag.CUENTA_VERPERMISOS_LEYENDA_RESTANTES
+                        </th>
+
+                        <th></th>
+
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @if (item.Otorgado == "N")
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink((String)ViewBag.CUENTA_VERPERMISOS_DAR, "DarPermiso", new { idDetallePermiso = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                </td>
+
+                                
+                            }
+                        </tr>
+                    }
+
+                </table>
+            </div>
+
+        </div>
+
+
 
         <div class="form-group">
             @Html.ActionLink((String)ViewBag.BOTON_VOLVER, "ListarUsuarios", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
         </div>
-</div>
+    </div>
     @Html.Partial("_Espacio2")
 </body>
-

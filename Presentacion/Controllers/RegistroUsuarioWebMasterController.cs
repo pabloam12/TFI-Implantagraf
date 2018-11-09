@@ -49,7 +49,7 @@ namespace Presentacion.Controllers
             usuario.Email = registroWebMaster.Email;
             usuario.Usr = registroWebMaster.Usr;
             usuario.Psw = registroWebMaster.Psw;
-                        
+
             usuario.Estado = "S";
             usuario.FechaAlta = DateTime.Now;
             usuario.FechaBaja = new DateTime(2000, 01, 01);
@@ -62,12 +62,14 @@ namespace Presentacion.Controllers
             usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
             usuario.PerfilUsr = new PerfilUsr { Id = 1, Descripcion = "WebMaster" };
             usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
-                        
+
             // Registro Usuario.
-            ln.RegistrarUsuario(usuario);
+            var usrWebMaster = ln.RegistrarUsuario(usuario);
+
+            ln.OtorgarPermisosWebmaster(usrWebMaster.Id);
 
             return RedirectToAction("Index");
-            
+
         }
 
 

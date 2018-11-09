@@ -4,6 +4,7 @@ using Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.SessionState;
 
@@ -37,14 +38,159 @@ namespace Negocio
 
         }
 
-        public List<PermisosUsr> VerPermisosUsuario(int usuarioId)
+        public List<DetallePermisoUsr> VerDetallePermisosUsuario(int usuarioId)
         {
 
             var ad = new CuentaDAC();
 
-            return ad.VerPermisosUsuario(usuarioId);
+            return ad.ListarDetallePermisosPorUsuario(usuarioId);
 
         }
+
+        public DetallePermisoUsr DarPermiso(int detallePermisoId)
+        {
+
+            var ad = new CuentaDAC();
+            var integ = new IntegridadDatos();
+            var aud = new Auditoria();
+
+            ad.ActualizarPermiso(detallePermisoId, "S");
+
+            var detallePermisoActual = ad.BuscarDetallePermisoPorId(detallePermisoId);
+
+            //Recalculo Digitos Verificadores.
+            var DVH = integ.CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado);
+            integ.ActualizarDVHDetallePermisos(detallePermisoActual.Id, DVH);
+            integ.RecalcularDVV("SEG_DetallePermisos");
+
+            aud.grabarBitacora(DateTime.Now, "admin", "CAMBIO PERMISO", "INFO", "Se cambió el permiso: " + detallePermisoActual.Descripcion);
+
+
+            return detallePermisoActual;
+
+        }
+
+        public DetallePermisoUsr SacarPermiso(int detallePermisoId)
+        {
+
+            var ad = new CuentaDAC();
+            var integ = new IntegridadDatos();
+            var aud = new Auditoria();
+
+            ad.ActualizarPermiso(detallePermisoId, "N");
+
+            var detallePermisoActual = ad.BuscarDetallePermisoPorId(detallePermisoId);
+
+            //Recalculo Digitos Verificadores.
+            var DVH = integ.CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado);
+            integ.ActualizarDVHDetallePermisos(detallePermisoActual.Id, DVH);
+            integ.RecalcularDVV("SEG_DetallePermisos");
+
+            aud.grabarBitacora(DateTime.Now, "admin", "CAMBIO PERMISO", "INFO", "Se cambió el permiso: " + detallePermisoActual.Descripcion);
+
+            
+            return detallePermisoActual;
+
+        }
+
+        public void OtorgarPermisosWebmaster(int usuarioId)
+        {
+            var ad = new CuentaDAC();
+            var integ = new IntegridadDAC();
+
+            ad.OtorgarPermisosWebmaster(usuarioId);
+
+            // DetallePermisos
+            var listadoDetallePermisos = ad.ListarDetallePermisosPorUsuario(usuarioId);
+
+
+            foreach (DetallePermisoUsr detallePermisoActual in listadoDetallePermisos)
+            {
+                var dvhDetallePermisoUsrActual = CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado);
+
+                integ.ActualizarDVHDetallePermisos(detallePermisoActual.Id, dvhDetallePermisoUsrActual);
+            }
+
+            RecalcularDVV("SEG_DetallePermisos");
+
+        }
+
+        public void OtorgarPermisosCliente(int usuarioId)
+        {
+            var ad = new CuentaDAC();
+            var integ = new IntegridadDAC();
+
+            ad.OtorgarPermisosCliente(usuarioId);
+
+            // DetallePermisos
+            var listadoDetallePermisos = ad.ListarDetallePermisosPorUsuario(usuarioId);
+
+
+            foreach (DetallePermisoUsr detallePermisoActual in listadoDetallePermisos)
+            {
+                var dvhDetallePermisoUsrActual = CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado);
+
+                integ.ActualizarDVHDetallePermisos(detallePermisoActual.Id, dvhDetallePermisoUsrActual);
+            }
+
+            RecalcularDVV("SEG_DetallePermisos");
+
+        }
+
+        public void OtorgarPermisosAdministrativo(int usuarioId)
+        {
+            var ad = new CuentaDAC();
+            var integ = new IntegridadDAC();
+
+            ad.OtorgarPermisosAdministrativo(usuarioId);
+
+            // DetallePermisos
+            var listadoDetallePermisos = ad.ListarDetallePermisosPorUsuario(usuarioId);
+
+
+            foreach (DetallePermisoUsr detallePermisoActual in listadoDetallePermisos)
+            {
+                var dvhDetallePermisoUsrActual = CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado);
+
+                integ.ActualizarDVHDetallePermisos(detallePermisoActual.Id, dvhDetallePermisoUsrActual);
+            }
+
+            RecalcularDVV("SEG_DetallePermisos");
+
+        }
+
+        public long CalcularDVH(string cadena)
+        {
+            var DVH = 0;
+            var I = 1;
+
+            if (cadena == null || cadena == "")
+            {
+                return DVH;
+            }
+
+            for (I = 1; I <= cadena.Length; I++)
+            {
+                DVH = DVH + Encoding.ASCII.GetBytes(cadena.Substring(I - 1, 1))[0];
+            }
+
+            return DVH;
+        }
+
+        public void RecalcularDVV(string tabla)
+        {
+            var integ = new IntegridadDAC();
+
+            if (integ.ExisteRegTablaDVV(tabla) != 0 && integ.ValidarExistencia(tabla) != 0)
+            {
+                var DVV = integ.CalcularDVV(tabla);
+
+                var cantReg = integ.ContarRegistros(tabla);
+
+                integ.ActualizarDVV(tabla, DVV, cantReg);
+            }
+        }
+
 
         public void BloquearCuenta(int usuarioId)
         {

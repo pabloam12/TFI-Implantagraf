@@ -21,13 +21,13 @@ namespace Servicios
             msj.Priority = MailPriority.Normal;
 
 
-            //cli.Host = "smtp.gmail.com";
-            //cli.Port = 587;
-            //cli.Credentials = new NetworkCredential("implantagraf@gmail.com", "Pm33834348");
-            //cli.EnableSsl = true;
+            cli.Host = "smtp.gmail.com";
+            cli.Port = 587;
+            cli.Credentials = new NetworkCredential("implantagraf@gmail.com", "Pm33834348");
+            cli.EnableSsl = true;
 
-            cli.Host = "mailnotes.bancopatagonia.net.ar";
-            cli.Credentials = new NetworkCredential("", "");
+            //cli.Host = "mailnotes.bancopatagonia.net.ar";
+            //cli.Credentials = new NetworkCredential("", "");
 
             cli.Send(msj);
         }

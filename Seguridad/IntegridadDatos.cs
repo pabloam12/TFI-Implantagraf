@@ -21,7 +21,7 @@ namespace Seguridad
             {
                 CrearBaseImplantagraf();
 
-                RestaurarCopiaRespaldo("C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\Implantagraf_20181108_1930.bak");
+                RestaurarCopiaRespaldo("C:\\Implantagraf\\Respaldo\\Implantagraf_Inicial.bak");
 
                 GrabarRegistroIntegridad("SE ELIMINÓ BD", "TODAS");
 
@@ -30,15 +30,15 @@ namespace Seguridad
                 flag = true;
             }
 
-            if (ValidarExistencia("Traductor") == 0)
-            {
-                GrabarRegistroIntegridad("SE ELIMINÓ", "TRADUCTOR");
+            //if (ValidarExistencia("Traductor") == 0)
+            //{
+            //    GrabarRegistroIntegridad("SE ELIMINÓ", "TRADUCTOR");
 
-                CreoTablaTraductor();
+            //    CreoTablaTraductor();
 
-                flag = true;
+            //    flag = true;
 
-            }
+            //}
 
             if (ValidarExistencia("SEG_DVV") == 0)
             {
@@ -98,7 +98,31 @@ namespace Seguridad
 
             flag = ValidaSoloPerfilUsr(flag);
 
+            //Permisos
+            if (ValidarExistencia("SEG_Permisos") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_PERMISOS");
 
+                CreoTablaPermisosUsr();
+
+                flag = true;
+
+            }
+
+            flag = ValidaSoloPermisosUsr(flag);
+
+
+            // Valido por integridad la tabla de permisos
+            if (ValidarExistencia("SEG_DetallePermisos") == 0)
+            {
+                GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_DETALLEPERMISOS");
+
+                CreoTablaDetallePermisosUsr();
+
+                flag = true;
+            }
+
+            
             // Valida que esten todas las tablas.
             if (ValidarExistenciaTablas(flag))
                 flag = true;
@@ -111,8 +135,8 @@ namespace Seguridad
             InsertarIdiomaCompleto();
             InsertarLocalidadCompleto();
             InsertarPerfilUsrCompleto();
-            //InsertarDVVCompleto();
-
+            InsertarPermisosCompleto();
+            
 
             //Usuario
             if (ValidarExistencia("SEG_Usuario") == 0)
@@ -124,10 +148,12 @@ namespace Seguridad
                 flag = true;
             }
 
-
+            
             if (accDatosUSr.ValidarUsuario("admin") == true)
             {
-                AltaUsuario();
+                var usrAdmin = AltaUsuario();
+                
+                accDatosUSr.OtorgarPermisosWebmaster(usrAdmin.Id);
 
                 GrabarRegistroIntegridad("SE ELIMINÓ", "USUARIO ADMIN");
 
@@ -160,7 +186,7 @@ namespace Seguridad
 
         }
 
-        private void AltaUsuario()
+        private Usuario AltaUsuario()
         {
             var priv = new Privacidad();
             var usrAdmin = new Usuario();
@@ -201,6 +227,8 @@ namespace Seguridad
             // Grabo en Bitácora.                       
             aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA USUARIO", "INFO", "Se registró al Usuario: " + usuarioActual.Id.ToString() + " - '" + usuarioActual.Usr + "' con el perfil de " + usuarioActual.PerfilUsr.Descripcion);
 
+            return usuarioActual;
+
         }
 
         public bool ValidarExistenciaTablas(bool flag)
@@ -234,7 +262,7 @@ namespace Seguridad
             string[] tablasDVV = { "Categoria", "Cliente", "DetalleOperacion",
                                    "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
                                    "Producto", "SEG_Bitacora", "SEG_PerfilUsr",
-                                   "SEG_Permisos", "SEG_Usuario", "Stock"};
+                                   "SEG_Permisos", "SEG_DetallePermisos","SEG_Usuario", "Stock"};
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -326,6 +354,20 @@ namespace Seguridad
 
         }
 
+        private void CreoTablaPermisosUsr()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaPermisosUsr();
+
+        }
+        private void CreoTablaDetallePermisosUsr()
+        {
+            var integ = new IntegridadDAC();
+
+            integ.CreoTablaDetallePermisosUsr();
+
+        }
         private void CreoTablaIdioma()
         {
             var integ = new IntegridadDAC();
@@ -339,7 +381,7 @@ namespace Seguridad
             string[] tablasDVV = { "Categoria", "Cliente", "DetalleOperacion",
                                    "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
                                    "Producto", "SEG_Bitacora", "SEG_PerfilUsr",
-                                   "SEG_Permisos", "SEG_Usuario", "Stock"};
+                                   "SEG_Permisos", "SEG_DetallePermisos", "SEG_Usuario", "Stock"};
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -449,7 +491,7 @@ namespace Seguridad
             }
         }
 
-       
+
         private void CreoTablaIntegridad()
         {
             var integ = new IntegridadDAC();
@@ -528,6 +570,26 @@ namespace Seguridad
             return flag;
         }
 
+        public bool ValidaSoloPermisosUsr(bool flag)
+        {
+            var accDatos = new CuentaDAC();
+
+            var listadoPermisos = accDatos.ListarPermisos();
+
+            foreach (PermisosUsr permisoActual in listadoPermisos)
+            {
+                if (CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion) != permisoActual.DVH)
+                {
+                    GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERMISOS", permisoActual.Id.ToString(), permisoActual.Descripcion);
+                    flag = true;
+                }
+            }
+
+            return flag;
+        }
+
+               
+
         public bool ValidarRegistrosDVH(bool flag)
         {
             var accDatosUsuario = new CuentaDAC();
@@ -557,6 +619,7 @@ namespace Seguridad
             List<Operacion> listadoOperaciones = new List<Operacion>();
             List<Bitacora> listadoBitacora = new List<Bitacora>();
             List<PermisosUsr> listadoPermisos = new List<PermisosUsr>();
+            List<DetallePermisoUsr> listadoDetallePermisos = new List<DetallePermisoUsr>();
             List<PerfilUsr> listadoPerfiles = new List<PerfilUsr>();
             List<Stock> listadoStock = new List<Stock>();
             List<EstadoOperacion> listadoEstadoOperacion = new List<EstadoOperacion>();
@@ -760,13 +823,28 @@ namespace Seguridad
             if (ValidarExistencia("SEG_Permisos") == 1)
             {
                 // Permisos
-                listadoPermisos = accDatosUsuario.VerPermisosUsuario();
+                listadoPermisos = accDatosUsuario.ListarPermisos();
 
                 foreach (PermisosUsr permisoActual in listadoPermisos)
                 {
                     if (CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion) != permisoActual.DVH)
                     {
                         GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_PERMISOS", permisoActual.Id.ToString(), permisoActual.Descripcion);
+                        flag = true;
+                    }
+                }
+            }
+
+            if (ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                //Detalle Permisos
+                listadoDetallePermisos = accDatosUsuario.ListarDetallePermisos();
+
+                foreach (DetallePermisoUsr detallePermisoActual in listadoDetallePermisos)
+                {
+                    if (CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado) != detallePermisoActual.DVH)
+                    {
+                        GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_DETALLEPERMISOS", detallePermisoActual.Id.ToString());
                         flag = true;
                     }
                 }
@@ -913,6 +991,13 @@ namespace Seguridad
             integ.ActualizarDVHPermisos(cod, DVH);
         }
 
+        public void ActualizarDVHDetallePermisos(int cod, long DVH)
+        {
+            var integ = new IntegridadDAC();
+
+            integ.ActualizarDVHDetallePermisos(cod, DVH);
+        }
+
         public void ActualizarDVHStock(int id, long DVH)
         {
             var integ = new IntegridadDAC();
@@ -951,6 +1036,7 @@ namespace Seguridad
             List<Operacion> listadoOperaciones = new List<Operacion>();
             List<Bitacora> listadoBitacora = new List<Bitacora>();
             List<PermisosUsr> listadoPermisos = new List<PermisosUsr>();
+            List<DetallePermisoUsr> listadoDetallePermisos = new List<DetallePermisoUsr>();
             List<PerfilUsr> listadoPerfiles = new List<PerfilUsr>();
             List<Stock> listadoStock = new List<Stock>();
             List<EstadoOperacion> listadoEstadoOperacion = new List<EstadoOperacion>();
@@ -1131,13 +1217,26 @@ namespace Seguridad
             if (ValidarExistencia("SEG_Permisos") == 1)
             {
                 // Permisos
-                listadoPermisos = accDatosUsuario.VerPermisosUsuario();
+                listadoPermisos = accDatosUsuario.ListarPermisos();
 
                 foreach (PermisosUsr permisoActual in listadoPermisos)
                 {
                     dvhActual = CalcularDVH(permisoActual.Id.ToString() + permisoActual.Descripcion);
 
                     ActualizarDVHPermisos(permisoActual.Id, dvhActual);
+                }
+            }
+
+            if (ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                // DetallePermisos
+                listadoDetallePermisos = accDatosUsuario.ListarDetallePermisos();
+
+                foreach (DetallePermisoUsr detallePermisoActual in listadoDetallePermisos)
+                {
+                    dvhActual = CalcularDVH(detallePermisoActual.Id.ToString() + detallePermisoActual.UsrId.ToString() + detallePermisoActual.PermisoId.ToString() + detallePermisoActual.Otorgado);
+
+                    ActualizarDVHDetallePermisos(detallePermisoActual.Id, dvhActual);
                 }
             }
 
@@ -1182,6 +1281,7 @@ namespace Seguridad
             RecalcularDVV("SEG_PerfilUsr");
             RecalcularDVV("SEG_Permisos");
             RecalcularDVV("SEG_Usuario");
+            RecalcularDVV("SEG_DetallePermisos");
             RecalcularDVV("Stock");
         }
 
@@ -1210,18 +1310,7 @@ namespace Seguridad
 
         }
 
-        //private void InsertarTraductorCompleto()
-        //{
-
-        //    var integridad = new IntegridadDAC();
-
-        //    integridad.InsertarTraductorCompleto();
-
-
-        //}
-
-
-
+       
         private void InsertarIdiomaCompleto()
         {
 
@@ -1238,6 +1327,14 @@ namespace Seguridad
             var integridad = new IntegridadDAC();
 
             integridad.InsertarPerfilUsrCompleto();
+        }
+
+        private void InsertarPermisosCompleto()
+        {
+
+            var integridad = new IntegridadDAC();
+
+            integridad.InsertarPermisosCompleto();
         }
 
         private void InsertarLocalidadCompleto()

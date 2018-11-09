@@ -266,6 +266,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Imagenes\SeccionPrincipal\seccion_principal_2 %28FILEminimizer%29.jpg" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -335,10 +336,6 @@
     <Content Include="Imagenes\SeccionBeneficios\beneficios_servicio_tecnico %28FILEminimizer%29.jpg" />
     <Content Include="Imagenes\SeccionBeneficios\beneficios_sustentable %28FILEminimizer%29.jpg" />
     <Content Include="Imagenes\SeccionOfertaSemanal\oferta_semanal.jpg" />
-    <Content Include="Imagenes\SeccionPrincipal\christopher-burns-368617-unsplash - copia.jpg" />
-    <Content Include="Imagenes\SeccionPrincipal\samuel-zeller-118178-unsplash - copia.jpg" />
-    <Content Include="Imagenes\SeccionPrincipal\seccion_principal %28FILEminimizer%29.jpg" />
-    <Content Include="Imagenes\SeccionPrincipal\seccion_principal_2 %28FILEminimizer%29.jpg" />
     <Content Include="Imagenes\Warehouse-Cleaning-Services.jpg" />
     <Content Include="Imagenes\warehouse_getty-623362614.jpg" />
     <Content Include="Scripts\bootstrap.js" />
@@ -534,7 +531,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49515</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49515/Implantagraf</IISUrl>
+          <IISUrl>http://localhost:49515</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Bitacora.cs" />
     <Compile Include="Carrito.cs" />
+    <Compile Include="DetallePermisoUsr.cs" />
     <Compile Include="EstadoOperacion.cs" />
     <Compile Include="FrmCambiarPsw.cs" />
     <Compile Include="Diccionario.cs" />

@@ -57,7 +57,7 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink((String)ViewBag.BOTON_PERMISOS, "VerPermisosUsuario", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                        @Html.ActionLink((String)ViewBag.BOTON_PERMISOS, "VerPermisosUsuario", new { idUsr = item.Id }, new { @class = "btn btn-info btn-sm" })
                     </td>
                     <td>
                         @if (item.Estado == "B")

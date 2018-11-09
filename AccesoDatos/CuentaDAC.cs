@@ -109,68 +109,6 @@ namespace AccesoDatos
             return usuario;
         }
 
-        public List<PermisosUsr> VerPermisosUsuario()
-        {
-            const string sqlStatement = "SELECT P.Id, P.Descripcion, P.DVH " +
-                                        "FROM [dbo].[SEG_Permisos] as P " +
-                                        "JOIN [dbo].[SEG_DetallePermisos] as DP " +
-                                            "ON P.Id = DP.PermisoId " +
-                                        "JOIN [dbo].[SEG_PerfilUsr] as PF " +
-                                            "ON PF.Id = DP.PerfilId " +
-                                        "JOIN [dbo].[SEG_Usuario] as U " +
-                                            "ON U.PerfilId = DP.PerfilId; ";
-
-            var result = new List<PermisosUsr>();
-
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
-            using (var cmd = db.GetSqlStringCommand(sqlStatement))
-            {
-                using (var dr = db.ExecuteReader(cmd))
-                {
-                    while (dr.Read())
-                    {
-                        var permiso = MapearPermisoUsuario(dr); // Mapper
-                        result.Add(permiso);
-                    }
-                }
-            }
-
-            return result;
-
-        }
-
-        public List<PermisosUsr> VerPermisosUsuario(int usuarioId)
-        {
-            const string sqlStatement = "SELECT P.Id, P.Descripcion, P.DVH " +
-                                        "FROM [dbo].[SEG_Permisos] as P " +
-                                        "JOIN [dbo].[SEG_DetallePermisos] as DP " +
-                                            "ON P.Id = DP.PermisoId " +
-                                        "JOIN [dbo].[SEG_PerfilUsr] as PF " +
-                                            "ON PF.Id = DP.PerfilId " +
-                                        "JOIN [dbo].[SEG_Usuario] as U " +
-                                            "ON U.PerfilId = DP.PerfilId " +
-                                        "WHERE U.Id = @UsuarioId; ";
-
-            var result = new List<PermisosUsr>();
-
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
-            using (var cmd = db.GetSqlStringCommand(sqlStatement))
-            {
-                db.AddInParameter(cmd, "@UsuarioId", DbType.Int32, usuarioId);
-
-                using (var dr = db.ExecuteReader(cmd))
-                {
-                    while (dr.Read())
-                    {
-                        var permiso = MapearPermisoUsuario(dr); // Mapper
-                        result.Add(permiso);
-                    }
-                }
-            }
-
-            return result;
-
-        }
 
         public bool ValidarUsuario(String nombreUsuario)
         {
@@ -476,17 +414,328 @@ namespace AccesoDatos
                 // Ejecuto la consulta y guardo el id que devuelve.
                 usr.Id = (Convert.ToInt32(db.ExecuteScalar(cmd)));
 
-            
-                    usr.PerfilUsr = perfilUsrDAC.BuscarPorId(usr.PerfilUsr.Id); // Mapper
-                    usr.Idioma = idiomaDAC.BuscarPorId(usr.Idioma.Id); // Mapper
-                    usr.Localidad = localidadDAC.BuscarPorId(usr.Localidad.Id); // Mapper
-                
+
+                usr.PerfilUsr = perfilUsrDAC.BuscarPorId(usr.PerfilUsr.Id); // Mapper
+                usr.Idioma = idiomaDAC.BuscarPorId(usr.Idioma.Id); // Mapper
+                usr.Localidad = localidadDAC.BuscarPorId(usr.Localidad.Id); // Mapper
+
             }
 
             return usr;
 
         }
 
+
+
+
+        public Usuario InformacionCuenta(string idUsuario)
+        {
+            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
+                "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
+                "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
+
+            var infoUsuario = new Usuario();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@idUsuario", DbType.String, idUsuario);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        infoUsuario = MapearUsuario(dr); // Mapper
+
+                    }
+                }
+            }
+
+            return infoUsuario;
+        }
+
+
+        public List<PermisosUsr> ListarPermisos()
+        {
+            const string sqlStatement = "SELECT Id, Descripcion, DVH " +
+                                        "FROM [dbo].[SEG_Permisos];";
+
+            var result = new List<PermisosUsr>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var permiso = MapearPermisoUsr(dr); // Mapper
+                        result.Add(permiso);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public List<DetallePermisoUsr> ListarDetallePermisos()
+        {
+            const string sqlStatement = "SELECT DP.Id, DP.UsrId, DP.PermisoId, P.Descripcion, DP.Otorgado, DP.DVH " +
+                                        "FROM [dbo].[SEG_DetallePermisos] as DP " +
+                                        "JOIN [dbo].[SEG_Permisos] as P " +
+                                            "ON P.Id = DP.PermisoId ";
+
+            var result = new List<DetallePermisoUsr>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var detalle = MapearDetallePermisoUsr(dr); // Mapper
+                        result.Add(detalle);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public List<DetallePermisoUsr> ListarDetallePermisosPorUsuario(int usuarioId)
+        {
+            const string sqlStatement = "SELECT DP.Id, DP.UsrId, DP.PermisoId, P.Descripcion, DP.Otorgado, DP.DVH " +
+                                        "FROM [dbo].[SEG_DetallePermisos] as DP " +
+                                        "JOIN [dbo].[SEG_Permisos] as P " +
+                                            "ON P.Id = DP.PermisoId " +
+                                        "WHERE DP.UsrId = @UsuarioId; ";
+
+            var result = new List<DetallePermisoUsr>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@UsuarioId", DbType.Int32, usuarioId);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var detalle = MapearDetallePermisoUsr(dr); // Mapper
+                        result.Add(detalle);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        public void OtorgarPermisosWebmaster(int usrId)
+        {
+
+            const string sqlStatement = "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,1,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,2,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,3,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,4,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,5,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,6,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,7,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,8,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,9,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,10,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,11,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,12,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,13,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,14,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,15,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,16,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,17,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,18,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,19,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,20,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,21,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,22,'N',0); SELECT SCOPE_IDENTITY();";
+
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@UsrId", DbType.Int32, usrId);
+
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+
+            }
+
+        }
+
+        public void OtorgarPermisosCliente(int usrId)
+        {
+
+            const string sqlStatement = "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,1,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,2,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,3,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,4,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,5,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,6,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,7,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,8,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,9,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,10,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,11,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,12,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,13,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,14,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,15,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,16,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,17,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,18,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,19,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,20,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,21,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,22,'S',0); SELECT SCOPE_IDENTITY();";
+
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@UsrId", DbType.Int32, usrId);
+
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+
+            }
+
+        }
+
+        public void OtorgarPermisosAdministrativo(int usrId)
+        {
+
+            const string sqlStatement = "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,1,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,2,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,3,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,4,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,5,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,6,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,7,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,8,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,9,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,10,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,11,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,12,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,13,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,14,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,15,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,16,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,17,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,18,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,19,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,20,'N',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,21,'S',0); SELECT SCOPE_IDENTITY();" +
+                                        "INSERT [dbo].[SEG_DetallePermisos] ([UsrId], [PermisoId], [Otorgado], [DVH]) VALUES (@UsrId,22,'N',0); SELECT SCOPE_IDENTITY();";
+
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+
+
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@UsrId", DbType.Int32, usrId);
+
+
+                Convert.ToInt32(db.ExecuteScalar(cmd));
+
+            }
+
+        }
+
+
+        public void ActualizarPermiso(int detallePermisoId, string otorgamiento)
+        {
+
+            const string sqlStatement = "UPDATE dbo.SEG_DetallePermisos " +
+                "SET[Otorgado] = @otorgamiento WHERE [Id] = @id";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@id", DbType.Int32, detallePermisoId);
+                db.AddInParameter(cmd, "@otorgamiento", DbType.String, otorgamiento);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+        public DetallePermisoUsr BuscarDetallePermisoPorId(int detallePermisoId)
+        {
+
+            const string sqlStatement = "SELECT DP.Id, DP.UsrId, DP.PermisoId, P.Descripcion, DP.Otorgado, DP.DVH " +
+                                        "FROM [dbo].[SEG_DetallePermisos] as DP " +
+                                        "JOIN [dbo].[SEG_Permisos] as P " +
+                                            "ON P.Id = DP.PermisoId " +
+                                        "WHERE DP.Id = @detallePermisoId; ";
+
+            var result = new DetallePermisoUsr();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@detallePermisoId", DbType.Int32, detallePermisoId);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        result = MapearDetallePermisoUsr(dr); // Mapper
+                        
+                    }
+                }
+            }
+
+            return result;
+
+        }    
+
+
+
+        private PermisosUsr MapearPermisoUsr(IDataReader dr)
+        {
+
+            var permiso = new PermisosUsr
+            {
+                Id = GetDataValue<int>(dr, "Id"),
+                Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
+            };
+
+            return permiso;
+        }
+
+        private DetallePermisoUsr MapearDetallePermisoUsr(IDataReader dr)
+        {
+
+            var detallePermiso = new DetallePermisoUsr
+            {
+                Id = GetDataValue<int>(dr, "Id"),
+                UsrId = GetDataValue<int>(dr, "UsrId"),
+                PermisoId = GetDataValue<int>(dr, "PermisoId"),
+                Descripcion = GetDataValue<string>(dr, "Descripcion"),
+                Otorgado = GetDataValue<string>(dr, "Otorgado"),
+                DVH = GetDataValue<Int64>(dr, "DVH")
+            };
+
+            return detallePermiso;
+        }
 
         private Usuario MapearUsuario(IDataReader dr)
         {
@@ -518,45 +767,6 @@ namespace AccesoDatos
 
             return usuario;
         }
-
-
-        public Usuario InformacionCuenta(string idUsuario)
-        {
-            const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
-                "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
-                "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
-
-            var infoUsuario = new Usuario();
-
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
-            using (var cmd = db.GetSqlStringCommand(sqlStatement))
-            {
-                db.AddInParameter(cmd, "@idUsuario", DbType.String, idUsuario);
-
-                using (var dr = db.ExecuteReader(cmd))
-                {
-                    while (dr.Read())
-                    {
-                        infoUsuario = MapearUsuario(dr); // Mapper
-
-                    }
-                }
-            }
-
-            return infoUsuario;
-        }
-
-        private PermisosUsr MapearPermisoUsuario(IDataReader dr)
-        {
-
-            var permiso = new PermisosUsr
-            {
-                Id = GetDataValue<int>(dr, "Id"),
-                Descripcion = GetDataValue<string>(dr, "Descripcion"),
-                DVH = GetDataValue<Int64>(dr, "DVH")
-            };
-
-            return permiso;
-        }
     }
 }
+

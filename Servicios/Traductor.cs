@@ -184,11 +184,23 @@ namespace Servicios
                 traducciones.Add("REGISTRO_CLIENTE_TITULO", "FORMULARIO DE REGISTRO");
                 traducciones.Add("VALIDACION_USURIO_OBLIGATORIO", "El Usuario es Obligatorio.");
                 traducciones.Add("PRODUCTO_LEYENDA_NUEVO", "NUEVA");
+                traducciones.Add("LOYOUT_BARRA_CUENTA_COMPRAS", "Mis Operaciones");
+                traducciones.Add("CUENTA_VERPERMISOS_SACAR", "SACAR");
+                traducciones.Add("CUENTA_VERPERMISOS_DAR", "DAR");
+                traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_OTORGADOS", "PERMISOS OTORGADOS");
+                traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_RESTANTES", "PERMISOS SIN OTORGAR");
+                
+
 
             }
 
             if (idioma == "Eng")
             {
+                traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_OTORGADOS", "PERMITS GRANTED");
+                traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_RESTANTES", "PERMITS NOT GRANTED");
+                traducciones.Add("CUENTA_VERPERMISOS_DAR", "GIVE");
+                traducciones.Add("CUENTA_VERPERMISOS_SACAR", "TAKE AWAY");
+                traducciones.Add("LOYOUT_BARRA_CUENTA_COMPRAS", "My Operations");
                 traducciones.Add("PRODUCTO_LEYENDA_NUEVO", "NEW");
                 traducciones.Add("BITACORA_FILTROS_BOTON_FILTRAR", "FILTER");
                 traducciones.Add("BITACORA_TITULO", "SYSTEM LOG");

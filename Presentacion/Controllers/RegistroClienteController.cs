@@ -40,7 +40,7 @@ namespace Presentacion.Controllers
             var ws = new WebService();
 
             var mensajeria = new Mensajeria();
-
+                        
             TraducirPagina((String)Session["IdiomaApp"]);
 
             Session["ErrorRegistro"] = null;
@@ -82,6 +82,8 @@ namespace Presentacion.Controllers
             // Registro Usuario.
             var usrSesion = ln.RegistrarUsuario(usuario);
 
+            ln.OtorgarPermisosCliente(usrSesion.Id);
+                        
             // Envío correo de bienvenida.
             var cuerpoMsj = "Bienvenido a Implantagraf. Muchas gracias por confiar en nosotros, esperamos que encuentres lo que buscas y no dudes en consultarnos por lo que necesites.";
             var asuntoMsj = "Bienvenido!!";

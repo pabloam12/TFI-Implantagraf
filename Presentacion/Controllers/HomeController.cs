@@ -157,6 +157,8 @@ namespace Presentacion.Controllers
             ViewBag.HOME_CONTACTO_FORMULARIO_LEYENDA = diccionario["HOME_CONTACTO_FORMULARIO_LEYENDA"];
             ViewBag.BOTON_ENVIAR = diccionario["BOTON_ENVIAR"];
 
+
+
         }
 
 

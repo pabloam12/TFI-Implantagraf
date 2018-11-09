@@ -64,7 +64,9 @@ namespace Presentacion.Controllers
             usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
                         
             // Registro Usuario.
-            ln.RegistrarUsuario(usuario);
+            var usrRegistrado = ln.RegistrarUsuario(usuario);
+
+            ln.OtorgarPermisosAdministrativo(usrRegistrado.Id);
 
             return RedirectToAction("Index");
             //}
