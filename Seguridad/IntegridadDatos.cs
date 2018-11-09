@@ -21,9 +21,11 @@ namespace Seguridad
             {
                 CrearBaseImplantagraf();
 
-                RestaurarCopiaRespaldo("C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\Implantagraf_20181108_1544.bak");
+                RestaurarCopiaRespaldo("C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\Implantagraf_20181108_1930.bak");
 
-                GrabarRegistroIntegridad("SE ELIMINÓ", "BD IMPLANTAGRAF");
+                GrabarRegistroIntegridad("SE ELIMINÓ BD", "TODAS");
+
+                //TODO Grabar Bitacora.
 
                 flag = true;
             }

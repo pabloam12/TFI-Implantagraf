@@ -112,30 +112,30 @@ namespace AccesoDatos
             return result;
         }
 
-        public Hashtable Traducir(string idioma)
-        {
+        //public Hashtable Traducir(string idioma)
+        //{
 
-            string sqlStatement = "SELECT [Elemento], [" + idioma + "] as Traduccion FROM dbo.Traductor ORDER BY [Elemento]";
+        //    string sqlStatement = "SELECT [Elemento], [" + idioma + "] as Traduccion FROM dbo.Traductor ORDER BY [Elemento]";
 
-            var result = new Hashtable();
-            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+        //    var result = new Hashtable();
+        //    var db = DatabaseFactory.CreateDatabase(ConnectionName);
 
-            using (var cmd = db.GetSqlStringCommand(sqlStatement))
-            {
-                //db.AddInParameter(cmd, "@Idioma", DbType.String, idioma);
+        //    using (var cmd = db.GetSqlStringCommand(sqlStatement))
+        //    {
+        //        //db.AddInParameter(cmd, "@Idioma", DbType.String, idioma);
 
-                using (var dr = db.ExecuteReader(cmd))
-                {
-                    while (dr.Read())
-                    {
-                        var traduccion = MapearTraduccion(dr); // Mapper
-                        result.Add(traduccion.Elemento, traduccion.Traduccion);
-                    }
-                }
-            }
+        //        using (var dr = db.ExecuteReader(cmd))
+        //        {
+        //            while (dr.Read())
+        //            {
+        //                var traduccion = MapearTraduccion(dr); // Mapper
+        //                result.Add(traduccion.Elemento, traduccion.Traduccion);
+        //            }
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
 
 

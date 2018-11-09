@@ -453,6 +453,8 @@ namespace Presentacion.Controllers
 
             ViewBag.ENTIDAD_CUOTAS = diccionario["ENTIDAD_CUOTAS"];
 
+            ViewBag.PRODUCTO_LEYENDA_NUEVO = diccionario["PRODUCTO_LEYENDA_NUEVO"];
+
 
         }
 
