@@ -33,11 +33,10 @@
 
                 </div>
 
-
                 <div class="col-lg-8">
-                    <br />
-                    @Html.ActionLink((String)ViewBag.BOTON_COMPRAR, "RealizarPago", "Producto", null, new { @class = "btn btn-info" })
+                    @Html.ActionLink((String)ViewBag.BOTON_AGREGAR_CARRITO, "Catalogo", "Producto", null, new { @class = "btn btn-success" })
                 </div>
+                
 
             </div>
             <br />
@@ -132,8 +131,10 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            @Html.ActionLink((String)ViewBag.BOTON_AGREGAR_CARRITO, "Catalogo", "Producto", null, new { @class = "btn btn-success" })
+                            <br />
+                            @Html.ActionLink((String)ViewBag.BOTON_COMPRAR, "RealizarPago", "Producto", null, new { @class = "btn btn-info" })
                         </div>
+                        
                     </div>
 
 

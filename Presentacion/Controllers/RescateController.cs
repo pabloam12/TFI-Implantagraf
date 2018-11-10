@@ -11,8 +11,9 @@ namespace Presentacion.Controllers
 {
     public class RescateController : Controller
     {
+        public int claveValida = 1601;
         // GET: Rescate
-        public ActionResult Index()
+        public ActionResult Index(int clave = 0)
         {
             //TODO
                       
@@ -20,9 +21,14 @@ namespace Presentacion.Controllers
             {
                 return RedirectToAction("Index", "RescateIntegridad");
             }
-         
-            return View();
-            
+
+            if (clave == claveValida)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
+
         }
 
         public ActionResult SolucionarIntegridad()

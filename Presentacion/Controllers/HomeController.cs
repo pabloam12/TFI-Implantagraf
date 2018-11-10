@@ -91,31 +91,7 @@ namespace Presentacion.Controllers
 
             //Devuelve el Hastable con todas las traducciones.
             diccionario = traductor.Traducir(idioma);
-
-            //TODO Poner ifs a cada asignacion por si viene null que no falle.
-
-            //Traduce LAYOUT.
-            Session["LOYOUT_BARRA_CUENTA_INICIAR"] = (diccionario["LOYOUT_BARRA_CUENTA_INICIAR"] is DBNull) ? "Iniciar Sesión" : diccionario["LOYOUT_BARRA_CUENTA_INICIAR"];
-            Session["BOTON_REGISTRAR"] = (diccionario["BOTON_REGISTRAR"] is DBNull) ? "Registrarme" : diccionario["BOTON_REGISTRAR"];
-            Session["LOYOUT_BARRA_CUENTA_INFO"] = (diccionario["LOYOUT_BARRA_CUENTA_INFO"] is DBNull) ? "Mi Cuenta" : diccionario["LOYOUT_BARRA_CUENTA_INFO"];
-            Session["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] = (diccionario["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] is DBNull) ? "HOLA" : diccionario["LOYOUT_SALUDO_BIENVENIDA_USUARIO"];
-            Session["LOYOUT_SALUDO_BIENVENIDA"] = (diccionario["LOYOUT_SALUDO_BIENVENIDA"] is DBNull) ? "BIENBENIDO A NUESTRO SITIO!" : diccionario["LOYOUT_SALUDO_BIENVENIDA"];
-            Session["LOYOUT_MENU_IDIOMA"] = (diccionario["LOYOUT_MENU_IDIOMA"] is DBNull) ? "Idioma" : diccionario["LOYOUT_MENU_IDIOMA"];
-            Session["LOYOUT_MENU_CUENTA"] = (diccionario["LOYOUT_MENU_CUENTA"] is DBNull) ? "Cuenta de Usuario" : diccionario["LOYOUT_MENU_CUENTA"];
-            Session["LOYOUT_BARRA_CUENTA_SALIR"] = (diccionario["LOYOUT_BARRA_CUENTA_SALIR"] is DBNull) ? "Cerrar Sesión" : diccionario["LOYOUT_BARRA_CUENTA_SALIR"];
-            Session["LOYOUT_BARRA_PAGINAPRINCIPAL"] = (diccionario["LOYOUT_BARRA_PAGINAPRINCIPAL"] is DBNull) ? "Página Principal" : diccionario["LOYOUT_BARRA_PAGINAPRINCIPAL"];
-            Session["LOYOUT_BARRA_CATALOGO"] = (diccionario["LOYOUT_BARRA_CATALOGO"] is DBNull) ? "Catálogo" : diccionario["LOYOUT_BARRA_CATALOGO"];
-            Session["LOYOUT_BARRA_QUIENESSOMOS"] = (diccionario["LOYOUT_BARRA_QUIENESSOMOS"] is DBNull) ? "Quienes Somos" : diccionario["LOYOUT_BARRA_QUIENESSOMOS"];
-            Session["LOYOUT_BARRA_CONTACTO"] = (diccionario["LOYOUT_BARRA_CONTACTO"] is DBNull) ? "Contacto" : diccionario["LOYOUT_BARRA_CONTACTO"];
-            Session["LOYOUT_BARRA_MENU_VENTAS"] = (diccionario["LOYOUT_BARRA_MENU_VENTAS"] is DBNull) ? "Ventas" : diccionario["LOYOUT_BARRA_MENU_VENTAS"];
-            Session["LOYOUT_BARRA_MENU_STOCK"] = (diccionario["LOYOUT_BARRA_MENU_STOCK"] is DBNull) ? "Stock" : diccionario["LOYOUT_BARRA_MENU_STOCK"];
-            Session["LOYOUT_BARRA_MENU_CLIENTES"] = (diccionario["LOYOUT_BARRA_MENU_CLIENTES"] is DBNull) ? "Clientes" : diccionario["LOYOUT_BARRA_MENU_CLIENTES"];
-            Session["LOYOUT_BARRA_BITACORA"] = (diccionario["LOYOUT_BARRA_BITACORA"] is DBNull) ? "Bitácora" : diccionario["LOYOUT_BARRA_BITACORA"];
-            Session["LOYOUT_BARRA_MENU_USUARIOS"] = (diccionario["LOYOUT_BARRA_MENU_USUARIOS"] is DBNull) ? "Usuarios" : diccionario["LOYOUT_BARRA_MENU_USUARIOS"];
-            Session["LOYOUT_BARRA_MENU_RESPALDO"] = (diccionario["LOYOUT_BARRA_MENU_RESPALDO"] is DBNull) ? "Respaldo" : diccionario["LOYOUT_BARRA_MENU_RESPALDO"];
-            Session["LOYOUT_BARRA_MENU_RESTAURAR"] = (diccionario["LOYOUT_BARRA_MENU_RESTAURAR"] is DBNull) ? "Restaurar" : diccionario["LOYOUT_BARRA_MENU_RESTAURAR"];
-            Session["LOYOUT_BARRA_CUENTA_COMPRAS"] = (diccionario["LOYOUT_BARRA_CUENTA_COMPRAS"] is DBNull) ? "Mis Compras" : diccionario["LOYOUT_BARRA_CUENTA_COMPRAS"];
-
+                        
             //Traduce Vista HOME.
             ViewBag.HOME_LEYENDA_PRINCIPAL_1 = diccionario["HOME_LEYENDA_PRINCIPAL_1"];
             ViewBag.HOME_LEYENDA_PRINCIPAL_2 = diccionario["HOME_LEYENDA_PRINCIPAL_2"];

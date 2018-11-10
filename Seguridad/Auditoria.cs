@@ -31,7 +31,7 @@ namespace Seguridad
             var integ = new IntegridadDatos();
 
 
-            if (integ.ValidarExistencia("SEG_Bitacora") != 0)
+            if (integ.ValidarExistencia("SEG_Bitacora") == 1)
             {
                 var BitacoraDVH = integ.CalcularDVH(fechaHora.ToString() + usuario + accion + criticidad + detalle);
 

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Negocio;
 using System.Threading;
 using System.Globalization;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -16,7 +17,9 @@ namespace Presentacion.Controllers
         // GET: Idioma
         public ActionResult Index()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Idioma") == 1)
             {
                 var ln = new NegocioIdioma();
 
@@ -31,7 +34,9 @@ namespace Presentacion.Controllers
         // GET: Idioma/Crear
         public ActionResult Crear()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Idioma") == 1)
             {
                 return View();
             }
@@ -42,7 +47,9 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Crear(Idioma idioma)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Idioma") == 1)
             {
                 var ln = new NegocioIdioma();
                 ln.Agregar(idioma, (String)Session["UsrLogin"]);
@@ -57,7 +64,9 @@ namespace Presentacion.Controllers
         // GET: Idioma/Editar
         public ActionResult Editar(Idioma idioma)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Idioma") == 1)
             {
                 try
                 {
@@ -78,7 +87,9 @@ namespace Presentacion.Controllers
         // GET: Idioma/Borrar
         public ActionResult Borrar(int id)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Idioma") == 1)
             {
                 try
                 {
@@ -97,17 +108,6 @@ namespace Presentacion.Controllers
 
         public ActionResult TraducirIdioma (string idioma)
         {
-            //if(idioma != null)
-            //{
-            //    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(idioma);
-
-            //    Thread.CurrentThread.CurrentUICulture = new CultureInfo(idioma);
-            //}
-
-            //HttpCookie cookie = new HttpCookie("Idioma");
-            //cookie.Value = idioma;
-            //Response.Cookies.Add(cookie);
-
             Session["IdiomaApp"] = idioma;
 
             return RedirectToAction("Index", "Home");

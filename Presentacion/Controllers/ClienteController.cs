@@ -12,8 +12,10 @@ namespace Presentacion.Controllers
         //// GET: Cliente
         //public ActionResult Index()
         //{
-        //    if ((String)Session["PerfilUsuario"] == "Administrativo")
-        //    {
+        //    var integ = new IntegridadDatos();
+
+            //if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Cliente") == 1)
+            //{
         //        var ln = new NegocioCliente();
 
         //        return View(ln.Listar());

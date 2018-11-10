@@ -34,8 +34,9 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Index(string fecha, string fechaFin, string usr, string accion, string criticidad)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
 
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Bitacora") == 1)
             {
                 var ln = new Auditoria();
 
@@ -106,8 +107,7 @@ namespace Presentacion.Controllers
             ViewBag.ENTIDAD_DETALLE = diccionario["ENTIDAD_DETALLE"];
             ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO = diccionario["BITACORA_WARNING_SIN_FECHA_INICIO"];
             ViewBag.BITACORA_WARNING_FECHAS_MAL = diccionario["BITACORA_WARNING_FECHAS_MAL"];
-
-
+            
         }
     }
 }

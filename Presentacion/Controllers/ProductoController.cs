@@ -12,158 +12,199 @@ namespace Presentacion.Controllers
 {
     public class ProductoController : Controller
     {
-
+        public int[] productosValidos = { 110, 120, 130, 140, 150, 205, 210, 215, 225, 230, 245, 260, 265, 270, 280, 285, 450, 450, 460, 305, 315, 320, 330, 340, 350, 360, 365, 410, 420, 425, 440, 465, 470, 480, 485, 710, 720, 730, 740, 750, 760, 770, 810, 815, 820, 825 };
         public ActionResult Catalogo()
         {
-            TraducirPagina((String)Session["IdiomaApp"]);
+            var integ = new IntegridadDatos();
 
-            return View();
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && integ.ValidarExistencia("Producto") == 1)
+            {
+
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                return View();
+
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DetalleProducto(int productoId = 0)
         {
-            var ln = new NegocioProducto();
-
-            TraducirPagina((String)Session["IdiomaApp"]);
-
-            var producto = ln.BuscarPorId(productoId);
-
-            ViewBag.CodigoProducto = producto.Codigo.ToString();
-
-            ViewBag.Imagen = producto.Imagen;
-
-            if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && productosValidos.Contains(productoId) == true)
             {
-                ViewBag.Titulo = producto.Titulo;
-                ViewBag.Descripcion = producto.Descripcion;
+                var ln = new NegocioProducto();
+
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                var producto = ln.BuscarPorId(productoId);
+
+                ViewBag.CodigoProducto = producto.Codigo.ToString();
+
+                ViewBag.Imagen = producto.Imagen;
+
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    ViewBag.Titulo = producto.Titulo;
+                    ViewBag.Descripcion = producto.Descripcion;
+                }
+                else
+                {
+                    ViewBag.Titulo = producto.Titulo_Eng;
+                    ViewBag.Descripcion = producto.Descripcion_Eng;
+                }
+
+                ViewBag.Modelo = producto.Modelo;
+
+                ViewBag.Precio = producto.Precio.ToString();
+
+
+                return View();
             }
-            else { 
-                ViewBag.Titulo = producto.Titulo_Eng;
-                ViewBag.Descripcion = producto.Descripcion_Eng;
-            }
 
-            ViewBag.Modelo = producto.Modelo;
-            
-            ViewBag.Precio = producto.Precio.ToString();
-
-
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult MostrarCarrito()
         {
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] != "WebMaster")
+            {
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            return View();
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult AgregarCarrito(int productoId = 0)
         {
-            var ln = new NegocioProducto();
-
-            TraducirPagina((String)Session["IdiomaApp"]);
-
-            var producto = ln.BuscarPorId(productoId);
-
-            if (Session["Carrito"] == null)
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && productosValidos.Contains(productoId) == true)
             {
-                List<Carrito> productosCarrito = new List<Carrito>();
+                var ln = new NegocioProducto();
 
-                var carritoItem = new Carrito();
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-                carritoItem.ProductoId = producto.Codigo;
+                var producto = ln.BuscarPorId(productoId);
 
-                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                if (Session["Carrito"] == null)
                 {
-                    carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
-                }
-                else { 
-                    carritoItem.Descripcion = producto.Titulo_Eng + " - " + producto.Modelo;
-                }
+                    List<Carrito> productosCarrito = new List<Carrito>();
 
-                carritoItem.Cantidad = 1;
-                carritoItem.Precio = producto.Precio;
+                    var carritoItem = new Carrito();
 
-                productosCarrito.Add(carritoItem);
-                Session["Carrito"] = productosCarrito;
-            }
-            else
-            {
-                List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
-                var carritoItem = new Carrito();
-                carritoItem.ProductoId = producto.Codigo;
+                    carritoItem.ProductoId = producto.Codigo;
 
-                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
-                {
-                    carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
-                }
-                else
-                {
-                    carritoItem.Descripcion = producto.Titulo_Eng + " - " + producto.Modelo;
-                }
+                    if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
+                        carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
+                    }
+                    else
+                    {
+                        carritoItem.Descripcion = producto.Titulo_Eng + " - " + producto.Modelo;
+                    }
 
-                carritoItem.Cantidad = 1;
-                carritoItem.Precio = producto.Precio;
+                    carritoItem.Cantidad = 1;
+                    carritoItem.Precio = producto.Precio;
 
-                int idexistente = ControlarId(productoId);
-
-                if (idexistente == -1)
                     productosCarrito.Add(carritoItem);
+                    Session["Carrito"] = productosCarrito;
+                }
                 else
-                    productosCarrito[idexistente].Cantidad++;
+                {
+                    List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+                    var carritoItem = new Carrito();
+                    carritoItem.ProductoId = producto.Codigo;
 
-                Session["Carrito"] = productosCarrito;
+                    if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
+                        carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
+                    }
+                    else
+                    {
+                        carritoItem.Descripcion = producto.Titulo_Eng + " - " + producto.Modelo;
+                    }
+
+                    carritoItem.Cantidad = 1;
+                    carritoItem.Precio = producto.Precio;
+
+                    int idexistente = ControlarId(productoId);
+
+                    if (idexistente == -1)
+                        productosCarrito.Add(carritoItem);
+                    else
+                        productosCarrito[idexistente].Cantidad++;
+
+                    Session["Carrito"] = productosCarrito;
+                }
+
+                Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
+
+                return RedirectToAction("MostrarCarrito");
+
             }
 
-            Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
+            return RedirectToAction("Index", "Home");
 
-            return RedirectToAction("MostrarCarrito");
-        }
-
-        public ActionResult QuitarProductoCarrito(int productoId)
-        {
-            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
-
-            TraducirPagina((String)Session["IdiomaApp"]);
-
-            int idProdCarrito = ControlarId(productoId);
-
-            productosCarrito[idProdCarrito].Cantidad--;
-
-            if (productosCarrito[idProdCarrito].Cantidad == 0)
-
-            { productosCarrito.RemoveAt(idProdCarrito); }
-
-            Session["Carrito"] = productosCarrito;
-
-            //int cantidadTotalItems = (int)Session["ItemsCarrito"];
-
-            Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] - 1);
-
-            //cantidadTotalItems = (int)Session["ItemsCarrito"];
-
-            return View("MostrarCarrito");
 
         }
 
-        public ActionResult SumarProductoCarrito(int productoId)
+        public ActionResult QuitarProductoCarrito(int productoId = 0)
         {
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && productosValidos.Contains(productoId) == true)
+            {
 
-            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+                List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
-            int idProdCarrito = ControlarId(productoId);
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            productosCarrito[idProdCarrito].Cantidad++;
+                int idProdCarrito = ControlarId(productoId);
 
-            Session["Carrito"] = productosCarrito;
+                productosCarrito[idProdCarrito].Cantidad--;
+
+                if (productosCarrito[idProdCarrito].Cantidad == 0)
+
+                { productosCarrito.RemoveAt(idProdCarrito); }
+
+                Session["Carrito"] = productosCarrito;
+
+                //int cantidadTotalItems = (int)Session["ItemsCarrito"];
+
+                Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] - 1);
+
+                //cantidadTotalItems = (int)Session["ItemsCarrito"];
+
+                return View("MostrarCarrito");
+
+            }
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        public ActionResult SumarProductoCarrito(int productoId = 0)
+        {
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && productosValidos.Contains(productoId) == true)
+            {
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+
+                int idProdCarrito = ControlarId(productoId);
+
+                productosCarrito[idProdCarrito].Cantidad++;
+
+                Session["Carrito"] = productosCarrito;
 
 
-            Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
+                Session["ItemsCarrito"] = ((int)Session["ItemsCarrito"] + 1);
 
 
-            return View("MostrarCarrito");
+                return View("MostrarCarrito");
 
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -213,58 +254,85 @@ namespace Presentacion.Controllers
 
         public ActionResult RealizarPago()
         {
-            var ws = new WebService();
+            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if (productosCarrito.Count > 0)
+            {
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            if ((String)Session["PerfilUsuario"] != "Cliente" && (String)Session["PerfilUsuario"] != "Administrativo")
-            { return RedirectToAction("Index", "Login"); }
+                if ((String)Session["PerfilUsuario"] != "Cliente" && (String)Session["PerfilUsuario"] != "Administrativo")
+                { return RedirectToAction("Index", "Login"); }
 
-            var ln = new NegocioMarcaTC();
+                var ws = new WebService();
 
-            ViewBag.Marcas_TC = ln.Listar();
 
-            ViewBag.CUOTA_1 = "1 x $ " + ws.CalcularInteres(CalularImporteTotal(), 1).ToString() + ",00 .-";
+                var ln = new NegocioMarcaTC();
 
-            ViewBag.CUOTA_3 = "3 x $ " + ws.CalcularInteres(CalularImporteTotal(), 3).ToString() + ",00 .-";
+                ViewBag.Marcas_TC = ln.Listar();
 
-            ViewBag.CUOTA_6 = "6 x $ " + ws.CalcularInteres(CalularImporteTotal(), 6).ToString() + ",00 .-";
+                ViewBag.CUOTA_1 = "1 x $ " + ws.CalcularInteres(CalularImporteTotal(), 1).ToString() + ",00 .-";
 
-            ViewBag.CUOTA_12 = "12 x $ " + ws.CalcularInteres(CalularImporteTotal(), 12).ToString() + ",00 .-";
+                ViewBag.CUOTA_3 = "3 x $ " + ws.CalcularInteres(CalularImporteTotal(), 3).ToString() + ",00 .-";
 
-            return View();
+                ViewBag.CUOTA_6 = "6 x $ " + ws.CalcularInteres(CalularImporteTotal(), 6).ToString() + ",00 .-";
+
+                ViewBag.CUOTA_12 = "12 x $ " + ws.CalcularInteres(CalularImporteTotal(), 12).ToString() + ",00 .-";
+
+                return View();
+
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 
         public ActionResult RealizarPagoContado()
         {
-            var importeTotal = CalularImporteTotal();
-            var formaPago = 1;
-            var fechaHora = DateTime.Now;
+            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
-            var mensajeria = new Mensajeria();
+            if (productosCarrito.Count > 0)
+            {
+                var importeTotal = CalularImporteTotal();
+                var formaPago = 1;
+                var fechaHora = DateTime.Now;
 
-            TraducirPagina((String)Session["IdiomaApp"]);
+                var mensajeria = new Mensajeria();
 
-            RegistrarVenta(fechaHora, importeTotal, formaPago);
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            //ActualizarStock();
+                RegistrarVenta(fechaHora, importeTotal, formaPago);
 
-            var facturaCompra = (Factura)Session["Factura"];
+                //ActualizarStock();
 
-            // Envío correo con Factura adjunta TODO.
-            var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
-            var asuntoMsj = "Factura " + facturaCompra.Codigo.ToString();
-            mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
+                var facturaCompra = (Factura)Session["Factura"];
 
-            return RedirectToAction("FinalizarCompra");
+                try
+                {
+                    // Envío correo con Factura adjunta TODO.
+                    var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
+                    var asuntoMsj = "Factura " + facturaCompra.Codigo.ToString();
+                    mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
+                }
+                catch
+                {
+                    //TODO error envio mail
 
+                }
+
+                return RedirectToAction("FinalizarCompra");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public ActionResult RealizarPagoTarjeta(FrmTarjetaCredito datosTarjeta)
         {
-            var importeTotal = CalularImporteTotal();
+            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+
+            if (productosCarrito.Count > 0)
+            {
+                var importeTotal = CalularImporteTotal();
             var formaPago = 2;
             var fechaHora = DateTime.Now;
 
@@ -292,6 +360,10 @@ namespace Presentacion.Controllers
             //ActualizarStock();
 
             return RedirectToAction("FinalizarCompra");
+
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 

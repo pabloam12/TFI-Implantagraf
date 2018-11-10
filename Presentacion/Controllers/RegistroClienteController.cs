@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Negocio;
+using Seguridad;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -15,27 +16,41 @@ namespace Presentacion.Controllers
         public ActionResult Index()
 
         {
+            var integ = new IntegridadDatos();
 
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] == null && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            return RedirectToAction("Registrarse");
+                return RedirectToAction("Registrarse");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Registrarse()
         {
-            var lnloc = new NegocioLocalidad();
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == null && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                var lnloc = new NegocioLocalidad();
 
             TraducirPagina((String)Session["IdiomaApp"]);
 
             ViewBag.Localidades = lnloc.Listar();
 
             return View();
+
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public ActionResult Registrarse(FrmRegistroCliente registroCliente)
         {
-            if(registroCliente.CUIL == null && registroCliente.Direccion== null && registroCliente.Email==null && registroCliente.Psw==null&& registroCliente.RazonSocial==null&& registroCliente.Telefono==null)
+            if (registroCliente.CUIL == null && registroCliente.Direccion == null && registroCliente.Email == null && registroCliente.Psw == null && registroCliente.RazonSocial == null && registroCliente.Telefono == null)
             {
                 registroCliente.CUIL = registroCliente.CUIL_Eng;
                 registroCliente.Direccion = registroCliente.Direccion_Eng;
@@ -51,7 +66,7 @@ namespace Presentacion.Controllers
             var ws = new WebService();
 
             var mensajeria = new Mensajeria();
-                        
+
             TraducirPagina((String)Session["IdiomaApp"]);
 
             Session["ErrorRegistro"] = null;
@@ -64,7 +79,7 @@ namespace Presentacion.Controllers
                 return RedirectToAction("Registrarse");
             }
 
-            if(ws.ValidarCUIT(registroCliente.CUIL) == false)
+            if (ws.ValidarCUIT(registroCliente.CUIL) == false)
             {
                 Session["ErrorRegistro"] = ViewBag.ERROR_CUIT;
                 return RedirectToAction("Registrarse");
@@ -94,12 +109,17 @@ namespace Presentacion.Controllers
             var usrSesion = ln.RegistrarUsuario(usuario);
 
             ln.OtorgarPermisosCliente(usrSesion.Id);
-                        
-            // Envío correo de bienvenida.
-            var cuerpoMsj = "Bienvenido a Implantagraf. Muchas gracias por confiar en nosotros, esperamos que encuentres lo que buscas y no dudes en consultarnos por lo que necesites.";
-            var asuntoMsj = "Bienvenido!!";
-            mensajeria.EnviarCorreo("implantagraf@gmail.com", usuario.Email, asuntoMsj, cuerpoMsj);
 
+            try
+            {
+                // Envío correo de bienvenida.
+                var cuerpoMsj = "Bienvenido a Implantagraf. Muchas gracias por confiar en nosotros, esperamos que encuentres lo que buscas y no dudes en consultarnos por lo que necesites.";
+                var asuntoMsj = "Bienvenido!!";
+                mensajeria.EnviarCorreo("implantagraf@gmail.com", usuario.Email, asuntoMsj, cuerpoMsj);
+            }
+            catch
+            { //TODO mensaje bitacora
+            }
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
             {

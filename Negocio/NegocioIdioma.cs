@@ -12,6 +12,7 @@ namespace Negocio
     {
         public Idioma Agregar(Idioma idioma, string usuario)
         {
+
             var ad = new IdiomaDAC();
             var integ = new IntegridadDatos();
             var aud = new Auditoria();

@@ -31,11 +31,21 @@
                     <div class="row">
                         <div class="col-md-6">
                             @if ((String)Session["PerfilUsuario"] == null)
-                            {<div class="top_nav_left">@Session["LOYOUT_SALUDO_BIENVENIDA"]</div>}
+                            {
+                                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                {<div class="top_nav_left">BIENVENIDO A NUESTRO SITIO!</div>}
+                                else
+                                { <div class="top_nav_left">WELCOME TO OUR SITE!</div>}
+                            }
 
-                            else {<div class="top_nav_left">@Session["LOYOUT_SALUDO_BIENVENIDA_USUARIO"] @Session["NombreUsuario"]!</div>}
-                            
-                            
+                            else
+                            {
+                                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                {<div class="top_nav_left">HOLA @Session["NombreUsuario"]!</div>}
+                                else
+                                {<div class="top_nav_left">HI @Session["NombreUsuario"]!</div>}
+
+                            }
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="top_nav_right">
@@ -43,46 +53,85 @@
 
                                     @if ((String)Session["PerfilUsuario"] == null)
                                     {
-                                    <li class="language">
-                                        <a href="#">
-                                            @Session["LOYOUT_MENU_IDIOMA"]
-                                            <i class="fa fa-flag"></i>
-                                            <i class="fa fa-angle-down"></i>
-                                        </a>
-                                        <ul class="language_selection">
-                                            <li>@Html.ActionLink("Español", "TraducirIdioma", "Idioma", new { idioma = "Esp" }, null)</li>
-                                            <li>@Html.ActionLink("English", "TraducirIdioma", "Idioma", new { idioma = "Eng" }, null)</li>
-                                           @* <li>@Html.ActionLink("Portugues", "TraducirIdioma", "Idioma", new { idioma = "Bra" }, null)</li>*@
-                                        </ul>
-                                    </li>}
+                                        <li class="language">
+                                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                            {
+                                                <a href="#">
+                                                    IDIOMA
+                                                    <i class="fa fa-flag"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>}
+                                            else
+                                            {
+                                                <a href="#">
+                                                    LANGUAGE
+                                                    <i class="fa fa-flag"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>}
+                                            <ul class="language_selection">
+                                                <li>@Html.ActionLink("ESPAÑOL", "TraducirIdioma", "Idioma", new { idioma = "Esp" }, null)</li>
+                                                <li>@Html.ActionLink("ENGLISH", "TraducirIdioma", "Idioma", new { idioma = "Eng" }, null)</li>
+                                                @* <li>@Html.ActionLink("Portugues", "TraducirIdioma", "Idioma", new { idioma = "Bra" }, null)</li>*@
+                                            </ul>
+                                        </li>}
                                     <li class="account">
-                                        <a href="#">
-                                            @Session["LOYOUT_MENU_CUENTA"]
+                                        @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                        {
+                                            <a href="#">
+                                                CUENTA DE USUARIO
+
+                                                <i class="fa fa-user"></i>
+
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>}
+                                        else
+                                        {<a href="#">
+                                            USER ACCOUNT
 
                                             <i class="fa fa-user"></i>
 
                                             <i class="fa fa-angle-down"></i>
-                                        </a>
+                                        </a> }
                                         <ul class="account_selection">
 
                                             @if (Session["PerfilUsuario"] == null)
 
                                             {
+                                                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                                {
+                                                    <li> @Html.ActionLink("INICIAR SESIÓN", "Index", "Login") </li>
 
-                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_INICIAR"], "Index", "Login") </li>
-                                                
-                                                <li> @Html.ActionLink((String)Session["BOTON_REGISTRAR"], "Index", "RegistroCliente") </li>}
+                                                    <li> @Html.ActionLink("REGISTRARME", "Index", "RegistroCliente") </li>}
+                                                else
+                                                {
+                                                    <li> @Html.ActionLink("LOGIN", "Index", "Login") </li>
+
+                                                    <li> @Html.ActionLink("REGISTER", "Index", "RegistroCliente") </li>}
+                                            }
                                             else
                                             {
+                                                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                                {
 
+                                                    <li> @Html.ActionLink("MI CUENTA", "DetalleCuenta", "Cuenta")</li>
 
-                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_INFO"], "DetalleCuenta", "Cuenta")</li>
+                                                    if ((String)Session["PerfilUsuario"] == "Cliente" || (String)Session["PerfilUsuario"] == "Administrativo")
+                                                    {
+                                                        <li> @Html.ActionLink("MIS OPERACIONES", "Index", "MisCompras") </li>}
 
-                                                if ((String)Session["PerfilUsuario"] == "Cliente" || (String)Session["PerfilUsuario"] == "Administrativo")
-                                                {<li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_COMPRAS"], "Index", "MisCompras") </li>}
+                                                    <li> @Html.ActionLink("CERRAR SESIÓN", "Index", "Logout") </li>
+                                                }
+                                                else
+                                                {
 
-                                                <li> @Html.ActionLink((String)Session["LOYOUT_BARRA_CUENTA_SALIR"], "Index", "Logout") </li>
-                                                                                                
+                                                    <li> @Html.ActionLink("MY ACCOUNT", "DetalleCuenta", "Cuenta")</li>
+
+                                                    if ((String)Session["PerfilUsuario"] == "Cliente" || (String)Session["PerfilUsuario"] == "Administrativo")
+                                                    {
+                                                        <li> @Html.ActionLink("MY OPERATIONS", "Index", "MisCompras") </li>}
+
+                                                    <li> @Html.ActionLink("LOGOUT", "Index", "Logout") </li>
+                                                }
                                             }
 
                                         </ul>
@@ -106,31 +155,63 @@
                             <nav class="navbar">
                                 <ul class="navbar_menu">
 
-                                    @if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
+                                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
                                     {
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_PAGINAPRINCIPAL"], "Index", "Home")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_CATALOGO"], "Catalogo", "Producto")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_QUIENESSOMOS"], "Informacion", "Home")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_CONTACTO"], "Contacto", "Home")</li>
-                                    }
-                                    @if ((String)Session["PerfilUsuario"] == "Administrativo")
-                                    {
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_VENTAS"], "Index", "Home")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_STOCK"], "Index", "Home")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_CLIENTES"], "Index", "Cliente")</li>
-                                        
 
-                                    }
+                                        if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
+                                        {
+                                            <li>@Html.ActionLink("PÁGINA PRINCIPAL", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("CATÁLOGO", "Catalogo", "Producto")</li>
+                                            <li>@Html.ActionLink("CONTACTO", "Contacto", "Home")</li>
+                                            <li>@Html.ActionLink("QUIENES SOMOS", "Informacion", "Home")</li>
+                                        }
+                                        if ((String)Session["PerfilUsuario"] == "Administrativo")
+                                        {
+                                            <li>@Html.ActionLink("VENTAS", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("STOCK", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("CLIENTES", "Index", "Cliente")</li>
 
-                                    @if ((String)Session["PerfilUsuario"] == "WebMaster")
+
+                                        }
+
+                                        if ((String)Session["PerfilUsuario"] == "WebMaster")
+                                        {
+                                            <li>@Html.ActionLink("CONSULTAR BITÁCORA", "Index", "Bitacora")</li>
+                                            <li>@Html.ActionLink("USUARIOS", "ListarUsuarios", "Cuenta")</li>
+                                            <li>@Html.ActionLink("RALIZAR RESPALDO DATOS", "RealizarBackUp", "Rescate")</li>
+                                            <li>@Html.ActionLink("REALIZAR RESTORE", "ListarRespaldos", "Rescate")</li>
+                                        }
+                                    }
+                                    else
                                     {
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_BITACORA"], "Index", "Bitacora")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_USUARIOS"], "ListarUsuarios", "Cuenta")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_RESPALDO"], "RealizarBackUp", "Rescate")</li>
-                                        <li>@Html.ActionLink((String)Session["LOYOUT_BARRA_MENU_RESTAURAR"], "ListarRespaldos", "Rescate")</li>
+                                        if ((String)Session["PerfilUsuario"] == null || (String)Session["PerfilUsuario"] == "Cliente")
+                                        {
+                                            <li>@Html.ActionLink("HOME PAGE", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("CATALOG", "Catalogo", "Producto")</li>
+                                            <li>@Html.ActionLink("CONTACT US", "Contacto", "Home")</li>
+                                            <li>@Html.ActionLink("WHO WE ARE", "Informacion", "Home")</li>
+                                        }
+                                        if ((String)Session["PerfilUsuario"] == "Administrativo")
+                                        {
+                                            <li>@Html.ActionLink("SALES", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("STOCK", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("CUSTOMERS", "Index", "Cliente")</li>
+
+
+                                        }
+
+                                        if ((String)Session["PerfilUsuario"] == "WebMaster")
+                                        {
+                                            <li>@Html.ActionLink("SYSTEM LOG", "Index", "Bitacora")</li>
+                                            <li>@Html.ActionLink("USERS", "ListarUsuarios", "Cuenta")</li>
+                                            <li>@Html.ActionLink("DO BACKUP", "RealizarBackUp", "Rescate")</li>
+                                            <li>@Html.ActionLink("DO RESTORE", "ListarRespaldos", "Rescate")</li>
+                                        }
                                     }
 
                                 </ul>
+
+
 
                                 @if (Session["Carrito"] == null)
                                 { Session["ItemsCarrito"] = 0; }
@@ -157,6 +238,7 @@
             </div>
 
         </header>
+
         @RenderBody()
         <div class="container body-content">
 
@@ -200,9 +282,9 @@
     <script src="~/ColoShop/plugins/easing/easing.js"></script>
     <script src="~/ColoShop/js/custom.js"></script>
 
-<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
 
-  
+
 
     @Scripts.Render("~/bundles/jquery")
 

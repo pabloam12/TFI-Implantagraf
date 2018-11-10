@@ -14,27 +14,30 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
-            var aud = new Auditoria();
-            
-            var ln = new NegocioCuenta();
+            if ((String)Session["PerfilUsuario"] != null)
+            {
+                var aud = new Auditoria();
 
-                        aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "CIERRE DE SESIÓN", "INFO", "El Usuario ha cerrado sesión.");
+                var ln = new NegocioCuenta();
 
-            //ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "CIERRE DE SESIÓN", "INFO", "El Usuario ha cerrado sesión.");
 
-            Session["ItemsCarrito"] = 0;
+                //ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);
 
-            Session["ErrorLogin"] = null;
-            Session["IdUsuario"] = null;
-            Session["NombreUsuario"] = null;
-            Session["PerfilUsuario"] = null;
-            Session["EmailUsuario"] = null;
-            Session["DireccionUsuario"] = null;
+                Session["ItemsCarrito"] = 0;
 
-            Session["UsrLogin"] = null;
+                Session["ErrorLogin"] = null;
+                Session["IdUsuario"] = null;
+                Session["NombreUsuario"] = null;
+                Session["PerfilUsuario"] = null;
+                Session["EmailUsuario"] = null;
+                Session["DireccionUsuario"] = null;
 
-            Session["ErrorLogin"] = null;
-            Session["Excepcion"] = null;
+                Session["UsrLogin"] = null;
+
+                Session["ErrorLogin"] = null;
+                Session["Excepcion"] = null;
+            }
      
             return RedirectToAction("Index", "Home");
         }

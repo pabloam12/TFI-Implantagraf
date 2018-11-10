@@ -12,8 +12,7 @@ namespace Presentacion.Controllers
         // GET: RescateIntegridad
         public ActionResult Index()
         {
-
-
+            
             var inte = new IntegridadDatos();
 
             return View(inte.ListarRegistrosTablasFaltantes());

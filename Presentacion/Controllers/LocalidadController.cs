@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -14,7 +15,9 @@ namespace Presentacion.Controllers
         // GET: Localidad
         public ActionResult Index()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Localidad") == 1)
             {
                 var ln = new NegocioLocalidad();
 
@@ -28,7 +31,9 @@ namespace Presentacion.Controllers
         // GET: Localidad/Crear
         public ActionResult Crear()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Localidad") == 1)
             {
                 return View();
             }
@@ -38,7 +43,9 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Crear(Localidad localidad)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Localidad") == 1)
             {
                 try
                 {
@@ -60,7 +67,9 @@ namespace Presentacion.Controllers
         // GET: Localidad/Editar
         public ActionResult Editar(Localidad localidad)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Localidad") == 1)
             {
                 try
                 {
@@ -82,7 +91,9 @@ namespace Presentacion.Controllers
         // GET: Localidad/Borrar
         public ActionResult Borrar(int id)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Localidad") == 1)
             {
                 try
                 {

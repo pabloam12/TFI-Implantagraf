@@ -87,7 +87,7 @@ namespace Servicios
                 traducciones.Add("ENTIDAD_FECHA_INICIO", "Fecha Inicio");
                 traducciones.Add("ENTIDAD_FECHAHORA", "Fecha / Hora");
                 traducciones.Add("ENTIDAD_IDIOMA", "Idioma");
-                traducciones.Add("ENTIDAD_IMPORTE_TOTAL_PAGAR", "Total a Pagar");
+                traducciones.Add("ENTIDAD_IMPORTE_TOTAL_PAGAR", "TOTAL A PAGAR");
                 traducciones.Add("ENTIDAD_LOCALIDAD", "Localidad");
                 traducciones.Add("ENTIDAD_MES_V", "Mes Vencimiento");
                 traducciones.Add("ENTIDAD_NOMBRE", "Nombre");
@@ -145,26 +145,9 @@ namespace Servicios
                 traducciones.Add("LOGIN_OLVIDO_PSW", "¿Olvido su Contraseña?");
                 traducciones.Add("LOGIN_TITULO_TENGO_CUENTA", "TENGO UNA CUENTA");
                 traducciones.Add("LOGIN_TITULO_USUARIO_NUEVO", "SOY USUARIO NUEVO");
-                traducciones.Add("LOYOUT_BARRA_BITACORA", "Bitácora");
-                traducciones.Add("LOYOUT_BARRA_CATALOGO", "Catálogo");
-                traducciones.Add("LOYOUT_BARRA_CONTACTO", "Contacto");
-                traducciones.Add("LOYOUT_BARRA_CUENTA_INFO", "Mi Cuenta");
-                traducciones.Add("LOYOUT_BARRA_CUENTA_INICIAR", "Iniciar Sesión");
-                traducciones.Add("LOYOUT_BARRA_CUENTA_SALIR", "Cerrar Sesión");
-                traducciones.Add("LOYOUT_BARRA_MENU_ALQUILERES", "Alquileres");
-                traducciones.Add("LOYOUT_BARRA_MENU_CLIENTES", "Clientes");
-                traducciones.Add("LOYOUT_BARRA_MENU_NEGOCIO", "Objetos de Negocio");
-                traducciones.Add("LOYOUT_BARRA_MENU_RESPALDO", "Realizar Respaldo");
-                traducciones.Add("LOYOUT_BARRA_MENU_RESTAURAR", "Restaurar Respaldo");
-                traducciones.Add("LOYOUT_BARRA_MENU_STOCK", "STOCK");
-                traducciones.Add("LOYOUT_BARRA_MENU_USUARIOS", "Usuarios");
-                traducciones.Add("LOYOUT_BARRA_MENU_VENTAS", "Ventas");
-                traducciones.Add("LOYOUT_BARRA_PAGINAPRINCIPAL", "Página Principal");
-                traducciones.Add("LOYOUT_BARRA_QUIENESSOMOS", "Quienes Somos");
-                traducciones.Add("LOYOUT_MENU_CUENTA", "Cuenta de Usuario");
-                traducciones.Add("LOYOUT_MENU_IDIOMA", "Idioma");
-                traducciones.Add("LOYOUT_SALUDO_BIENVENIDA", "Bienvenido a nuestro sitio!");
-                traducciones.Add("LOYOUT_SALUDO_BIENVENIDA_USUARIO", "Hola");
+
+                //LOYOUT TRADUCIDA EN SITIO
+
                 traducciones.Add("MENSAJE_MAIL_COMPRA", "Muchas gracias por su compra!Adjuntamos su factura y recuerde que para recibir la mercaderia debera abonar el total de la factura en nuestras oficinas comerciales. Saludos.");
                 traducciones.Add("PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS", "Usted no tiene Productos en el Carrito.");
                 traducciones.Add("PRODUCTO_CARRITO_TITULO", "PRODUCTOS EN CARRITO");
@@ -189,7 +172,7 @@ namespace Servicios
                 traducciones.Add("CUENTA_VERPERMISOS_DAR", "DAR");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_OTORGADOS", "PERMISOS OTORGADOS");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_RESTANTES", "PERMISOS SIN OTORGAR");
-                
+
 
 
             }
@@ -266,7 +249,7 @@ namespace Servicios
                 traducciones.Add("ENTIDAD_FECHA_INICIO", "Start Date");
                 traducciones.Add("ENTIDAD_FECHAHORA", "Date/Hr");
                 traducciones.Add("ENTIDAD_IDIOMA", "Language");
-                traducciones.Add("ENTIDAD_IMPORTE_TOTAL_PAGAR", "Total Amount");
+                traducciones.Add("ENTIDAD_IMPORTE_TOTAL_PAGAR", "TOTAL AMOUNT");
                 traducciones.Add("ENTIDAD_LOCALIDAD", "Location");
                 traducciones.Add("ENTIDAD_MES_V", "Expiration Month");
                 traducciones.Add("ENTIDAD_NOMBRE", "Name");
@@ -324,26 +307,7 @@ namespace Servicios
                 traducciones.Add("LOGIN_OLVIDO_PSW", "Forgot Password?");
                 traducciones.Add("LOGIN_TITULO_TENGO_CUENTA", "I HAVE AN ACCOUNT");
                 traducciones.Add("LOGIN_TITULO_USUARIO_NUEVO", "NEW USER");
-                traducciones.Add("LOYOUT_BARRA_BITACORA", "System Log");
-                traducciones.Add("LOYOUT_BARRA_CATALOGO", "Catalogue");
-                traducciones.Add("LOYOUT_BARRA_CONTACTO", "Contact");
-                traducciones.Add("LOYOUT_BARRA_CUENTA_INFO", "My Account");
-                traducciones.Add("LOYOUT_BARRA_CUENTA_INICIAR", "LogIn");
-                traducciones.Add("LOYOUT_BARRA_CUENTA_SALIR", "LogOut");
-                traducciones.Add("LOYOUT_BARRA_MENU_ALQUILERES", "Rents");
-                traducciones.Add("LOYOUT_BARRA_MENU_CLIENTES", "Customer");
-                traducciones.Add("LOYOUT_BARRA_MENU_NEGOCIO", "Business Entities");
-                traducciones.Add("LOYOUT_BARRA_MENU_RESPALDO", "BackUp");
-                traducciones.Add("LOYOUT_BARRA_MENU_RESTAURAR", "Restore");
-                traducciones.Add("LOYOUT_BARRA_MENU_STOCK", "STOCK");
-                traducciones.Add("LOYOUT_BARRA_MENU_USUARIOS", "Users");
-                traducciones.Add("LOYOUT_BARRA_MENU_VENTAS", "Sales");
-                traducciones.Add("LOYOUT_BARRA_PAGINAPRINCIPAL", "Home");
-                traducciones.Add("LOYOUT_BARRA_QUIENESSOMOS", "Who we are");
-                traducciones.Add("LOYOUT_MENU_CUENTA", "User Account");
-                traducciones.Add("LOYOUT_MENU_IDIOMA", "Language");
-                traducciones.Add("LOYOUT_SALUDO_BIENVENIDA", "Welcome to our Site!");
-                traducciones.Add("LOYOUT_SALUDO_BIENVENIDA_USUARIO", "Hi");
+
                 traducciones.Add("MENSAJE_MAIL_COMPRA", "Thank you for your purchase! We enclose your invoice and remember that to receive the merchandise you must pay the total invoice in our commercial offices. Greetings.");
                 traducciones.Add("PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS", "You do not have Products in the Cart.");
                 traducciones.Add("PRODUCTO_CARRITO_TITULO", "PRODUCTS IN CART");

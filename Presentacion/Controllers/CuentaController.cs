@@ -19,10 +19,17 @@ namespace Presentacion.Controllers
         // GET: /Cuenta/Index
         public ActionResult Index()
         {
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+            var integ = new IntegridadDatos();
 
-            return RedirectToAction("DetalleCuenta");
+            if ((String)Session["PerfilUsuario"] != null && integ.ValidarExistencia("SEG_Usuario") == 1)
+            {
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                return RedirectToAction("DetalleCuenta");
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -45,7 +52,9 @@ namespace Presentacion.Controllers
 
         public ActionResult DetalleCuenta()
         {
-            if ((String)Session["PerfilUsuario"] != null)
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] != null && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
                 var ln = new NegocioCuenta();
 
@@ -80,27 +89,48 @@ namespace Presentacion.Controllers
 
         public ActionResult SacarPermiso(int idDetallePermiso)
         {
-            var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
 
-            var detalleModificado = ln.SacarPermiso(idDetallePermiso);
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                var ln = new NegocioCuenta();
 
-            return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
+                var detalleModificado = ln.SacarPermiso(idDetallePermiso);
+
+                return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DarPermiso(int idDetallePermiso)
         {
-            var ln = new NegocioCuenta();
+
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+
+                var ln = new NegocioCuenta();
 
             var detalleModificado = ln.DarPermiso(idDetallePermiso);
 
             return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
+
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 
 
         public ActionResult BloquearCuenta(int id)
         {
-            var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Usuario") == 1)
+            {
+                var ln = new NegocioCuenta();
 
             ln.BloquearCuenta(id);
 
@@ -108,12 +138,19 @@ namespace Presentacion.Controllers
             TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 
         public ActionResult DesbloquearCuenta(int id)
         {
-            var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Usuario") == 1)
+            {
+                var ln = new NegocioCuenta();
 
             ln.DesbloquearCuenta(id);
 
@@ -121,12 +158,17 @@ namespace Presentacion.Controllers
             TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
+            }
+
+            return RedirectToAction("Index", "Home");
 
         }
 
         public ActionResult ActualizarDatosCuenta(Usuario usuarioModif)
         {
-            if ((String)Session["PerfilUsuario"] != null)
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] != null && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
                 try
                 {
@@ -189,10 +231,16 @@ namespace Presentacion.Controllers
 
         public ActionResult RecuperarPsw()
         {
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] == null)
+            {
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            return View();
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
+
         }
 
         [HttpPost]
@@ -228,10 +276,15 @@ namespace Presentacion.Controllers
 
         public ActionResult CambiarPsw()
         {
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] != null)
+            {
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
             return View();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 

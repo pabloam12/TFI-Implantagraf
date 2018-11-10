@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Negocio;
+using Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,39 @@ namespace Presentacion.Controllers
         public ActionResult Index()
 
         {
-            try
-            {
-                var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
 
-                return View(ln.ListarUsuariosPorPerfil(2));
-            }
-            catch
+            if ((String)Session["PerfilUsuario"] == "Webmaster" && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
             {
-                Session["Excepcion"] = "Error al Listar los UsuariosAdministrativos.";
-                return RedirectToAction("Index", "Excepciones");
+
+
+                try
+                {
+                    var ln = new NegocioCuenta();
+
+                    return View(ln.ListarUsuariosPorPerfil(2));
+                }
+                catch
+                {
+                    Session["Excepcion"] = "Error al Listar los UsuariosAdministrativos.";
+                    return RedirectToAction("Index", "Excepciones");
+                }
+
             }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult RegistrarUsuarioAdministrativo()
         {
-            return View();
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "Webmaster" && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -49,7 +67,7 @@ namespace Presentacion.Controllers
             usuario.Email = registroAdministrativo.Email;
             usuario.Usr = registroAdministrativo.Usr;
             usuario.Psw = registroAdministrativo.Psw;
-                        
+
             usuario.Estado = "S";
             usuario.FechaAlta = DateTime.Now;
             usuario.FechaBaja = new DateTime(2000, 01, 01);
@@ -62,7 +80,7 @@ namespace Presentacion.Controllers
             usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
             usuario.PerfilUsr = new PerfilUsr { Id = 2, Descripcion = "Administrativo" };
             usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
-                        
+
             // Registro Usuario.
             var usrRegistrado = ln.RegistrarUsuario(usuario);
 

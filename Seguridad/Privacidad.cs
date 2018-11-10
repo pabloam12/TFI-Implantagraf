@@ -11,7 +11,7 @@ namespace Seguridad
     {
         public string clave = "TrabajoFinalTFI";
 
-        public String Cifrar(string dato)
+        public String EncriptarPsw(string dato)
         {
             return CifrarTripleDES(dato);
         }
@@ -21,10 +21,10 @@ namespace Seguridad
             return DescifrarTripleDES(dato);
         }
 
-        public String EncriptarPsw(string psw)
-        {
-            return CalcularMD5Hash(psw);
-        }
+        //public String EncriptarPsw(string psw)
+        //{
+        //    return CalcularMD5Hash(psw);
+        //}
 
         private string CalcularMD5Hash(string input)
 

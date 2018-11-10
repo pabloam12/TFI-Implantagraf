@@ -15,12 +15,19 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
-            Session["ErrorLogin"] = null;
+            var integ = new IntegridadDatos();
 
-            // Traduce páginas de LOGIN.
-            TraducirPagina((String)Session["IdiomaApp"]);
+            if ((String)Session["PerfilUsuario"] == null && integ.ValidarExistencia("SEG_Usuario") == 1)
+            {
+                Session["ErrorLogin"] = null;
 
-            return RedirectToAction("Login");
+                // Traduce páginas de LOGIN.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                return RedirectToAction("Login");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Login()

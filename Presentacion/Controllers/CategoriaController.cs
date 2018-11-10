@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -13,7 +14,9 @@ namespace Presentacion.Controllers
 
         public ActionResult Index()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Categoria") == 1)
             {
                 var ln = new NegocioCategoria();
 
@@ -27,7 +30,9 @@ namespace Presentacion.Controllers
         // GET: Categoria/Crear
         public ActionResult Crear()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Categoria") == 1)
             {
                 return View();
             }
@@ -38,7 +43,9 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Crear(Categoria categoria)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Categoria") == 1)
             {
                 var ln = new NegocioCategoria();
                 ln.Agregar(categoria, (String)Session["UsrLogin"]);
@@ -53,7 +60,9 @@ namespace Presentacion.Controllers
         // GET: Categoria/Editar
         public ActionResult Editar(Categoria categoria)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Categoria") == 1)
             {
                 try
                 {
@@ -71,7 +80,9 @@ namespace Presentacion.Controllers
         // GET: Categoria/Borrar
         public ActionResult Borrar(int id)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster" || (String)Session["PerfilUsuario"] == "Administrativo")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Categoria") == 1)
             {
                 var ln = new NegocioCategoria();
                 ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);

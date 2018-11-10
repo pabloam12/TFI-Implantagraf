@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using Seguridad;
 
 namespace Presentacion.Controllers
 {
@@ -14,7 +15,9 @@ namespace Presentacion.Controllers
         // GET: PerfilUsr
         public ActionResult Index()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_PerfilUsr") == 1)
             {
                 var ln = new NegocioPerfilUsr();
 
@@ -29,7 +32,9 @@ namespace Presentacion.Controllers
         // GET: PerfilUsr/Crear
         public ActionResult Crear()
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_PerfilUsr") == 1)
             {
                 return View();
             }
@@ -40,7 +45,9 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Crear(PerfilUsr perfilUsr)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_PerfilUsr") == 1)
             {
                 try
                 {
@@ -62,7 +69,9 @@ namespace Presentacion.Controllers
         // GET: PerfilUsr/Editar
         public ActionResult Editar(PerfilUsr perfilUsr)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_PerfilUsr") == 1)
             {
                 try
                 {
@@ -83,7 +92,9 @@ namespace Presentacion.Controllers
         // GET: PerfilUsr/Borrar
         public ActionResult Borrar(int id)
         {
-            if ((String)Session["PerfilUsuario"] == "WebMaster")
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_PerfilUsr") == 1)
             {
                 try
                 {

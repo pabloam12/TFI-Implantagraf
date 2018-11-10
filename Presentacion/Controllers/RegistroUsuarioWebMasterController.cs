@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Negocio;
+using Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,36 @@ namespace Presentacion.Controllers
         public ActionResult Index()
 
         {
-            try
-            {
-                var ln = new NegocioCuenta();
+            var integ = new IntegridadDatos();
 
-                return View(ln.ListarUsuariosPorPerfil(1));
-            }
-            catch
+            if ((String)Session["PerfilUsuario"] == null && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
             {
-                Session["Excepcion"] = "Error al Listar los UsuariosWebMasters.";
-                return RedirectToAction("Index", "Excepciones");
+                try
+                {
+                    var ln = new NegocioCuenta();
+
+                    return View(ln.ListarUsuariosPorPerfil(1));
+                }
+                catch
+                {
+                    Session["Excepcion"] = "Error al Listar los UsuariosWebMasters.";
+                    return RedirectToAction("Index", "Excepciones");
+                }
             }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult RegistrarUsuarioWebMaster()
         {
-            return View();
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == null && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
