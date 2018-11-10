@@ -30,15 +30,6 @@ namespace Seguridad
                 flag = true;
             }
 
-            //if (ValidarExistencia("Traductor") == 0)
-            //{
-            //    GrabarRegistroIntegridad("SE ELIMINÓ", "TRADUCTOR");
-
-            //    CreoTablaTraductor();
-
-            //    flag = true;
-
-            //}
 
             if (ValidarExistencia("SEG_DVV") == 0)
             {
@@ -49,7 +40,6 @@ namespace Seguridad
                 flag = true;
 
             }
-
 
 
 
@@ -122,7 +112,7 @@ namespace Seguridad
                 flag = true;
             }
 
-            
+
             // Valida que esten todas las tablas.
             if (ValidarExistenciaTablas(flag))
                 flag = true;
@@ -136,7 +126,7 @@ namespace Seguridad
             InsertarLocalidadCompleto();
             InsertarPerfilUsrCompleto();
             InsertarPermisosCompleto();
-            
+
 
             //Usuario
             if (ValidarExistencia("SEG_Usuario") == 0)
@@ -148,11 +138,11 @@ namespace Seguridad
                 flag = true;
             }
 
-            
+
             if (accDatosUSr.ValidarUsuario("admin") == true)
             {
                 var usrAdmin = AltaUsuario();
-                
+
                 accDatosUSr.OtorgarPermisosWebmaster(usrAdmin.Id);
 
                 GrabarRegistroIntegridad("SE ELIMINÓ", "USUARIO ADMIN");
@@ -588,7 +578,7 @@ namespace Seguridad
             return flag;
         }
 
-               
+
 
         public bool ValidarRegistrosDVH(bool flag)
         {
@@ -646,7 +636,7 @@ namespace Seguridad
 
                 foreach (Producto productoActual in listadoProductos)
                 {
-                    if (CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
+                    if (CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Titulo_Eng + productoActual.Modelo + productoActual.Descripcion + productoActual.Descripcion_Eng + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString()) != productoActual.DVH)
                     {
                         GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "PRODUCTO", productoActual.Codigo.ToString(), productoActual.Titulo, productoActual.Modelo, productoActual.Marca.Descripcion, productoActual.Categoria.Descripcion);
                         flag = true;
@@ -1061,7 +1051,7 @@ namespace Seguridad
 
                 foreach (Producto productoActual in listadoProductos)
                 {
-                    dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Modelo + productoActual.Descripcion + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString());
+                    dvhActual = CalcularDVH(productoActual.Codigo + productoActual.Titulo + productoActual.Titulo_Eng + productoActual.Modelo + productoActual.Descripcion + productoActual.Descripcion_Eng + productoActual.Imagen + productoActual.Marca.Id.ToString() + productoActual.Categoria.Id.ToString() + productoActual.Precio.ToString());
 
                     ActualizarDVHProducto(productoActual.Codigo, dvhActual);
 
@@ -1310,7 +1300,7 @@ namespace Seguridad
 
         }
 
-       
+
         private void InsertarIdiomaCompleto()
         {
 
