@@ -1,67 +1,136 @@
 ﻿@model IEnumerable<Entidades.Usuario>
 
+
 @{
-    ViewBag.Title = "Clientes";
+    ViewBag.Title = ViewBag.CLIENTE_TITULO;
 
 }
 
-@Html.Partial("_Espacio1")
 
-<h2>LISTADO DE CLIENTES</h2>
-<br />
-    @*<p>
-        @Html.ActionLink("Nuevo Cliente", "Index", "RegistroCliente", new { @class = "btn btn-primary btn-sm" })
-    </p>*@
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RazonSocial)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.CUIL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAlta)
-            </th>
-            
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RazonSocial)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.CUIL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaAlta)
-            </td>
-                       
-        </tr>
+@Html.Partial("_Espacio1")
+<div class="container contact_container">
+    <h4>@ViewBag.CLIENTE_TITULO</h4>
+
+    <br />
+
+
+    @using (Html.BeginForm("Index", "Cliente", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+            {
+
+        <div class="row">
+            <div class="col">
+
+                <div class="form-group">
+                    @ViewBag.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    @ViewBag.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" />
+                </div>
+
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    @ViewBag.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" />
+                </div>
+                <br />
+                <div class="form-group">
+                    <p>
+                        <button type="submit" value="Search" class="btn btn-success">@ViewBag.BITACORA_FILTROS_BOTON_FILTRAR</button>
+
+                        @Html.ActionLink((String)ViewBag.BOTON_EXPORTAR_XML, "ExportarXML", null, new { @class = "btn btn-info btn-xl" })
+
+                    </p>
+
+                </div>
+            </div>
+
+            @*<div class="col">
+
+                    <div class="form-group">
+                        <p>
+                            <button type="submit" value="Search" class="btn btn-success">@ViewBag.BITACORA_FILTROS_BOTON_FILTRAR</button>
+
+                            @Html.ActionLink((String)ViewBag.BOTON_EXPORTAR_XML, "ExportarXML", null, new { @class = "btn btn-info btn-xl" })
+
+                        </p>
+
+                    </div>
+                </div>*@
+
+        </div>
     }
-    
-    </table>
+
+    @if ((String)Session["ErrorFiltroCLiente"] != null)
+            {
+        <br />
+        <div class="alert alert-danger" role="alert">@Session["ErrorFiltroCLiente"]!</div>
+
+
+    }
+
+    @section scripts{
+
+        <script>
+
+            $(document).ready(function () {
+                $('#table').DataTable();
+            });
+
+        </script>
+    }
+
+    <div class="row">
+        <br />
+        <table class="table" id="table">
+
+            <thead>
+
+                <tr>
+                    <th>
+                        @ViewBag.ENTIDAD_FECHA_ALTA
+                    </th>
+                    <th>
+                        @ViewBag.ENTIDAD_RAZON_SOCIAL
+                    </th>
+                    <th>
+                        @ViewBag.ENTIDAD_CUIL
+                    </th>
+                    <th>
+                        @ViewBag.ENTIDAD_DIRECCION
+                    </th>                    
+                  
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaAlta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RazonSocial)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CUIL)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Direccion)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
 
 @Html.Partial("_Espacio2")

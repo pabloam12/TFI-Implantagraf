@@ -85,7 +85,7 @@ namespace Servicios
             var mes = fechaHora.Substring(3, 2);
             var anio = fechaHora.Substring(6, 4);
 
-            using (XmlWriter writer = XmlWriter.Create("C:\\Users\\Steiner\\Desktop\\ImplantagrafXML\\Bitacora_" + anio + mes + dia + ".xml"))
+            using (XmlWriter writer = XmlWriter.Create("C:\\Implantagraf\\XML\\Bitacora_" + anio + mes + dia + ".xml"))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("BitacoraXML");
@@ -112,32 +112,32 @@ namespace Servicios
         }
 
 
-        public void ExportarClientesXML(List<Cliente> listaClientes)
+        public void ExportarClientesXML(List<Usuario> listaClientes)
         {
             var fechaHora = DateTime.Now.ToShortDateString();
             var dia = fechaHora.Substring(0, 2);
             var mes = fechaHora.Substring(3, 2);
             var anio = fechaHora.Substring(6, 4);
 
-            using (XmlWriter writer = XmlWriter.Create("C:\\Users\\Steiner\\Desktop\\ImplantagrafXML\\Clientes_" + anio + mes + dia + ".xml"))
+            using (XmlWriter writer = XmlWriter.Create("C:\\Implantagraf\\XML\\Clientes_" + anio + mes + dia + ".xml"))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("ClientesXML");
 
-                foreach (Cliente clienteActual in listaClientes)
+                foreach (Usuario clienteActual in listaClientes)
                 {
                     writer.WriteStartElement("Cliente");
 
                     writer.WriteAttributeString("Id", clienteActual.Id.ToString());
 
+                    writer.WriteElementString("FechaAlta", clienteActual.FechaAlta.ToString());
                     writer.WriteElementString("RazonSocial", clienteActual.RazonSocial);
                     writer.WriteElementString("CUIL", clienteActual.CUIL);
                     writer.WriteElementString("Email", clienteActual.Email);
                     writer.WriteElementString("Telefono", clienteActual.Telefono);
                     writer.WriteElementString("Direccion", clienteActual.Direccion);
                     writer.WriteElementString("Descripcion", clienteActual.Localidad.Descripcion);
-                    writer.WriteElementString("FechaAlta", clienteActual.FechaAlta.ToString());
-
+                    
                     writer.WriteEndElement();
                 }
 
@@ -155,7 +155,7 @@ namespace Servicios
             var mes = fechaHora.Substring(3, 2);
             var anio = fechaHora.Substring(6, 4);
 
-            using (XmlWriter writer = XmlWriter.Create("C:\\Users\\Steiner\\Desktop\\ImplantagrafXML\\Ventas_" + anio + mes + dia + ".xml"))
+            using (XmlWriter writer = XmlWriter.Create("C:\\Implantagraf\\XML\\Ventas_" + anio + mes + dia + ".xml"))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("VentasXML");

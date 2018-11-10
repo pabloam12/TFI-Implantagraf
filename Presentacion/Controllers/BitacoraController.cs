@@ -13,7 +13,7 @@ namespace Presentacion.Controllers
     public class BitacoraController : Controller
     {
 
-        // GET: Idioma
+        
         public ActionResult Index()
         {
             var integ = new IntegridadDatos();
@@ -25,7 +25,11 @@ namespace Presentacion.Controllers
                 //Traducir Página BITACORA.
                 TraducirPagina((String)Session["IdiomaApp"]);
 
-                return View(ln.ConsultarBitacora());
+                var consulta = ln.ConsultarBitacora();
+
+                Session["ConsultaBitacora"] = consulta;
+
+                return View(consulta);
             }
 
             return RedirectToAction("Index", "Home");
@@ -42,6 +46,8 @@ namespace Presentacion.Controllers
 
                 //Traducir Página BITACORA.
                 TraducirPagina((String)Session["IdiomaApp"]);
+
+                Session["ErrorFiltroBitacora"] = null;
 
                 if (fecha == "" && fechaFin != "")
                 {
@@ -73,12 +79,27 @@ namespace Presentacion.Controllers
 
                 }
 
-                return View(ln.ConsultarBitacora(fecha, fechaFin, usr, accion, criticidad));
+                var consulta = ln.ConsultarBitacora(fecha, fechaFin, usr, accion, criticidad);
+
+                Session["ConsultaBitacora"] = consulta;
+
+                return View(consulta);
             }
 
 
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ExportarXML()
+        {
+            var exportador = new Exportador();
+
+            List<Bitacora> consultaBitacora = (List<Bitacora>)Session["ConsultaBitacora"];
+
+            exportador.ExportarBitacoraXML(consultaBitacora);
+
+            return RedirectToAction("Index");
         }
 
         private void TraducirPagina(string idioma)
@@ -107,7 +128,12 @@ namespace Presentacion.Controllers
             ViewBag.ENTIDAD_DETALLE = diccionario["ENTIDAD_DETALLE"];
             ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO = diccionario["BITACORA_WARNING_SIN_FECHA_INICIO"];
             ViewBag.BITACORA_WARNING_FECHAS_MAL = diccionario["BITACORA_WARNING_FECHAS_MAL"];
+
+            ViewBag.BOTON_EXPORTAR_XML = diccionario["BOTON_EXPORTAR_XML"];
+
             
+
+
         }
     }
 }

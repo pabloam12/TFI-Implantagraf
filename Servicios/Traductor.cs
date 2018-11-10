@@ -172,6 +172,10 @@ namespace Servicios
                 traducciones.Add("CUENTA_VERPERMISOS_DAR", "DAR");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_OTORGADOS", "PERMISOS OTORGADOS");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_RESTANTES", "PERMISOS SIN OTORGAR");
+                traducciones.Add("BOTON_EXPORTAR_XML", "EXPORTAR XML");
+                traducciones.Add("CLIENTE_TITULO", "LISTADO DE CLIENTES");
+                
+
 
 
 
@@ -179,6 +183,8 @@ namespace Servicios
 
             if (idioma == "Eng")
             {
+                traducciones.Add("CLIENTE_TITULO", "CUSTOMER LIST");
+                traducciones.Add("BOTON_EXPORTAR_XML", "EXPORT XML");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_OTORGADOS", "PERMITS GRANTED");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_RESTANTES", "PERMITS NOT GRANTED");
                 traducciones.Add("CUENTA_VERPERMISOS_DAR", "GIVE");

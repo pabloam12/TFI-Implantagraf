@@ -64,6 +64,65 @@ namespace AccesoDatos
             return result;
         }
 
+        public List<Usuario> ListarClientesPorFiltro(string fecha, string fechaFin, string usr)
+        {
+
+            var sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
+               "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
+               "FROM dbo.SEG_Usuario ";
+
+            var whereStatement = "";
+
+
+            if (fecha != "")
+            {
+                fecha = InvertirFecha(fecha);
+
+                whereStatement = "Where [FechaAlta] >= @fecha and [FechaAlta] < dateadd(day,1,@fecha) ";
+
+                if (fechaFin != "")
+                {
+
+                    fechaFin = InvertirFecha(fechaFin);
+
+                    whereStatement = "Where [FechaAlta] >= @fecha and [FechaAlta] < dateadd(day,1,@fechaFin) ";
+
+                }
+            }
+
+            if (usr != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Usuario] like '%" + usr + "%' "; }
+
+                else { whereStatement = whereStatement + "AND [Usuario] like '%" + usr + "%' "; }
+
+            }
+                                    
+            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaAlta] DESC;";
+
+
+            var result = new List<Usuario>();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@fecha", DbType.String, fecha);
+                db.AddInParameter(cmd, "@fechaFin", DbType.String, fechaFin);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var usrActual = MapearUsuario(dr); // Mapper
+                        result.Add(usrActual);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public Usuario BuscarUsuarioPorUsuario(string usr)
         {
 
@@ -766,6 +825,17 @@ namespace AccesoDatos
             };
 
             return usuario;
+        }
+
+        private string InvertirFecha(string fecha)
+        {
+
+            var anio = fecha.Substring(0, 4);
+            var mes = fecha.Substring(5, 2);
+            var dia = fecha.Substring(8, 2);
+
+            return (dia + "-" + mes + "-" + anio);
+
         }
     }
 }

@@ -38,6 +38,16 @@ namespace Negocio
 
         }
 
+        public List<Usuario> ListarClientesPorFiltro(string fecha, string fechaFin, string usr)
+        {
+
+            var ad = new CuentaDAC();
+
+            return ad.ListarClientesPorFiltro(fecha, fechaFin, usr);
+
+        }
+
+
         public List<DetallePermisoUsr> VerDetallePermisosUsuario(int usuarioId)
         {
 
@@ -88,7 +98,7 @@ namespace Negocio
 
             aud.grabarBitacora(DateTime.Now, "admin", "CAMBIO PERMISO", "INFO", "Se cambió el permiso: " + detallePermisoActual.Descripcion);
 
-            
+
             return detallePermisoActual;
 
         }

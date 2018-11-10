@@ -448,7 +448,7 @@
     <Content Include="Views\RegistroUsuarioWebMaster\RegistrarUsuarioWebMaster.cshtml" />
     <Content Include="Views\Rescate\Index.cshtml" />
     <Content Include="Views\Excepciones\Index.cshtml" />
-    <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Cliente\Index_OLD.cshtml" />
     <Content Include="Views\RescateIntegridad\Index.cshtml" />
     <Content Include="Views\Rescate\SolucionarIntegridad.cshtml" />
     <Content Include="Views\Rescate\RealizarBackUp.cshtml" />
@@ -470,6 +470,7 @@
     <Content Include="Views\Cuenta\ActualizarPsw.cshtml" />
     <Content Include="Views\RegistroUsuarioAdministrativo\Index.cshtml" />
     <Content Include="Views\RegistroUsuarioAdministrativo\RegistrarUsuarioAdministrativo.cshtml" />
+    <Content Include="Views\Cliente\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
