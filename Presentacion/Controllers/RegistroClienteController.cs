@@ -35,6 +35,17 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Registrarse(FrmRegistroCliente registroCliente)
         {
+            if(registroCliente.CUIL == null && registroCliente.Direccion== null && registroCliente.Email==null && registroCliente.Psw==null&& registroCliente.RazonSocial==null&& registroCliente.Telefono==null)
+            {
+                registroCliente.CUIL = registroCliente.CUIL_Eng;
+                registroCliente.Direccion = registroCliente.Direccion_Eng;
+                registroCliente.Email = registroCliente.Email_Eng;
+                registroCliente.Psw = registroCliente.Psw_Eng;
+                registroCliente.RazonSocial = registroCliente.RazonSocial_Eng;
+                registroCliente.Telefono = registroCliente.Telefono_Eng;
+
+            }
+
             var ln = new NegocioCuenta();
 
             var ws = new WebService();

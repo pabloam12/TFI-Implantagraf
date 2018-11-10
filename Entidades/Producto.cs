@@ -12,10 +12,13 @@ namespace Entidades
         public string Modelo { get; set; }
 
         public string Titulo { get; set; }
+        public string Titulo_Eng { get; set; }
 
         public string Imagen { get; set; }
 
         public string Descripcion { get; set; }
+
+        public string Descripcion_Eng { get; set; }
 
         public Marca Marca { get; set; }
 

@@ -35,6 +35,12 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Login(FrmLogin login)
         {
+            if (login.Usuario == null && login.Contraseña == null)
+            {
+                login.Usuario = login.Usuario_Eng;
+                login.Contraseña = login.Contraseña_Eng;
+            }
+
             var ln = new NegocioCuenta();
             var seg = new Privacidad();
 

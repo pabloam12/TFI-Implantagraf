@@ -1,13 +1,65 @@
 ﻿
-<!DOCTYPE html>
+@{
+    ViewBag.Title = "Usuarios WebMaster";
+}
 
-<br />
-<br />
+@Html.Partial("_Espacio1")
+
 <body>
-    <div>
-        @*TODO*@
+    <div class="container contact_container">
+        <div class="row">
+            <div class="col">
 
-        <img src="~/Imagenes/robot_trabajando.jpg" class="img-thumbnail" alt="Cinque Terre" />
+                @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    <p align="justify">
+                        <tt>
+                            LA IDEA DE NEGOCIO ES OFRECER UN SERVICIO DE VENTA DE MAQUINARIA DESTINADA A REALIZAR TRABAJOS SERIGRÁFICOS.
+                            ESTE SERVICIO LE DA AL CLIENTE LA POSIBILIDAD DE ADQUIRIR LA MÁQUINA ADECUADA CUANDO EL TRABAJO ASÍ LO DEMANDE.
+                            DE ESTA MANERA EL CLIENTE PUEDE ADQUIRIR LA MÁQUINA QUE MEJOR SE ADECUE AL TRABAJO EN CUESTIÓN Y LUEGO CONTINUAR
+                            CON SUS ACTIVIDADES SIN CORRER RIESGOS DE REALIZAR UNA MALA INVERSIÓN.
+                            <br />
+                            <br />
+                            LA EMPRESA APUNTA A UN MODELO DE NEGOCIOS B2B, CENTRÁNDOSE EN UN SEGMENTO DE PEQUEÑAS Y MEDIANAS EMPRESAS DENTRO DE CAPITAL FEDERAL Y GRAN BUENOS AIRES
+                            DEDICADAS AL RUBRO SERIGRÁFICO O DE COMERCIALIZACIÓN DE MERCHANDISING QUE DESEEN REALIZAR TRABAJOS DE IMPRESIÓN SOBRE CUALQUIER SUPERFICIE SÓLIDA.
+                            <br />
+                            <br />
+                            MAS DE 30 AÑOS DE EXPERIENCIA EN EL RUBRO NOS RESPALDAN.
 
+                        </tt>
+                    </p>
+                }
+
+                @if ((String)Session["idiomaApp"] == "Eng")
+                {
+
+
+                    <p align="justify">
+                        <tt>
+
+                            THE BUSINESS IDEA IS TO OFFER A MACHINERY SALES SERVICE INTENDED TO PERFORM SERIGRAPHIC WORKS.
+                            THIS SERVICE GIVES THE CUSTOMER THE POSSIBILITY OF PURCHASING THE RIGHT MACHINE WHEN THE WORK DOES SO AS DEMAND.
+                            IN THIS WAY THE CUSTOMER CAN ACQUIRE THE MACHINE THAT BETTER ADDES TO THE WORK IN QUESTION AND THEN CONTINUE
+                            WITH ITS ACTIVITIES WITHOUT RUNNING RISKS OF MAKING A BAD INVESTMENT.
+                            <br />
+                            <br />
+                            THE COMPANY TARGETS A B2B BUSINESS MODEL, FOCUSING ON A SEGMENT OF SMALL AND MEDIUM-SIZED COMPANIES WITHIN FEDERAL CAPITAL AND GRAN BUENOS AIRES
+                            DEDICATED TO THE SERIGRAPHIC OR MERCHANDISING MERCHANDISING RANGE THAT DESIRES TO CARRY OUT PRINTING WORKS ON ANY SOLID SURFACE.
+                            <br />
+                            <br />
+                            MORE THAN 30 YEARS OF EXPERIENCE IN THE RUBRO SUPPORT US.
+                        </tt>
+                    </p>
+                }
+
+            </div>
+            <div class="col">
+
+                @*<img src="~/Imagenes/robot_trabajando.jpg" class="img-thumbnail" alt="Cinque Terre" />*@
+                <img src="~/Imagenes/QUIENES_SOMOS.jpg" class="img-thumbnail" alt="Cinque Terre" />
+            </div>
+        </div>
     </div>
+
 </body>
+@Html.Partial("_Espacio2")

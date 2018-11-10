@@ -198,6 +198,9 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult EnviarNuevaPsw(FrmOlvidoPsw formularioCambioPsw)
         {
+            if (formularioCambioPsw.Usuario == null)
+            { formularioCambioPsw.Usuario = formularioCambioPsw.Usuario_Eng; }
+
             var negocioUsuario = new NegocioCuenta();
 
             // Traduce páginas de CUENTA.

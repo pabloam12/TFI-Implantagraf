@@ -23,8 +23,14 @@
                         @*@Html.LabelFor(model => model.RazonSocial, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_RAZON_SOCIAL
                         <div class="col">
-                            @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.RazonSocial, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RazonSocial, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.RazonSocial_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RazonSocial_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -34,8 +40,14 @@
                         @*@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_USUARIO_MAIL
                         <div class="col">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.Email_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -45,8 +57,14 @@
                         @*@Html.LabelFor(model => model.CUIL, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_CUIL
                         <div class="col">
-                            @Html.EditorFor(model => model.CUIL, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.CUIL, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.CUIL, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CUIL, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.CUIL_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CUIL_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -60,8 +78,14 @@
                         @*@Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_TELEFONO
                         <div class="col">
-                            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.Telefono_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telefono_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -71,8 +95,14 @@
                         @*@Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_DIRECCION
                         <div class="col">
-                            @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.Direccion_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Direccion_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -81,8 +111,7 @@
                         @*@Html.LabelFor(model => model.Localidad, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_LOCALIDAD
                         <div class="col">
-                            @*@Html.EditorFor(model => model.Localidad.Id, new { htmlAttributes = new { @class = "form-control" } })*@
-
+                            
                             @Html.DropDownListFor(m => m.Localidad.Id, new SelectList(ViewBag.Localidades, "Id", "Descripcion"), "", new { @class = "form-control" })
 
                             @Html.ValidationMessageFor(model => model.Localidad.Id, "", new { @class = "text-danger" })
@@ -96,8 +125,14 @@
                         @*@Html.LabelFor(model => model.Psw, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_PSW
                         <div class="col">
-                            @Html.EditorFor(model => model.Psw, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Psw, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.Psw, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Psw, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.Psw_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Psw_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -106,8 +141,14 @@
                         @*@Html.LabelFor(model => model.PswConfirmacion, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         @ViewBag.ENTIDAD_CONFIRMACION_PSW
                         <div class="col">
-                            @Html.EditorFor(model => model.PswConfirmacion, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.PswConfirmacion, "", new { @class = "text-danger" })
+                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                            {
+                                @Html.EditorFor(model => model.PswConfirmacion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PswConfirmacion, "", new { @class = "text-danger" })}
+                            else
+                            {
+                                @Html.EditorFor(model => model.PswConfirmacion_Eng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PswConfirmacion_Eng, "", new { @class = "text-danger" })}
                         </div>
                     </div>
                 </div>
@@ -116,7 +157,7 @@
                 {
                     <label class="alert alert-danger" role="alert">@Session["ErrorRegistro"]!</label>
                 }
-                
+
             </div>
             <br />
             <div class="form-group">

@@ -22,9 +22,16 @@
                 @*@Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })*@
                 @ViewBag.ENTIDAD_USUARIO
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
+                        @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
 
-                    @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger text-right" })
+                        @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger text-right" })}
+                    else
+                    {
+                        @Html.EditorFor(model => model.Usuario_Eng, new { htmlAttributes = new { @class = "form-control" } })
+
+                        @Html.ValidationMessageFor(model => model.Usuario_Eng, "", new { @class = "text-danger text-right" })}
                 </div>
 
             </div>
@@ -32,7 +39,7 @@
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value=@ViewBag.BOTON_RECUPERAR_PSW class="btn btn-success" />
                 </div>
-                
+
                 @if ((String)Session["ErrorRecuperoPsw"] != null)
                 {<br />
                 <div class="alert alert-danger" role="alert">@Session["ErrorRecuperoPsw"]!</div>

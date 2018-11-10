@@ -8,10 +8,14 @@ namespace Entidades
 {
     public class FrmOlvidoPsw
     {
-
-        [Required(ErrorMessage = "El Correo de Usuario es Obligatorio")]
-        [RegularExpression(@"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", ErrorMessage = "El {0} no es válido.")]
+        // Español
+        [Required(ErrorMessage = "El Usuario es Obligatorio")]
         public string Usuario { get; set; }
+
+
+        // Ingles
+        [Required(ErrorMessage = "User is Obligatory")]
+        public string Usuario_Eng { get; set; }
 
     }
 }

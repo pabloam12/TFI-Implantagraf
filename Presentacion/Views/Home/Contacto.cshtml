@@ -27,8 +27,10 @@
                 <br />
                 <h2>@ViewBag.HOME_CONTACTO_TITULO_MAPA</h2>
                 <div id="google_map">
-                    <div class="map_container">
-                        <div id="map"></div>
+                    <div @*class="map_container"*@>
+                        @*<div id="map"></div>*@
+                        @*<img src="~/Imagenes/MAPA.JPG" class="img-thumbnail" alt="Cinque Terre" />*@
+                        <img src="~/Imagenes/MAPA_INFO.JPG" class="img-thumbnail" alt="Cinque Terre" />
                     </div>
                 </div>
             </div>
@@ -41,14 +43,9 @@
             <div class="col-lg-6 contact_col">
                 <div class="contact_contents">
                     <h1>@ViewBag.HOME_CONTACTO_TITULO</h1>
-                    <p>@ViewBag.HOME_CONTACTO_LEYENDA</p>
-                    <div>
-                        <p>(011) 4653-0650</p>
-                    </div>
-                    <div>
-                        <p>Av. Diaz Velez 1540</p>
-                    </div>
                     <br />
+                    <p>@ViewBag.HOME_CONTACTO_LEYENDA</p>
+                    
                     <div><p>@ViewBag.HOME_CONTACTO_TITULO_HORARIOS</p></div>
                     <div>
                         <p>@ViewBag.HOME_CONTACTO_TITULO_HORARIOS_SEMANA: 8.00-18.00</p>
@@ -62,18 +59,29 @@
             <div class="col-lg-6 get_in_touch_col">
                 <div class="get_in_touch_contents">
                     <h1>@ViewBag.HOME_CONTACTO_TITULO_2</h1>
-                    <p>@ViewBag.HOME_CONTACTO_FORMULARIO_LEYENDA</p>
-                    <form action="post">
-                        <div>
-                            <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Nombre" required="required" data-error="Name is required.">
-                            <input id="input_email" class="form_input input_email input_ph" type="email" name="email" placeholder="Correo" required="required" data-error="Valid email is required.">
-                            <input id="input_website" class="form_input input_website input_ph" type="url" name="name" placeholder="Empresa" required="required" data-error="Name is required.">
-                            <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Mensaje" rows="3" required data-error="Please, write us a message."></textarea>
-                        </div>
-                        <div>
-                            <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">@ViewBag.BOTON_ENVIAR</button>
-                        </div>
-                    </form>
+                    @*<p>@ViewBag.HOME_CONTACTO_FORMULARIO_LEYENDA</p>*@
+                    @*<form action="post">
+                            <div>
+                                <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Nombre" required="required" data-error="Name is required.">
+                                <input id="input_email" class="form_input input_email input_ph" type="email" name="email" placeholder="Correo" required="required" data-error="Valid email is required.">
+                                <input id="input_website" class="form_input input_website input_ph" type="url" name="name" placeholder="Empresa" required="required" data-error="Name is required.">
+                                <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Mensaje" rows="3" required data-error="Please, write us a message."></textarea>
+                            </div>
+                            <div>
+                                <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">@ViewBag.BOTON_ENVIAR</button>
+                            </div>
+                        </form>*@
+                                        
+                    <br />
+                    @*<div>
+                        <p>Av. Diaz Velez 1540</p>
+                    </div>*@
+
+                    
+                    <p>eMail: IMPLANTAGRAF@GMAIL.COM </p>
+                    <div>
+                        <p>TEL: (011) 4653-0650</p>
+                    </div>
                 </div>
             </div>
 
@@ -86,7 +94,8 @@
     <script src="~/ColoShop/plugins/Isotope/isotope.pkgd.min.js"></script>
     <script src="~/ColoShop/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
     <script src="~/ColoShop/plugins/easing/easing.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>*@
+    @*<script src="https://www.google.com.ar/maps/place/Av.+D%C3%ADaz+V%C3%A9lez+1500,+Ciudadela,+Buenos+Aires/@-34.6528301,-58.533477,17z/data=!3m1!4b1!4m5!3m4!1s0x95bcc85d7f753d39:0x3ba6a00454544e7c!8m2!3d-34.6528301!4d-58.5312883"></script>*@
     <script src="~/ColoShop/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
     <script src="~/ColoShop/js/contact_custom.js"></script>
 

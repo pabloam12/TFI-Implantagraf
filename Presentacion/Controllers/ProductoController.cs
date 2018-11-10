@@ -31,9 +31,19 @@ namespace Presentacion.Controllers
             ViewBag.CodigoProducto = producto.Codigo.ToString();
 
             ViewBag.Imagen = producto.Imagen;
-            ViewBag.Titulo = producto.Titulo;
+
+            if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+            {
+                ViewBag.Titulo = producto.Titulo;
+                ViewBag.Descripcion = producto.Descripcion;
+            }
+            else { 
+                ViewBag.Titulo = producto.Titulo_Eng;
+                ViewBag.Descripcion = producto.Descripcion_Eng;
+            }
+
             ViewBag.Modelo = producto.Modelo;
-            ViewBag.Descripcion = producto.Descripcion;
+            
             ViewBag.Precio = producto.Precio.ToString();
 
 
@@ -60,8 +70,17 @@ namespace Presentacion.Controllers
                 List<Carrito> productosCarrito = new List<Carrito>();
 
                 var carritoItem = new Carrito();
+
                 carritoItem.ProductoId = producto.Codigo;
-                carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
+
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
+                }
+                else { 
+                    carritoItem.Descripcion = producto.Titulo_Eng + " - " + producto.Modelo;
+                }
+
                 carritoItem.Cantidad = 1;
                 carritoItem.Precio = producto.Precio;
 
@@ -73,7 +92,16 @@ namespace Presentacion.Controllers
                 List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
                 var carritoItem = new Carrito();
                 carritoItem.ProductoId = producto.Codigo;
-                carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
+
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    carritoItem.Descripcion = producto.Titulo + " - " + producto.Modelo;
+                }
+                else
+                {
+                    carritoItem.Descripcion = producto.Titulo_Eng + " - " + producto.Modelo;
+                }
+
                 carritoItem.Cantidad = 1;
                 carritoItem.Precio = producto.Precio;
 

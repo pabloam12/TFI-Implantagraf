@@ -30,10 +30,10 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h5>@ViewBag.ENTIDAD_FECHA: @DateTime.Now.ToShortDateString()</h5>
-                    
+
                 </div>
 
-                
+
                 <div class="col-lg-8">
                     <br />
                     @Html.ActionLink((String)ViewBag.BOTON_COMPRAR, "RealizarPago", "Producto", null, new { @class = "btn btn-info" })
@@ -53,7 +53,7 @@
                         @ViewBag.ENTIDAD_CANTIDAD
                     </th>
                     <th>
-                        
+
                     </th>
                     <th>
                         @ViewBag.ENTIDAD_PRECIO_UNITARIO
@@ -61,7 +61,7 @@
                     <th>
                         @ViewBag.ENTIDAD_SUBTOTAL
                     </th>
-                    
+
                 </tr>
                 @{
                     double total = 0;
@@ -83,13 +83,19 @@
                                 @Html.DisplayFor(modelItem => item.ProductoId)
                             </td>
                             <td>
+
                                 @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cantidad)   
+
+
                             </td>
 
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+
+
                             <td>@Html.ActionLink(" + ", "SumarProductoCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-success btn-sm" })</td>
+
 
                             <td>
                                 $@Html.DisplayFor(modelItem => item.Precio).-

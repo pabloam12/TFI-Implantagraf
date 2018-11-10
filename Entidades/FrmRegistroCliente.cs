@@ -8,7 +8,7 @@ namespace Entidades
 {
     public class FrmRegistroCliente
     {
-
+        //Español
         [Required(ErrorMessage = "La Razón Social es Obligatoria")]
         [MaxLength(50, ErrorMessage = "La Razón Social no puede superar los {1} caracteres.")]
         public string RazonSocial { get; set; }
@@ -39,6 +39,39 @@ namespace Entidades
         [RegularExpression(@"[0-9]{1,25}(\.[0-9]{0,2})?$", ErrorMessage = "El {0} debe ser numérico y de no mas de 25 dígitos.")]
         [MinLength(8, ErrorMessage = "El Teléfono deber tener 8 dígitos como mínimo.")]
         public string Telefono { get; set; }
+
+
+        //Ingles
+        [Required(ErrorMessage = "Social name is Obligatory")]
+        [MaxLength(50, ErrorMessage = "Social name must have a maximun of {1} characters.")]
+        public string RazonSocial_Eng { get; set; }
+
+        [Required(ErrorMessage = "CUIL is Obligatory")]
+        [RegularExpression(@"^[0-9]{11}$", ErrorMessage = "CUIL must be numeric with 11 digits.")]
+        public string CUIL_Eng { get; set; }
+
+        [Required(ErrorMessage = "Email is Obligatory")]
+        [RegularExpression(@"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", ErrorMessage = "Invalid Email.")]
+        public string Email_Eng { get; set; }
+
+        [Required(ErrorMessage = "Password is Obligatory")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,10}$", ErrorMessage = "The password must have between 8 and 10 characters, at least one number, at least one lowercase and at least one uppercase.")]
+        public string Psw_Eng { get; set; }
+
+        [Required(ErrorMessage = "Password confirm is Obligatory")]
+        [DataType(DataType.Password)]
+        [Compare(nameof(Psw), ErrorMessage = "Passwords do not match.")]
+        public string PswConfirmacion_Eng { get; set; }
+
+        [Required(ErrorMessage = "Address is Obligatory")]
+        [MaxLength(100, ErrorMessage = "Address must have a maximun of {1} characters.")]
+        public string Direccion_Eng { get; set; }
+
+        [Required(ErrorMessage = "Phone number is Obligatory")]
+        [RegularExpression(@"[0-9]{1,25}(\.[0-9]{0,2})?$", ErrorMessage = "Phone number must be numeric and have a maximun of 25 characters.")]
+        [MinLength(8, ErrorMessage = "Phone number must have a maximun of 8 characters.")]
+        public string Telefono_Eng { get; set; }
 
         public Localidad Localidad { get; set; }
 
