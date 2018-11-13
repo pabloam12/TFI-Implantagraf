@@ -18,16 +18,25 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] == "Administrativo" && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
-                var ln = new NegocioCuenta();
+                try
+                {
+                    var ln = new NegocioCuenta();
 
-                //Traducir Página CLientes.
-                TraducirPagina((String)Session["IdiomaApp"]);
+                    //Traducir Página CLientes.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
-                var consulta = ln.ListarUsuariosPorPerfil(3);
+                    var consulta = ln.ListarUsuariosPorPerfil(3);
 
-                Session["ConsultaBitacora"] = consulta;
+                    Session["ConsultaBitacora"] = consulta;
 
-                return View(consulta);
+                    return View(consulta);
+                }
+
+                catch
+                {
+                    Session["Excepcion"] = "ERROR AL CONSULTAR CLIENTES";
+                    return RedirectToAction("Index", "Excepciones");
+                }
             }
 
             return RedirectToAction("Index", "Home");
@@ -36,68 +45,96 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Index(string fecha, string fechaFin, string usr)
         {
+
             var integ = new IntegridadDatos();
 
             if ((String)Session["PerfilUsuario"] == "Administrativo" && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
-                var ln = new NegocioCuenta();
-
-                //Traducir Página CLIENTE.
-                TraducirPagina((String)Session["IdiomaApp"]);
-
-                Session["ErrorFiltroCliente"] = null;
-
-                if (fecha == "" && fechaFin != "")
+                try
                 {
-                    fechaFin = "";
 
-                    Session["ErrorFiltroCliente"] = ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO;
-                }
+                    var ln = new NegocioCuenta();
 
-                if (fecha != "" && fechaFin != "")
-                {
-                    DateTime fechaDate = DateTime.Parse(fecha);
+                    //Traducir Página CLIENTE.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
-                    DateTime fechaFinDate = DateTime.Parse(fechaFin);
+                    Session["ErrorFiltroCliente"] = null;
 
-                    if (fechaDate >= fechaFinDate)
+                    if (fecha == "" && fechaFin != "")
                     {
-                        fecha = "";
                         fechaFin = "";
 
-                        Session["ErrorFiltroCliente"] = ViewBag.BITACORA_WARNING_FECHAS_MAL;
+                        Session["ErrorFiltroCliente"] = ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO;
+                    }
+
+                    if (fecha != "" && fechaFin != "")
+                    {
+                        DateTime fechaDate = DateTime.Parse(fecha);
+
+                        DateTime fechaFinDate = DateTime.Parse(fechaFin);
+
+                        if (fechaDate >= fechaFinDate)
+                        {
+                            fecha = "";
+                            fechaFin = "";
+
+                            Session["ErrorFiltroCliente"] = ViewBag.BITACORA_WARNING_FECHAS_MAL;
+
+                        }
 
                     }
 
-                }
+                    if (fecha == "" && usr == "")
+                    {
+                        return View(ln.ListarUsuariosPorPerfil(3));
 
-                if (fecha == "" && usr == "")
+                    }
+
+                    var consulta = ln.ListarClientesPorFiltro(fecha, fechaFin, usr);
+
+                    Session["ConsultaCliente"] = consulta;
+
+                    return View(consulta);
+
+                }
+                catch
                 {
-                    return View(ln.ListarUsuariosPorPerfil(3));
-
+                    Session["Excepcion"] = "ERROR AL CONSULTAR CLIENTES";
+                    return RedirectToAction("Index", "Excepciones");
                 }
-
-                var consulta = ln.ListarClientesPorFiltro(fecha, fechaFin, usr);
-
-                Session["ConsultaCliente"] = consulta;
-
-                return View(consulta);
             }
 
-
-
             return RedirectToAction("Index", "Home");
+
+
         }
+
 
         public ActionResult ExportarXML()
         {
+            try { 
             var exportador = new Exportador();
 
             List<Usuario> consultaBitacora = (List<Usuario>)Session["ConsultaCliente"];
 
             exportador.ExportarClientesXML(consultaBitacora);
 
-            return RedirectToAction("Index");
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXPORTA XML", "INFO", "El usuario exporto un listado XML.");
+
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                Session["Excepcion"] = "ERROR AL EXPORTAR XML CLIENTES";
+
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXPORTA XML", "LEVE", "Error al exportar listado XML.");
+
+
+                return RedirectToAction("Index", "Excepciones");
+            }
         }
 
         private void TraducirPagina(string idioma)
@@ -129,7 +166,7 @@ namespace Presentacion.Controllers
 
             ViewBag.CLIENTE_TITULO = diccionario["CLIENTE_TITULO"];
 
-     
+
         }
     }
 }

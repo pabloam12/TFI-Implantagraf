@@ -23,7 +23,9 @@ namespace Presentacion.Controllers
             if (integridad.ValidarIntegridadGlobal())
             {
 
-                //TODO MENSAJE correcto
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR INTEGRIDAD", "GRAVE", "Se detectaron problemas de integridad en la base de datos.");
+
 
                 TraducirPagina((String)Session["IdiomaApp"]);
 
@@ -32,7 +34,7 @@ namespace Presentacion.Controllers
                     return RedirectToAction("Index", "RescateIntegridad");
                 }
 
-                Session["Excepcion"] = "[Error Nº 1] - Error de Integridad en la Base de Datos.";
+                Session["Excepcion"] = "ERROR DE INTEGRIDAD DE BASE DE DATOS";
                 return RedirectToAction("Index", "Excepciones");
             }
 
@@ -44,21 +46,11 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                //// Se comprueba la integridad de la base.
-                //integridad.ValidarIntegridadGlobal();
-
+                
                 return RedirectToAction("Index", "RescateIntegridad");
             }
 
-            // Limpio Tabla.
-            //integridad.LimpiarTablaRegistrosTablasFaltantes();
-
-            //var exportador = new Exportador();
-            //exportador.ExportarBitacoraXML(accDatosBitacora.ConsultarBitacora());
-            //exportador.ExportarClientesXML(accDatosCliente.Listar());
-            //exportador.ExportarVentasXML(accDatosVentas.ListarOperacionesporTipo("VE"));
-
-
+            
             return View();
         }
 

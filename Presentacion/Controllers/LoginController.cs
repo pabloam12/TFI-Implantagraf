@@ -99,6 +99,10 @@ namespace Presentacion.Controllers
                 {
                     ln.BloquearCuentaUsuario(login.Usuario); //Bloqueo cuenta de Usuario.
 
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "BLOQUEO USUARIO", "ERROR LEVE", "Se bloqueó al Usuario: " + login.Usuario);
+
+
                     return RedirectToAction("CuentaBloqueada");
                 }
 

@@ -118,7 +118,8 @@ namespace Presentacion.Controllers
                 mensajeria.EnviarCorreo("implantagraf@gmail.com", usuario.Email, asuntoMsj, cuerpoMsj);
             }
             catch
-            { //TODO mensaje bitacora
+            {
+                
             }
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")

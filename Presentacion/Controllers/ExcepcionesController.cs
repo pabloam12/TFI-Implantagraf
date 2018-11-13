@@ -14,7 +14,7 @@ namespace Presentacion.Controllers
         // GET: Excepciones
         public ActionResult Index()
         {
-            var aud = new Auditoria();
+            
             var ln = new NegocioCuenta();
 
             TraducirPagina((String)Session["IdiomaApp"]);
@@ -27,6 +27,7 @@ namespace Presentacion.Controllers
                 criticidad = "GRAVE";
             }
 
+            var aud = new Auditoria();
             aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXCEPCIÓN", criticidad, (String)Session["Excepcion"]);
 
             ln.ActivarCuentaUsuario((String)Session["UsrLogin"]);

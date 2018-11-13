@@ -24,12 +24,20 @@ namespace Presentacion.Controllers
 
                 //Traducir Página BITACORA.
                 TraducirPagina((String)Session["IdiomaApp"]);
+                try
+                {
+                    var consulta = ln.ConsultarBitacora();
+                    Session["ConsultaBitacora"] = consulta;
 
-                var consulta = ln.ConsultarBitacora();
+                    return View(consulta);
+                }
+                catch
+                {
+                    Session["Excepcion"] = "ERROR DE AL CONSULTAR BITÁCORA";
+                    return RedirectToAction("Index", "Excepciones");
+                }
 
-                Session["ConsultaBitacora"] = consulta;
-
-                return View(consulta);
+                    
             }
 
             return RedirectToAction("Index", "Home");

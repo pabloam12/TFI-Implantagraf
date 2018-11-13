@@ -346,9 +346,7 @@ namespace Presentacion.Controllers
 
                 RegistrarVenta(fechaHora, importeTotal, formaPago, datosTarjeta.Numero);
 
-                //TODO
-                //ActualizarStock();
-
+                
                 return RedirectToAction("FinalizarCompra");
 
             }

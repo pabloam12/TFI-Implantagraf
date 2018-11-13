@@ -225,7 +225,7 @@ namespace Negocio
         public Usuario RegistrarUsuario(Usuario usr)
         {
             var ad = new CuentaDAC();
-            var aud = new Auditoria();
+            
             var priv = new Privacidad();
             var inte = new IntegridadDatos();
                        
@@ -239,7 +239,8 @@ namespace Negocio
             inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
             inte.RecalcularDVV("SEG_Usuario");
 
-            // Grabo en Bitácora.                       
+            // Grabo en Bitácora. 
+            var aud = new Auditoria();
             aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA USUARIO", "INFO", "Se registró al Usuario: " + usuarioActual.Id.ToString() + " - '" + usuarioActual.Usr + "' con el perfil de " + usuarioActual.PerfilUsr.Descripcion);
 
             return (usuarioActual);

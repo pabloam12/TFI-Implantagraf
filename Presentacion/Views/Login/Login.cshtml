@@ -50,8 +50,12 @@
                         </div>
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-1">
-                                    <input type="submit" value=@Session["LOYOUT_BARRA_CUENTA_INICIAR"] class="btn btn-success btn-sm" />
-
+@if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+{
+                                    <input type="submit" value="INICIAR SESIÓN" class="btn btn-success btn-sm" />
+}
+else
+{ <input type="submit" value="LOGIN" class="btn btn-success btn-sm" />}
                                     @Html.ActionLink((String)ViewBag.LOGIN_OLVIDO_PSW, "RecuperarPsw", "Cuenta")
                                 </div>
 

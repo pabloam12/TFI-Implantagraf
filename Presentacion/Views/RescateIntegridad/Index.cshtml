@@ -32,47 +32,48 @@
                     <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">SOLUCIONAR ERRORES</a></p>}
                 else
                 { <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">SOLVE ERRORS</a></p>}
-            }
+
 
             <table class="table">
                 <tr>
                     @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
                     {
-                    <th>
-                        @Html.DisplayNameFor(model => model.Col_A)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Col_B)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Col_C)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Col_D)
-                    </th>
-                    } else
+                        <th>
+                            @Html.DisplayNameFor(model => model.Col_A)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Col_B)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Col_C)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Col_D)
+                        </th>
+                    }
+                    else
                     {
-                    <th>
-                       PROBLEM
-                    </th>
-                    <th>
-                        TABLE
-                    </th>
-                    <th>
-                        REGISTER
-                    </th>
-                    <th>
-                        DETAILS
-                    </th>}
-                    <th>
+                        <th>
+                            PROBLEM
+                        </th>
+                        <th>
+                            TABLE
+                        </th>
+                        <th>
+                            REGISTER
+                        </th>
+                        <th>
+                            DETAILS
+                        </th>
+                        <th>
 
-                    </th>
-                    <th>
+                        </th>
+                        <th>
 
-                    </th>
+                        </th>
 
 
-                    <th></th>
+                        <th></th>}
                 </tr>
 
                 @foreach (var item in Model)
@@ -103,9 +104,9 @@
                 }
 
             </table>
-        }
-        @*<p><a href="~/Rescate/Index" class="btn btn-lg btn-info" role="button">Volver</a></p>*@
-        }
+                }
+            }
+
     </div>
 </body>
 

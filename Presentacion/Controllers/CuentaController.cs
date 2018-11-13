@@ -35,16 +35,26 @@ namespace Presentacion.Controllers
 
         public ActionResult ListarUsuarios()
         {
+
             var integ = new IntegridadDatos();
 
             if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
-                var ln = new NegocioCuenta();
+                try
+                {
+                    var ln = new NegocioCuenta();
 
-                // Traduce páginas de CUENTA.
-                TraducirPagina((String)Session["IdiomaApp"]);
+                    // Traduce páginas de CUENTA.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
-                return View(ln.ListarUsuarios());
+                    return View(ln.ListarUsuarios());
+
+                }
+                catch
+                {
+                    Session["Excepcion"] = "ERROR AL CONSULTAR USUARIOS";
+                    return RedirectToAction("Index", "Excepciones");
+                }
             }
 
             return RedirectToAction("Index", "Home");
@@ -56,14 +66,22 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] != "WebMaster" && (String)Session["PerfilUsuario"] != null && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
-                var ln = new NegocioOperaciones();
+                try
+                {
+                    var ln = new NegocioOperaciones();
 
-                // Traduce páginas de CUENTA.
-                TraducirPagina((String)Session["IdiomaApp"]);
+                    // Traduce páginas de CUENTA.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
-                var codCliente = (String)Session["IdUsuario"];
+                    var codCliente = (String)Session["IdUsuario"];
 
-                return View(ln.ListarVentasPorCliente(codCliente));
+                    return View(ln.ListarVentasPorCliente(codCliente));
+                }
+                catch
+                {
+                    Session["Excepcion"] = "ERROR AL CONSULTAR COMPRAS";
+                    return RedirectToAction("Index", "Excepciones");
+                }
             }
 
             return RedirectToAction("Index", "Home");
@@ -77,14 +95,23 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] != null && integ.ValidarExistencia("SEG_Usuario") == 1)
             {
-                var ln = new NegocioCuenta();
+                try
+                {
+                    var ln = new NegocioCuenta();
 
-                var idUsuario = (String)Session["IdUsuario"];
+                    var idUsuario = (String)Session["IdUsuario"];
 
-                // Traduce páginas de CUENTA.
-                TraducirPagina((String)Session["IdiomaApp"]);
+                    // Traduce páginas de CUENTA.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
-                return View(ln.InformacionCuenta(idUsuario));
+                    return View(ln.InformacionCuenta(idUsuario));
+
+                }
+                catch
+                {
+                    Session["Excepcion"] = "ERROR AL CONSULTAR DETALLE DE CUENTA";
+                    return RedirectToAction("Index", "Excepciones");
+                }
             }
 
             return RedirectToAction("Index", "Home");
@@ -96,12 +123,20 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
             {
-                var ln = new NegocioCuenta();
+                try
+                {
+                    var ln = new NegocioCuenta();
 
-                // Traduce páginas de CUENTA.
-                TraducirPagina((String)Session["IdiomaApp"]);
+                    // Traduce páginas de CUENTA.
+                    TraducirPagina((String)Session["IdiomaApp"]);
 
-                return View(ln.VerDetallePermisosUsuario(idUsr));
+                    return View(ln.VerDetallePermisosUsuario(idUsr));
+                }
+                catch
+                {
+                    Session["Excepcion"] = "ERROR AL CONSULTAR PERMISOS DE USUARIO";
+                    return RedirectToAction("Index", "Excepciones");
+                }
             }
 
             return RedirectToAction("Index", "Home");
@@ -117,6 +152,10 @@ namespace Presentacion.Controllers
                 var ln = new NegocioCuenta();
 
                 var detalleModificado = ln.SacarPermiso(idDetallePermiso);
+
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "PERMISOS", "INFO", "El usuario ha quitado el permiso: " + idDetallePermiso.ToString());
+
 
                 return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
             }
@@ -135,6 +174,11 @@ namespace Presentacion.Controllers
                 var ln = new NegocioCuenta();
 
                 var detalleModificado = ln.DarPermiso(idDetallePermiso);
+
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "PERMISOS", "INFO", "El usuario ha otorgado el permiso: " + idDetallePermiso.ToString());
+
+
 
                 return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
 
@@ -158,6 +202,11 @@ namespace Presentacion.Controllers
                 // Traduce páginas de CUENTA.
                 TraducirPagina((String)Session["IdiomaApp"]);
 
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "BLOQUEO", "INFO", "El usuario ha bloqueado la cuenta: " + id.ToString());
+
+
+
                 return View();
             }
 
@@ -178,6 +227,10 @@ namespace Presentacion.Controllers
                 // Traduce páginas de CUENTA.
                 TraducirPagina((String)Session["IdiomaApp"]);
 
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "DESBLOQUEO", "INFO", "El usuario ha desbloqueado la cuenta: " + id.ToString());
+
+
                 return View();
             }
 
@@ -196,6 +249,7 @@ namespace Presentacion.Controllers
                     var ln = new NegocioCuenta();
                     var aud = new Auditoria();
                     var inte = new IntegridadDatos();
+                    var priv = new Privacidad();
 
                     // Traduce páginas de CUENTA.
                     TraducirPagina((String)Session["IdiomaApp"]);
@@ -219,11 +273,12 @@ namespace Presentacion.Controllers
                     if (usuarioModif.Idioma.Id == 0)
                     { usuarioModif.Idioma.Id = usrAnterior.Idioma.Id; }
 
+                    //Actualizo datos.
                     ln.ActualizarDatosCuenta(usuarioModif);
 
                     var usuarioActual = ln.BuscarUsuarioPorUsuario((String)Session["UsrLogin"]);
 
-                    var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+                    var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + priv.Cifrar(usuarioActual.RazonSocial) + priv.Cifrar(usuarioActual.Nombre) + priv.Cifrar(usuarioActual.Apellido) + priv.Cifrar(usuarioActual.Usr) + priv.Cifrar(usuarioActual.Psw) + priv.Cifrar(usuarioActual.CUIL) + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + priv.Cifrar(usuarioActual.Telefono) + priv.Cifrar(usuarioActual.Direccion));
 
                     // Actualiza el DVH y DVV.
                     inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
@@ -287,10 +342,19 @@ namespace Presentacion.Controllers
 
             negocioUsuario.ActualizarPswUsuario(usuarioActual.Usr, "Inicio1234");
 
-            var asuntoMsj = "Cambio de Contraseña";
-            var cuerpoMsj = "Se ha reestablecido su contraseña. La misma es 'Inicio1234'. Por favor cuando ingrese correctamente se recomienda cambiarla. Muchas gracias.";
+            var aud = new Auditoria();
+            aud.grabarBitacora(DateTime.Now, usuarioActual.Usr, "BLANQUEO PSW", "INFO", "El usuario ha pedido nueva clave.");
 
-            servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
+
+            try
+            {
+                var asuntoMsj = "Cambio de Contraseña";
+                var cuerpoMsj = "Se ha reestablecido su contraseña. La misma es 'Inicio1234'. Por favor cuando ingrese correctamente se recomienda cambiarla. Muchas gracias.";
+
+                servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
+            }
+            catch { //TODO
+            }
 
             return View();
         }

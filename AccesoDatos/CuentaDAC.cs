@@ -272,18 +272,11 @@ namespace AccesoDatos
 
         public void ActualizarDatosCuenta(Usuario usuarioModif)
         {
-                        
-            //Cifrar Datos
-            usuarioModif.Psw = CifrarTripleDES(usuarioModif.Psw);
-            usuarioModif.Usr = CifrarTripleDES(usuarioModif.Usr);
-            usuarioModif.RazonSocial = CifrarTripleDES(usuarioModif.RazonSocial);
-            usuarioModif.Nombre = CifrarTripleDES(usuarioModif.Nombre);
-            usuarioModif.Apellido = CifrarTripleDES(usuarioModif.Apellido);
-            usuarioModif.Direccion = CifrarTripleDES(usuarioModif.Direccion);
-            usuarioModif.CUIL = CifrarTripleDES(usuarioModif.CUIL);
-            usuarioModif.Telefono = CifrarTripleDES(usuarioModif.Telefono);
-            usuarioModif.Email = CifrarTripleDES(usuarioModif.Email);
 
+            //Cifrar Datos
+            usuarioModif.Direccion = CifrarTripleDES(usuarioModif.Direccion);
+            usuarioModif.Telefono = CifrarTripleDES(usuarioModif.Telefono);
+            
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET [Direccion]=@Direccion, [LocalidadId]=@Localidad, [Telefono]=@Telefono, [IdiomaId]=@IdiomaId " +
                 "WHERE [Id]=@Id";
@@ -874,7 +867,7 @@ namespace AccesoDatos
                 Nombre = DescifrarTripleDES(GetDataValue<string>(dr, "Nombre")),
                 Apellido = DescifrarTripleDES(GetDataValue<string>(dr, "Apellido")),
                 Usr = DescifrarTripleDES(GetDataValue<string>(dr, "Usr")),
-                Psw = GetDataValue<string>(dr, "Psw"),
+                Psw = DescifrarTripleDES(GetDataValue<string>(dr, "Psw")),
                 CUIL = DescifrarTripleDES(GetDataValue<string>(dr, "CUIL")),
                 Estado = GetDataValue<string>(dr, "Estado"),
                 Email = DescifrarTripleDES(GetDataValue<string>(dr, "Email")),
