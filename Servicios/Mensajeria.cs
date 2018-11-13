@@ -4,17 +4,21 @@ using System.Net;
 namespace Servicios
 {
     public class Mensajeria
-    {                
-        public void EnviarCorreo(string remitente, string destinatario, string asunto, string cuerpo)
+    {
+        public void EnviarCorreo(string remitente, string destinatario, string asunto, string cuerpo, string adjunto = "")
         {
             MailMessage msj = new MailMessage();
             SmtpClient cli = new SmtpClient();
-            
+
             msj.From = new MailAddress(remitente);
             msj.To.Add(new MailAddress(destinatario));
 
             msj.Subject = asunto;
             msj.Body = cuerpo;
+            
+            if (adjunto != "")
+            { msj.Attachments.Add(new Attachment(adjunto)); }
+                                      
 
             msj.IsBodyHtml = false;
 

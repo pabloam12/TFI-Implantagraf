@@ -75,13 +75,13 @@ namespace Presentacion.Controllers
             // Usuario existente, solo devuelvo el error.
             if (ln.ValidarUsuario(registroCliente.Email) == false)
             {
-                Session["ErrorRegistro"] = ViewBag.ERROR_USUARIO_EXISTENTE;
+                Session["ErrorRegistro"] = "EL CORREO DE REGISTRO YA EXISTE";
                 return RedirectToAction("Registrarse");
             }
 
             if (ws.ValidarCUIT(registroCliente.CUIL) == false)
             {
-                Session["ErrorRegistro"] = ViewBag.ERROR_CUIT;
+                Session["ErrorRegistro"] = "EL CUIT ES INVÁLIDO";
                 return RedirectToAction("Registrarse");
             }
 

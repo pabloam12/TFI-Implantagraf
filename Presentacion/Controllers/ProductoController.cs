@@ -7,6 +7,8 @@ using Entidades;
 using Negocio;
 using Seguridad;
 using Servicios;
+using System.IO;
+using iTextSharp.text.pdf;
 
 namespace Presentacion.Controllers
 {
@@ -306,19 +308,7 @@ namespace Presentacion.Controllers
 
                 var facturaCompra = (Factura)Session["Factura"];
 
-                try
-                {
-                    // Envío correo con Factura adjunta TODO.
-                    var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
-                    var asuntoMsj = "Factura " + facturaCompra.Codigo.ToString();
-                    mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
-                }
-                catch
-                {
-                    //TODO error envio mail
-
-                }
-
+                
                 return RedirectToAction("FinalizarCompra");
             }
 
@@ -333,33 +323,33 @@ namespace Presentacion.Controllers
             if (productosCarrito.Count > 0)
             {
                 var importeTotal = CalularImporteTotal();
-            var formaPago = 2;
-            var fechaHora = DateTime.Now;
+                var formaPago = 2;
+                var fechaHora = DateTime.Now;
 
-            TraducirPagina((String)Session["IdiomaApp"]);
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            var limiteOtorgado = ValidarTarjeta(datosTarjeta, importeTotal);
+                var limiteOtorgado = ValidarTarjeta(datosTarjeta, importeTotal);
 
-            if (limiteOtorgado == 0)
-            {
-                Session["ErrorTarjetaCredito"] = ViewBag.ERROR_DATOS_TC_INVALIDOS;
+                if (limiteOtorgado == 0)
+                {
+                    Session["ErrorTarjetaCredito"] = ViewBag.ERROR_DATOS_TC_INVALIDOS;
 
-                return RedirectToAction("RealizarPago");
-            }
+                    return RedirectToAction("RealizarPago");
+                }
 
-            if (limiteOtorgado < importeTotal)
-            {
-                Session["ErrorTarjetaCredito"] = ViewBag.ERROR_LIMITE_SALDO;
+                if (limiteOtorgado < importeTotal)
+                {
+                    Session["ErrorTarjetaCredito"] = ViewBag.ERROR_LIMITE_SALDO;
 
-                return RedirectToAction("RealizarPago");
-            }
+                    return RedirectToAction("RealizarPago");
+                }
 
-            RegistrarVenta(fechaHora, importeTotal, formaPago, datosTarjeta.Numero);
+                RegistrarVenta(fechaHora, importeTotal, formaPago, datosTarjeta.Numero);
 
-            //TODO
-            //ActualizarStock();
+                //TODO
+                //ActualizarStock();
 
-            return RedirectToAction("FinalizarCompra");
+                return RedirectToAction("FinalizarCompra");
 
             }
 
@@ -372,6 +362,8 @@ namespace Presentacion.Controllers
             var ln = new NegocioOperaciones();
             var cliLn = new NegocioCliente();
             var inte = new IntegridadDatos();
+
+            var mensajeria = new Mensajeria();
 
             TraducirPagina((String)Session["IdiomaApp"]);
 
@@ -396,15 +388,98 @@ namespace Presentacion.Controllers
             var operacionActual = ln.RegistrarOperacion(fechaHora, clienteActual.Id, importeTotal, formaPago, "VE", estadoId, facturaActual.Codigo);
 
             // Registro Detalle de Venta.
-            RegistrarDetalleOperacion(operacionActual.Id);
+            var detalleCompleto = RegistrarDetalleOperacion(operacionActual.Id);
 
 
+            //TODO
+            List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+
+            var rutaFactura = GenerarFacturaPDF(facturaActual, productosCarrito);
 
             // Me guardo la factura para imprimir y enviar por correo.
             Session["Factura"] = facturaActual;
 
+           
+            try
+            {
+                // Envío correo con Factura adjunta TODO.
+                var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
+                var asuntoMsj = "Factura - 000" + facturaActual.Codigo.ToString();
+                mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj, rutaFactura);
+            }
+            catch
+            {
+                //TODO error envio mail
+
+            }
+
             // Borro los items del Carrito.
             Session["Carrito"] = null;
+
+        }
+
+        public String GenerarFacturaPDF(Factura oFactura, List<Carrito> productosCarrito)
+        {
+
+            //string pdfTemplate = @Server.MapPath("~/Documentos/factura_" + oFactura.Codigo.ToString() + ".pdf");
+
+            string pdfTemplate = "C:\\Implantagraf\\PDF\\factura_" + oFactura.Codigo.ToString() + ".pdf";
+
+            PdfReader pdfReader = null;
+
+            // Create the form filler
+            FileStream pdfOutputFile = new FileStream(pdfTemplate, FileMode.Create);
+
+            pdfReader = new PdfReader(@Server.MapPath("~/Documentos/e-factura.pdf"));
+
+            PdfStamper pdfStamper = null;
+
+            pdfStamper = new PdfStamper(pdfReader, pdfOutputFile);
+
+            // Get the form fields
+            AcroFields testForm = pdfStamper.AcroFields;
+
+            // Datos de la factura
+            testForm.SetField("factura", oFactura.Codigo.ToString());
+            testForm.SetField("tipo_factura", " B");
+            testForm.SetField("pagina_de", "1");
+            testForm.SetField("pagina_hta", "1");
+            testForm.SetField("nombre_cliente", oFactura.Cliente.RazonSocial);
+            testForm.SetField("direccion_cliente", "Direccion: " + oFactura.Cliente.Direccion);
+            testForm.SetField("codigo_cliente", oFactura.Cliente.Id.ToString());
+            testForm.SetField("dni_cliente", oFactura.Cliente.CUIL);
+            testForm.SetField("medio_pago", oFactura.FormaPago.Descripcion);
+            testForm.SetField("fecha_entrega", "");
+            testForm.SetField("nro_cliente", oFactura.Cliente.Id.ToString());
+            testForm.SetField("nro_pedido", oFactura.Codigo.ToString());
+            testForm.SetField("total", oFactura.Monto.ToString("c"));
+
+
+            // HASTA 15
+            for (int i = 0; i <= productosCarrito.Count() - 1; i++)
+            {
+                var subTotal = productosCarrito[i].Precio * productosCarrito[i].Cantidad;
+
+                // Datos de los productos 
+                testForm.SetField("dominio_" + i.ToString(), productosCarrito[i].ProductoId.ToString());
+                testForm.SetField("descripcion_" + i.ToString(), productosCarrito[i].Descripcion);
+                testForm.SetField("cantidad_" + i.ToString(), productosCarrito[i].Cantidad.ToString());
+                testForm.SetField("precio_" + i.ToString(), productosCarrito[i].Precio.ToString("c"));
+                testForm.SetField("dto_" + i.ToString(), "-");
+                testForm.SetField("importe_" + i.ToString(), subTotal.ToString("c"));
+            }
+
+
+
+            PdfContentByte overContent = pdfStamper.GetOverContent(1);
+
+            pdfStamper.FormFlattening = true;
+
+            pdfStamper.Close();
+
+            pdfReader.Close();
+
+            return "C:\\Implantagraf\\PDF\\factura_" + oFactura.Codigo.ToString() + ".pdf";
 
         }
 
@@ -424,7 +499,7 @@ namespace Presentacion.Controllers
             return importeTotal;
         }
 
-        private void RegistrarDetalleOperacion(int operacionId)
+        private List<DetalleOperacion> RegistrarDetalleOperacion(int operacionId)
         {
 
             var ln = new NegocioOperaciones();
@@ -433,9 +508,12 @@ namespace Presentacion.Controllers
 
             if (Session["Carrito"] != null)
             {
+                var detalleCompleto = new List<DetalleOperacion>();
+
                 foreach (var item in Session["Carrito"] as List<Carrito>)
                 {
                     var subtotal = (item.Precio * item.Cantidad);
+
 
                     var detalleActual = new DetalleOperacion
                     {
@@ -447,6 +525,8 @@ namespace Presentacion.Controllers
 
                     };
 
+                    detalleCompleto.Add(detalleActual);
+
                     ln.RegistrarDetalleOperacion(detalleActual);
 
                     detalleActual.DVH = inte.CalcularDVH(detalleActual.OperacionId.ToString() + detalleActual.ProductoId.ToString() + detalleActual.SubTotal.ToString() + detalleActual.Cantidad.ToString() + detalleActual.Monto.ToString());
@@ -457,7 +537,11 @@ namespace Presentacion.Controllers
                 }
 
                 inte.RecalcularDVV("DetalleOperacion");
+
+                return detalleCompleto;
             }
+
+            return null;
 
         }
 
