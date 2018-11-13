@@ -5,8 +5,11 @@
 <body>
 
     <div class="container contact_container">
-
-        <p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">Realizar Nuevo BackUp</a></p>
+        @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+        {
+            <p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">NUEVO RESPALDO DE DATOS</a></p>}
+        else
+        {  <p><a href="~/Rescate/RealizarBackUp" class="btn btn-sm btn-info" role="button">NEW BACKUP</a></p>}}
 
         <table class="table">
             <tr>
@@ -20,24 +23,41 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ruta)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("RESTAURAR", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta }, new { @class = "btn btn-success btn-sm" })
+
+                        </td>}
+                    else
+                    {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Ruta)
+                        Ruta del Archivo
                     </td>
 
-                    <td>
-                        @Html.ActionLink("Restaurar", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta }, new { @class = "btn btn-success btn-sm" })
-                        @*  @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                    </td>
-                </tr>
+                        <td>
+                            @Html.ActionLink("RESTORE", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta }, new { @class = "btn btn-success btn-sm" })
+
+                        </td> }
+            </tr>
             }
 
         </table>
-              
-        <div class="form-group">
-            @Html.ActionLink("Volver", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
-        </div>
+        @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+        {
+            <div class="form-group">
+                @Html.ActionLink("VOLVER", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
+            </div>}
+        else
+        {
+            <div class="form-group">
+                @Html.ActionLink("BACK", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
+            </div>}
 
-        </div>
-    </body>
-        @Html.Partial("_Espacio2")
+    </div>
+</body>
+@Html.Partial("_Espacio2")

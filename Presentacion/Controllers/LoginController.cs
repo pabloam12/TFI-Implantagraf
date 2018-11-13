@@ -42,6 +42,8 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult Login(FrmLogin login)
         {
+            var priv = new Privacidad();
+
             if (login.Usuario == null && login.Contraseña == null)
             {
                 login.Usuario = login.Usuario_Eng;
@@ -86,9 +88,7 @@ namespace Presentacion.Controllers
 
             { return RedirectToAction("CuentaBloqueada"); }
 
-            //Encripto la contraseña.
-            login.Contraseña = seg.EncriptarPsw(login.Contraseña);
-
+           
             // Valido que la contraseña sea correcta, en caso negativo incremento intentos fallidos.
             if (ln.ValidarUsuarioPsw(login.Usuario, login.Contraseña))
             {

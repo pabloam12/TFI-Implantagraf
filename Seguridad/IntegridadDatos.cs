@@ -21,7 +21,7 @@ namespace Seguridad
             {
                 CrearBaseImplantagraf();
 
-                RestaurarCopiaRespaldo("C:\\Implantagraf\\Respaldo\\Implantagraf_Inicial.bak");
+                RestaurarCopiaRespaldo("C:\\Implantagraf\\RESPALDOS\\Implantagraf_Inicial.bak");
 
                 GrabarRegistroIntegridad("SE ELIMINÓ BD", "TODAS");
 
@@ -185,7 +185,7 @@ namespace Seguridad
 
             usrAdmin.Nombre = "WebMaster";
             usrAdmin.Apellido = "WebMaster";
-            usrAdmin.Email = "N/A";
+            usrAdmin.Email = "pablo.a.mahiques@gmail.com";
             usrAdmin.Usr = "admin";
             usrAdmin.Psw = "Admin1601";
             usrAdmin.Estado = "S";
@@ -201,14 +201,12 @@ namespace Seguridad
 
             var aud = new Auditoria();
             var inte = new IntegridadDatos();
-
-            usrAdmin.Psw = priv.EncriptarPsw(usrAdmin.Psw);
-
+                       
             //TODO CIFRAR DATOS DE USR.
 
             var usuarioActual = accDatosUSr.RegistrarUsuario(usrAdmin);
 
-            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + priv.Cifrar(usuarioActual.RazonSocial) + priv.Cifrar(usuarioActual.Nombre) + priv.Cifrar(usuarioActual.Apellido) + priv.Cifrar(usuarioActual.Usr) + priv.Cifrar(usuarioActual.Psw) + priv.Cifrar(usuarioActual.CUIL) + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + priv.Cifrar(usuarioActual.Telefono) + priv.Cifrar(usuarioActual.Direccion));
 
             // Actualiza el DVH y DVV.
             inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
@@ -226,8 +224,8 @@ namespace Seguridad
             string[] tablasImplantagraf = { "Categoria", "Cliente", "DetalleOperacion", "EstadoOperacion",
                                             "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
                                             "Producto", "SEG_Bitacora", "SEG_DetallePermisos", "SEG_DVV","SEG_IntegridadRegistros",
-                                            "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", "Stock",
-                                            "Traductor", "WS_Empresa_TC", "WS_Marca_TC"};
+                                            "SEG_PerfilUsr", "SEG_Permisos", "SEG_Usuario", 
+                                            "WS_Empresa_TC", "WS_Marca_TC"};
 
 
             for (int i = 0; i < tablasImplantagraf.Length; i++)
@@ -252,7 +250,7 @@ namespace Seguridad
             string[] tablasDVV = { "Categoria", "Cliente", "DetalleOperacion",
                                    "Factura", "FormaPago", "Idioma", "Localidad", "Marca", "Operacion",
                                    "Producto", "SEG_Bitacora", "SEG_PerfilUsr",
-                                   "SEG_Permisos", "SEG_DetallePermisos","SEG_Usuario", "Stock"};
+                                   "SEG_Permisos", "SEG_DetallePermisos","SEG_Usuario"};
             long DVV = 0;
 
             for (int i = 0; i < tablasDVV.Length; i++)
@@ -582,6 +580,8 @@ namespace Seguridad
 
         public bool ValidarRegistrosDVH(bool flag)
         {
+            var priv = new Privacidad();
+
             var accDatosUsuario = new CuentaDAC();
             var accDatosProductos = new ProductoDAC();
             var accDatosCategorias = new CategoriaDAC();
@@ -621,7 +621,7 @@ namespace Seguridad
 
                 foreach (Usuario usuarioActual in listadoUsuarios)
                 {
-                    if (CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion) != usuarioActual.DVH)
+                    if (CalcularDVH(usuarioActual.Id.ToString() + priv.Cifrar(usuarioActual.RazonSocial) + priv.Cifrar(usuarioActual.Nombre) + priv.Cifrar(usuarioActual.Apellido) + priv.Cifrar(usuarioActual.Usr) + priv.Cifrar(usuarioActual.Psw) + priv.Cifrar(usuarioActual.CUIL) + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + priv.Cifrar(usuarioActual.Telefono) + priv.Cifrar(usuarioActual.Direccion)) != usuarioActual.DVH)
                     {
                         GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_USUARIO", usuarioActual.Id.ToString(), usuarioActual.RazonSocial, usuarioActual.CUIL, usuarioActual.PerfilUsr.Descripcion, usuarioActual.Usr);
                         flag = true;
@@ -999,6 +999,8 @@ namespace Seguridad
         {
             long dvhActual;
 
+            var priv = new Privacidad();
+
             var accDatosUsuario = new CuentaDAC();
             var accDatosProductos = new ProductoDAC();
             var accDatosCategorias = new CategoriaDAC();
@@ -1038,7 +1040,7 @@ namespace Seguridad
 
                 foreach (Usuario usuarioActual in listadoUsuarios)
                 {
-                    dvhActual = CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+                    dvhActual = CalcularDVH(usuarioActual.Id.ToString() + priv.Cifrar(usuarioActual.RazonSocial) + priv.Cifrar(usuarioActual.Nombre) + priv.Cifrar(usuarioActual.Apellido) + priv.Cifrar(usuarioActual.Usr) + priv.Cifrar(usuarioActual.Psw) + priv.Cifrar(usuarioActual.CUIL) + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + priv.Cifrar(usuarioActual.Telefono) + priv.Cifrar(usuarioActual.Direccion));
 
                     ActualizarDVHUsuario(usuarioActual.Id, dvhActual);
                 }

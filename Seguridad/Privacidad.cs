@@ -11,7 +11,7 @@ namespace Seguridad
     {
         public string clave = "TrabajoFinalTFI";
 
-        public String EncriptarPsw(string dato)
+        public String Cifrar(string dato)
         {
             return CifrarTripleDES(dato);
         }

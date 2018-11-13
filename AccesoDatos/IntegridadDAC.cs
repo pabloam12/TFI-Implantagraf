@@ -829,8 +829,8 @@ namespace AccesoDatos
                                         "DECLARE @minute VARCHAR(2) DECLARE @second VARCHAR(2) " +
 
                                         //2.Definir la ruta del archivo.
-                                        "SET @path = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\' " +
-
+                                        //"SET @path = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\Backup\\' " +
+                                        "SET @path = 'C:\\Implantagraf\\RESPALDOS\\' " + 
                                         //3.Setear las variables.
                                         "SELECT @time = GETDATE() SELECT @year = (SELECT CONVERT(VARCHAR(4), DATEPART(yy, @time))) SELECT @month = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(mm, @time), '00'))) " +
                                         "SELECT @day = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(dd, @time), '00'))) SELECT @hour = (SELECT CONVERT(VARCHAR(2), FORMAT(DATEPART(hh, @time), '00'))) " +
@@ -855,7 +855,8 @@ namespace AccesoDatos
         {
             List<Respaldo> listaRespaldos = new List<Respaldo>();
 
-            System.IO.DirectoryInfo directorio = new System.IO.DirectoryInfo(@"C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\Backup");
+            //System.IO.DirectoryInfo directorio = new System.IO.DirectoryInfo(@"C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\Backup");
+            System.IO.DirectoryInfo directorio = new System.IO.DirectoryInfo(@"C:\\Implantagraf\\RESPALDOS"); 
 
             FileInfo[] archivos = directorio.GetFiles();
 

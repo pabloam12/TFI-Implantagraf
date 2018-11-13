@@ -117,7 +117,7 @@
 
                                                     if ((String)Session["PerfilUsuario"] == "Cliente" || (String)Session["PerfilUsuario"] == "Administrativo")
                                                     {
-                                                        <li> @Html.ActionLink("MIS OPERACIONES", "Index", "MisCompras") </li>}
+                                                        <li> @Html.ActionLink("MIS COMPRAS", "MisCompras", "Cuenta") </li>}
 
                                                     <li> @Html.ActionLink("CERRAR SESIÓN", "Index", "Logout") </li>
                                                 }
@@ -128,7 +128,7 @@
 
                                                     if ((String)Session["PerfilUsuario"] == "Cliente" || (String)Session["PerfilUsuario"] == "Administrativo")
                                                     {
-                                                        <li> @Html.ActionLink("MY OPERATIONS", "Index", "MisCompras") </li>}
+                                                        <li> @Html.ActionLink("MY PURCHASES", "MisCompras", "Cuenta") </li>}
 
                                                     <li> @Html.ActionLink("LOGOUT", "Index", "Logout") </li>
                                                 }
@@ -167,8 +167,8 @@
                                         }
                                         if ((String)Session["PerfilUsuario"] == "Administrativo")
                                         {
-                                            <li>@Html.ActionLink("VENTAS", "Index", "Home")</li>
-                                            <li>@Html.ActionLink("STOCK", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("VENTAS", "Index", "Ventas")</li>
+                                            @*<li>@Html.ActionLink("STOCK", "Index", "Home")</li>*@
                                             <li>@Html.ActionLink("CLIENTES", "Index", "Cliente")</li>
 
 
@@ -194,7 +194,7 @@
                                         if ((String)Session["PerfilUsuario"] == "Administrativo")
                                         {
                                             <li>@Html.ActionLink("SALES", "Index", "Home")</li>
-                                            <li>@Html.ActionLink("STOCK", "Index", "Home")</li>
+                                            @*<li>@Html.ActionLink("STOCK", "Index", "Home")</li>*@
                                             <li>@Html.ActionLink("CUSTOMERS", "Index", "Cliente")</li>
 
 

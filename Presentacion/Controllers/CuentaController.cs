@@ -50,6 +50,27 @@ namespace Presentacion.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult MisCompras()
+        {
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && (String)Session["PerfilUsuario"] != null && integ.ValidarExistencia("SEG_Usuario") == 1)
+            {
+                var ln = new NegocioOperaciones();
+
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                var codCliente = (String)Session["IdUsuario"];
+
+                return View(ln.ListarVentasPorCliente(codCliente));
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
         public ActionResult DetalleCuenta()
         {
             var integ = new IntegridadDatos();
@@ -113,9 +134,9 @@ namespace Presentacion.Controllers
 
                 var ln = new NegocioCuenta();
 
-            var detalleModificado = ln.DarPermiso(idDetallePermiso);
+                var detalleModificado = ln.DarPermiso(idDetallePermiso);
 
-            return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
+                return RedirectToAction("VerPermisosUsuario", new { idUsr = detalleModificado.UsrId });
 
             }
 
@@ -132,12 +153,12 @@ namespace Presentacion.Controllers
             {
                 var ln = new NegocioCuenta();
 
-            ln.BloquearCuenta(id);
+                ln.BloquearCuenta(id);
 
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            return View();
+                return View();
             }
 
             return RedirectToAction("Index", "Home");
@@ -152,12 +173,12 @@ namespace Presentacion.Controllers
             {
                 var ln = new NegocioCuenta();
 
-            ln.DesbloquearCuenta(id);
+                ln.DesbloquearCuenta(id);
 
-            // Traduce páginas de CUENTA.
-            TraducirPagina((String)Session["IdiomaApp"]);
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            return View();
+                return View();
             }
 
             return RedirectToAction("Index", "Home");
@@ -281,7 +302,7 @@ namespace Presentacion.Controllers
                 // Traduce páginas de CUENTA.
                 TraducirPagina((String)Session["IdiomaApp"]);
 
-            return View();
+                return View();
             }
 
             return RedirectToAction("Index", "Home");

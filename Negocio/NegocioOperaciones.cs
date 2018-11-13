@@ -27,7 +27,7 @@ namespace Negocio
                 FormaPago = accDatosFormaPago.BuscarPorId(formaPagoId), //Mapper FormaPago.
                 Estado = estadoOperacionDatos.BuscarPorId(estadoId), //Mapper EstadoOperacion.
                 Cliente = clienteDatos.BuscarPorId(clienteId), // Mapper Cliente.
-                              
+
             };
 
             var facturaActual = datos.RegistrarFactura(factura);
@@ -39,7 +39,7 @@ namespace Negocio
             inte.RecalcularDVV("Factura");
 
             // Grabo en Bitácora.                       
-            aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA FACTURA", "INFO", "Se generó la factura: " + facturaActual.Codigo.ToString() + " para el Cliente " + facturaActual.Cliente.Id + " por un Importe de $ " + facturaActual.Monto.ToString() + " con estado "+ facturaActual.Estado.Descripcion);
+            aud.grabarBitacora(DateTime.Now, "SISTEMA", "ALTA FACTURA", "INFO", "Se generó la factura: " + facturaActual.Codigo.ToString() + " para el Cliente " + facturaActual.Cliente.Id + " por un Importe de $ " + facturaActual.Monto.ToString() + " con estado " + facturaActual.Estado.Descripcion);
 
             return facturaActual;
 
@@ -65,17 +65,17 @@ namespace Negocio
                 FormaPago = accDatosFormaPago.BuscarPorId(formaPagoId), //Mapper FormaPago.
                 Estado = accDatosEstadoOperacion.BuscarPorId(estadoId), //Mapper EstadoOperacion.
                 Factura = datos.BuscarFacturaporCodigo(codFactura) //Mapper Factura.
-           
+
             };
 
             var operacionActual = datos.RegistrarOperacion(operacion);
 
-            operacionActual.DVH = inte.CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString()+ operacionActual.Estado.Id.ToString());
+            operacionActual.DVH = inte.CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString());
 
             // Actualiza el DVH y DVV.
             inte.ActualizarDVHOperacion(operacionActual.Id, operacionActual.DVH);
             inte.RecalcularDVV("Operacion");
-            
+
             var usuario = datosUsuario.ListarUsuarioPorId(codCliente);
 
             // Grabo en Bitácora.                       
@@ -91,7 +91,7 @@ namespace Negocio
         {
             var datos = new OperacionesDAC();
             var inte = new IntegridadDatos();
-                        
+
             datos.RegistrarDetalleOperacion(detalleActual);
 
         }
@@ -103,6 +103,33 @@ namespace Negocio
             return datos.ListarDetalleOperacion();
 
         }
+
+        public List<Operacion> ListarVentasPorCliente(string idCliente)
+        {
+            var datos = new OperacionesDAC();
+
+            return datos.ListarVentasPorCliente(idCliente);
+
+        }
+        
+
+        public List<Operacion> ListarOperacionesPorTipo(string tipo)
+        {
+            var datos = new OperacionesDAC();
+
+            return datos.ListarOperacionesporTipo(tipo);
+
+        }
+
+        public List<Operacion> ListarVentasPorFiltro(string fecha, string fechaFin)
+        {
+            var datos = new OperacionesDAC();
+
+            return datos.ListarVentasPorFiltro(fecha, fechaFin);
+
+        }
+
+
 
         public List<DetalleOperacion> ListarDetalleporOperacion(int id)
         {

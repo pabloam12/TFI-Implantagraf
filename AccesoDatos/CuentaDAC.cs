@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace AccesoDatos
@@ -100,7 +102,7 @@ namespace AccesoDatos
 
             }
                                     
-            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaAlta] DESC;";
+            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaAlta];";
 
 
             var result = new List<Usuario>();
@@ -125,6 +127,7 @@ namespace AccesoDatos
 
         public Usuario BuscarUsuarioPorUsuario(string usr)
         {
+            usr = CifrarTripleDES(usr);
 
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
                "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
@@ -171,6 +174,8 @@ namespace AccesoDatos
 
         public bool ValidarUsuario(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -221,6 +226,8 @@ namespace AccesoDatos
 
         public bool ValidarBloqueoCuenta(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Estado]='B'";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -242,6 +249,8 @@ namespace AccesoDatos
 
         public bool ValidarSesionActiva(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Estado]='A'";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -263,6 +272,18 @@ namespace AccesoDatos
 
         public void ActualizarDatosCuenta(Usuario usuarioModif)
         {
+                        
+            //Cifrar Datos
+            usuarioModif.Psw = CifrarTripleDES(usuarioModif.Psw);
+            usuarioModif.Usr = CifrarTripleDES(usuarioModif.Usr);
+            usuarioModif.RazonSocial = CifrarTripleDES(usuarioModif.RazonSocial);
+            usuarioModif.Nombre = CifrarTripleDES(usuarioModif.Nombre);
+            usuarioModif.Apellido = CifrarTripleDES(usuarioModif.Apellido);
+            usuarioModif.Direccion = CifrarTripleDES(usuarioModif.Direccion);
+            usuarioModif.CUIL = CifrarTripleDES(usuarioModif.CUIL);
+            usuarioModif.Telefono = CifrarTripleDES(usuarioModif.Telefono);
+            usuarioModif.Email = CifrarTripleDES(usuarioModif.Email);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET [Direccion]=@Direccion, [LocalidadId]=@Localidad, [Telefono]=@Telefono, [IdiomaId]=@IdiomaId " +
                 "WHERE [Id]=@Id";
@@ -283,6 +304,9 @@ namespace AccesoDatos
 
         public bool ValidarUsuarioPsw(String nombreUsuario, String PswUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+            PswUsuario = CifrarTripleDES(PswUsuario);
+
             const string sqlStatement = "SELECT COUNT(*) FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -305,6 +329,8 @@ namespace AccesoDatos
 
         public void ReiniciarIntentosFallidos(string nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Intentos] = 0 WHERE [Usr] = @Usr";
 
@@ -320,6 +346,8 @@ namespace AccesoDatos
 
         public int SumarIntentoFallido(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Intentos] += 1 WHERE [Usr] = @Usr AND [PerfilId] <> 1";
 
@@ -336,6 +364,8 @@ namespace AccesoDatos
 
         public int CantidadIntentos(string nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "SELECT [Intentos] from dbo.SEG_Usuario WHERE [Usr] = @Usr";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -349,6 +379,8 @@ namespace AccesoDatos
 
         public void BloquearCuentaUsuario(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Estado] = 'B' WHERE [Usr] = @Usr";
 
@@ -364,6 +396,8 @@ namespace AccesoDatos
 
         public void ActivarSesionCuentaUsuario(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Estado] = 'A' WHERE [Usr] = @Usr";
 
@@ -379,6 +413,9 @@ namespace AccesoDatos
 
         public void ActualizarPswUsuario(string usr, string nuevaPsw)
         {
+            usr = CifrarTripleDES(usr);
+            nuevaPsw = CifrarTripleDES(nuevaPsw);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Psw] = @nuevaPsw WHERE [Usr] = @usr";
 
@@ -395,6 +432,8 @@ namespace AccesoDatos
 
         public void ActivarCuentaUsuario(String nombreUsuario)
         {
+            nombreUsuario = CifrarTripleDES(nombreUsuario);
+
             const string sqlStatement = "UPDATE dbo.SEG_Usuario " +
                 "SET[Estado] = 'S' WHERE [Usr] = @Usr";
 
@@ -410,6 +449,9 @@ namespace AccesoDatos
 
         public Usuario Autenticar(FrmLogin usr)
         {
+            usr.Usuario = CifrarTripleDES(usr.Usuario);
+            usr.Contraseña = CifrarTripleDES(usr.Contraseña);
+
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja],[PerfilId], [IdiomaId], [DVH]  " +
                 "FROM dbo.SEG_Usuario WHERE [Usr]=@Usr AND [Psw]=@Psw ";
@@ -436,6 +478,17 @@ namespace AccesoDatos
         }
         public Usuario RegistrarUsuario(Usuario usr)
         {
+            //Cifrar Datos
+            usr.Psw = CifrarTripleDES(usr.Psw);
+            usr.Usr = CifrarTripleDES(usr.Usr);
+            usr.RazonSocial = CifrarTripleDES(usr.RazonSocial);
+            usr.Nombre = CifrarTripleDES(usr.Nombre);
+            usr.Apellido = CifrarTripleDES(usr.Apellido);
+            usr.Direccion = CifrarTripleDES(usr.Direccion);
+            usr.CUIL = CifrarTripleDES(usr.CUIL);
+            usr.Telefono = CifrarTripleDES(usr.Telefono);
+            usr.Email = CifrarTripleDES(usr.Email);
+
             const string sqlStatement = "INSERT INTO dbo.SEG_Usuario ([RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], " +
                 "[Estado], [Intentos], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH]) " +
@@ -480,6 +533,17 @@ namespace AccesoDatos
 
             }
 
+            //Cifrar Datos
+            usr.Psw = DescifrarTripleDES(usr.Psw);
+            usr.Usr = DescifrarTripleDES(usr.Usr);
+            usr.RazonSocial = DescifrarTripleDES(usr.RazonSocial);
+            usr.Nombre = DescifrarTripleDES(usr.Nombre);
+            usr.Apellido = DescifrarTripleDES(usr.Apellido);
+            usr.Direccion = DescifrarTripleDES(usr.Direccion);
+            usr.CUIL = DescifrarTripleDES(usr.CUIL);
+            usr.Telefono = DescifrarTripleDES(usr.Telefono);
+            usr.Email = DescifrarTripleDES(usr.Email);
+
             return usr;
 
         }
@@ -489,6 +553,7 @@ namespace AccesoDatos
 
         public Usuario InformacionCuenta(string idUsuario)
         {
+            
             const string sqlStatement = "SELECT [Id], [RazonSocial], [Nombre], [Apellido], [Usr], [Psw], [CUIL], [Estado], [Email], [Telefono], " +
                 "[Direccion], [LocalidadId], [FechaAlta], [FechaBaja], [PerfilId], [IdiomaId], [DVH] " +
                 "FROM dbo.SEG_Usuario WHERE [Id]=@idUsuario";
@@ -801,20 +866,20 @@ namespace AccesoDatos
             var localidadDAC = new LocalidadDAC();
             var perfilUsrDAC = new PerfilUsrDAC();
             var idiomaDAC = new IdiomaDAC();
-
+            
             var usuario = new Usuario
             {
                 Id = GetDataValue<int>(dr, "Id"),
-                RazonSocial = GetDataValue<string>(dr, "RazonSocial"),
-                Nombre = GetDataValue<string>(dr, "Nombre"),
-                Apellido = GetDataValue<string>(dr, "Apellido"),
-                Usr = GetDataValue<string>(dr, "Usr"),
+                RazonSocial = DescifrarTripleDES(GetDataValue<string>(dr, "RazonSocial")),
+                Nombre = DescifrarTripleDES(GetDataValue<string>(dr, "Nombre")),
+                Apellido = DescifrarTripleDES(GetDataValue<string>(dr, "Apellido")),
+                Usr = DescifrarTripleDES(GetDataValue<string>(dr, "Usr")),
                 Psw = GetDataValue<string>(dr, "Psw"),
-                CUIL = GetDataValue<string>(dr, "CUIL"),
+                CUIL = DescifrarTripleDES(GetDataValue<string>(dr, "CUIL")),
                 Estado = GetDataValue<string>(dr, "Estado"),
-                Email = GetDataValue<string>(dr, "Email"),
-                Telefono = GetDataValue<string>(dr, "Telefono"),
-                Direccion = GetDataValue<string>(dr, "Direccion"),
+                Email = DescifrarTripleDES(GetDataValue<string>(dr, "Email")),
+                Telefono = DescifrarTripleDES(GetDataValue<string>(dr, "Telefono")),
+                Direccion = DescifrarTripleDES(GetDataValue<string>(dr, "Direccion")),
                 Localidad = localidadDAC.BuscarPorId(GetDataValue<int>(dr, "LocalidadId")), //Mapper
                 PerfilUsr = perfilUsrDAC.BuscarPorId(GetDataValue<int>(dr, "PerfilId")), //Mapper
                 Idioma = idiomaDAC.BuscarPorId(GetDataValue<int>(dr, "IdiomaId")), //Mapper
@@ -836,6 +901,56 @@ namespace AccesoDatos
 
             return (dia + "-" + mes + "-" + anio);
 
+        }
+
+        public string clave = "TrabajoFinalTFI";
+
+        private string CifrarTripleDES(string cadena)
+        {
+
+            byte[] llave; //Arreglo donde guardaremos la llave para el cifrado 3DES.
+
+            byte[] arreglo = UTF8Encoding.UTF8.GetBytes(cadena); //Arreglo donde guardaremos la cadena descifrada.
+
+            // Ciframos utilizando el Algoritmo MD5.
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            llave = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(clave));
+            md5.Clear();
+
+            //Ciframos utilizando el Algoritmo 3DES.
+            TripleDESCryptoServiceProvider tripledes = new TripleDESCryptoServiceProvider();
+            tripledes.Key = llave;
+            tripledes.Mode = CipherMode.ECB;
+            tripledes.Padding = PaddingMode.PKCS7;
+            ICryptoTransform convertir = tripledes.CreateEncryptor(); // Iniciamos la conversión de la cadena
+            byte[] resultado = convertir.TransformFinalBlock(arreglo, 0, arreglo.Length); //Arreglo de bytes donde guardaremos la cadena cifrada.
+            tripledes.Clear();
+
+            return Convert.ToBase64String(resultado, 0, resultado.Length); // Convertimos la cadena y la regresamos.
+        }
+        private string DescifrarTripleDES(string cadena)
+        {
+
+            byte[] llave;
+
+            byte[] arreglo = Convert.FromBase64String(cadena); // Arreglo donde guardaremos la cadena descovertida.
+
+            // Ciframos utilizando el Algoritmo MD5.
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            llave = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(clave));
+            md5.Clear();
+
+            //Ciframos utilizando el Algoritmo 3DES.
+            TripleDESCryptoServiceProvider tripledes = new TripleDESCryptoServiceProvider();
+            tripledes.Key = llave;
+            tripledes.Mode = CipherMode.ECB;
+            tripledes.Padding = PaddingMode.PKCS7;
+            ICryptoTransform convertir = tripledes.CreateDecryptor();
+            byte[] resultado = convertir.TransformFinalBlock(arreglo, 0, arreglo.Length);
+            tripledes.Clear();
+
+            string cadena_descifrada = UTF8Encoding.UTF8.GetString(resultado); // Obtenemos la cadena
+            return cadena_descifrada; // Devolvemos la cadena
         }
     }
 }

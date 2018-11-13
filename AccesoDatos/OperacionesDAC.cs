@@ -88,7 +88,7 @@ namespace AccesoDatos
         public List<Operacion> ListarOperaciones()
         {
 
-            const string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
+            const string sqlStatement = "SELECT [Id], [ClienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
                "FROM dbo.Operacion;";
 
             var result = new List<Operacion>();
@@ -113,7 +113,7 @@ namespace AccesoDatos
         public List<Operacion> ListarOperacionesporTipo(string tipo)
         {
 
-            string sqlStatement = "SELECT [Id], [CLienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
+            string sqlStatement = "SELECT [Id], [ClienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
                "FROM dbo.Operacion WHERE TipoOperacion='" + tipo + "'; ";
 
             var result = new List<Operacion>();
@@ -128,6 +128,86 @@ namespace AccesoDatos
                     {
                         var operacion = MapearOperacion(dr); // Mapper
                         result.Add(operacion);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<Operacion> ListarVentasPorCliente(string clienteId)
+        {
+
+            string sqlStatement = "SELECT [Id], [ClienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
+               "FROM dbo.Operacion WHERE ClienteId='" + clienteId + "'; ";
+
+            var result = new List<Operacion>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var operacion = MapearOperacion(dr); // Mapper
+                        result.Add(operacion);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<Operacion> ListarVentasPorFiltro(string fecha, string fechaFin)
+        {
+
+            var sqlStatement = "SELECT [Id], [ClienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
+               "FROM dbo.Operacion ";
+
+            var whereStatement = "";
+
+
+            if (fecha != "")
+            {
+                fecha = InvertirFecha(fecha);
+
+                whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fecha) ";
+
+                if (fechaFin != "")
+                {
+
+                    fechaFin = InvertirFecha(fechaFin);
+
+                    whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fechaFin) ";
+
+                }
+            }
+
+          
+            if (whereStatement == "")
+
+            { whereStatement = "Where [TipoOperacion] = 'VE' "; }
+
+            else { whereStatement = whereStatement + "AND [TipoOperacion] = 'VE' "; }
+
+            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaHora];";
+
+
+            var result = new List<Operacion>();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@fecha", DbType.String, fecha);
+                db.AddInParameter(cmd, "@fechaFin", DbType.String, fechaFin);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var operacionActual = MapearOperacion(dr); // Mapper
+                        result.Add(operacionActual);
                     }
                 }
             }
@@ -321,6 +401,17 @@ namespace AccesoDatos
             };
 
             return factura;
+        }
+
+        private string InvertirFecha(string fecha)
+        {
+
+            var anio = fecha.Substring(0, 4);
+            var mes = fecha.Substring(5, 2);
+            var dia = fecha.Substring(8, 2);
+
+            return (dia + "-" + mes + "-" + anio);
+
         }
 
     }

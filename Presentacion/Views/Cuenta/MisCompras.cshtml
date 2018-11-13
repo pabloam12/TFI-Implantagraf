@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Entidades.Operacion>
+
+@{
+    ViewBag.Title = "MisCompras";
+
+}
+
+@Html.Partial("_Espacio1")
+
+<div class="container contact_container">
+    <h2>CATEGORIAS</h2>
+    <br />
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaHora)
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.ImporteTotal)
+            </th>
+            
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaHora)
+                </td>
+               
+                <td>
+                    $ @Html.DisplayFor(modelItem => item.ImporteTotal).-
+                </td>
+               
+                <td></td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+@Html.Partial("_Espacio2")
+
+

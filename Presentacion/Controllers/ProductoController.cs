@@ -308,7 +308,7 @@ namespace Presentacion.Controllers
 
                 var facturaCompra = (Factura)Session["Factura"];
 
-                
+
                 return RedirectToAction("FinalizarCompra");
             }
 
@@ -399,7 +399,7 @@ namespace Presentacion.Controllers
             // Me guardo la factura para imprimir y enviar por correo.
             Session["Factura"] = facturaActual;
 
-           
+
             try
             {
                 // Envío correo con Factura adjunta TODO.

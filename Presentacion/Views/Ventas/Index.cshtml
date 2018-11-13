@@ -1,20 +1,20 @@
-﻿@model IEnumerable<Entidades.Usuario>
+﻿@model IEnumerable<Entidades.Operacion>
 
 
 @{
-    ViewBag.Title = ViewBag.CLIENTE_TITULO;
+    ViewBag.Title = ViewBag.VENTAS_TITULO;
 
 }
 
 
 @Html.Partial("_Espacio1")
 <div class="container contact_container">
-    <h4>@ViewBag.CLIENTE_TITULO</h4>
+    <h4>@ViewBag.VENTAS_TITULO</h4>
 
     <br />
 
 
-    @using (Html.BeginForm("Index", "Cliente", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+    @using (Html.BeginForm("Index", "Ventas", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
             {
 
         <div class="row">
@@ -31,9 +31,9 @@
             </div>
 
             <div class="col">
-                <div class="form-group">
+                @*<div class="form-group">
                     @ViewBag.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" />
-                </div>
+                </div>*@
                 <br />
                 <div class="form-group">
                     <p>
@@ -46,17 +46,17 @@
                 </div>
             </div>
 
-         
         </div>
     }
 
-    @if ((String)Session["ErrorFiltroCliente"] != null)
+    @if ((String)Session["ErrorFiltroVentas"] != null)
             {
         <br />
-        <div class="alert alert-danger" role="alert">@Session["ErrorFiltroCliente"]!</div>
+        <div class="alert alert-danger" role="alert">@Session["ErrorFiltroVentas"]!</div>
 
 
     }
+    <br />
 
     @section scripts{
 
@@ -77,18 +77,15 @@
 
                 <tr>
                     <th>
-                        @ViewBag.ENTIDAD_FECHA_ALTA
+                        @ViewBag.ENTIDAD_FECHAHORA
                     </th>
                     <th>
                         @ViewBag.ENTIDAD_RAZON_SOCIAL
                     </th>
                     <th>
-                        @ViewBag.ENTIDAD_CUIL
+                        @ViewBag.ENTIDAD_IMPORTE_TOTAL
                     </th>
-                    <th>
-                        @ViewBag.ENTIDAD_DIRECCION
-                    </th>                    
-                  
+                
                 </tr>
             </thead>
             <tbody>
@@ -96,29 +93,21 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.FechaAlta)
+                            @Html.DisplayFor(modelItem => item.FechaHora)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.RazonSocial)
+                            @Html.DisplayFor(modelItem => item.Cliente.RazonSocial)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CUIL)
+                            $ @Html.DisplayFor(modelItem => item.ImporteTotal).-
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Direccion)
-                        </td>
-
+                       
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
-
-
-
-
-
 
 
 @Html.Partial("_Espacio2")

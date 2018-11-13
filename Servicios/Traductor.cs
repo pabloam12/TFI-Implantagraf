@@ -174,15 +174,17 @@ namespace Servicios
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_RESTANTES", "PERMISOS SIN OTORGAR");
                 traducciones.Add("BOTON_EXPORTAR_XML", "EXPORTAR XML");
                 traducciones.Add("CLIENTE_TITULO", "LISTADO DE CLIENTES");
+
+                traducciones.Add("VENTAS_TITULO", "LISTADO DE VENTAS");
+                traducciones.Add("ENTIDAD_IMPORTE_TOTAL", "Importe Total");
+              
                 
-
-
-
-
             }
 
             if (idioma == "Eng")
             {
+                traducciones.Add("VENTAS_TITULO", "SALES LIST");
+                traducciones.Add("ENTIDAD_IMPORTE_TOTAL", "Total Amount");
                 traducciones.Add("CLIENTE_TITULO", "CUSTOMER LIST");
                 traducciones.Add("BOTON_EXPORTAR_XML", "EXPORT XML");
                 traducciones.Add("CUENTA_VERPERMISOS_LEYENDA_OTORGADOS", "PERMITS GRANTED");

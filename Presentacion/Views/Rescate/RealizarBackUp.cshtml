@@ -6,8 +6,12 @@
         <div class="container contact_container">
             <div>
 
-                <div class="alert alert-success" role="alert">Se ha realizado con éxito una copia de respaldo.</div>
-
+                @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+            {
+                    <div class="alert alert-success" role="alert">LA COPIA DE HA REALIZADO CON ÉXITO.</div>
+                }
+                else
+                { <div class="alert alert-success" role="alert">SUCCESS BAKCUP.</div>}
             </div>
 
             <div class="form-group">
