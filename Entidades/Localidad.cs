@@ -8,7 +8,7 @@ namespace Entidades
 {
     public class Localidad
     {
-        [Required(ErrorMessage = "La Localidad es Obligatoria.")]
+        [Required(ErrorMessage = "Complete")]
         public int Id { get; set; }
         public string Descripcion { get; set; }
 

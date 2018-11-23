@@ -177,12 +177,16 @@ namespace Servicios
 
                 traducciones.Add("VENTAS_TITULO", "LISTADO DE VENTAS");
                 traducciones.Add("ENTIDAD_IMPORTE_TOTAL", "Importe Total");
-              
-                
+
+                traducciones.Add("BOTON_BITACORA_HIST", "CONSULTAR HISTÓRICO"); 
+
+
+
             }
 
             if (idioma == "Eng")
             {
+                traducciones.Add("BOTON_BITACORA_HIST", "CONSULT HISTORY");
                 traducciones.Add("VENTAS_TITULO", "SALES LIST");
                 traducciones.Add("ENTIDAD_IMPORTE_TOTAL", "Total Amount");
                 traducciones.Add("CLIENTE_TITULO", "CUSTOMER LIST");
@@ -281,7 +285,7 @@ namespace Servicios
                 traducciones.Add("ERROR_USUARIO_EXISTENTE", "USER ALREADY EXISTS");
                 traducciones.Add("EXCEPCIONES_INDEX_TITULO", "EXCUSE US, WE HAD A PROBLEM HERE. PLEASE CONTACT AN ADMIN. THANK YOU VERY MUCH");
                 traducciones.Add("HOME_CONTACTO_FORMULARIO_LEYENDA", "Fill out the form below and we will respond as soon as possible.");
-                traducciones.Add("HOME_CONTACTO_LEYENDA", "There are many ways to contact us, send us your opinion or know our commercial offices. Find the way that best suits your times.");
+                traducciones.Add("HOME_CONTACTO_LEYENDA", "There are many ways to contact us, send us your opinion or visit our commercial offices.");
                 traducciones.Add("HOME_CONTACTO_TITULO", "CONTACT US");
                 traducciones.Add("HOME_CONTACTO_TITULO_2", "TELL US WHAT YOU THINK!");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS", "Timetable");
@@ -289,7 +293,7 @@ namespace Servicios
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS", "Sunday and Hollydays");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_SABADO", "Saturday");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_SEMANA", "Mon - Fri");
-                traducciones.Add("HOME_CONTACTO_TITULO_MAPA", "WE ARE AT Ramos Mejia");
+                traducciones.Add("HOME_CONTACTO_TITULO_MAPA", "WE ARE AT RAMOS MEJIA");
                 traducciones.Add("HOME_LEYENDA_FOLLETO", "Subscribe to our monthly newsletter and find out about the latest news.");
                 traducciones.Add("HOME_LEYENDA_OFERTA_DIAS", "Days");
                 traducciones.Add("HOME_LEYENDA_OFERTA_HORAS", "Hours");

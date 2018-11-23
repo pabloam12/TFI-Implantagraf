@@ -51,8 +51,9 @@
                         <button type="submit" value="Search" class="btn btn-success">@ViewBag.BITACORA_FILTROS_BOTON_FILTRAR</button>
 
                         @Html.ActionLink((String)ViewBag.BOTON_EXPORTAR_XML, "ExportarXML", null, new { @class = "btn btn-info btn-xl" })
-
                     </p>
+
+                    <p> @Html.ActionLink((String)ViewBag.BOTON_BITACORA_HIST, "BitacoraHistorica", null, new { @class = "btn btn-warning btn-sm" })</p>
 
                 </div>
             </div>
@@ -63,7 +64,7 @@
     @if ((String)Session["ErrorFiltroBitacora"] != null)
             {
         <br />
-            <div class="alert alert-danger" role="alert">@Session["ErrorFiltroBitacora"]!</div>
+        <div class="alert alert-danger" role="alert">@Session["ErrorFiltroBitacora"]!</div>
 
 
     }

@@ -1,0 +1,152 @@
+﻿@model IEnumerable<Entidades.Bitacora>
+
+
+@{
+    ViewBag.Title = ViewBag.BITACORA_TITULO;
+
+}
+
+
+@Html.Partial("_Espacio1")
+
+<div class="container contact_container">
+
+    <h4>@ViewBag.BITACORA_TITULO</h4>
+
+    <br />
+
+    @using (Html.BeginForm("BitacoraHistorica", "Bitacora", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+    {
+
+        <div class="row">
+            <div class="col">
+
+                <div class="form-group">
+                    @ViewBag.ENTIDAD_FECHA_INICIO <input type="date" name="fecha" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    @ViewBag.ENTIDAD_FECHA_FIN<input type="date" name="fechaFin" class="form-control" />
+                </div>
+
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    @ViewBag.ENTIDAD_USUARIO  <input type="text" name="usr" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <div> @ViewBag.ENTIDAD_ACCION<input type="text" name="accion" class="form-control" @*placeholder="Filtrar Accion"*@ /></div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <div>@ViewBag.ENTIDAD_CRITICIDAD<input type="text" name="criticidad" class="form-control" @*placeholder="Filtrar Criticidad"*@ /></div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <p>
+                        <button type="submit" value="Search" class="btn btn-success">@ViewBag.BITACORA_FILTROS_BOTON_FILTRAR</button>
+
+                        @Html.ActionLink((String)ViewBag.BOTON_EXPORTAR_XML, "ExportarXML", null, new { @class = "btn btn-info btn-xl" })
+
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    }
+
+    @if ((String)Session["ErrorFiltroBitacora"] != null)
+    {
+        <br />
+        <div class="alert alert-danger" role="alert">@Session["ErrorFiltroBitacora"]!</div>
+    }
+
+
+    @*@section scripts{
+
+        <script>
+
+            $(document).ready(function () {
+                $('#table').DataTable();
+            });
+
+        </script>
+    }*@
+
+   @{ var cantidad = Model.Count();
+
+       if (cantidad == 0)
+       {
+            <div>
+                @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    <div class="alert alert-success" role="alert">POR FAVOR COMPLETE EL FILTRO DE BÚSQUEDA HISTÓRICA</div>
+                }
+                else
+                {<div class="alert alert-success" role="alert">COMPLETE THE SEARCH FILTERS PLEASE.</div>}
+            </div>
+       }
+       else
+       {
+            <div class="row">
+                <br />
+                <table class="table" id="table">
+
+                   
+
+                        <tr>
+                            <th>
+                                @ViewBag.ENTIDAD_FECHAHORA
+                            </th>
+                            <th>
+                                @ViewBag.ENTIDAD_USUARIO
+                            </th>
+                            <th>
+                                @ViewBag.ENTIDAD_ACCION
+                            </th>
+                            <th>
+                                @ViewBag.ENTIDAD_CRITICIDAD
+                            </th>
+                            <th>
+                                @ViewBag.ENTIDAD_DETALLE
+                            </th>
+
+
+                        </tr>
+                  
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaHora)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Usuario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Accion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Criticidad)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Detalle)
+                                </td>
+                            </tr>
+                        }
+                    
+                </table>
+            </div>
+
+           }
+       }
+        </div>
+
+@Html.Partial("_Espacio2")

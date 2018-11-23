@@ -12,8 +12,7 @@ namespace Presentacion.Controllers
 {
     public class BitacoraController : Controller
     {
-
-        
+                
         public ActionResult Index()
         {
             var integ = new IntegridadDatos();
@@ -99,6 +98,91 @@ namespace Presentacion.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult BitacoraHistorica()
+        {
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Bitacora") == 1)
+            {
+                var ln = new Auditoria();
+
+                //Traducir Página BITACORA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+                try
+                {                    
+                    var consulta = new List<Bitacora>();
+                    Session["ConsultaBitacora"] = consulta;
+
+                    return View(consulta);
+                }
+                catch
+                {
+                    Session["Excepcion"] = "ERROR DE AL CONSULTAR BITÁCORA HISTÓRICA";
+                    return RedirectToAction("Index", "Excepciones");
+                }
+
+
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult BitacoraHistorica(string fecha, string fechaFin, string usr, string accion, string criticidad)
+        {
+            var integ = new IntegridadDatos();
+
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Bitacora") == 1)
+            {
+                var ln = new Auditoria();
+
+                //Traducir Página BITACORA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                Session["ErrorFiltroBitacora"] = null;
+
+                if (fecha == "" && fechaFin != "")
+                {
+                    fechaFin = "";
+
+                    Session["ErrorFiltroBitacora"] = ViewBag.BITACORA_WARNING_SIN_FECHA_INICIO;
+                }
+
+                if (fecha != "" && fechaFin != "")
+                {
+                    DateTime fechaDate = DateTime.Parse(fecha);
+
+                    DateTime fechaFinDate = DateTime.Parse(fechaFin);
+
+                    if (fechaDate >= fechaFinDate)
+                    {
+                        fecha = "";
+                        fechaFin = "";
+
+                        Session["ErrorFiltroBitacora"] = ViewBag.BITACORA_WARNING_FECHAS_MAL;
+
+                    }
+
+                }
+
+                if (fecha == "" && usr == "" && accion == "" && criticidad == "")
+                {
+                    return View(ln.ConsultarBitacora());
+
+                }
+
+                var consulta = ln.ConsultarBitacoraHistorica(fecha, fechaFin, usr, accion, criticidad);
+
+                Session["ConsultaBitacora"] = consulta;
+
+                return View(consulta);
+            }
+
+
+
+            return RedirectToAction("Index", "Home");
+        }
+
         public ActionResult ExportarXML()
         {
             var exportador = new Exportador();
@@ -138,8 +222,9 @@ namespace Presentacion.Controllers
             ViewBag.BITACORA_WARNING_FECHAS_MAL = diccionario["BITACORA_WARNING_FECHAS_MAL"];
 
             ViewBag.BOTON_EXPORTAR_XML = diccionario["BOTON_EXPORTAR_XML"];
+            ViewBag.BOTON_BITACORA_HIST = diccionario["BOTON_BITACORA_HIST"];
 
-            
+
 
 
         }

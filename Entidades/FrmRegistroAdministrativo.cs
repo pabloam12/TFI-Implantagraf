@@ -11,11 +11,13 @@ namespace Entidades
 
         [Required(ErrorMessage = "El Nombre es Obligatorio.")]
         [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "El Nombre solo puede contener letras.")]
         public string Nombre { get; set; }
 
 
         [Required(ErrorMessage = "El Apellido es Obligatorio.")]
         [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "El Apellido solo puede contener letras.")]
         public string Apellido { get; set; }
 
         [Required(ErrorMessage = "El CUIL es Obligatorio")]

@@ -13,7 +13,8 @@ namespace AccesoDatos
         public List<Bitacora> ConsultarBitacora()
         {
 
-            const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] FROM dbo.SEG_Bitacora ORDER BY [FechaHora] DESC";
+            const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] "+
+                "FROM dbo.SEG_Bitacora Where [Historico]=0 ORDER BY [FechaHora] DESC";
 
 
             var result = new List<Bitacora>();
@@ -40,6 +41,90 @@ namespace AccesoDatos
 
             var whereStatement = "";
                    
+
+            if (fecha != "")
+            {
+                fecha = InvertirFecha(fecha);
+
+                whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fecha) ";
+
+                if (fechaFin != "")
+                {
+
+                    fechaFin = InvertirFecha(fechaFin);
+
+                    whereStatement = "Where [FechaHora] >= @fecha and [FechaHora] < dateadd(day,1,@fechaFin) ";
+
+                }
+            }
+
+            if (usr != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Usuario] like '%" + usr + "%' "; }
+
+                else { whereStatement = whereStatement + "AND [Usuario] like '%" + usr + "%' "; }
+
+            }
+
+            if (accion != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Accion] like '%" + accion + "%' "; }
+
+                else { whereStatement = whereStatement + "AND [Accion] like '%" + accion + "%' "; }
+
+            }
+
+            if (criticidad != "")
+            {
+                if (whereStatement == "")
+
+                { whereStatement = "Where [Criticidad] like '%" + criticidad + "%' "; }
+
+                else { whereStatement = whereStatement + "AND [Criticidad] like '%" + criticidad + "%' "; }
+
+            }
+
+            if (whereStatement == "")
+
+            { whereStatement = "Where [Historico] = 0 "; }
+
+            else { whereStatement = whereStatement + "AND [Historico] = 0 "; }
+
+
+            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaHora] DESC;";
+
+
+            var result = new List<Bitacora>();
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@fecha", DbType.String, fecha);
+                db.AddInParameter(cmd, "@fechaFin", DbType.String, fechaFin);
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var bitacora = MapearBitacora(dr); // Mapper
+                        result.Add(bitacora);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<Bitacora> ConsultarBitacoraHistorica(string fecha, string fechaFin, string usr, string accion, string criticidad)
+        {
+
+            var sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] FROM dbo.SEG_Bitacora ";
+
+            var whereStatement = "";
+
 
             if (fecha != "")
             {
@@ -135,6 +220,20 @@ namespace AccesoDatos
 
         }
 
+        public void BalancearRegistrosHistoricos()
+        {
+            const string sqlStatement = "UPDATE dbo.SEG_Bitacora SET[Historico] = 1; "+
+                                        "UPDATE dbo.SEG_Bitacora SET[Historico] = 0 WHERE id IN (SELECT TOP 30 Id FROM dbo.SEG_Bitacora ORDER BY Id DESC);";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
+
         private string InvertirFecha(string fecha)
         {
 
@@ -146,6 +245,7 @@ namespace AccesoDatos
 
         }
 
+        
         private static Bitacora MapearBitacora(IDataReader dr)
         {
             var bitacora = new Bitacora

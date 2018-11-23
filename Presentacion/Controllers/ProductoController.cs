@@ -400,9 +400,9 @@ namespace Presentacion.Controllers
 
             try
             {
-                // Envío correo con Factura adjunta TODO.
+          
                 var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
-                var asuntoMsj = "Factura - 000" + facturaActual.Codigo.ToString();
+                var asuntoMsj = "F-000" + facturaActual.Codigo.ToString();
                 mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj, rutaFactura);
             }
             catch
@@ -428,7 +428,11 @@ namespace Presentacion.Controllers
             // Create the form filler
             FileStream pdfOutputFile = new FileStream(pdfTemplate, FileMode.Create);
 
-            pdfReader = new PdfReader(@Server.MapPath("~/Documentos/e-factura.pdf"));
+            if ((String)Session["IdiomaApp"] == "Esp")
+            { pdfReader = new PdfReader(@Server.MapPath("~/Documentos/e-factura.pdf")); }
+
+            if ((String)Session["IdiomaApp"] == "Eng")
+            { pdfReader = new PdfReader(@Server.MapPath("~/Documentos/e-factura-eng.pdf")); }
 
             PdfStamper pdfStamper = null;
 
@@ -450,7 +454,7 @@ namespace Presentacion.Controllers
             testForm.SetField("fecha_entrega", "");
             testForm.SetField("nro_cliente", oFactura.Cliente.Id.ToString());
             testForm.SetField("nro_pedido", oFactura.Codigo.ToString());
-            testForm.SetField("total", oFactura.Monto.ToString("c"));
+            testForm.SetField("total", "$ " + oFactura.Monto.ToString() + ".-");
 
 
             // HASTA 15
@@ -462,9 +466,9 @@ namespace Presentacion.Controllers
                 testForm.SetField("dominio_" + i.ToString(), productosCarrito[i].ProductoId.ToString());
                 testForm.SetField("descripcion_" + i.ToString(), productosCarrito[i].Descripcion);
                 testForm.SetField("cantidad_" + i.ToString(), productosCarrito[i].Cantidad.ToString());
-                testForm.SetField("precio_" + i.ToString(), productosCarrito[i].Precio.ToString("c"));
+                testForm.SetField("precio_" + i.ToString(), "$ " + productosCarrito[i].Precio.ToString() + ".-");
                 testForm.SetField("dto_" + i.ToString(), "-");
-                testForm.SetField("importe_" + i.ToString(), subTotal.ToString("c"));
+                testForm.SetField("importe_" + i.ToString(), "$ "+subTotal.ToString()+".-");
             }
 
 

@@ -11,6 +11,8 @@ namespace Entidades
         //Español
         [Required(ErrorMessage = "La Razón Social es Obligatoria")]
         [MaxLength(50, ErrorMessage = "La Razón Social no puede superar los {1} caracteres.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "La Razón Social solo puede contener letras.")]
+
         public string RazonSocial { get; set; }
 
         [Required(ErrorMessage = "El CUIL es Obligatorio")]
@@ -33,6 +35,7 @@ namespace Entidades
 
         [Required(ErrorMessage = "La Dirección es Obligatoria")]
         [MaxLength(100, ErrorMessage = "La {0} no puede superar los {1} caracteres.")]
+        [RegularExpression(@"^[a-zA-Z0-9 ]*$", ErrorMessage = "La Dirección solo puede contener letras y números.")]
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "El Telefono es Obligatorio")]
@@ -42,8 +45,9 @@ namespace Entidades
 
 
         //Ingles
-        [Required(ErrorMessage = "Social name is Obligatory")]
-        [MaxLength(50, ErrorMessage = "Social name must have a maximun of {1} characters.")]
+        [Required(ErrorMessage = "The Company Name is Obligatory")]
+        [MaxLength(50, ErrorMessage = "The Company Name must have a maximun of {1} characters.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "The Company Name must have only letters.")]
         public string RazonSocial_Eng { get; set; }
 
         [Required(ErrorMessage = "CUIL is Obligatory")]
@@ -66,6 +70,7 @@ namespace Entidades
 
         [Required(ErrorMessage = "Address is Obligatory")]
         [MaxLength(100, ErrorMessage = "Address must have a maximun of {1} characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9 ]*$", ErrorMessage = "Address must have only letters and numbers.")]
         public string Direccion_Eng { get; set; }
 
         [Required(ErrorMessage = "Phone number is Obligatory")]
