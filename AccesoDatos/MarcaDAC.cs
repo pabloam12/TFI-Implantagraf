@@ -13,8 +13,8 @@ namespace AccesoDatos
     {
         public Marca Agregar(Marca marca)
         {
-            const string sqlStatement = "INSERT INTO dbo.Marca ([Descripcion],[FechaAlta],[FechaBaja],[FechaModi]) " +
-                "VALUES(@Descripcion,@FechaAlta,@FechaBaja,@FechaModi); SELECT SCOPE_IDENTITY();";
+            const string sqlStatement = "INSERT INTO dbo.Marca ([Descripcion],[FechaAlta],[FechaBaja],[DVH]) " +
+                "VALUES(@Descripcion,@FechaAlta,@FechaBaja,@DVH); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
             using (var cmd = db.GetSqlStringCommand(sqlStatement))
@@ -22,7 +22,7 @@ namespace AccesoDatos
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, marca.Descripcion);
                 db.AddInParameter(cmd, "@FechaAlta", DbType.DateTime, DateTime.Now);
                 db.AddInParameter(cmd, "@FechaBaja", DbType.DateTime, new DateTime(2000, 01, 01));
-                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, new DateTime(2000, 01, 01));
+                db.AddInParameter(cmd, "@DVH", DbType.Int64, 0);
 
                 // Ejecuto la consulta y guardo el id que devuelve.
 
@@ -35,7 +35,7 @@ namespace AccesoDatos
         public void ActualizarPorId(Marca marca)
         {
             const string sqlStatement = "UPDATE dbo.Marca " +
-                "SET [Descripcion]=@Descripcion , [FEchaModi]=@FechaModi" +
+                "SET [Descripcion]=@Descripcion " +
                 "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -43,18 +43,16 @@ namespace AccesoDatos
             {
                 db.AddInParameter(cmd, "@Descripcion", DbType.String, marca.Descripcion);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, marca.Id);
-                db.AddInParameter(cmd, "@FechaModi", DbType.DateTime, DateTime.Now);
-
+                
                 db.ExecuteNonQuery(cmd);
             }
-
 
         }
 
         public void BorrarPorId(int id)
         {
             const string sqlStatement = "UPDATE dbo.Marca " +
-                  "SET [FEchaBaja]=@FechaBaja" +
+                  "SET [FEchaBaja]=@FechaBaja " +
                   "WHERE [ID]=@Id ";
 
             var db = DatabaseFactory.CreateDatabase(ConnectionName);
@@ -92,7 +90,7 @@ namespace AccesoDatos
         public List<Marca> Listar()
         {
 
-            const string sqlStatement = "SELECT [ID], [Descripcion], [DVH] FROM dbo.Marca ORDER BY [Descripcion]";
+            const string sqlStatement = "SELECT [ID], [Descripcion], [DVH] FROM dbo.Marca WHERE [FechaBaja] = '2000-01-01' ORDER BY [Descripcion]";
 
             var result = new List<Marca>();
             var db = DatabaseFactory.CreateDatabase(ConnectionName);

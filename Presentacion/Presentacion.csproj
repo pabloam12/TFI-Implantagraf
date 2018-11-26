@@ -479,6 +479,7 @@
     <Content Include="Views\Ventas\Index.cshtml" />
     <Content Include="Views\Cuenta\MisCompras.cshtml" />
     <Content Include="Views\Bitacora\BitacoraHistorica.cshtml" />
+    <Content Include="Views\Cuenta\ReenvioFactura.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

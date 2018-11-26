@@ -238,6 +238,27 @@ namespace Presentacion.Controllers
 
         }
 
+        public ActionResult ReenviarFactura(int facturaId)
+        {
+            try
+            {
+                var integ = new IntegridadDatos();
+                var mensajeria = new Mensajeria();
+
+                var rutaFactura = "C:\\Implantagraf\\PDF\\factura_" + facturaId.ToString() + ".pdf";
+                var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
+                var asuntoMsj = "F-000" + facturaId.ToString();
+                mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj, rutaFactura);
+
+                return RedirectToAction("MisCompras", "Cuenta");
+            }
+            catch
+            {
+                Session["Excepcion"] = "ERROR AL REENVIAR FACTURA POR CORREO";
+                return RedirectToAction("Index", "Excepciones");
+            }
+        }
+
         public ActionResult ActualizarDatosCuenta(Usuario usuarioModif)
         {
             var integ = new IntegridadDatos();
@@ -353,7 +374,8 @@ namespace Presentacion.Controllers
 
                 servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
             }
-            catch { //TODO
+            catch
+            { //TODO
             }
 
             return View();
@@ -445,6 +467,10 @@ namespace Presentacion.Controllers
             ViewBag.CUENTA_VERPERMISOS_DAR = diccionario["CUENTA_VERPERMISOS_DAR"];
             ViewBag.CUENTA_VERPERMISOS_LEYENDA_OTORGADOS = diccionario["CUENTA_VERPERMISOS_LEYENDA_OTORGADOS"];
             ViewBag.CUENTA_VERPERMISOS_LEYENDA_RESTANTES = diccionario["CUENTA_VERPERMISOS_LEYENDA_RESTANTES"];
+
+            ViewBag.TITULO_COMPRAS = diccionario["TITULO_COMPRAS"];
+            ViewBag.BOTON_REENVIAR_FACTURA = diccionario["BOTON_REENVIAR_FACTURA"];
+            ViewBag.BOTON_REENVIAR_FACTURA = diccionario["MENSAJE_MAIL_COMPRA"]; 
 
 
         }

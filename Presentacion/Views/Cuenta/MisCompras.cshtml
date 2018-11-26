@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Entidades.Operacion>
 
 @{
-    ViewBag.Title = "MisCompras";
+    ViewBag.Title = ViewBag.TITULO_COMPRAS;
 
 }
 
 @Html.Partial("_Espacio1")
 
 <div class="container contact_container">
-    <h2>CATEGORIAS</h2>
+    <h2>@ViewBag.TITULO_COMPRAS</h2>
     <br />
 
 
@@ -36,7 +36,7 @@
                     $ @Html.DisplayFor(modelItem => item.ImporteTotal).-
                 </td>
                
-                <td></td>
+                <td>@Html.ActionLink((String)ViewBag.BOTON_REENVIAR_FACTURA, "ReenviarFactura", new { facturaId = item.Id }, new { @class = "btn btn-success btn-sm" })</td>
             </tr>
         }
 

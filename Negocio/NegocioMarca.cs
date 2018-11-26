@@ -21,14 +21,23 @@ namespace Negocio
         public Marca Agregar(Marca marca, string usuario)
         {
             var ad = new MarcaDAC();
+            
 
-            marca = ad.Agregar(marca);
+            var marcaActual = ad.Agregar(marca);
+
+
+            var inte = new IntegridadDatos();
+
+            var marcaActualDVH = inte.CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion);
+            
+            inte.ActualizarDVHMarca(marcaActual.Id, marcaActualDVH);
+            inte.RecalcularDVV("Marca");
 
             var aud = new Auditoria();
             
             aud.grabarBitacora(DateTime.Now, usuario, "ALTA MARCA", "INFO", "Se creó la marca: " + marca.Id + " - '" + marca.Descripcion + "'");
 
-            return (marca);
+            return (marcaActual);
 
         }
 
@@ -41,6 +50,13 @@ namespace Negocio
             var descripcionAnterior = BuscarPorId(marca.Id).Descripcion;
 
             ad.ActualizarPorId(marca);
+
+            var inte = new IntegridadDatos();
+
+            var marcaActualDVH = inte.CalcularDVH(marca.Id.ToString() + marca.Descripcion);
+
+            inte.ActualizarDVHMarca(marca.Id, marcaActualDVH);
+            inte.RecalcularDVV("Marca");
 
             aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR MARCA", "INFO", "Se actualizó la marca: " + marca.Id + " - '" + descripcionAnterior + "' a '" + marca.Descripcion + "'");
 

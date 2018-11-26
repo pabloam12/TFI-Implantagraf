@@ -399,8 +399,7 @@ namespace Presentacion.Controllers
 
 
             try
-            {
-          
+            {          
                 var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
                 var asuntoMsj = "F-000" + facturaActual.Codigo.ToString();
                 mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj, rutaFactura);

@@ -1,44 +1,47 @@
 ﻿@model IEnumerable<Entidades.Marca>
 
-@{
-    ViewBag.Title = "Marcas";
-    
-}
 
-@Html.Partial("_Espacio1")
+<body>
+    @Html.Partial("_Espacio1")
 
-<h2>Marcas</h2>
-<br />
+    <div class="container contact_container">
 
-<p>
-    @Html.ActionLink("Nueva Marca", "Crear", null, new { @class = "btn btn-primary btn-sm" })
-</p>
-<br />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th></th>
-    </tr>
+        <h2>Marcas</h2>
+        <br />
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
-            @Html.ActionLink("Borrar", "Borrar", new { id=item.Id })
-        </td>
-    </tr>
-}
+        <p>
+            @Html.ActionLink("Nueva Marca", "Crear", null, new { @class = "btn btn-primary btn-sm" })
+        </p>
+        <br />
 
-</table>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th></th>
+            </tr>
 
-<div class="row">
-    @Html.ActionLink("Volver", "Index", "Home")
-</div>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                        @Html.ActionLink("Borrar", "Borrar", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div class="row">
+            @Html.ActionLink("Volver", "Index", "Home")
+        </div>
+    </div>
+</body>
 
 @Html.Partial("_Espacio2")

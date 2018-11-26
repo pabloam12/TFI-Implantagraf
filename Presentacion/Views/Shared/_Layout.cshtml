@@ -73,7 +73,43 @@
                                                 <li>@Html.ActionLink("ENGLISH", "TraducirIdioma", "Idioma", new { idioma = "Eng" }, null)</li>
                                                 @* <li>@Html.ActionLink("Portugues", "TraducirIdioma", "Idioma", new { idioma = "Bra" }, null)</li>*@
                                             </ul>
-                                        </li>}
+                                        </li>
+                                    }
+
+                                    @if ((String)Session["PerfilUsuario"] == "WebMaster")
+                                    {
+                                        <li class="language">
+                                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                            {
+                                                <a href="#">
+                                                    OBJETOS DE NEGOCIO
+                                                    <i class="fa fa-cubes"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>}
+                                            else
+                                            {
+                                                <a href="#">
+                                                    BUSINESS OBJECTS
+                                                    <i class="fa fa-cubes"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>
+                                            }
+
+                                            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                                            {
+                                                <ul class="language_selection">
+                                                    <li>@Html.ActionLink("ABM LOCALIDADES", "Index", "Localidad")</li>
+                                                    <li>@Html.ActionLink("ABM MARCAS", "Index", "Marca")</li>
+                                                </ul>}
+                                            else
+                                            {
+                                                <ul class="language_selection">
+                                                    <li>@Html.ActionLink("CRUD LOCALITIES", "Index", "Localidad")</li>
+                                                    <li>@Html.ActionLink("CRUD BRANDS", "Index", "Marca")</li>
+                                                </ul>}
+                                        </li>
+                                    }
+
                                     <li class="account">
                                         @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
                                         {
@@ -178,7 +214,7 @@
                                         {
                                             <li>@Html.ActionLink("CONSULTAR BITÁCORA", "Index", "Bitacora")</li>
                                             <li>@Html.ActionLink("USUARIOS", "ListarUsuarios", "Cuenta")</li>
-                                            <li>@Html.ActionLink("RALIZAR RESPALDO DATOS", "RealizarBackUp", "Rescate")</li>
+                                            <li>@Html.ActionLink("REALIZAR RESPALDO DATOS", "RealizarBackUp", "Rescate")</li>
                                             <li>@Html.ActionLink("REALIZAR RESTORE", "ListarRespaldos", "Rescate")</li>
                                         }
                                     }
@@ -204,8 +240,8 @@
                                         {
                                             <li>@Html.ActionLink("SYSTEM LOG", "Index", "Bitacora")</li>
                                             <li>@Html.ActionLink("USERS", "ListarUsuarios", "Cuenta")</li>
-                                            <li>@Html.ActionLink("DO BACKUP", "RealizarBackUp", "Rescate")</li>
-                                            <li>@Html.ActionLink("DO RESTORE", "ListarRespaldos", "Rescate")</li>
+                                            <li>@Html.ActionLink("BACKUP", "RealizarBackUp", "Rescate")</li>
+                                            <li>@Html.ActionLink("RESTORE", "ListarRespaldos", "Rescate")</li>
                                         }
                                     }
 

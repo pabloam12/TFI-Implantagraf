@@ -178,14 +178,18 @@ namespace Servicios
                 traducciones.Add("VENTAS_TITULO", "LISTADO DE VENTAS");
                 traducciones.Add("ENTIDAD_IMPORTE_TOTAL", "Importe Total");
 
-                traducciones.Add("BOTON_BITACORA_HIST", "CONSULTAR HISTÓRICO"); 
+                traducciones.Add("BOTON_BITACORA_HIST", "CONSULTAR HISTÓRICO");
 
-
+                traducciones.Add("TITULO_COMPRAS", "MIS COMPRAS");
+                traducciones.Add("BOTON_REENVIAR_FACTURA", "ENVIAR FACTURA");
+                
 
             }
 
             if (idioma == "Eng")
             {
+                traducciones.Add("TITULO_COMPRAS", "MY PURCHASES");
+                traducciones.Add("BOTON_REENVIAR_FACTURA", "SEND RECEIPT");
                 traducciones.Add("BOTON_BITACORA_HIST", "CONSULT HISTORY");
                 traducciones.Add("VENTAS_TITULO", "SALES LIST");
                 traducciones.Add("ENTIDAD_IMPORTE_TOTAL", "Total Amount");

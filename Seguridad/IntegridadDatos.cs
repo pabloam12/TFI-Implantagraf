@@ -123,7 +123,7 @@ namespace Seguridad
 
             //Inserto por Integridad Tablas Core.
             InsertarIdiomaCompleto();
-            InsertarLocalidadCompleto();
+            //InsertarLocalidadCompleto();
             InsertarPerfilUsrCompleto();
             InsertarPermisosCompleto();
 

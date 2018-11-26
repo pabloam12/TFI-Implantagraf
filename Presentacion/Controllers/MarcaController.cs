@@ -11,7 +11,7 @@ namespace Presentacion.Controllers
 {
     public class MarcaController : Controller
     {
-          
+
         // GET: Marca
         public ActionResult Index()
         {
@@ -24,10 +24,10 @@ namespace Presentacion.Controllers
                 return View(ln.Listar());
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
-       
+
 
         // GET: Marca/Crear
         public ActionResult Crear()
@@ -39,7 +39,7 @@ namespace Presentacion.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -47,22 +47,20 @@ namespace Presentacion.Controllers
         {
             var integ = new IntegridadDatos();
 
-            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Marca") == 1)
-            {
-                try
-                {
-                    var ln = new NegocioMarca();
-                    ln.Agregar(marca, (String)Session["UsrLogin"]);
 
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
-            }
+            //try
+            //{
+                var ln = new NegocioMarca();
+                ln.Agregar(marca, (String)Session["UsrLogin"]);
 
-            return RedirectToAction("Index","Home");
+                return RedirectToAction("Index");
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
+
+
         }
 
 
@@ -79,13 +77,13 @@ namespace Presentacion.Controllers
                     ln.ActualizarPorId(marca, (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
             }
-            return RedirectToAction("Index","Home");
+                catch
+            {
+                return View();
+            }
+        }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Marca/Borrar
@@ -95,21 +93,21 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("Marca") == 1)
             {
-                try
-                {
+                //try
+                //{
                     var ln = new NegocioMarca();
                     ln.BorrarPorId(ln.BuscarPorId(id), (String)Session["UsrLogin"]);
 
                     return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
+                //}
+                //catch
+                //{
+                //    return View();
+                //}
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
-       
+
     }
 }

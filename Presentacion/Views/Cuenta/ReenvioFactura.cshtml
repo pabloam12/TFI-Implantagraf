@@ -8,24 +8,24 @@
 
             @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
             {
-                <div class="alert alert-success" role="alert">LA COPIA DE HA RESTAURADO CON ÉXITO.</div>
+                <div class="alert alert-success" role="alert">LA FACTURA SE HA RE-ENVIADO CON ÉXITO.</div>
             }
             else
-            { <div class="alert alert-success" role="alert">SUCCESS BAKCUP.</div>}
+            { <div class="alert alert-success" role="alert">THE INVOICE HAS BEEN SEND AGAIN.</div>}
         </div>
 
         @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
-            {
+        {
             <div class="form-group">
-                @Html.ActionLink("VOLVER", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
+                @Html.ActionLink("VOLVER", "MisCompras", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
             </div>
         }
         else
         {<div class="form-group">
-            @Html.ActionLink("GO BACK", "Index", "Rescate", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink("GO BACK", "MisCompras", "Cuenta", null, new { @class = "btn btn-info btn-sm" })
         </div> }
 
-        </div>
+    </div>
 </body>
 
 

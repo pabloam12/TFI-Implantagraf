@@ -15,29 +15,38 @@ namespace Presentacion.Controllers
     {
         public ActionResult Index()
         {
-            var integridad = new IntegridadDatos();
 
-
-
-            // Se comprueba la integridad de la base.
-            if (integridad.ValidarIntegridadGlobal())
+            try
             {
 
-                var aud = new Auditoria();
-                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR INTEGRIDAD", "GRAVE", "Se detectaron problemas de integridad en la base de datos.");
+                var integridad = new IntegridadDatos();
 
-
-                TraducirPagina((String)Session["IdiomaApp"]);
-
-                if ((String)Session["PerfilUsuario"] == "WebMaster")
+                // Se comprueba la integridad de la base.
+                if (integridad.ValidarIntegridadGlobal())
                 {
-                    return RedirectToAction("Index", "RescateIntegridad");
+
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR INTEGRIDAD", "GRAVE", "Se detectaron problemas de integridad en la base de datos.");
+
+
+                    TraducirPagina((String)Session["IdiomaApp"]);
+
+                    if ((String)Session["PerfilUsuario"] == "WebMaster")
+                    {
+                        return RedirectToAction("Index", "RescateIntegridad");
+                    }
+
+                    Session["Excepcion"] = "ERROR DE INTEGRIDAD DE BASE DE DATOS";
+                    return RedirectToAction("Index", "Excepciones");
                 }
 
-                Session["Excepcion"] = "ERROR DE INTEGRIDAD DE BASE DE DATOS";
+            }
+            catch
+            {
+                Session["Excepcion"] = "ERROR AL VALIDAR INTEGRIDAD";
+
                 return RedirectToAction("Index", "Excepciones");
             }
-
 
             TraducirPagina((String)Session["IdiomaApp"]);
 
@@ -46,11 +55,11 @@ namespace Presentacion.Controllers
 
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-                
+
                 return RedirectToAction("Index", "RescateIntegridad");
             }
 
-            
+
             return View();
         }
 
@@ -83,7 +92,7 @@ namespace Presentacion.Controllers
 
             //Devuelve el Hastable con todas las traducciones.
             diccionario = traductor.Traducir(idioma);
-                        
+
             //Traduce Vista HOME.
             ViewBag.HOME_LEYENDA_PRINCIPAL_1 = diccionario["HOME_LEYENDA_PRINCIPAL_1"];
             ViewBag.HOME_LEYENDA_PRINCIPAL_2 = diccionario["HOME_LEYENDA_PRINCIPAL_2"];
