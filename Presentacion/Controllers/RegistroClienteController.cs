@@ -142,9 +142,10 @@ namespace Presentacion.Controllers
             }
             else
             {
-                //TODO.
-                Session["Excepcion"] = ViewBag.ERROR_REGISTRO_USUARIO;
-                return RedirectToAction("Index", "Excepciones");
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CAMBIO CLAVE", "ERROR LEVE", "Error al intentar registrar un Usuario.");
+                return RedirectToAction("Index", "Home"); 
+                
             }
 
         }

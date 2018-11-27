@@ -14,6 +14,8 @@ namespace AccesoDatos
     {
         public Cliente RegistrarCliente(Usuario usuario)
         {
+            //TODO: CIFRAR DATOS CLIENTE.
+
             const string sqlStatement = "INSERT INTO dbo.Cliente ([Id], [RazonSocial], [CUIL], [Email], [Telefono], [Direccion], [LocalidadId], [FechaAlta], [DVH]) " +
                                         "VALUES(@Id, @RazonSocial, @CUIL, @Email, @Telefono, @Direccion, @LocalidadId, @FechaAlta, @DVH);";
 

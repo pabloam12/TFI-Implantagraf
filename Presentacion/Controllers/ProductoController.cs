@@ -389,7 +389,6 @@ namespace Presentacion.Controllers
             var detalleCompleto = RegistrarDetalleOperacion(operacionActual.Id);
 
 
-            //TODO
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
             var rutaFactura = GenerarFacturaPDF(facturaActual, productosCarrito);
@@ -406,7 +405,8 @@ namespace Presentacion.Controllers
             }
             catch
             {
-                //TODO error envio mail
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR ENVÍO EMAIL", "ERROR LEVE", "Fallo al intentar enviar la factura por correo.");
 
             }
 
@@ -441,7 +441,11 @@ namespace Presentacion.Controllers
             AcroFields testForm = pdfStamper.AcroFields;
 
             // Datos de la factura
-            testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString());
+            if ((String)Session["IdiomaApp"] == "Eng")
+            { testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString() + "        Date: " + oFactura.FechaHora.ToShortDateString()); }
+
+            else  { testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString() + "        Fecha: " + oFactura.FechaHora.ToShortDateString()); } 
+
             testForm.SetField("tipo_factura", " B");
             testForm.SetField("pagina_de", "1");
             testForm.SetField("pagina_hta", "1");

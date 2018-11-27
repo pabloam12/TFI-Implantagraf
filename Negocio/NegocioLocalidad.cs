@@ -14,13 +14,20 @@ namespace Negocio
         {
             var ad = new LocalidadDAC();
 
-            localidad = ad.Agregar(localidad);
-                        
+            var localidadActual = ad.Agregar(localidad);
+
+            var inte = new IntegridadDatos();
+
+            var localidadActualDVH = inte.CalcularDVH(localidadActual.Id.ToString() + localidadActual.Descripcion);
+
+            inte.ActualizarDVHLocalidad(localidadActual.Id, localidadActualDVH);
+            inte.RecalcularDVV("Localidad");
+
             var aud = new Auditoria();
-            
+
             aud.grabarBitacora(DateTime.Now, usuario, "ALTA LOCALIDAD", "INFO", "Se creó la localidad: " + localidad.Id + " - '" + localidad.Descripcion + "'");
 
-            return (localidad);
+            return (localidadActual);
 
         }
 
@@ -28,16 +35,21 @@ namespace Negocio
         {
             var ad = new LocalidadDAC();
 
+            var aud = new Auditoria();
+
             var descripcionAnterior = BuscarPorId(localidad.Id).Descripcion;
 
             ad.ActualizarPorId(localidad);
 
-            if (localidad.Descripcion != null)
-            {
-                                var aud = new Auditoria();
-                
-                aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR LOCALIDAD", "INFO", "Se actualizó la localidad: " + localidad.Id + " - '" + descripcionAnterior + "' a '" + localidad.Descripcion + "'");
-            }
+            var inte = new IntegridadDatos();
+
+            var localidadActualDVH = inte.CalcularDVH(localidad.Id.ToString() + localidad.Descripcion);
+
+            inte.ActualizarDVHLocalidad(localidad.Id, localidadActualDVH);
+            inte.RecalcularDVV("Localidad");
+
+            aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR LOCALIDA", "INFO", "Se actualizó la localidad: " + localidad.Id + " - '" + descripcionAnterior + "' a '" + localidad.Descripcion + "'");
+
 
         }
 

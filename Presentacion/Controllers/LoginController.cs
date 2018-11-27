@@ -115,9 +115,9 @@ namespace Presentacion.Controllers
             if (usrSesion.Nombre == null || usrSesion.PerfilUsr.Descripcion == null)
 
             {
-                //TODO MENSAJE correcto
-                Session["Excepcion"] = "[Error Nº 0] - Error de Base de Datos";
-                return RedirectToAction("Index", "Excepciones");
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR LOGIN", "ERROR LEVE", "Error al intentar ingresar al sistema.");
+                return RedirectToAction("Index", "Home");
             }
 
             //Usuario Logueado correctamente, se mapean las variables de Sesión.

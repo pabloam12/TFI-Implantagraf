@@ -13,9 +13,18 @@
 
         <table class="table">
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Ruta)
-                </th>
+                @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ruta)
+                    </th>
+                }
+                else
+                {
+                    <th>
+                        Restore Path
+                    </th>
+                }
 
                 <th></th>
             </tr>
@@ -23,27 +32,24 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
-                {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ruta)
-                        </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ruta)
+                    </td>
+                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
                         <td>
                             @Html.ActionLink("RESTAURAR", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta }, new { @class = "btn btn-success btn-sm" })
 
-                        </td>}
+                        </td>
+                    }
                     else
                     {
-                    <td>
-                        Ruta del Archivo
-                    </td>
-
                         <td>
                             @Html.ActionLink("RESTORE", "RestaurarCopiaRespaldo", new { rutaCompleta = item.Ruta }, new { @class = "btn btn-success btn-sm" })
 
                         </td> }
-            </tr>
+                </tr>
             }
 
         </table>

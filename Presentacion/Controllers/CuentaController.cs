@@ -52,8 +52,9 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR AL CONSULTAR USUARIOS";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR USUARIO", "ERROR LEVE", "Error al consultar los Usuarios.");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -79,8 +80,9 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR AL CONSULTAR COMPRAS";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR COMPRAS", "ERROR LEVE", "Error al consultar las Compras.");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -109,8 +111,9 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR AL CONSULTAR DETALLE DE CUENTA";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CUENTA", "ERROR LEVE", "Error al consultar el detalle de cuenta.");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -134,8 +137,9 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR AL CONSULTAR PERMISOS DE USUARIO";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR PERMISOS", "ERROR LEVE", "Error al consultar los permisos de usuario.");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -254,8 +258,9 @@ namespace Presentacion.Controllers
             }
             catch
             {
-                Session["Excepcion"] = "ERROR AL REENVIAR FACTURA POR CORREO";
-                return RedirectToAction("Index", "Excepciones");
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR FACTURA", "ERROR LEVE", "Error al reenviar la factura de compra.");
+                return RedirectToAction("MisCompras", "Cuenta");
             }
         }
 
@@ -375,7 +380,10 @@ namespace Presentacion.Controllers
                 servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
             }
             catch
-            { //TODO
+            {
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CAMBIO CLAVE", "ERROR LEVE", "Error al intentar cambiar la PSW.");
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
@@ -470,7 +478,8 @@ namespace Presentacion.Controllers
 
             ViewBag.TITULO_COMPRAS = diccionario["TITULO_COMPRAS"];
             ViewBag.BOTON_REENVIAR_FACTURA = diccionario["BOTON_REENVIAR_FACTURA"];
-            ViewBag.MENSAJE_MAIL_COMPRA = diccionario["MENSAJE_MAIL_COMPRA"]; 
+            ViewBag.MENSAJE_MAIL_COMPRA = diccionario["MENSAJE_MAIL_COMPRA"];
+            ViewBag.ENTIDAD_PERFIL_USR = diccionario["ENTIDAD_PERFIL_USR"]; 
 
 
         }

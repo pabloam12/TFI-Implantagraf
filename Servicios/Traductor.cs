@@ -145,6 +145,7 @@ namespace Servicios
                 traducciones.Add("LOGIN_OLVIDO_PSW", "¿Olvido su Contraseña?");
                 traducciones.Add("LOGIN_TITULO_TENGO_CUENTA", "TENGO UNA CUENTA");
                 traducciones.Add("LOGIN_TITULO_USUARIO_NUEVO", "SOY USUARIO NUEVO");
+                traducciones.Add("ENTIDAD_PERFIL_USR", "Perfil Usuario"); 
 
                 //LOYOUT TRADUCIDA EN SITIO
 
@@ -188,6 +189,7 @@ namespace Servicios
 
             if (idioma == "Eng")
             {
+                traducciones.Add("ENTIDAD_PERFIL_USR", "User Role");
                 traducciones.Add("TITULO_COMPRAS", "MY PURCHASES");
                 traducciones.Add("BOTON_REENVIAR_FACTURA", "SEND RECEIPT");
                 traducciones.Add("BOTON_BITACORA_HIST", "CONSULT HISTORY");

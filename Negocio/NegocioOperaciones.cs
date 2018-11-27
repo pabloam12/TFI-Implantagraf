@@ -60,7 +60,7 @@ namespace Negocio
             {
                 FechaHora = fechaHora,
                 Cliente = accDatosCliente.BuscarPorId(codCliente), //Mapper Cliente.
-                TipoOperacion = tipoOperacion, //TODO reemplazar String por Clase nueva si hay tiempo. 
+                TipoOperacion = tipoOperacion,
                 ImporteTotal = importeTotal,
                 FormaPago = accDatosFormaPago.BuscarPorId(formaPagoId), //Mapper FormaPago.
                 Estado = accDatosEstadoOperacion.BuscarPorId(estadoId), //Mapper EstadoOperacion.

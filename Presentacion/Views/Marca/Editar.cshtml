@@ -4,8 +4,9 @@
     @Html.Partial("_Espacio1")
 
     <div class="container contact_container">
-
-        <h2>Editar Marca</h2>
+@if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+{
+        <h2>EDITAR MARCA</h2>
 
         @using (Html.BeginForm())
         {
@@ -17,7 +18,8 @@
                 @Html.HiddenFor(model => model.Id)
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @*@Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    DESCRIPCIÓN
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
@@ -26,15 +28,51 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Guardar" class="btn btn-default" />
+                        <input type="submit" value="GUARDAR" class="btn btn-default" />
                     </div>
                 </div>
             </div>
         }
 
         <div>
-            @Html.ActionLink("Volver", "Index")
+            @Html.ActionLink("VOLVER", "Index")
         </div>
+}
+else
+{
+
+    <h2>EDIT BRAND</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                DESCRIPTION
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="SAVE" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("BACK", "Index")
+    </div>
+}
     </div>
 </body>
 

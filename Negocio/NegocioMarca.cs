@@ -24,8 +24,7 @@ namespace Negocio
             
 
             var marcaActual = ad.Agregar(marca);
-
-
+            
             var inte = new IntegridadDatos();
 
             var marcaActualDVH = inte.CalcularDVH(marcaActual.Id.ToString() + marcaActual.Descripcion);
@@ -59,8 +58,7 @@ namespace Negocio
             inte.RecalcularDVV("Marca");
 
             aud.grabarBitacora(DateTime.Now, usuario, "MODIFICAR MARCA", "INFO", "Se actualizó la marca: " + marca.Id + " - '" + descripcionAnterior + "' a '" + marca.Descripcion + "'");
-
-
+            
         }
 
         public void BorrarPorId(Marca marca, string usuario)

@@ -23,6 +23,7 @@ namespace Presentacion.Controllers
 
                 //Traducir Página BITACORA.
                 TraducirPagina((String)Session["IdiomaApp"]);
+
                 try
                 {
                     var consulta = ln.ConsultarBitacora();
@@ -32,11 +33,12 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR DE AL CONSULTAR BITÁCORA";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR BITÁCORA", "ERROR LEVE", "Error al consultar la bitácora.");
+                    return RedirectToAction("Index", "Home");
                 }
 
-                    
+
             }
 
             return RedirectToAction("Index", "Home");
@@ -117,8 +119,9 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR DE AL CONSULTAR BITÁCORA HISTÓRICA";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR BITACORA", "ERROR LEVE", "Error al intentar consultar la bitácora histórica.");
+                    return RedirectToAction("Index", "Home");
                 }
 
 
@@ -165,10 +168,12 @@ namespace Presentacion.Controllers
 
                 }
 
-                if (fecha == "" && usr == "" && accion == "" && criticidad == "")
+                if (fecha == "" && usr == "" )
                 {
-                    return View(ln.ConsultarBitacora());
+                    var consultaVacia = new List<Bitacora>();
+                    Session["ConsultaBitacora"] = consultaVacia;
 
+                    return View(consultaVacia);
                 }
 
                 var consulta = ln.ConsultarBitacoraHistorica(fecha, fechaFin, usr, accion, criticidad);

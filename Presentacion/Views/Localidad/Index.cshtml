@@ -1,44 +1,88 @@
 ﻿@model IEnumerable<Entidades.Localidad>
 
-@{
-    ViewBag.Title = "Localidades";
-    
+
+<body>
+    @Html.Partial("_Espacio1")
+
+    <div class="container contact_container">
+
+@if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+{
+
+        <h4>LOCALIDADES</h4>
+        <br />
+
+        <p>
+            @Html.ActionLink("NUEVA LOCALIDAD", "Crear", null, new { @class = "btn btn-primary btn-sm" })
+        </p>
+        <br />
+
+        <table class="table">
+            <tr>
+                <th>
+                    DESCRIPCIÓN
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("EDITAR", "Editar", new { id = item.Id }) |
+                        @Html.ActionLink("BORRAR", "Borrar", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div class="row">
+            @Html.ActionLink("VOLVER", "Index", "Home")
+        </div>
 }
+else
+{
+    <h4>LOCATIONS</h4>
+    <br />
 
-@Html.Partial("_Espacio1")
+        <p>
+            @Html.ActionLink("NEW LOCATION", "Crear", null, new { @class = "btn btn-primary btn-sm" })
+        </p>
+        <br />
 
-<h2>Localidades</h2>
-<br />
+        <table class="table">
+            <tr>
+                <th>
+                    DESCRIPTION
+                </th>
+                <th></th>
+            </tr>
 
-<p>
-    @Html.ActionLink("Nueva Localidad", "Crear", null, new { @class = "btn btn-primary btn-sm" })
-</p>
-<br />
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("EDIT", "Editar", new { id = item.Id }) |
+                        @Html.ActionLink("DELETE", "Borrar", new { id = item.Id })
+                    </td>
+                </tr>
+            }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th></th>
-    </tr>
+        </table>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
-            @Html.ActionLink("Borrar", "Borrar", new { id=item.Id })
-        </td>
-    </tr>
+        <div class="row">
+            @Html.ActionLink("BACK", "Index", "Home")
+        </div>
+
 }
-
-</table>
-
-<div class="row">
-    @Html.ActionLink("Volver", "Index", "Home")
-</div>
+    </div>
+</body>
 
 @Html.Partial("_Espacio2")

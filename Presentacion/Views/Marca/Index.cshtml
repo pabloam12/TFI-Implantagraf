@@ -6,19 +6,21 @@
 
     <div class="container contact_container">
 
+@if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+{
 
-        <h2>Marcas</h2>
+        <h4>MARCAS</h4>
         <br />
 
         <p>
-            @Html.ActionLink("Nueva Marca", "Crear", null, new { @class = "btn btn-primary btn-sm" })
+            @Html.ActionLink("NUEVA MARCA", "Crear", null, new { @class = "btn btn-primary btn-sm" })
         </p>
         <br />
 
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Descripcion)
+                    DESCRIPCIÓN
                 </th>
                 <th></th>
             </tr>
@@ -30,8 +32,8 @@
                         @Html.DisplayFor(modelItem => item.Descripcion)
                     </td>
                     <td>
-                        @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
-                        @Html.ActionLink("Borrar", "Borrar", new { id = item.Id })
+                        @Html.ActionLink("EDITAR", "Editar", new { id = item.Id }) |
+                        @Html.ActionLink("BORRAR", "Borrar", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -39,8 +41,47 @@
         </table>
 
         <div class="row">
-            @Html.ActionLink("Volver", "Index", "Home")
+            @Html.ActionLink("VOLVER", "Index", "Home")
         </div>
+}
+else
+{
+    <h4>BRANDS</h4>
+    <br />
+
+        <p>
+            @Html.ActionLink("NEW BRAND", "Crear", null, new { @class = "btn btn-primary btn-sm" })
+        </p>
+        <br />
+
+        <table class="table">
+            <tr>
+                <th>
+                    DESCRIPTION
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("EDIT", "Editar", new { id = item.Id }) |
+                        @Html.ActionLink("DELETE", "Borrar", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div class="row">
+            @Html.ActionLink("BACK", "Index", "Home")
+        </div>
+
+}
     </div>
 </body>
 

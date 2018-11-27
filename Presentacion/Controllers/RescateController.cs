@@ -15,8 +15,7 @@ namespace Presentacion.Controllers
         // GET: Rescate
         public ActionResult Index(int clave = 0)
         {
-            //TODO
-                      
+
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
                 return RedirectToAction("Index", "RescateIntegridad");
@@ -36,7 +35,7 @@ namespace Presentacion.Controllers
             var integridad = new IntegridadDatos();
 
             integridad.RecalcularTodosDVH();
-            
+
             integridad.LimpiarTablaRegistrosTablasFaltantes();
 
             integridad.ValidarIntegridadGlobal();
@@ -49,7 +48,17 @@ namespace Presentacion.Controllers
         {
             var integridad = new IntegridadDatos();
 
-            integridad.RealizarBackUp();
+            try
+            {
+                integridad.RealizarBackUp();
+            }
+            catch
+            {
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR RESPALDO", "ERROR LEVE", "Error al intentar realizar un respaldo de datos.");
+                return RedirectToAction("Index", "Home");
+
+            }
 
             return View();
 
@@ -59,20 +68,37 @@ namespace Presentacion.Controllers
         {
             var integridad = new IntegridadDatos();
 
+            try
+            {
+                return View(integridad.ListarRespaldos());
+            }
+            catch
+            {
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR RESPALDO", "ERROR LEVE", "Error al intentar listar los respaldos de datos.");
+                return RedirectToAction("Index", "Home");
 
-            return View(integridad.ListarRespaldos());
-
+            }
         }
 
         public ActionResult RestaurarCopiaRespaldo(string rutaCompleta)
         {
-                    
-                var integridad = new IntegridadDatos();
 
+            var integridad = new IntegridadDatos();
+
+            try
+            {
                 integridad.RestaurarCopiaRespaldo(rutaCompleta);
+            }
+            catch
+            {
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR RESPALDO", "ERROR LEVE", "Error al intentar restaurar un respaldo de datos.");
+                return RedirectToAction("Index", "Home");
+            }
 
-                return View();
-           
+            return View();
+
         }
     }
 }

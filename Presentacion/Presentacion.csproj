@@ -422,10 +422,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Localidad\Index.cshtml" />
-    <Content Include="Views\Localidad\Crear.cshtml" />
-    <Content Include="Views\Localidad\Editar.cshtml" />
-    <Content Include="Views\Localidad\Borrar.cshtml" />
+    <Content Include="Views\Localidad_OLD\Index.cshtml" />
+    <Content Include="Views\Localidad_OLD\Crear.cshtml" />
+    <Content Include="Views\Localidad_OLD\Editar.cshtml" />
+    <Content Include="Views\Localidad_OLD\Borrar.cshtml" />
     <Content Include="Views\Shared\_Espacio1.cshtml" />
     <Content Include="Views\Shared\_Espacio2.cshtml" />
     <Content Include="Views\Marca\Borrar.cshtml" />
@@ -480,6 +480,10 @@
     <Content Include="Views\Cuenta\MisCompras.cshtml" />
     <Content Include="Views\Bitacora\BitacoraHistorica.cshtml" />
     <Content Include="Views\Cuenta\ReenvioFactura.cshtml" />
+    <Content Include="Views\Localidad\Borrar.cshtml" />
+    <Content Include="Views\Localidad\Crear.cshtml" />
+    <Content Include="Views\Localidad\Editar.cshtml" />
+    <Content Include="Views\Localidad\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,7 +14,7 @@ namespace AccesoDatos
         {
 
             const string sqlStatement = "SELECT [Id], [FechaHora], [Usuario], [Accion], [Criticidad], [Detalle], [DVH] "+
-                "FROM dbo.SEG_Bitacora Where [Historico]=0 ORDER BY [FechaHora] DESC";
+                "FROM dbo.SEG_Bitacora Where [Historico]=0 ORDER BY [FechaHora] ASC";
 
 
             var result = new List<Bitacora>();
@@ -95,7 +95,7 @@ namespace AccesoDatos
             else { whereStatement = whereStatement + "AND [Historico] = 0 "; }
 
 
-            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaHora] DESC;";
+            sqlStatement = sqlStatement + whereStatement + "ORDER BY [FechaHora] ASC;";
 
 
             var result = new List<Bitacora>();

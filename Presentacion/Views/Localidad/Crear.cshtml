@@ -1,39 +1,70 @@
 ﻿@model Entidades.Localidad
 
-@{
-    ViewBag.Title = "Crear";
- }
-
-<h2>Crear</h2>
-
-@using (Html.BeginForm()) 
+<body>
+    @Html.Partial("_Espacio1")
+@if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h3>Localidad</h3>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="container contact_container">
+        <h2>CREAR LOCALIDAD</h2>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-default" />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+               <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    DESCRIPCIÓN
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="CREAR" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-        </div>
+        }
+        </div>}
+else
+{
+    <div class="container contact_container">
+        <h2>CREATE LOCATION</h2>
+
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    DESCRIPTION
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="CREATE" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 }
+    </body>
 
-<div>
-    @Html.ActionLink("Volver", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

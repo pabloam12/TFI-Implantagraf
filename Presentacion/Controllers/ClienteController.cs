@@ -34,8 +34,9 @@ namespace Presentacion.Controllers
 
                 catch
                 {
-                    Session["Excepcion"] = "ERROR AL CONSULTAR CLIENTES";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CLIENTES", "ERROR LEVE", "Error al consultar clientes.");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -99,8 +100,9 @@ namespace Presentacion.Controllers
                 }
                 catch
                 {
-                    Session["Excepcion"] = "ERROR AL CONSULTAR CLIENTES";
-                    return RedirectToAction("Index", "Excepciones");
+                    var aud = new Auditoria();
+                    aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CLIENTES", "ERROR LEVE", "Error al consultar los clientes.");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -133,7 +135,7 @@ namespace Presentacion.Controllers
                 aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "EXPORTA XML", "LEVE", "Error al exportar listado XML.");
 
 
-                return RedirectToAction("Index", "Excepciones");
+                return RedirectToAction("Index", "Home");
             }
         }
 

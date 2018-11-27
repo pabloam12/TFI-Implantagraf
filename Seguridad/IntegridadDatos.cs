@@ -25,8 +25,9 @@ namespace Seguridad
 
                 GrabarRegistroIntegridad("SE ELIMINÓ BD", "TODAS");
 
-                //TODO Grabar Bitacora.
-
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR BASE DATOS", "ERROR GRAVE", "Error al intentar encontrar la BD.");
+                
                 flag = true;
             }
 
@@ -34,6 +35,9 @@ namespace Seguridad
             if (ValidarExistencia("SEG_DVV") == 0)
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_DVV");
+
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla SEG_DVV.");
 
                 CreoTablaDVV();
 
@@ -50,6 +54,10 @@ namespace Seguridad
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "IDIOMA");
 
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla IDIOMA.");
+
+
                 CreoTablaIdioma();
 
                 flag = true;
@@ -64,6 +72,10 @@ namespace Seguridad
             if (ValidarExistencia("Localidad") == 0)
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "LOCALIDAD");
+
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla LOCALIDAD.");
+
 
                 CreoTablaLocalidad();
 
@@ -80,6 +92,10 @@ namespace Seguridad
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_PERFILUSR");
 
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla SEG_PERFILUSR.");
+
+
                 CreoTablaPerfilUsr();
 
                 flag = true;
@@ -92,6 +108,9 @@ namespace Seguridad
             if (ValidarExistencia("SEG_Permisos") == 0)
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_PERMISOS");
+
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla SEG_PERMISOS.");
 
                 CreoTablaPermisosUsr();
 
@@ -106,6 +125,10 @@ namespace Seguridad
             if (ValidarExistencia("SEG_DetallePermisos") == 0)
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_DETALLEPERMISOS");
+
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla SEG_DETALLEPERMISOS.");
+
 
                 CreoTablaDetallePermisosUsr();
 
@@ -132,6 +155,10 @@ namespace Seguridad
             if (ValidarExistencia("SEG_Usuario") == 0)
             {
                 GrabarRegistroIntegridad("SE ELIMINÓ", "SEG_USUARIO");
+
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR TABLA", "ERROR GRAVE", "Error al intentar encontrar la tabla SEG_USUARIO.");
+
 
                 CreoTablaUsuario();
 
@@ -202,8 +229,7 @@ namespace Seguridad
             var aud = new Auditoria();
             var inte = new IntegridadDatos();
                        
-            //TODO CIFRAR DATOS DE USR.
-
+            
             var usuarioActual = accDatosUSr.RegistrarUsuario(usrAdmin);
 
             var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + priv.Cifrar(usuarioActual.RazonSocial) + priv.Cifrar(usuarioActual.Nombre) + priv.Cifrar(usuarioActual.Apellido) + priv.Cifrar(usuarioActual.Usr) + priv.Cifrar(usuarioActual.Psw) + priv.Cifrar(usuarioActual.CUIL) + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + priv.Cifrar(usuarioActual.Telefono) + priv.Cifrar(usuarioActual.Direccion));

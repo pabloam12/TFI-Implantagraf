@@ -53,8 +53,21 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult RegistrarUsuarioAdministrativo(FrmRegistroAdministrativo registroAdministrativo)
         {
-            //try
-            //{
+            if (registroAdministrativo.Nombre == null && registroAdministrativo.Apellido == null && registroAdministrativo.CUIL == null && registroAdministrativo.Email == null && registroAdministrativo.Usr == null && registroAdministrativo.Psw == null && registroAdministrativo.Direccion == null && registroAdministrativo.Telefono == null)
+            {
+                registroAdministrativo.Nombre = registroAdministrativo.Nombre_Eng;
+                registroAdministrativo.Apellido = registroAdministrativo.Apellido_Eng;
+                registroAdministrativo.CUIL = registroAdministrativo.CUIL_Eng;
+                registroAdministrativo.Email = registroAdministrativo.Email_Eng;
+                registroAdministrativo.Usr = registroAdministrativo.Usr_Eng;
+                registroAdministrativo.Psw = registroAdministrativo.Psw_Eng;
+                registroAdministrativo.Direccion = registroAdministrativo.Direccion_Eng;
+                registroAdministrativo.Telefono = registroAdministrativo.Telefono_Eng;
+
+            }
+
+            try
+            {
             Session["Excepcion"] = "";
 
             var ln = new NegocioCuenta();
@@ -87,13 +100,13 @@ namespace Presentacion.Controllers
             ln.OtorgarPermisosAdministrativo(usrRegistrado.Id);
 
             return RedirectToAction("Index");
-            //}
-            //catch
-            //{
-            //TODO
-            //    Session["Excepcion"] = "Error al Registrar Usuario.";
-            //    return RedirectToAction("Index", "Excepciones");
-            //}
+            }
+            catch
+            {
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR REGISTRO", "ERROR LEVE", "Error al intentar registrar usuario Administrativo.");
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 
