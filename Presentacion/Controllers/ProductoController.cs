@@ -346,7 +346,7 @@ namespace Presentacion.Controllers
 
                 RegistrarVenta(fechaHora, importeTotal, formaPago, datosTarjeta.Numero);
 
-                
+
                 return RedirectToAction("FinalizarCompra");
 
             }
@@ -399,7 +399,7 @@ namespace Presentacion.Controllers
 
 
             try
-            {          
+            {
                 var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
                 var asuntoMsj = "F-000" + facturaActual.Codigo.ToString();
                 mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj, rutaFactura);
@@ -420,14 +420,14 @@ namespace Presentacion.Controllers
 
             //string pdfTemplate = @Server.MapPath("~/Documentos/factura_" + oFactura.Codigo.ToString() + ".pdf");
 
-            string pdfTemplate = "C:\\Implantagraf\\PDF\\factura_" + oFactura.Codigo.ToString() + ".pdf";
+            string pdfTemplate = "C:\\Implantagraf\\PDF\\F_" + oFactura.Codigo.ToString() + ".pdf";
 
             PdfReader pdfReader = null;
 
             // Create the form filler
             FileStream pdfOutputFile = new FileStream(pdfTemplate, FileMode.Create);
 
-            if ((String)Session["IdiomaApp"] == "Esp")
+            if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
             { pdfReader = new PdfReader(@Server.MapPath("~/Documentos/e-factura.pdf")); }
 
             if ((String)Session["IdiomaApp"] == "Eng")
@@ -441,7 +441,7 @@ namespace Presentacion.Controllers
             AcroFields testForm = pdfStamper.AcroFields;
 
             // Datos de la factura
-            testForm.SetField("factura", oFactura.Codigo.ToString());
+            testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString());
             testForm.SetField("tipo_factura", " B");
             testForm.SetField("pagina_de", "1");
             testForm.SetField("pagina_hta", "1");
@@ -449,7 +449,16 @@ namespace Presentacion.Controllers
             testForm.SetField("direccion_cliente", "Direccion: " + oFactura.Cliente.Direccion);
             testForm.SetField("codigo_cliente", oFactura.Cliente.Id.ToString());
             testForm.SetField("dni_cliente", oFactura.Cliente.CUIL);
-            testForm.SetField("medio_pago", oFactura.FormaPago.Descripcion);
+            if ((String)Session["IdiomaApp"] == "Eng" && oFactura.FormaPago.Id == 1)
+            { testForm.SetField("medio_pago", "CASH"); }
+
+            if ((String)Session["IdiomaApp"] == "Eng" && oFactura.FormaPago.Id == 2)
+            { testForm.SetField("medio_pago", "CREDIT CARD"); }
+
+            if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+            {
+                testForm.SetField("medio_pago", oFactura.FormaPago.Descripcion);
+            }
             testForm.SetField("fecha_entrega", "");
             testForm.SetField("nro_cliente", oFactura.Cliente.Id.ToString());
             testForm.SetField("nro_pedido", oFactura.Codigo.ToString());
@@ -467,7 +476,7 @@ namespace Presentacion.Controllers
                 testForm.SetField("cantidad_" + i.ToString(), productosCarrito[i].Cantidad.ToString());
                 testForm.SetField("precio_" + i.ToString(), "$ " + productosCarrito[i].Precio.ToString() + ".-");
                 testForm.SetField("dto_" + i.ToString(), "-");
-                testForm.SetField("importe_" + i.ToString(), "$ "+subTotal.ToString()+".-");
+                testForm.SetField("importe_" + i.ToString(), "$ " + subTotal.ToString() + ".-");
             }
 
 
@@ -480,7 +489,7 @@ namespace Presentacion.Controllers
 
             pdfReader.Close();
 
-            return "C:\\Implantagraf\\PDF\\factura_" + oFactura.Codigo.ToString() + ".pdf";
+            return "C:\\Implantagraf\\PDF\\F_" + oFactura.Codigo.ToString() + ".pdf";
 
         }
 

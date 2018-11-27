@@ -14,15 +14,46 @@
 
     <table class="table">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaHora)
-            </th>
-        
-            <th>
-                @Html.DisplayNameFor(model => model.ImporteTotal)
-            </th>
-            
-            <th></th>
+            @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+            {
+                <th>
+                    Fecha/Hora
+                </th>
+
+                <th>
+                    Forma de Pago
+                </th>
+
+                <th>
+                    Importe Total
+                </th>
+
+                <th>
+                    Código de Factura
+                </th>
+
+                <th></th>
+            }
+            else
+            {
+                <th>
+                    Date/Time
+                </th>
+
+                <th>
+                    Payment Method
+                </th>
+
+                <th>
+                    Total Amount
+                </th>
+
+                <th>
+                    Invoice Number
+                </th>
+
+                <th></th>
+            }
         </tr>
 
         @foreach (var item in Model)
@@ -31,11 +62,38 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaHora)
                 </td>
-               
+                @if (((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null) && item.FormaPago.Id == 1)
+                {
+                    <td>
+                        CONTADO
+                    </td>
+                }
+                @if ((String)Session["IdiomaApp"] == "Eng" && item.FormaPago.Id == 1)
+                {
+                    <td>
+                        CASH
+                    </td>
+                }
+                @if (((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null) && item.FormaPago.Id == 2)
+                {
+                    <td>
+                        TARJETA DE CRÉDITO
+                    </td>
+                }
+                @if ((String)Session["IdiomaApp"] == "Eng" && item.FormaPago.Id == 2)
+                {
+                    <td>
+                        CREDIT CARD
+                    </td>
+                }
                 <td>
                     $ @Html.DisplayFor(modelItem => item.ImporteTotal).-
                 </td>
                
+                <td>
+                    Nº000- @Html.DisplayFor(modelmodelItem => item.Factura.Codigo)
+                </td>
+
                 <td>@Html.ActionLink((String)ViewBag.BOTON_REENVIAR_FACTURA, "ReenviarFactura", new { facturaId = item.Id }, new { @class = "btn btn-success btn-sm" })</td>
             </tr>
         }

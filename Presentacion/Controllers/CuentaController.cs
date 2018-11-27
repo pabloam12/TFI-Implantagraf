@@ -245,7 +245,7 @@ namespace Presentacion.Controllers
                 var integ = new IntegridadDatos();
                 var mensajeria = new Mensajeria();
 
-                var rutaFactura = "C:\\Implantagraf\\PDF\\factura_" + facturaId.ToString() + ".pdf";
+                var rutaFactura = "C:\\Implantagraf\\PDF\\F_" + facturaId.ToString() + ".pdf";
                 var cuerpoMsj = ViewBag.MENSAJE_MAIL_COMPRA;
                 var asuntoMsj = "F-000" + facturaId.ToString();
                 mensajeria.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj, rutaFactura);
@@ -470,7 +470,7 @@ namespace Presentacion.Controllers
 
             ViewBag.TITULO_COMPRAS = diccionario["TITULO_COMPRAS"];
             ViewBag.BOTON_REENVIAR_FACTURA = diccionario["BOTON_REENVIAR_FACTURA"];
-            ViewBag.BOTON_REENVIAR_FACTURA = diccionario["MENSAJE_MAIL_COMPRA"]; 
+            ViewBag.MENSAJE_MAIL_COMPRA = diccionario["MENSAJE_MAIL_COMPRA"]; 
 
 
         }
