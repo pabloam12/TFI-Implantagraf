@@ -17,6 +17,7 @@ namespace Negocio
             var adUsuario = new CuentaDAC();
             var inte = new IntegridadDatos();
             var aud = new Auditoria();
+            var priv = new Privacidad();
 
             if (ExisteCliente(codUsuario)!=0)
             {
@@ -28,7 +29,7 @@ namespace Negocio
             // Registro al Cliente en base a los datos del Usuario.
             var clienteActual = adCliente.RegistrarCliente(usuario);
 
-            clienteActual.DVH = inte.CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
+            clienteActual.DVH = inte.CalcularDVH(clienteActual.Id.ToString() + priv.Cifrar(clienteActual.RazonSocial) + priv.Cifrar(clienteActual.CUIL) + priv.Cifrar(clienteActual.Email) + priv.Cifrar(clienteActual.Telefono) + priv.Cifrar(clienteActual.Direccion) + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
 
             // Actualiza el DVH y DVV.
             inte.ActualizarDVHCliente(clienteActual.Id, clienteActual.DVH);

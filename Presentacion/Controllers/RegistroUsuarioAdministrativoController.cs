@@ -88,7 +88,7 @@ namespace Presentacion.Controllers
             usuario.Direccion = registroAdministrativo.Direccion;
             usuario.CUIL = registroAdministrativo.CUIL;
             usuario.Telefono = registroAdministrativo.Telefono;
-            usuario.RazonSocial = "N/A";
+            usuario.RazonSocial = usuario.Nombre+"_"+usuario.Apellido;
 
             usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
             usuario.PerfilUsr = new PerfilUsr { Id = 2, Descripcion = "Administrativo" };

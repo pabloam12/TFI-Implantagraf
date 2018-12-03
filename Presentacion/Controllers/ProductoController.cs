@@ -388,11 +388,19 @@ namespace Presentacion.Controllers
             // Registro Detalle de Venta.
             var detalleCompleto = RegistrarDetalleOperacion(operacionActual.Id);
 
+            var rutaFactura = "";
 
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
+            try
+            {
+                rutaFactura = GenerarFacturaPDF(facturaActual, productosCarrito);
+            }
+            catch
+            {
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR GENERAR FACTURA", "ERROR LEVE", "Fallo al intentar generar la factura de venta.");
 
-            var rutaFactura = GenerarFacturaPDF(facturaActual, productosCarrito);
-
+            }
             // Me guardo la factura para imprimir y enviar por correo.
             Session["Factura"] = facturaActual;
 
@@ -444,7 +452,7 @@ namespace Presentacion.Controllers
             if ((String)Session["IdiomaApp"] == "Eng")
             { testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString() + "        Date: " + oFactura.FechaHora.ToShortDateString()); }
 
-            else  { testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString() + "        Fecha: " + oFactura.FechaHora.ToShortDateString()); } 
+            else { testForm.SetField("factura", "000-0" + oFactura.Codigo.ToString() + "        Fecha: " + oFactura.FechaHora.ToShortDateString()); }
 
             testForm.SetField("tipo_factura", " B");
             testForm.SetField("pagina_de", "1");

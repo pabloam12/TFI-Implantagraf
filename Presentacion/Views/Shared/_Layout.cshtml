@@ -203,9 +203,9 @@
                                         }
                                         if ((String)Session["PerfilUsuario"] == "Administrativo")
                                         {
-                                            <li>@Html.ActionLink("VENTAS", "Index", "Ventas")</li>
-                                            @*<li>@Html.ActionLink("STOCK", "Index", "Home")</li>*@
-                                            <li>@Html.ActionLink("CLIENTES", "Index", "Cliente")</li>
+                                            <li>@Html.ActionLink("CATÁLOGO", "Catalogo", "Producto")</li>
+                                            <li>@Html.ActionLink("LISTADO DE VENTAS", "Index", "Ventas")</li>                                            
+                                            <li>@Html.ActionLink("LISTADO DE CLIENTES", "Index", "Cliente")</li>
 
 
                                         }
@@ -229,9 +229,9 @@
                                         }
                                         if ((String)Session["PerfilUsuario"] == "Administrativo")
                                         {
-                                            <li>@Html.ActionLink("SALES", "Index", "Home")</li>
-                                            @*<li>@Html.ActionLink("STOCK", "Index", "Home")</li>*@
-                                            <li>@Html.ActionLink("CUSTOMERS", "Index", "Cliente")</li>
+                                            <li>@Html.ActionLink("CATALOG", "Catalogo", "Producto")</li>
+                                            <li>@Html.ActionLink("SALES LIST", "Index", "Home")</li>                                            
+                                            <li>@Html.ActionLink("CUSTOMERS LIST", "Index", "Cliente")</li>
 
 
                                         }

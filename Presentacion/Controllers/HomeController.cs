@@ -16,8 +16,8 @@ namespace Presentacion.Controllers
         public ActionResult Index()
         {
 
-            try
-            {
+            //try
+            //{
 
                 var integridad = new IntegridadDatos();
 
@@ -40,13 +40,13 @@ namespace Presentacion.Controllers
                     return RedirectToAction("Index", "Excepciones");
                 }
 
-            }
-            catch
-            {
-                Session["Excepcion"] = "ERROR AL VALIDAR INTEGRIDAD";
+            //}
+            //catch
+            //{
+            //    Session["Excepcion"] = "ERROR AL VALIDAR INTEGRIDAD";
 
-                return RedirectToAction("Index", "Excepciones");
-            }
+            //    return RedirectToAction("Index", "Excepciones");
+            //}
 
             TraducirPagina((String)Session["IdiomaApp"]);
 

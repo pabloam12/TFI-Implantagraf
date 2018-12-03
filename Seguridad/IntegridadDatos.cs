@@ -692,7 +692,7 @@ namespace Seguridad
 
                 foreach (Cliente clienteActual in listadoClientes)
                 {
-                    if (CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString()) != clienteActual.DVH)
+                    if (CalcularDVH(clienteActual.Id.ToString() + priv.Cifrar(clienteActual.RazonSocial) + priv.Cifrar(clienteActual.CUIL) + priv.Cifrar(clienteActual.Email) + priv.Cifrar(clienteActual.Telefono) + priv.Cifrar(clienteActual.Direccion) + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString()) != clienteActual.DVH)
                     {
                         GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "CLIENTE", clienteActual.Id.ToString(), clienteActual.RazonSocial, clienteActual.CUIL, clienteActual.Email, clienteActual.FechaAlta.ToString());
                         flag = true;
@@ -1106,9 +1106,8 @@ namespace Seguridad
 
                 foreach (Cliente clienteActual in listadoClientes)
                 {
-                    dvhActual = CalcularDVH(clienteActual.Id.ToString() + clienteActual.RazonSocial + clienteActual.CUIL + clienteActual.Email + clienteActual.Telefono + clienteActual.Direccion + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
-
-
+                    dvhActual = CalcularDVH(clienteActual.Id.ToString() + priv.Cifrar(clienteActual.RazonSocial) + priv.Cifrar(clienteActual.CUIL) + priv.Cifrar(clienteActual.Email) + priv.Cifrar(clienteActual.Telefono) + priv.Cifrar(clienteActual.Direccion) + clienteActual.FechaAlta.ToString() + clienteActual.Localidad.Id.ToString());
+                    
                     ActualizarDVHCliente(clienteActual.Id, dvhActual);
 
                 }

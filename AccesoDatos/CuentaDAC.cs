@@ -526,7 +526,7 @@ namespace AccesoDatos
 
             }
 
-            //Cifrar Datos
+            //DesCifrar Datos
             usr.Psw = DescifrarTripleDES(usr.Psw);
             usr.Usr = DescifrarTripleDES(usr.Usr);
             usr.RazonSocial = DescifrarTripleDES(usr.RazonSocial);

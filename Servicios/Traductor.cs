@@ -62,7 +62,7 @@ namespace Servicios
                 traducciones.Add("CUENTA_DETALLE_DATOSPERSONALES", "Datos Personales");
                 traducciones.Add("CUENTA_DETALLE_IDIOMA", "Mi Idioma");
                 traducciones.Add("CUENTA_DETALLE_TITULO", "MI CUENTA");
-                traducciones.Add("CUENTA_ENVIO_CLAVE_LEYENDA", "La nueva clave se ha enviado a su correo de usuario.Muchas gracias.");
+                traducciones.Add("CUENTA_ENVIO_CLAVE_LEYENDA", "La nueva clave se ha enviado a su correo de usuario. Muchas gracias.");
                 traducciones.Add("CUENTA_LISTADO_USUARIOS", "LISTADO DE USUARIOS");
                 traducciones.Add("CUENTA_RECUPERAR_PSW_TITULO", "RECUPERAR CONTRASEÑA");
                 traducciones.Add("CUENTA_VERPERMISOS_TITULO", "PERMISOS DE USUARIO");
@@ -149,12 +149,12 @@ namespace Servicios
 
                 //LOYOUT TRADUCIDA EN SITIO
 
-                traducciones.Add("MENSAJE_MAIL_COMPRA", "Muchas gracias por su compra!Adjuntamos su factura y recuerde que para recibir la mercaderia debera abonar el total de la factura en nuestras oficinas comerciales. Saludos.");
+                traducciones.Add("MENSAJE_MAIL_COMPRA", "MUCHAS GRACIAS POR SU COMPRA. MUCHAS GRACIAS.");
                 traducciones.Add("PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS", "Usted no tiene Productos en el Carrito.");
                 traducciones.Add("PRODUCTO_CARRITO_TITULO", "PRODUCTOS EN CARRITO");
                 traducciones.Add("PRODUCTO_CATALOGO_TITULO", "CATÁLOGO DE MÁQUINAS");
                 traducciones.Add("PRODUCTO_DETALLE_TITULO", "FICHA DEL PRODUCTO");
-                traducciones.Add("PRODUCTO_FINALIZAR_COMPRA_LEYENDA", "Muchas gracias por comprar y elegirnos una vez más.Hasta la próxima!");
+                traducciones.Add("PRODUCTO_FINALIZAR_COMPRA_LEYENDA", "MUCHAS GRACIAS POR SU COMPRA, RECUERDE QUE HEMOS ENVIADO SU FACTURA POR CORREO. MUCHAS GRACIAS.");
                 traducciones.Add("PRODUCTO_IMPRESORA_AUTOMATICA", "Impresora Automática");
                 traducciones.Add("PRODUCTO_IMPRESORA_MANUAL", "Impresora Manual");
                 traducciones.Add("PRODUCTO_IMPRESORA_SEMIAUTOMATICA", "Impresora Semi-Automática");
@@ -213,7 +213,7 @@ namespace Servicios
                 traducciones.Add("BOTON_AGREGAR_CARRITO", "ADD TO CART");
                 traducciones.Add("BOTON_ALTA_USR_ADMINISTRATIVO", "NEW ADMINISTRATIVE USR");
                 traducciones.Add("BOTON_BLOQUEAR_CUENTA", "BLOCK");
-                traducciones.Add("BOTON_CATALOGO", "CATALOGUE");
+                traducciones.Add("BOTON_CATALOGO", "CATALOG");
                 traducciones.Add("BOTON_COMPRAR", "BUY");
                 traducciones.Add("BOTON_DESBLOQUEAR_CUENTA", "UNLOCK");
                 traducciones.Add("BOTON_ELIMINAR_CUENTA", "DELETE");
@@ -326,12 +326,12 @@ namespace Servicios
                 traducciones.Add("LOGIN_TITULO_TENGO_CUENTA", "I HAVE AN ACCOUNT");
                 traducciones.Add("LOGIN_TITULO_USUARIO_NUEVO", "NEW USER");
 
-                traducciones.Add("MENSAJE_MAIL_COMPRA", "Thank you for your purchase! We enclose your invoice and remember that to receive the merchandise you must pay the total invoice in our commercial offices. Greetings.");
+                traducciones.Add("MENSAJE_MAIL_COMPRA", "THANK YOU SO MUCH FOR YOUR PURCHASE. THANK YOU.");
                 traducciones.Add("PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS", "You do not have Products in the Cart.");
                 traducciones.Add("PRODUCTO_CARRITO_TITULO", "PRODUCTS IN CART");
                 traducciones.Add("PRODUCTO_CATALOGO_TITULO", "MACHINE CATALOG");
                 traducciones.Add("PRODUCTO_DETALLE_TITULO", "PRODUCT SHEET");
-                traducciones.Add("PRODUCTO_FINALIZAR_COMPRA_LEYENDA", "Thank you very much for buying and choosing us one more time. Until next time!");
+                traducciones.Add("PRODUCTO_FINALIZAR_COMPRA_LEYENDA", "THANK YOU SO MUCH FOR YOUR PURCHASE, REMEMBER THAT WE HAVE SENT YOUR INVOICE BY MAIL.THANK YOU.");
                 traducciones.Add("PRODUCTO_IMPRESORA_AUTOMATICA", "Automatic Printer");
                 traducciones.Add("PRODUCTO_IMPRESORA_MANUAL", "Manual Printer");
                 traducciones.Add("PRODUCTO_IMPRESORA_SEMIAUTOMATICA", "Semi-Automatic Printer");
