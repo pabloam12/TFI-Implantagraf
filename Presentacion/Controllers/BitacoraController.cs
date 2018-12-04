@@ -168,7 +168,7 @@ namespace Presentacion.Controllers
 
                 }
 
-                if (fecha == "" && usr == "" )
+                if (fecha == "" && fechaFin == "" )
                 {
                     var consultaVacia = new List<Bitacora>();
                     Session["ConsultaBitacora"] = consultaVacia;

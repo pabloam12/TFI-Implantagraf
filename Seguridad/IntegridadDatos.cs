@@ -828,7 +828,7 @@ namespace Seguridad
                 foreach (Bitacora bitacoraActual in listadoBitacora)
                 {
 
-                    if (CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle) != bitacoraActual.DVH)
+                    if (CalcularDVH(bitacoraActual.FechaHora.ToString() + priv.Cifrar(bitacoraActual.Usuario) + priv.Cifrar(bitacoraActual.Accion) + priv.Cifrar(bitacoraActual.Criticidad) + priv.Cifrar(bitacoraActual.Detalle)) != bitacoraActual.DVH)
                     {
                         GrabarRegistroIntegridad("SE ALTERÓ REGISTRO", "SEG_BITACORA", bitacoraActual.FechaHora.ToString(), bitacoraActual.Accion, bitacoraActual.FechaHora.ToString(), bitacoraActual.Criticidad, bitacoraActual.Detalle);
                         flag = true;
@@ -1225,7 +1225,7 @@ namespace Seguridad
 
                 foreach (Bitacora bitacoraActual in listadoBitacora)
                 {
-                    dvhActual = CalcularDVH(bitacoraActual.FechaHora.ToString() + bitacoraActual.Usuario + bitacoraActual.Accion + bitacoraActual.Criticidad + bitacoraActual.Detalle);
+                    dvhActual = CalcularDVH(bitacoraActual.FechaHora.ToString() + priv.Cifrar(bitacoraActual.Usuario) + priv.Cifrar(bitacoraActual.Accion) + priv.Cifrar(bitacoraActual.Criticidad) + priv.Cifrar(bitacoraActual.Detalle));
 
                     ActualizarDVHBitacora(bitacoraActual.Id, dvhActual);
                 }

@@ -10,7 +10,7 @@
     <br />
     <br />
     <div class="container contact_container">
-       
+
         @{ var cantidad = Model.Count();
 
             if (cantidad == 0)
@@ -26,87 +26,93 @@
             }
             else
             {
-                <h3>DETALLE DE TABLAS CORRUPTAS</h3>
-                <br />
+
                 if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
                 {
+                    <h3>DETALLE DE TABLAS CORRUPTAS</h3>
+                    <br />
+
                     <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">SOLUCIONAR ERRORES</a></p>}
                 else
-                { <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">SOLVE ERRORS</a></p>}
-
-
-            <table class="table">
-                <tr>
-                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.Col_A)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Col_B)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Col_C)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Col_D)
-                        </th>
-                    }
-                    else
-                    {
-                        <th>
-                            PROBLEM
-                        </th>
-                        <th>
-                            TABLE
-                        </th>
-                        <th>
-                            REGISTER
-                        </th>
-                        <th>
-                            DETAILS
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
-
-
-                        <th></th>}
-                </tr>
-
-                @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_A)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_B)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_C)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_D)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_E)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_F)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Col_G)
-                        </td>
-                    </tr>
-                }
+                    <h3>CORRUPT TABLES DETAILS</h3>
+                    <br />
 
-            </table>
-                }
+                    <p><a href="~/Rescate/SolucionarIntegridad" class="btn btn-sm btn-info" role="button">SOLVE ERRORS</a></p>}
+
+
+                <table class="table">
+                    <tr>
+                        @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Col_A)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Col_B)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Col_C)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Col_D)
+                            </th>
+                        }
+                        else
+                        {
+                            <th>
+                                PROBLEM
+                            </th>
+                            <th>
+                                TABLE
+                            </th>
+                            <th>
+                                REGISTER
+                            </th>
+                            <th>
+                                DETAILS
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+
+
+                            <th></th>}
+                    </tr>
+
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_A)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_B)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_C)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_D)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_E)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_F)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Col_G)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
             }
+        }
 
     </div>
 </body>

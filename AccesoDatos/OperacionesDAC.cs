@@ -84,6 +84,20 @@ namespace AccesoDatos
 
         }
 
+        public void CancelarOperacion(int idOperacion)
+        {
+            const string sqlStatement = "UPDATE dbo.Operacion " +
+                "SET[EstadoId] = 3 WHERE [Id] = @Id";
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, idOperacion);
+
+                db.ExecuteNonQuery(cmd);
+            }
+
+        }
 
         public List<Operacion> ListarOperaciones()
         {
@@ -115,6 +129,31 @@ namespace AccesoDatos
 
             string sqlStatement = "SELECT [Id], [ClienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
                "FROM dbo.Operacion WHERE TipoOperacion='" + tipo + "'; ";
+
+            var result = new List<Operacion>();
+
+            var db = DatabaseFactory.CreateDatabase(ConnectionName);
+            using (var cmd = db.GetSqlStringCommand(sqlStatement))
+            {
+
+                using (var dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        var operacion = MapearOperacion(dr); // Mapper
+                        result.Add(operacion);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<Operacion> ListarOperacionesporId(string id)
+        {
+
+            string sqlStatement = "SELECT [Id], [ClienteId], [FechaHora], [TipoOperacion], [FormaPagoId], [ImporteTotal], [EstadoId], [FacturaId], [DVH] " +
+               "FROM dbo.Operacion WHERE Id='" + id + "'; ";
 
             var result = new List<Operacion>();
 

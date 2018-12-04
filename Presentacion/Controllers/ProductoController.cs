@@ -418,11 +418,12 @@ namespace Presentacion.Controllers
 
             }
 
-            // Borro los items del Carrito.
-            Session["Carrito"] = null;
+            //Borro los items del Carrito.
+           Session["Carrito"] = null;
 
         }
 
+        
         public String GenerarFacturaPDF(Factura oFactura, List<Carrito> productosCarrito)
         {
 

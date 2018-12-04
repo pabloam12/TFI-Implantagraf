@@ -89,7 +89,29 @@ namespace Presentacion.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult CancelarOperacion(int id)
+        {
+            var integ = new IntegridadDatos();
 
+            if ((String)Session["PerfilUsuario"] != "WebMaster" && integ.ValidarExistencia("Operacion") == 1)
+            {
+                var ln = new NegocioOperaciones();
+
+                ln.CancelarOperacion(id);
+
+                // Traduce páginas de CUENTA.
+                TraducirPagina((String)Session["IdiomaApp"]);
+
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, (String)Session["UsrLogin"], "OPERACIÓN CANCELADA", "INFO", "El usuario ha cancelado la operación: " + id.ToString());
+
+
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
+
+        }
 
         public ActionResult DetalleCuenta()
         {
@@ -479,7 +501,10 @@ namespace Presentacion.Controllers
             ViewBag.TITULO_COMPRAS = diccionario["TITULO_COMPRAS"];
             ViewBag.BOTON_REENVIAR_FACTURA = diccionario["BOTON_REENVIAR_FACTURA"];
             ViewBag.MENSAJE_MAIL_COMPRA = diccionario["MENSAJE_MAIL_COMPRA"];
-            ViewBag.ENTIDAD_PERFIL_USR = diccionario["ENTIDAD_PERFIL_USR"]; 
+            ViewBag.ENTIDAD_PERFIL_USR = diccionario["ENTIDAD_PERFIL_USR"];
+
+            ViewBag.BOTON_CANCELAR_OPERACION = diccionario["BOTON_CANCELAR_OPERACION"];
+            
 
 
         }

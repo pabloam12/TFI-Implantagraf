@@ -32,6 +32,10 @@
                     Código de Factura
                 </th>
 
+                <th>
+                    Estado
+                </th>
+
                 <th></th>
             }
             else
@@ -52,6 +56,11 @@
                     Invoice Number
                 </th>
 
+                <th>
+                    Estate
+                </th>
+
+                <th></th>
                 <th></th>
             }
         </tr>
@@ -89,14 +98,57 @@
                 <td>
                     $ @Html.DisplayFor(modelItem => item.ImporteTotal).-
                 </td>
-               
+
                 <td>
                     Nº000- @Html.DisplayFor(modelmodelItem => item.Factura.Codigo)
                 </td>
 
-                <td>@Html.ActionLink((String)ViewBag.BOTON_REENVIAR_FACTURA, "ReenviarFactura", new { facturaId = item.Id }, new { @class = "btn btn-success btn-sm" })</td>
-            </tr>
-        }
+                @if (((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null) && item.Estado.Id == 1)
+                {
+                    <td>
+                        APROBADA
+                    </td>
+                }
+                @if ((String)Session["IdiomaApp"] == "Eng" && item.Estado.Id == 1)
+                {
+                    <td>
+                        APROBED
+                    </td>
+                }
+                @if (((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null) && item.Estado.Id == 2)
+                {
+                    <td>
+                        PENDIENTE
+                    </td>
+                }
+                @if ((String)Session["IdiomaApp"] == "Eng" && item.Estado.Id == 1)
+                {
+                    <td>
+                        WATTING PAYMENT
+                    </td>
+                }
+
+                @if (((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null) && item.Estado.Id == 3)
+                {
+                    <td>
+                        CANCELADA
+                    </td>
+                }
+                @if ((String)Session["IdiomaApp"] == "Eng" && item.Estado.Id == 3)
+                {
+                    <td>
+                        CENCELLED
+                    </td>
+                }
+
+                @if (item.Estado.Id != 3)
+                {
+                    <td>@Html.ActionLink((String)ViewBag.BOTON_CANCELAR_OPERACION, "CancelarOperacion", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })</td>
+
+                    <td>@Html.ActionLink((String)ViewBag.BOTON_REENVIAR_FACTURA, "ReenviarFactura", new { facturaId = item.Id }, new { @class = "btn btn-success btn-sm" })</td>
+                }
+                </tr>
+                }
 
     </table>
 

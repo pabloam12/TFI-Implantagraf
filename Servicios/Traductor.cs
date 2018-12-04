@@ -183,12 +183,15 @@ namespace Servicios
 
                 traducciones.Add("TITULO_COMPRAS", "MIS COMPRAS");
                 traducciones.Add("BOTON_REENVIAR_FACTURA", "ENVIAR FACTURA");
-                
+
+                traducciones.Add("BOTON_CANCELAR_OPERACION", "CANCELAR COMPRA");
+
 
             }
 
             if (idioma == "Eng")
             {
+                traducciones.Add("BOTON_CANCELAR_OPERACION", "CANCEL PURCHASE");
                 traducciones.Add("ENTIDAD_PERFIL_USR", "User Role");
                 traducciones.Add("TITULO_COMPRAS", "MY PURCHASES");
                 traducciones.Add("BOTON_REENVIAR_FACTURA", "SEND RECEIPT");

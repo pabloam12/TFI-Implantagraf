@@ -24,7 +24,7 @@ namespace Servicios
 
             msj.Priority = MailPriority.Normal;
 
-
+            
             cli.Host = "smtp.gmail.com";
             cli.Port = 587;
             cli.Credentials = new NetworkCredential("implantagraf@gmail.com", "Pm33834348");

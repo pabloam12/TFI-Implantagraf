@@ -90,9 +90,26 @@ namespace Negocio
         public void RegistrarDetalleOperacion(DetalleOperacion detalleActual)
         {
             var datos = new OperacionesDAC();
+            
+            datos.RegistrarDetalleOperacion(detalleActual);
+
+        }
+
+        public void CancelarOperacion(int idOperacion)
+        {
+            var datos = new OperacionesDAC();
             var inte = new IntegridadDatos();
 
-            datos.RegistrarDetalleOperacion(detalleActual);
+            datos.CancelarOperacion(idOperacion);
+
+            var operacionActual = datos.ListarOperacionesporId(idOperacion.ToString()).First();
+
+            operacionActual.DVH = inte.CalcularDVH(operacionActual.Id.ToString() + operacionActual.Cliente.Id.ToString() + operacionActual.FechaHora.ToString() + operacionActual.TipoOperacion + operacionActual.ImporteTotal.ToString() + operacionActual.Factura.Codigo.ToString() + operacionActual.Estado.Id.ToString());
+
+            // Actualiza el DVH y DVV.
+            inte.ActualizarDVHOperacion(operacionActual.Id, operacionActual.DVH);
+            inte.RecalcularDVV("Operacion");
+
 
         }
 

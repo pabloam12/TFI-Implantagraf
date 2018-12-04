@@ -43,7 +43,7 @@ namespace Presentacion.Controllers
             //}
             //catch
             //{
-            //    Session["Excepcion"] = "ERROR AL VALIDAR INTEGRIDAD";
+            //    Session["Excepcion"] = "ERROR AL VALIDAR INTEGRIDAD GLOBAL";
 
             //    return RedirectToAction("Index", "Excepciones");
             //}
