@@ -414,7 +414,7 @@ namespace Presentacion.Controllers
                     var cuerpoMsj = "Your Psw has been changed. The new one is 'Inicio1234'. Please when you Login again for the first time chage it. Thank you very much.";
                     servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
                 }
-                
+
             }
             catch
             {
@@ -451,10 +451,28 @@ namespace Presentacion.Controllers
 
             negocioUsuario.ActualizarPswUsuario((String)Session["UsrLogin"], frmCambioPsw.NuevaPsw);
 
-            var asuntoMsj = "Cambio de Contraseña";
-            var cuerpoMsj = "Se ha actualizado su contraseña. Si usted no solicito este cambio por favor comuniquese con nostros. Muchas gracias.";
+            try
+            {
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    var asuntoMsj = "Cambio de Contraseña";
+                    var cuerpoMsj = "Se ha cambiado su contraseña. Si usted no solicitó este cambio por favor contacte con un administrador. Muchas gracias.";
+                    servicioCorreo.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
+                }
+                else
+                {
 
-            servicioCorreo.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
+                    var asuntoMsj = "Psw Changed";
+                    var cuerpoMsj = "Your Psw has been changed. If you don't ask for that change, please contact an admin. Thank you very much.";
+                    servicioCorreo.EnviarCorreo("implantagraf@gmail.com", (String)Session["EmailUsuario"], asuntoMsj, cuerpoMsj);
+                }
+            }
+            catch
+            {
+                var audi = new Auditoria();
+                audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CAMBIO CLAVE", "ERROR LEVE", "Error al intentar cambiar la PSW.");
+                return RedirectToAction("Index", "Home");
+            }
 
             return View();
         }
