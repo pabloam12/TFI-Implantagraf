@@ -114,7 +114,7 @@ namespace Servicios
                 traducciones.Add("HOME_CONTACTO_LEYENDA", "Hay muchas maneras de contactarnos, envianos tu opinión o conoce nuestras oficinas comerciales.Encontrá la forma que mejor se adapte a tus tiempos.");
                 traducciones.Add("HOME_CONTACTO_TITULO", "CONTACTO");
                 traducciones.Add("HOME_CONTACTO_TITULO_2", "CONTANOS TU OPINIÓN!");
-                traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS", "Horarios");
+                traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS", "HORARIOS");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_CERRADO", "Cerrado");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS", "Domingos y Feriados");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_SABADO", "Sábados");
@@ -297,7 +297,7 @@ namespace Servicios
                 traducciones.Add("HOME_CONTACTO_LEYENDA", "There are many ways to contact us, send us your opinion or visit our commercial offices.");
                 traducciones.Add("HOME_CONTACTO_TITULO", "CONTACT US");
                 traducciones.Add("HOME_CONTACTO_TITULO_2", "TELL US WHAT YOU THINK!");
-                traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS", "Timetable");
+                traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS", "TIMETABLE");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_CERRADO", "Closed");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_DOMINGOS_FERIADOS", "Sunday and Hollydays");
                 traducciones.Add("HOME_CONTACTO_TITULO_HORARIOS_SABADO", "Saturday");
