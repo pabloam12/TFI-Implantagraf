@@ -29,6 +29,7 @@ namespace Entidades
         public string Email { get; set; }
 
         [Required(ErrorMessage = "El Usuario es Obligatorio.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "El Usuario solo puede contener letras.")]
         //[RegularExpression(@"/^[0 - 9a - zA - Z] +$/ ", ErrorMessage = "Solo se admiten letras y números sin espacios o símbolos.")]
         [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
         [MinLength(5, ErrorMessage = "El {0} debe tener como mínimo {1} caracteres.")]
@@ -46,6 +47,7 @@ namespace Entidades
 
         [Required(ErrorMessage = "La Dirección es Obligatoria")]
         [MaxLength(100, ErrorMessage = "La {0} no puede superar los {1} caracteres.")]
+        [RegularExpression(@"^[a-zA-Z0-9 ]*$", ErrorMessage = "La Dirección solo puede contener letras y números.")]
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "El Telefono es Obligatorio")]
@@ -92,6 +94,7 @@ namespace Entidades
 
         [Required(ErrorMessage = "Address is Obligatory.")]
         [MaxLength(100, ErrorMessage = "Address can not be more than {1} characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9 ]*$", ErrorMessage = "Address can only have letters and numbers.")]
         public string Direccion_Eng { get; set; }
 
         [Required(ErrorMessage = "Phone is Obligatory.")]

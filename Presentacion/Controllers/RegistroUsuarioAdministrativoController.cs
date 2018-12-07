@@ -1,6 +1,7 @@
 ﻿using Entidades;
 using Negocio;
 using Seguridad;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Presentacion.Controllers
         {
             var integ = new IntegridadDatos();
 
-            if (integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
             {
 
 
@@ -42,7 +43,7 @@ namespace Presentacion.Controllers
         {
             var integ = new IntegridadDatos();
 
-            if (integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
+            if ((String)Session["PerfilUsuario"] == "WebMaster" && integ.ValidarExistencia("SEG_Usuario") == 1 && integ.ValidarExistencia("Idioma") == 1 && integ.ValidarExistencia("Localidad") == 1 && integ.ValidarExistencia("SEG_PerfilUsr") == 1 && integ.ValidarExistencia("SEG_Permisos") == 1 && integ.ValidarExistencia("SEG_DetallePermisos") == 1)
             {
                 return View();
             }
@@ -68,38 +69,53 @@ namespace Presentacion.Controllers
 
             try
             {
-            Session["Excepcion"] = "";
+                var ws = new WebService();
 
-            var ln = new NegocioCuenta();
+                Session["Excepcion"] = "";
 
-            var usuario = new Usuario();
+                if (ws.ValidarCUIT(registroAdministrativo.CUIL) == false)
+                {
+                    if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
+                        Session["ErrorRegistro"] = "EL CUIT ES INVÁLIDO";
+                    }
+                    else
 
-            //Características de "Administrativo".
-            usuario.Nombre = registroAdministrativo.Nombre;
-            usuario.Apellido = registroAdministrativo.Apellido;
-            usuario.Email = registroAdministrativo.Email;
-            usuario.Usr = registroAdministrativo.Usr;
-            usuario.Psw = registroAdministrativo.Psw;
+                    { Session["ErrorRegistro"] = "INVALID CUIT NUMBER"; }
 
-            usuario.Estado = "S";
-            usuario.FechaAlta = DateTime.Now;
-            usuario.FechaBaja = new DateTime(2000, 01, 01);
+                    return RedirectToAction("RegistrarUsuarioAdministrativo");
+                }
 
-            usuario.Direccion = registroAdministrativo.Direccion;
-            usuario.CUIL = registroAdministrativo.CUIL;
-            usuario.Telefono = registroAdministrativo.Telefono;
-            usuario.RazonSocial = usuario.Nombre+"_"+usuario.Apellido;
+                var ln = new NegocioCuenta();
 
-            usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
-            usuario.PerfilUsr = new PerfilUsr { Id = 2, Descripcion = "Administrativo" };
-            usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
+                var usuario = new Usuario();
 
-            // Registro Usuario.
-            var usrRegistrado = ln.RegistrarUsuario(usuario);
+                //Características de "Administrativo".
+                usuario.Nombre = registroAdministrativo.Nombre;
+                usuario.Apellido = registroAdministrativo.Apellido;
+                usuario.Email = registroAdministrativo.Email;
+                usuario.Usr = registroAdministrativo.Usr;
+                usuario.Psw = registroAdministrativo.Psw;
 
-            ln.OtorgarPermisosAdministrativo(usrRegistrado.Id);
+                usuario.Estado = "S";
+                usuario.FechaAlta = DateTime.Now;
+                usuario.FechaBaja = new DateTime(2000, 01, 01);
 
-            return RedirectToAction("Index");
+                usuario.Direccion = registroAdministrativo.Direccion;
+                usuario.CUIL = registroAdministrativo.CUIL;
+                usuario.Telefono = registroAdministrativo.Telefono;
+                usuario.RazonSocial = usuario.Nombre + "_" + usuario.Apellido;
+
+                usuario.Idioma = new Idioma { Id = 1, Descripcion = "Español", Abreviacion = "Esp" };
+                usuario.PerfilUsr = new PerfilUsr { Id = 2, Descripcion = "Administrativo" };
+                usuario.Localidad = new Localidad { Id = 1, Descripcion = "Implantagraf" };
+
+                // Registro Usuario.
+                var usrRegistrado = ln.RegistrarUsuario(usuario);
+
+                ln.OtorgarPermisosAdministrativo(usrRegistrado.Id);
+
+                return RedirectToAction("Index");
             }
             catch
             {

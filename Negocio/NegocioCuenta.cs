@@ -363,19 +363,17 @@ namespace Negocio
             var negocioUsr = new NegocioCuenta();
             var aud = new Auditoria();
 
-            var nuevaPswEncriptada = priv.Cifrar(nuevaPsw);
-
-            ad.ActualizarPswUsuario(usr, nuevaPswEncriptada);
+            ad.ActualizarPswUsuario(usr, nuevaPsw);
 
             var usuarioActual = negocioUsr.BuscarUsuarioPorUsuario(usr);
 
-            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + usuarioActual.RazonSocial + usuarioActual.Nombre + usuarioActual.Apellido + usuarioActual.Usr + usuarioActual.Psw + usuarioActual.CUIL + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + usuarioActual.Telefono + usuarioActual.Direccion);
+            var usuarioActualDVH = inte.CalcularDVH(usuarioActual.Id.ToString() + priv.Cifrar(usuarioActual.RazonSocial) + priv.Cifrar(usuarioActual.Nombre) + priv.Cifrar(usuarioActual.Apellido) + priv.Cifrar(usuarioActual.Usr) + priv.Cifrar(usuarioActual.Psw) + priv.Cifrar(usuarioActual.CUIL) + usuarioActual.PerfilUsr.Id.ToString() + usuarioActual.Idioma.Id.ToString() + usuarioActual.Localidad.Id.ToString() + usuarioActual.FechaAlta.ToString() + usuarioActual.FechaBaja.ToString() + priv.Cifrar(usuarioActual.Telefono) + priv.Cifrar(usuarioActual.Direccion));
 
             // Actualiza el DVH y DVV.
             inte.ActualizarDVHUsuario(usuarioActual.Id, usuarioActualDVH);
             inte.RecalcularDVV("SEG_Usuario");
 
-            aud.grabarBitacora(DateTime.Now, usr, "CAMBIO CLAVE", "INFO", "Se ha cambiado la contraseña del Usuario: " + usr + ".");
+            aud.grabarBitacora(DateTime.Now, usr, "CAMBIO CLAVE", "INFO", "Se ha cambiado la contraseña del Usuario: " + usuarioActual.Usr + ".");
 
         }
     }

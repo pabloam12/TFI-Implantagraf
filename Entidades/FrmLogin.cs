@@ -10,8 +10,8 @@ namespace Entidades
     {
         //ESPAÑOL
         [Required(ErrorMessage = "El Usuario es Obligatorio.")]
-        [MinLength(5, ErrorMessage = "El {0} tiene que tener mínimo {1} caracteres.")]
-        [MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
+        //[MinLength(5, ErrorMessage = "El {0} tiene que tener mínimo {1} caracteres.")]
+        //[MaxLength(50, ErrorMessage = "El {0} no puede superar los {1} caracteres.")]
         public string Usuario { get; set; }
 
 
@@ -22,8 +22,8 @@ namespace Entidades
         
         //INGLES
         [Required(ErrorMessage = "User is Obligatory.")]
-        [MinLength(5, ErrorMessage = "The User must have a minimum of {1} characters.")]
-        [MaxLength(50, ErrorMessage = "The User must have a maximun of {1} characters.")]
+        //[MinLength(5, ErrorMessage = "The User must have a minimum of {1} characters.")]
+        //[MaxLength(50, ErrorMessage = "The User must have a maximun of {1} characters.")]
         public string Usuario_Eng { get; set; }
 
 

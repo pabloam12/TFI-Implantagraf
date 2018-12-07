@@ -380,7 +380,12 @@ namespace Presentacion.Controllers
 
             if (negocioUsuario.ValidarUsuario(formularioCambioPsw.Usuario))
             {
-                Session["ErrorRecuperoPsw"] = "El Usuario que ingreso no es inválido.";
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    Session["ErrorRecuperoPsw"] = "El Usuario que ingreso es inválido.";
+                }
+                else { Session["ErrorRecuperoPsw"] = "Invalid User."; }
+
                 return RedirectToAction("RecuperarPsw");
             }
 
@@ -396,10 +401,20 @@ namespace Presentacion.Controllers
 
             try
             {
-                var asuntoMsj = "Cambio de Contraseña";
-                var cuerpoMsj = "Se ha reestablecido su contraseña. La misma es 'Inicio1234'. Por favor cuando ingrese correctamente se recomienda cambiarla. Muchas gracias.";
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    var asuntoMsj = "Cambio de Contraseña";
+                    var cuerpoMsj = "Se ha reestablecido su contraseña. La misma es 'Inicio1234'. Por favor cuando ingrese correctamente se recomienda cambiarla. Muchas gracias.";
+                    servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
+                }
+                else
+                {
 
-                servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
+                    var asuntoMsj = "PSW Changed";
+                    var cuerpoMsj = "Your Psw has been changed. The new one is 'Inicio1234'. Please when you Login again for the first time chage it. Thank you very much.";
+                    servicioCorreo.EnviarCorreo("implantagraf@gmail.com", usuarioActual.Email, asuntoMsj, cuerpoMsj);
+                }
+                
             }
             catch
             {
@@ -504,7 +519,7 @@ namespace Presentacion.Controllers
             ViewBag.ENTIDAD_PERFIL_USR = diccionario["ENTIDAD_PERFIL_USR"];
 
             ViewBag.BOTON_CANCELAR_OPERACION = diccionario["BOTON_CANCELAR_OPERACION"];
-            
+
 
 
         }

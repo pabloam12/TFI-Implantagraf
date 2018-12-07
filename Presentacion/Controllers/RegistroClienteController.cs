@@ -36,11 +36,11 @@ namespace Presentacion.Controllers
             {
                 var lnloc = new NegocioLocalidad();
 
-            TraducirPagina((String)Session["IdiomaApp"]);
+                TraducirPagina((String)Session["IdiomaApp"]);
 
-            ViewBag.Localidades = lnloc.Listar();
+                ViewBag.Localidades = lnloc.Listar();
 
-            return View();
+                return View();
 
             }
 
@@ -75,13 +75,27 @@ namespace Presentacion.Controllers
             // Usuario existente, solo devuelvo el error.
             if (ln.ValidarUsuario(registroCliente.Email) == false)
             {
-                Session["ErrorRegistro"] = "EL CORREO DE REGISTRO YA EXISTE";
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    Session["ErrorRegistro"] = "EL CORREO DE REGISTRO YA EXISTE";
+                }
+                else
+
+                { Session["ErrorRegistro"] = "THAT USER ALREADY EXIST"; }
+
                 return RedirectToAction("Registrarse");
             }
 
             if (ws.ValidarCUIT(registroCliente.CUIL) == false)
             {
-                Session["ErrorRegistro"] = "EL CUIT ES INVÁLIDO";
+                if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                {
+                    Session["ErrorRegistro"] = "EL CUIT ES INVÁLIDO";
+                }
+                else
+
+                { Session["ErrorRegistro"] = "INVALID CUIT NUMBER"; }
+
                 return RedirectToAction("Registrarse");
             }
 
@@ -119,7 +133,7 @@ namespace Presentacion.Controllers
             }
             catch
             {
-                
+
             }
 
             if (usrSesion.Nombre != "" && usrSesion.PerfilUsr.Descripcion != "")
@@ -144,8 +158,8 @@ namespace Presentacion.Controllers
             {
                 var audi = new Auditoria();
                 audi.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR CAMBIO CLAVE", "ERROR LEVE", "Error al intentar registrar un Usuario.");
-                return RedirectToAction("Index", "Home"); 
-                
+                return RedirectToAction("Index", "Home");
+
             }
 
         }

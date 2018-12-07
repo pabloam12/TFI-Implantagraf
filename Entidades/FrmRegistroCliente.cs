@@ -12,7 +12,6 @@ namespace Entidades
         [Required(ErrorMessage = "La Razón Social es Obligatoria")]
         [MaxLength(50, ErrorMessage = "La Razón Social no puede superar los {1} caracteres.")]
         [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "La Razón Social solo puede contener letras.")]
-
         public string RazonSocial { get; set; }
 
         [Required(ErrorMessage = "El CUIL es Obligatorio")]
