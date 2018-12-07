@@ -149,7 +149,7 @@ namespace Servicios
 
                 //LOYOUT TRADUCIDA EN SITIO
 
-                traducciones.Add("MENSAJE_MAIL_COMPRA", "MUCHAS GRACIAS POR SU COMPRA. MUCHAS GRACIAS.");
+                traducciones.Add("MENSAJE_MAIL_COMPRA", "MUCHAS GRACIAS POR SU COMPRA.");
                 traducciones.Add("PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS", "Usted no tiene Productos en el Carrito.");
                 traducciones.Add("PRODUCTO_CARRITO_TITULO", "PRODUCTOS EN CARRITO");
                 traducciones.Add("PRODUCTO_CATALOGO_TITULO", "CATÁLOGO DE MÁQUINAS");
@@ -329,7 +329,7 @@ namespace Servicios
                 traducciones.Add("LOGIN_TITULO_TENGO_CUENTA", "I HAVE AN ACCOUNT");
                 traducciones.Add("LOGIN_TITULO_USUARIO_NUEVO", "NEW USER");
 
-                traducciones.Add("MENSAJE_MAIL_COMPRA", "THANK YOU SO MUCH FOR YOUR PURCHASE. THANK YOU.");
+                traducciones.Add("MENSAJE_MAIL_COMPRA", "THANK YOU SO MUCH FOR YOUR PURCHASE.");
                 traducciones.Add("PRODUCTO_CARRITO_LEYENDA_SIN_PRODUCTOS", "You do not have Products in the Cart.");
                 traducciones.Add("PRODUCTO_CARRITO_TITULO", "PRODUCTS IN CART");
                 traducciones.Add("PRODUCTO_CATALOGO_TITULO", "MACHINE CATALOG");
