@@ -21,13 +21,13 @@ namespace Entidades
 
         
         //INGLES
-        [Required(ErrorMessage = "User is Obligatory.")]
+        [Required(ErrorMessage = "User is Required.")]
         //[MinLength(5, ErrorMessage = "The User must have a minimum of {1} characters.")]
         //[MaxLength(50, ErrorMessage = "The User must have a maximun of {1} characters.")]
         public string Usuario_Eng { get; set; }
 
 
-        [Required(ErrorMessage = "Password is Obligatory")]
+        [Required(ErrorMessage = "Password is Required")]
         [DataType(DataType.Password)]
         public string Contraseña_Eng { get; set; }
 

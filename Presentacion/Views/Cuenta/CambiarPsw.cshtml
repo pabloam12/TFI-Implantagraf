@@ -6,7 +6,7 @@
 
     <div class="container contact_container">
 
-        
+
         @using (Html.BeginForm("ActualizarPsw", "Cuenta", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             <h4>@ViewBag.CUENTA_CAMBIAR_CLAVE_TITULO</h4>
@@ -16,9 +16,19 @@
                 @*@Html.LabelFor(model => model.NuevaPsw, htmlAttributes: new { @class = "control-label col-md-2" })*@
                 @ViewBag.ENTIDAD_NUEVA_PSW
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.NuevaPsw, new { htmlAttributes = new { @class = "form-control" } })
+                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
+                        @Html.EditorFor(model => model.NuevaPsw, new { htmlAttributes = new { @class = "form-control" } })
 
-                    @Html.ValidationMessageFor(model => model.NuevaPsw, "", new { @class = "text-danger text-right" })
+                        @Html.ValidationMessageFor(model => model.NuevaPsw, "", new { @class = "text-danger text-right" })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.NuevaPsw_Eng, new { htmlAttributes = new { @class = "form-control" } })
+
+                        @Html.ValidationMessageFor(model => model.NuevaPsw_Eng, "", new { @class = "text-danger text-right" })
+
+                    }
                 </div>
 
             </div>
@@ -27,9 +37,20 @@
                 @*@Html.LabelFor(model => model.PswConfirmacion, htmlAttributes: new { @class = "control-label col-md-2" })*@
                 @ViewBag.ENTIDAD_CONFIRMACION_PSW
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.PswConfirmacion, new { htmlAttributes = new { @class = "form-control" } })
+                    @if ((String)Session["IdiomaApp"] == "Esp" || (String)Session["IdiomaApp"] == null)
+                    {
+                        @Html.EditorFor(model => model.PswConfirmacion, new { htmlAttributes = new { @class = "form-control" } })
 
-                    @Html.ValidationMessageFor(model => model.PswConfirmacion, "", new { @class = "text-danger text-right" })
+                        @Html.ValidationMessageFor(model => model.PswConfirmacion, "", new { @class = "text-danger text-right" })
+                    }
+                    else
+                    {
+
+                        @Html.EditorFor(model => model.PswConfirmacion_Eng, new { htmlAttributes = new { @class = "form-control" } })
+
+                        @Html.ValidationMessageFor(model => model.PswConfirmacion_Eng, "", new { @class = "text-danger text-right" })
+
+                    }
                 </div>
 
             </div>

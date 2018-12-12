@@ -44,35 +44,35 @@ namespace Entidades
 
 
         //Ingles
-        [Required(ErrorMessage = "The Company Name is Obligatory")]
+        [Required(ErrorMessage = "The Company Name is Required")]
         [MaxLength(50, ErrorMessage = "The Company Name must have a maximun of {1} characters.")]
         [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "The Company Name must have only letters.")]
         public string RazonSocial_Eng { get; set; }
 
-        [Required(ErrorMessage = "CUIL is Obligatory")]
+        [Required(ErrorMessage = "CUIL is Required")]
         [RegularExpression(@"^[0-9]{11}$", ErrorMessage = "CUIL must be numeric with 11 digits.")]
         public string CUIL_Eng { get; set; }
 
-        [Required(ErrorMessage = "Email is Obligatory")]
+        [Required(ErrorMessage = "Email is Required")]
         [RegularExpression(@"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", ErrorMessage = "Invalid Email.")]
         public string Email_Eng { get; set; }
 
-        [Required(ErrorMessage = "Password is Obligatory")]
+        [Required(ErrorMessage = "Password is Required")]
         [DataType(DataType.Password)]
         [RegularExpression(@"^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,10}$", ErrorMessage = "The password must have between 8 and 10 characters, at least one number, at least one lowercase and at least one uppercase.")]
         public string Psw_Eng { get; set; }
 
-        [Required(ErrorMessage = "Password confirm is Obligatory")]
+        [Required(ErrorMessage = "Password confirm is Required")]
         [DataType(DataType.Password)]
-        [Compare(nameof(Psw), ErrorMessage = "Passwords do not match.")]
+        [Compare(nameof(Psw_Eng), ErrorMessage = "Passwords do not match.")]
         public string PswConfirmacion_Eng { get; set; }
 
-        [Required(ErrorMessage = "Address is Obligatory")]
+        [Required(ErrorMessage = "Address is Required")]
         [MaxLength(100, ErrorMessage = "Address must have a maximun of {1} characters.")]
         [RegularExpression(@"^[a-zA-Z0-9 ]*$", ErrorMessage = "Address must have only letters and numbers.")]
         public string Direccion_Eng { get; set; }
 
-        [Required(ErrorMessage = "Phone number is Obligatory")]
+        [Required(ErrorMessage = "Phone number is Required")]
         [RegularExpression(@"[0-9]{1,25}(\.[0-9]{0,2})?$", ErrorMessage = "Phone number must be numeric and have a maximun of 25 characters.")]
         [MinLength(8, ErrorMessage = "Phone number must have a maximun of 8 characters.")]
         public string Telefono_Eng { get; set; }

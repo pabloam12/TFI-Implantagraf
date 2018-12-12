@@ -14,7 +14,7 @@ namespace Entidades
 
 
         // Ingles
-        [Required(ErrorMessage = "User is Obligatory")]
+        [Required(ErrorMessage = "User is Required")]
         public string Usuario_Eng { get; set; }
 
     }

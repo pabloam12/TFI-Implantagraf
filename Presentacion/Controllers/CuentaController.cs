@@ -443,6 +443,13 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult ActualizarPsw(FrmCambiarPsw frmCambioPsw)
         {
+
+            if(frmCambioPsw.NuevaPsw == null)
+            {
+                frmCambioPsw.NuevaPsw = frmCambioPsw.NuevaPsw_Eng;
+
+            }
+
             var negocioUsuario = new NegocioCuenta();
             var servicioCorreo = new Mensajeria();
 

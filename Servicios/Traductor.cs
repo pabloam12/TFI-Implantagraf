@@ -39,7 +39,7 @@ namespace Servicios
                 traducciones.Add("BOTON_ELIMINAR_CUENTA", "ELIMINAR");
                 traducciones.Add("BOTON_ENVIAR", "ENVIAR");
                 traducciones.Add("BOTON_FINALIZAR", "FINALIZAR");
-                traducciones.Add("BOTON_PERMISOS", "VER PERMISOS");
+                traducciones.Add("BOTON_PERMISOS", "PERMISOS");
                 traducciones.Add("BOTON_QUITAR_PRODUCTO", "QUITAR");
                 traducciones.Add("BOTON_RECUPERAR_PSW", "RECUPERAR CLAVE");
                 traducciones.Add("BOTON_REGISTRAR", "REGISTRARME");
@@ -222,7 +222,7 @@ namespace Servicios
                 traducciones.Add("BOTON_ELIMINAR_CUENTA", "DELETE");
                 traducciones.Add("BOTON_ENVIAR", "SEND");
                 traducciones.Add("BOTON_FINALIZAR", "FINALIZE");
-                traducciones.Add("BOTON_PERMISOS", "SEE PERMITS");
+                traducciones.Add("BOTON_PERMISOS", "ACCESS PERMITS");
                 traducciones.Add("BOTON_QUITAR_PRODUCTO", "REMOVE");
                 traducciones.Add("BOTON_RECUPERAR_PSW", "RECOVER PSW");
                 traducciones.Add("BOTON_REGISTRAR", "REGISTER");
@@ -341,12 +341,12 @@ namespace Servicios
                 traducciones.Add("PRODUCTO_IMPRESORA_TAMPOGRAFICA", "Tampographic Printer");
                 traducciones.Add("PRODUCTO_LAMPARA_UV", "Uv Lamp");
                 traducciones.Add("PRODUCTO_LEYENDA_ENVIO", "Free shipping");
-                traducciones.Add("PRODUCTO_PAGO_CONTADO_LEYENDA", "THE PAYMENT TO THE COUNTED SHOULD BE MADE IN THE COMMERCIAL OFFICES OF THE COMPANY, THEN THE INVOICE WILL BE PENDING AND THE MERCHANDISE WILL NOT BE DELIVERED UNTIL THE PAYMENT IS NOT MADE. THANK YOU.");
+                traducciones.Add("PRODUCTO_PAGO_CONTADO_LEYENDA", "THE PAYMENT TO THE COUNTED SHOULD BE MADE IN THE COMMERCIAL OFFICE OF THE COMPANY, THEN THE INVOICE WILL BE PENDING AND THE MERCHANDISE WILL NOT BE DELIVERED UNTIL THE PAYMENT IS NOT MADE. THANK YOU.");
                 traducciones.Add("PRODUCTO_PAGO_CONTADO_TITULO", "CASH PAYMENT");
                 traducciones.Add("PRODUCTO_PAGO_TC_TITULO", "CREDIT CARD PAYMENT");
                 traducciones.Add("PRODUCTO_TUNEL_SECADO", "Drying tunnel");
                 traducciones.Add("REGISTRO_CLIENTE_TITULO", "REGISTER FORM");
-                traducciones.Add("VALIDACION_USURIO_OBLIGATORIO", "Usr is Obligatory");
+                traducciones.Add("VALIDACION_USURIO_OBLIGATORIO", "Usr is Required");
             }
 
 
