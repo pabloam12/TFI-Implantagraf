@@ -32,13 +32,24 @@ namespace Presentacion.Controllers
 
         public ActionResult SolucionarIntegridad()
         {
-            var integridad = new IntegridadDatos();
+            try
+            {
+                var integridad = new IntegridadDatos();
 
-            integridad.RecalcularTodosDVH();
+                integridad.RecalcularTodosDVH();
 
-            integridad.LimpiarTablaRegistrosTablasFaltantes();
+                integridad.LimpiarTablaRegistrosTablasFaltantes();
 
-            integridad.ValidarIntegridadGlobal();
+                integridad.ValidarIntegridadGlobal();
+            }
+            catch
+            {
+                var aud = new Auditoria();
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR SOLUCIONAR INTEGRIDAD", "ERROR GRAVE", "Error al intentar solucionar integridad.");
+
+                return RedirectToAction("Index", "Home");
+
+            }
 
             return View();
 

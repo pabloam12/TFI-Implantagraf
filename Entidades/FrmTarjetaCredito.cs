@@ -8,7 +8,10 @@ namespace Entidades
 {
     public class FrmTarjetaCredito
     {
+        //Español
         [Required(ErrorMessage = "El {0} es Obligatorio.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "El Titular solo puede contener letras.")]
+        [MaxLength(50, ErrorMessage = "El Titular no puede superar los {1} caractéres.")]
         public string Titular { get; set; }
 
         [RegularExpression(@"^[0-9]{16}$", ErrorMessage = "El Nro de Tarjeta debe ser numérico de 16 dígitos.")]
@@ -30,7 +33,38 @@ namespace Entidades
 
         [RegularExpression(@"^[0-9]{3}$", ErrorMessage = "El Código Verificador debe ser numérico de 3 dígitos.")]
         [Required(ErrorMessage = "El Código Verificador es Obligatorio.")]
+        [DataType(DataType.Password)]
         public string CodigoV { get; set; }
-        
+
+
+        //Inglés
+
+        [Required(ErrorMessage = "This field is Obligatory.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "This field must be letters.")]
+        [MaxLength(50, ErrorMessage = "This field can not be longer than 50 characters.")]
+        public string Titular_Eng { get; set; }
+
+        [RegularExpression(@"^[0-9]{16}$", ErrorMessage = "Credit Number must be numeric and 16 digits.")]
+        [Required(ErrorMessage = "This field is Obligatory.")]
+        public string Numero_Eng { get; set; }
+
+        [Required(ErrorMessage = "This field is Obligatory.")]
+        public Marca_TC Marca_TC_Eng { get; set; }
+
+        [RegularExpression(@"^[0-9]{2}$", ErrorMessage = "Expiration Month must be numeric and 2 digits.")]
+        [Required(ErrorMessage = "This field is Obligatory.")]
+        [Range(1, 12, ErrorMessage = "This field must be between 1 and 12.")]
+        public string MesVenc_Eng { get; set; }
+
+        [RegularExpression(@"^[0-9]{2}$", ErrorMessage = "Expiration Year must be numeric and 2 digits.")]
+        [Required(ErrorMessage = "This field is Obligatory.")]
+        [Range(1, 99, ErrorMessage = "This field must be between 1 and 99.")]
+        public string AnioVenc_Eng { get; set; }
+
+        [RegularExpression(@"^[0-9]{3}$", ErrorMessage = "The secret Code must be numeric and 3 digits.")]
+        [Required(ErrorMessage = "This field is Obligatory.")]
+        [DataType(DataType.Password)]
+        public string CodigoV_Eng { get; set; }
+
     }
 }

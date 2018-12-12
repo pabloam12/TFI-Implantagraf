@@ -15,9 +15,10 @@ namespace Presentacion.Controllers
     {
         public ActionResult Index()
         {
+            TraducirPagina((String)Session["IdiomaApp"]);
 
-            //try
-            //{
+            try
+            {
 
                 var integridad = new IntegridadDatos();
 
@@ -28,37 +29,49 @@ namespace Presentacion.Controllers
                     var aud = new Auditoria();
                     aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR INTEGRIDAD", "GRAVE", "Se detectaron problemas de integridad en la base de datos.");
 
-
                     TraducirPagina((String)Session["IdiomaApp"]);
 
                     if ((String)Session["PerfilUsuario"] == "WebMaster")
                     {
                         return RedirectToAction("Index", "RescateIntegridad");
                     }
+                    else
+                    {
+                        Session["Excepcion"] = "ERROR DE INTEGRIDAD DE BASE DE DATOS";
+                        return RedirectToAction("Index", "Excepciones");
+                    }
+                }
 
+            }
+
+            catch
+            {
+                var aud = new Auditoria();
+                var inte = new IntegridadDatos();
+
+                inte.GrabarRegistroIntegridad("ERROR INTEGRIDAD", "BASE DATOS", "CONSISTENCIA DE TABLAS");
+
+                aud.grabarBitacora(DateTime.Now, "SISTEMA", "ERROR INTEGRIDAD", "GRAVE", "Se detectaron problemas graves de integridad en la base de datos.");
+
+                if ((String)Session["PerfilUsuario"] == "WebMaster")
+                {
+                    return RedirectToAction("Index", "RescateIntegridad");
+                }
+
+                else
+                {
                     Session["Excepcion"] = "ERROR DE INTEGRIDAD DE BASE DE DATOS";
                     return RedirectToAction("Index", "Excepciones");
                 }
 
-            //}
-            //catch
-            //{
-            //    Session["Excepcion"] = "ERROR AL VALIDAR INTEGRIDAD GLOBAL";
-
-            //    return RedirectToAction("Index", "Excepciones");
-            //}
-
-            TraducirPagina((String)Session["IdiomaApp"]);
-
-
-            Session["Excepcion"] = null;
+            }
 
             if ((String)Session["PerfilUsuario"] == "WebMaster")
             {
-
                 return RedirectToAction("Index", "RescateIntegridad");
             }
 
+            Session["Excepcion"] = null;
 
             return View();
         }

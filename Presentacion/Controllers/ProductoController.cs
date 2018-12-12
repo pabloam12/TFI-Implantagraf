@@ -318,6 +318,17 @@ namespace Presentacion.Controllers
         [HttpPost]
         public ActionResult RealizarPagoTarjeta(FrmTarjetaCredito datosTarjeta)
         {
+            if (datosTarjeta.Titular == null && datosTarjeta.Numero == null && datosTarjeta.MesVenc == null && datosTarjeta.AnioVenc == null && datosTarjeta.CodigoV == null)
+            {
+                datosTarjeta.Titular = datosTarjeta.Titular_Eng;
+                datosTarjeta.Numero = datosTarjeta.Numero_Eng;
+                
+                datosTarjeta.MesVenc = datosTarjeta.MesVenc_Eng;
+                datosTarjeta.AnioVenc = datosTarjeta.AnioVenc_Eng;
+                datosTarjeta.CodigoV = datosTarjeta.CodigoV_Eng;
+
+            }
+
             List<Carrito> productosCarrito = (List<Carrito>)Session["Carrito"];
 
             if (productosCarrito.Count > 0)

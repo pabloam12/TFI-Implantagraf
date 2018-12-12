@@ -280,7 +280,7 @@ namespace Servicios
                 traducciones.Add("ENTIDAD_PSW", "Psw");
                 traducciones.Add("ENTIDAD_RAZON_SOCIAL", "Company Name");
                 traducciones.Add("ENTIDAD_SUBTOTAL", "Sub-Total");
-                traducciones.Add("ENTIDAD_TELEFONO", "Number");
+                traducciones.Add("ENTIDAD_TELEFONO", "Phone Number");
                 traducciones.Add("ENTIDAD_TITULAR", "Full Name");
                 traducciones.Add("ENTIDAD_USUARIO", "User");
                 traducciones.Add("ENTIDAD_USUARIO_MAIL", "User / Mail Account");

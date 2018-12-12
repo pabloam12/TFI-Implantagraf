@@ -168,9 +168,9 @@ namespace Seguridad
 
             if (accDatosUSr.ValidarUsuario("admin") == true)
             {
-                var usrAdmin = AltaUsuario();
+                //var usrAdmin = AltaUsuario();
 
-                accDatosUSr.OtorgarPermisosWebmaster(usrAdmin.Id);
+                //accDatosUSr.OtorgarPermisosWebmaster(usrAdmin.Id);
 
                 GrabarRegistroIntegridad("SE ELIMINÓ", "USUARIO ADMIN");
 
